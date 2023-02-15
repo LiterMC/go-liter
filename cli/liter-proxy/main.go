@@ -3,10 +3,11 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
 	"io"
 	"net"
 	"os"
+	"path/filepath"
+	"runtime"
 
 	"github.com/sirupsen/logrus"
 	"github.com/kmcsr/go-logger"
@@ -30,7 +31,6 @@ func initLogger()(loger logger.Logger){
 var configDir = getConfigDir()
 
 func getConfigDir()(dir string){
-	_ = _after_load
 	if runtime.GOOS != "windows" {
 		dir = filepath.Join("/opt", "liter_proxy")
 	}else{
