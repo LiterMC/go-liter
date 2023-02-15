@@ -219,7 +219,7 @@ func (cfg Config)CheckConn(ip net.IP, username string)(ok bool){
 			return
 		}
 	}
-	blacklist
+	// TODO: blacklist
 	return true
 }
 
