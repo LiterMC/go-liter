@@ -3,11 +3,24 @@ package liter
 
 import (
 	"context"
-	"strings"
+	"fmt"
 	"net"
+	"strings"
 )
 
 const DefaultPort = 25565
+
+type PktIdAssertError struct {
+	Require int32
+	Got     int32
+}
+
+var _ error = (*PktIdAssertError)(nil)
+
+func (e *PktIdAssertError)Error()(string){
+	return fmt.Sprintf("PktIdAssertError: require=%d; got=%d", e.Require, e.Got)
+}
+
 
 type Conn struct{
 	conn net.Conn
@@ -128,6 +141,20 @@ func (c *Conn)SendPkt(p *PacketBuilder)(err error){
 	return
 }
 
-func (c *Conn)Recv()(p *PacketReader, err error){
+func (c *Conn)Recv()(r *PacketReader, err error){
 	return ReadPacket(c.conn)
+}
+
+func (c *Conn)RecvPkt(id int32, pkt Decodable)(err error){
+	var r *PacketReader
+	if r, err = ReadPacket(c.conn); err != nil {
+		return
+	}
+	if r.Id() != id {
+		return &PktIdAssertError{ Require: id, Got: r.Id() }
+	}
+	if err = pkt.DecodeFrom(r); err != nil {
+		return
+	}
+	return
 }

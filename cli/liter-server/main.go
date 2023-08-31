@@ -202,22 +202,24 @@ func (s *Server)Serve()(err error){
 			s.cond.L.Lock()
 			s.conns = append(s.conns, c)
 			s.cond.L.Unlock()
-			handler(liter.NewConn(c))
-			s.cond.L.Lock()
-			e := len(s.conns) - 1
-			for i, d := range s.conns {
-				if d == c {
-					if i != e {
-						s.conns[i], s.conns[e] = s.conns[e], s.conns[i]
+			defer func(){
+				s.cond.L.Lock()
+				defer s.cond.L.Unlock()
+				e := len(s.conns) - 1
+				for i, d := range s.conns {
+					if d == c {
+						if i != e {
+							s.conns[i], s.conns[e] = s.conns[e], s.conns[i]
+						}
+						s.conns = s.conns[:e]
+						if len(s.conns) == 0 {
+							s.cond.Broadcast()
+						}
+						break
 					}
-					s.conns = s.conns[:e]
-					if len(s.conns) == 0 {
-						s.cond.Broadcast()
-					}
-					break
 				}
-			}
-			s.cond.L.Unlock()
+			}()
+			handler(liter.NewConn(c))
 		}(c)
 	}
 }
@@ -227,18 +229,20 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 		return
 	}
 	select {
-		case <-waitUntilNot(s.cond, func()(bool){ return len(s.conns) > 0 }):
-		case <-ctx.Done():
-			err = ctx.Err()
-			s.cond.L.Lock()
-			if len(s.conns) > 0 {
-				for _, c := range s.conns {
-					c.Close()
-				}
-				s.conns = nil
-				s.cond.Broadcast()
+	case <-waitUntilNot(s.cond, func()(bool){
+		return len(s.conns) > 0
+	}):
+	case <-ctx.Done():
+		err = ctx.Err()
+		s.cond.L.Lock()
+		if len(s.conns) > 0 {
+			for _, c := range s.conns {
+				c.Close()
 			}
-			s.cond.L.Unlock()
+			s.conns = nil
+			s.cond.Broadcast()
+		}
+		s.cond.L.Unlock()
 	}
 	return
 }
@@ -250,12 +254,8 @@ func handler(c *liter.Conn){
 		p *liter.PacketReader
 		err error
 	)
-	if p, err = c.Recv(); err != nil {
-		loger.Errorf("client [%v] read handshake packet error: %v", c.RemoteAddr(), err)
-		return
-	}
-	var hp liter.HandshakeP
-	if hp, err = liter.ReadHandshakeP(p); err != nil {
+	var hp liter.HandshakePkt
+	if err = c.RecvPkt(0x00, &hp); err != nil {
 		loger.Errorf("client [%v] read handshake packet error: %v", c.RemoteAddr(), err)
 		return
 	}
@@ -280,14 +280,12 @@ func handler(c *liter.Conn){
 
 	if hp.NextState == liter.NextPingState && svr.HandlePing {
 		loger.Debugf("handle ping connection [%v] for server '%s'", c.RemoteAddr(), svr.Id)
-		if p, err = c.Recv(); err != nil {
-			loger.Errorf("client [%v] read ping request packet error: %v", c.RemoteAddr(), err)
+		var srp liter.StatusRequestPkt
+		if err = c.RecvPkt(0x00, &srp); err != nil {
+			loger.Errorf("client [%v] read status request packet error: %v", c.RemoteAddr(), err)
 			return
 		}
-		if err = liter.ReadPingRequestP(p); err != nil {
-			loger.Errorf("client [%v] read ping request packet error: %v", c.RemoteAddr(), err)
-		}
-		c.Send(0x00, liter.Object{
+		if err = c.Send(0x00, liter.Object{
 			"version": liter.Object{
 				"name": "Idle",
 				"protocol": 0,
@@ -299,7 +297,19 @@ func handler(c *liter.Conn){
 			"description": liter.Object{
 				"text": svr.Motd,
 			},
-		})
+		}); err != nil {
+			loger.Errorf("client [%v] send packet error: %v", c.RemoteAddr(), err)
+			return
+		}
+		var prp liter.PingRequestPkt
+		if err = c.RecvPkt(0x01, &prp); err != nil {
+			loger.Errorf("client [%v] read ping request packet error: %v", c.RemoteAddr(), err)
+			return
+		}
+		if err = c.Send(0x01, (liter.PingResponsePkt)(prp)); err != nil {
+			loger.Errorf("client [%v] send ping response packet error: %v", c.RemoteAddr(), err)
+			return
+		}
 		return
 	}
 

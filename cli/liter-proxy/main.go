@@ -2,130 +2,151 @@
 package main
 
 import (
-	"encoding/json"
+	"context"
 	"io"
 	"net"
+	"net/url"
 	"os"
-	"path/filepath"
-	"runtime"
+	"os/signal"
+	"syscall"
+	"time"
 
-	"github.com/sirupsen/logrus"
+	"golang.org/x/net/proxy"
 	"github.com/kmcsr/go-logger"
-	logrusl "github.com/kmcsr/go-logger/logrus"
 	"github.com/kmcsr/go-liter"
 )
 
-var loger = initLogger()
-
-func initLogger()(loger logger.Logger){
-	loger = logrusl.New()
-	loger.SetOutput(os.Stderr)
-	logrusl.Unwrap(loger).SetFormatter(&logrus.TextFormatter{
-		TimestampFormat: "2006-01-02 15:04:05.000",
-		FullTimestamp: true,
-	})
-	loger.SetLevel(logger.InfoLevel)
-	return
-}
-
-var configDir = getConfigDir()
-
-func getConfigDir()(dir string){
-	if runtime.GOOS != "windows" {
-		dir = filepath.Join("/opt", "liter_proxy")
-	}else{
-		dir = "."
-	}
-	if fi, err := os.Stat(dir); err == nil {
-		if !fi.IsDir() {
-			loger.Fatalf("Path '%s' is not a dir", dir)
-		}
-	}else if os.IsNotExist(err) {
-		if err = os.MkdirAll(dir, 0755); err != nil {
-			loger.Fatalf("Cannot create config dir '%s': %v", dir, err)
-		}
-	}
-	return
-}
-
-type ProxyMapItem struct{
-	Target   string `json:"target"`
-	PassAddr string `json:"pass-addr,omitempty"`
-	PassPort uint16 `json:"pass-port,omitempty"`
-}
-
-type Config struct{
-	ServerIP   string `json:"server-ip"`
-	ServerPort uint16 `json:"server-port"`
-
-	ProxyMap map[string]ProxyMapItem `json:"proxy-items,omitempty"`
-}
-
-var cfg = readConfig()
-
-func readConfig()(cfg Config){
-	file := filepath.Join(configDir, "config.json")
-	data, err := os.ReadFile(file)
-	if err != nil {
-		if os.IsNotExist(err) {
-			cfg.ServerIP   = ""
-			cfg.ServerPort = 25565
-			cfg.ProxyMap = map[string]ProxyMapItem{
-				"hypixel.example": ProxyMapItem{
-					Target: "mc.hypixel.net",
-					PassAddr: "mc.hypixel.net",
-					PassPort: 25565,
-				},
-			}
-			if data, err = json.MarshalIndent(cfg, "", "  "); err != nil {
-				loger.Fatalf("Cannot encode config data: %v", err)
-				return
-			}
-			if err = os.WriteFile(file, data, 0644); err != nil {
-				loger.Fatalf("Cannot save config data: %v", err)
-				return
-			}
-		}else{
-			loger.Fatalf("Cannot read config file: %v", err)
-		}
-		return
-	}
-	if err = json.Unmarshal(data, &cfg); err != nil {
-		loger.Fatalf("Cannot parse config file: %v", err)
-		return
-	}
-	return
-}
-
 func main(){
-	var (
-		listener *net.TCPListener
-		err error
-	)
+	var err error
+
+	RESTART:
+
 	laddr := &net.TCPAddr{
 		Port: (int)(cfg.ServerPort),
 	}
-	if len(cfg.ServerIP) > 0 {
+	if cfg.ServerIP != "" {
 		if laddr.IP = net.ParseIP(cfg.ServerIP); laddr.IP == nil {
-			loger.Warnf("Cannot parse server-ip")
+			loger.Errorf("Cannot parse server IP, listening on localhost")
 		}
 	}
-	if listener, err = net.ListenTCP("tcp", laddr); err != nil {
+
+	server := NewProxyServer()
+	if server.Listener, err = net.ListenTCP("tcp", laddr); err != nil {
 		loger.Fatalf("Cannot listening at [%v]: %v", laddr, err)
 	}
-	loger.Infof("Server listening at [%v]", listener.Addr())
-	var c net.Conn
-	for {
-		if c, err = listener.Accept(); err != nil {
-			loger.Errorf("Accept error: %v", err)
-			break
+	loger.Infof("Server starts listening at [%v]", server.Listener.Addr())
+
+	// parse and connect to proxy
+	if cfg.ProxyURL == "" {
+		server.Dialer = proxy.Direct
+	}else{
+		var u *url.URL
+		if u, err = url.Parse(cfg.ProxyURL); err != nil {
+			loger.Errorf("Cannot parse proxy URL, using default proxy")
 		}
-		go handler(liter.NewConn(c))
+		var dialer proxy.Dialer
+		if dialer, err = proxy.FromURL(u, nil); err != nil {
+			loger.Errorf("Cannot connect to proxy, using default proxy")
+		}
+		server.Dialer = dialer.(proxy.ContextDialer)
+	}
+
+	exitch := make(chan struct{}, 1)
+
+	go func(){
+		defer func(){
+			exitch <- struct{}{}
+		}()
+		if err := server.Serve(); err != nil {
+			loger.Errorf("Error on serve: %v", err)
+		}
+	}()
+
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+
+	WAIT:
+	select {
+	case s := <-sigs:
+		loger.Infof("Got signal %s", s.String())
+		if s == syscall.SIGHUP {
+			loger.Infof("Reloading config...")
+			ncfg := readConfig()
+			if cfg.ServerIP != ncfg.ServerIP || cfg.ServerPort != ncfg.ServerPort {
+				loger.Info("Server address changed, restarting server...")
+				timeoutCtx, cancel := context.WithTimeout(context.Background(), 16 * time.Second)
+				loger.Warn("Closing server...")
+				server.Shutdown(timeoutCtx)
+				cancel()
+				loger.Info("Restarting server...")
+				cfg = ncfg
+				goto RESTART
+			}
+			if cfg.Debug != ncfg.Debug {
+				if ncfg.Debug {
+					loger.SetLevel(logger.DebugLevel)
+				}else{
+					loger.SetLevel(logger.InfoLevel)
+				}
+			}
+			cfg = ncfg
+			goto WAIT
+		}
+		timeoutCtx, _ := context.WithTimeout(context.Background(), 16 * time.Second)
+		loger.Warn("Closing server...")
+		server.Shutdown(timeoutCtx)
+	case <-exitch:
+		os.Exit(1)
 	}
 }
 
-func handler(c *liter.Conn){
+type ProxyServer struct {
+	ctx    context.Context
+	cancel context.CancelFunc
+
+	Dialer   proxy.ContextDialer
+	Listener net.Listener
+
+	conns *Set[*liter.Conn]
+}
+
+func NewProxyServer()(s *ProxyServer){
+	s = &ProxyServer{
+		conns: NewSet[*liter.Conn](),
+	}
+	s.ctx, s.cancel = context.WithCancel(context.Background())
+	return
+}
+
+func (s *ProxyServer)Serve()(err error){
+	var c net.Conn
+	for {
+		if c, err = s.Listener.Accept(); err != nil {
+			loger.Errorf("Error when accept connection: %v", err)
+			return
+		}
+		go s.handle(liter.NewConn(c))
+	}
+}
+
+func (s *ProxyServer)Shutdown(ctx context.Context)(err error){
+	if err = s.Listener.Close(); err != nil {
+		return
+	}
+	s.cancel()
+	select {
+	case <-s.conns.AfterEmpty():
+		return
+	case <-ctx.Done():
+		return ctx.Err()
+	}
+}
+
+func (s *ProxyServer)handle(c *liter.Conn){
 	defer c.Close()
+	s.conns.Add(c)
+	defer s.conns.Del(c)
+
 	loger.Infof("client [%v] connected", c.RemoteAddr())
 	var (
 		p *liter.PacketReader
@@ -135,8 +156,8 @@ func handler(c *liter.Conn){
 		loger.Errorf("client [%v] read handshake packet error: %v", c.RemoteAddr(), err)
 		return
 	}
-	var hp liter.HandshakeP
-	if hp, err = liter.ReadHandshakeP(p); err != nil {
+	var hp liter.HandshakePkt
+	if err = hp.DecodeFrom(p); err != nil {
 		loger.Errorf("client [%v] read handshake packet error: %v", c.RemoteAddr(), err)
 		return
 	}
@@ -148,16 +169,21 @@ func handler(c *liter.Conn){
 	}
 
 	var conn net.Conn
-	if conn, err = net.Dial("tcp", item.Target); err != nil {
+	if s.Dialer == nil {
+		conn, err = proxy.Dial(s.ctx, "tcp", item.Target)
+	}else{
+		conn, err = s.Dialer.DialContext(s.ctx, "tcp", item.Target)
+	}
+	if err != nil {
 		loger.Errorf("Cannot dial to %q: %v", item.Target, err)
 		return
 	}
 	np := liter.NewPacket(p.Id())
-	if item.PassAddr != "" {
-		hp.Addr = item.PassAddr
+	if item.ForwardAddr != "" {
+		hp.Addr = item.ForwardAddr
 	}
-	if item.PassPort != 0 {
-		hp.Port = item.PassPort
+	if item.ForwardPort != 0 {
+		hp.Port = item.ForwardPort
 	}
 	hp.Encode(np)
 	if _, err = conn.Write(np.Bytes()); err != nil {

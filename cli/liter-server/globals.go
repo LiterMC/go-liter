@@ -59,14 +59,17 @@ var configLock sync.RWMutex
 
 func reloadConfigs(){
 	loger.Infof("Reloading config...")
+
 	configLock.Lock()
 	defer configLock.Unlock()
+
 	config = readConfig()
 	whitelist = loadWhitelist()
+	blacklist = loadBlacklist()
 	servers = loadServerIns()
 }
 
-type Config struct{
+type Config struct {
 	Debug bool `json:"debug"`
 
 	ServerIP   string `json:"server-ip"`
@@ -113,7 +116,7 @@ func readConfig()(cfg Config){
 	return
 }
 
-type Whitelist struct{
+type Whitelist struct {
 	UUIDWhitelist []uuid.UUID `json:"uuid-whitelist"`
 	IPWhitelist   []string    `json:"ip-whitelist"`
 }
@@ -150,18 +153,44 @@ func loadWhitelist()(wl Whitelist){
 		loger.Fatalf("Cannot parse whitelist file: %v", err)
 		return
 	}
-	sort.Slice(wl.UUIDWhitelist, func(i, j int)(bool){ return uuidLess(wl.UUIDWhitelist[i], wl.UUIDWhitelist[j]) })
-	loger.Infof("Loaded whitelist")
+	sort.Slice(wl.UUIDWhitelist, func(i, j int)(bool){
+		return uuidLess(wl.UUIDWhitelist[i], wl.UUIDWhitelist[j])
+	})
+	loger.Infof("Whitelist is loaded")
 	return
 }
 
-type Blacklist struct{
+func (wl Whitelist)HasUUID(id uuid.UUID)(ok bool){
+	l := len(wl.UUIDWhitelist)
+	i := sort.Search(l, func(i int)(bool){
+		return !uuidLess(wl.UUIDWhitelist[i], id)
+	})
+	return i < l && wl.UUIDWhitelist[i] == id
+}
+
+func (wl Whitelist)IncludeIP(ip net.IP)(ok bool){
+	for _, o := range wl.IPWhitelist {
+		if matchIP(o, ip) {
+			return true
+		}
+	}
+	return false
+}
+
+
+type Blacklist struct {
 	NameBlacklist []string    `json:"name-blacklist"`
 	UUIDBlacklist []uuid.UUID `json:"uuid-blacklist"`
 	IPBlacklist   []string    `json:"ip-blacklist"`
 }
 
 var blacklist = loadBlacklist()
+
+func getBlacklist()(Blacklist){
+	configLock.RLock()
+	defer configLock.RUnlock()
+	return blacklist
+}
 
 func loadBlacklist()(bl Blacklist){
 	path := filepath.Join(configDir, "blacklist.json")
@@ -188,42 +217,67 @@ func loadBlacklist()(bl Blacklist){
 		loger.Fatalf("Cannot parse blacklist file: %v", err)
 		return
 	}
-	loger.Infof("Loaded blacklist")
+	sort.Strings(bl.NameBlacklist)
+	sort.Slice(bl.UUIDBlacklist, func(i, j int)(bool){
+		return uuidLess(bl.UUIDBlacklist[i], bl.UUIDBlacklist[j])
+	})
+	loger.Infof("Blacklist is loaded")
 	return
 }
 
+func (bl Blacklist)HasName(name string)(ok bool){
+	i := sort.SearchStrings(bl.NameBlacklist, name)
+	return i < len(bl.NameBlacklist) && bl.NameBlacklist[i] == name
+}
+
+func (bl Blacklist)HasUUID(id uuid.UUID)(ok bool){
+	l := len(bl.UUIDBlacklist)
+	i := sort.Search(l, func(i int)(bool){
+		return !uuidLess(bl.UUIDBlacklist[i], id)
+	})
+	return i < l && bl.UUIDBlacklist[i] == id
+}
+
+func (bl Blacklist)IncludeIP(ip net.IP)(ok bool){
+	for _, o := range bl.IPBlacklist {
+		if matchIP(o, ip) {
+			return true
+		}
+	}
+	return false
+}
+
+
 func (cfg Config)CheckConn(ip net.IP, username string)(ok bool){
 	wl := getWhitelist()
-	if cfg.EnableIPWhitelist {
-		for _, o := range wl.IPWhitelist {
-			if matchIP(o, ip) {
-				ok = true
-				break
-			}
-		}
-		if !ok {
-			return
-		}
+	bl := getBlacklist()
+
+	if bl.HasName(username) {
+		return false
 	}
-	if cfg.EnableWhitelist {
-		_, uid, err := liter.DefaultAuthClient.GetPlayerUUID(username)
-		if err != nil {
-			loger.Errorf("Cannot get uuid of player '%s': %v", username, err)
+	if bl.IncludeIP(ip) {
+		return false
+	}
+	if cfg.EnableIPWhitelist {
+		if !wl.IncludeIP(ip) {
 			return false
 		}
-		uids := wl.UUIDWhitelist
-		i := sort.Search(len(uids), func(i int)(bool){
-			return !uuidLess(uids[i], uid)
-		})
-		if ok = i < len(uids) && uids[i] == uid; !ok {
-			return
+	}
+	_, uid, err := liter.DefaultAuthClient.GetPlayerUUID(username)
+	if err != nil {
+		loger.Errorf("Cannot get uuid of player '%s': %v", username, err)
+		return false
+	}
+	if cfg.EnableWhitelist {
+		if !wl.HasUUID(uid) {
+			return false
 		}
 	}
-	// TODO: blacklist
 	return true
 }
 
-type ServerIns struct{
+
+type ServerIns struct {
 	Id          string
 	Target      string
 	ServerNames []string

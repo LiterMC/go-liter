@@ -23,15 +23,22 @@ type (
 	ByteArray = []byte
 	String    = string
 	Object    = map[string]any
-	Position  struct{
+	Position  struct {
 		X int
 		Y int
 		Z int
 	}
 	UUID      = uuid.UUID
 
-	Encodable interface{
+	Encodable interface {
 		Encode(p *PacketBuilder)(err error)
+	}
+	Decodable interface {
+		DecodeFrom(r *PacketReader)(err error)
+	}
+	Packet interface {
+		Encodable
+		Decodable
 	}
 )
 
@@ -432,18 +439,20 @@ func (p *PacketReader)String()(v string, ok bool){
 	return
 }
 
-func (p *PacketReader)JSON(ptr any)(ok bool){
-	var size int32
+func (p *PacketReader)JSON(ptr any)(err error){
+	var (
+		size int32
+		ok bool
+	)
 	if size, ok = p.VarInt(); !ok {
-		return
+		return io.EOF
 	}
 	buf := make([]byte, size)
 	if ok = p.ByteArray(buf); !ok {
-		return
+		return io.EOF
 	}
-	var err error
 	if err = json.Unmarshal(buf, ptr); err != nil {
-		panic(err)
+		return err
 	}
 	return
 }
