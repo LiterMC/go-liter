@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=17873
 // Protocol: 760
+// Protocol Name: 1.19.2
 
 package packet_1_19_2
 
@@ -65,23 +66,7 @@ type PlayConfirmTeleportationPkt = internal.PlayConfirmTeleportation_763_0
 type PlayQueryBlockEntityTagPkt = internal.PlayQueryBlockEntityTag_763_0
 
 // ID=0x2
-type PlayChangeDifficultyServerPkt struct {
-	/* 0: peaceful, 1: easy, 2: normal, 3: hard . */
-	NewDifficulty Byte // Byte
-}
-
-var _ Packet = (*PlayChangeDifficultyServerPkt)(nil)
-
-func (p PlayChangeDifficultyServerPkt)Encode(b *PacketBuilder){
-	b.Byte(p.NewDifficulty)
-}
-
-func (p *PlayChangeDifficultyServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.NewDifficulty, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-}
+type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficulty_760_3
 
 // ID=0x3
 type PlayMessageAcknowledgmentPkt struct {
@@ -241,7 +226,7 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayPlaceRecipePkt = internal.PlayPlaceRecipe_763_0
 
 // ID=0x1c
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_760_5
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_760_3
 
 // ID=0x1d
 type PlayPlayerActionPkt = internal.PlayPlayerAction_763_0
@@ -265,23 +250,7 @@ type PlaySetSeenRecipePkt = internal.PlaySetSeenRecipe_763_0
 type PlayRenameItemPkt = internal.PlayRenameItem_763_0
 
 // ID=0x24
-type PlayResourcePackServerPkt struct {
-	/* 0: successfully loaded, 1: declined, 2: failed download, 3: accepted. */
-	Result VarInt // VarInt Enum
-}
-
-var _ Packet = (*PlayResourcePackServerPkt)(nil)
-
-func (p PlayResourcePackServerPkt)Encode(b *PacketBuilder){
-	b.VarInt(p.Result)
-}
-
-func (p *PlayResourcePackServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Result, ok = r.VarInt(); !ok {
-		return io.EOF
-	}
-}
+type PlayResourcePackServerPkt = internal.PlayResourcePack_760_3
 
 // ID=0x25
 type PlaySeenAdvancementsPkt = internal.PlaySeenAdvancements_763_0
@@ -293,23 +262,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_763_0
 
 // ID=0x28
-type PlaySetHeldItemServerPkt struct {
-	/* The slot which the player has selected (0–8). */
-	Slot Short // Short
-}
-
-var _ Packet = (*PlaySetHeldItemServerPkt)(nil)
-
-func (p PlaySetHeldItemServerPkt)Encode(b *PacketBuilder){
-	b.Short(p.Slot)
-}
-
-func (p *PlaySetHeldItemServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Slot, ok = r.Short(); !ok {
-		return io.EOF
-	}
-}
+type PlaySetHeldItemServerPkt = internal.PlaySetHeldItem_760_3
 
 // ID=0x29
 type PlayProgramCommandBlockPkt = internal.PlayProgramCommandBlock_763_0
@@ -407,28 +360,7 @@ type PlayBossBarPkt struct {
 }
 
 // ID=0xb
-type PlayChangeDifficultyClientPkt struct {
-	/* 0: peaceful, 1: easy, 2: normal, 3: hard. */
-	Difficulty UByte // Unsigned Byte
-	DifficultyLocked Bool // Boolean
-}
-
-var _ Packet = (*PlayChangeDifficultyClientPkt)(nil)
-
-func (p PlayChangeDifficultyClientPkt)Encode(b *PacketBuilder){
-	b.UByte(p.Difficulty)
-	b.Bool(p.DifficultyLocked)
-}
-
-func (p *PlayChangeDifficultyClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Difficulty, ok = r.UByte(); !ok {
-		return io.EOF
-	}
-	if p.DifficultyLocked, ok = r.Bool(); !ok {
-		return io.EOF
-	}
-}
+type PlayChangeDifficultyClientPkt = internal.PlayChangeDifficulty_760_2
 
 // ID=0xc
 type PlayChatPreviewClientPkt = internal.PlayChatPreview_760_0
@@ -674,7 +606,7 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayPlaceGhostRecipePkt = internal.PlayPlaceGhostRecipe_763_0
 
 // ID=0x31
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_760_4
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_760_2
 
 // ID=0x32
 type PlayMessageHeaderPkt struct {
@@ -798,47 +730,7 @@ type PlayRemoveEntitiesPkt = internal.PlayRemoveEntities_763_0
 type PlayRemoveEntityEffectPkt = internal.PlayRemoveEntityEffect_763_0
 
 // ID=0x3d
-type PlayResourcePackClientPkt struct {
-	/* The URL to the resource pack. */
-	URL String // String (32767)
-	/* A 40 character hexadecimal and lowercase SHA-1 hash of the resource pack file.If it's not a 40 character hexadecimal string, the client will not use it for hash verification and likely waste bandwidth — but it will still treat it as a unique id */
-	Hash String // String (40)
-	/* The notchian client will be forced to use the resource pack from the server. If they decline they will be kicked from the server. */
-	Forced Bool // Boolean
-	/* true If the next field will be sent false otherwise. When false, this is the end of the packet */
-	HasPromptMessage Bool // Boolean
-	/* This is shown in the prompt making the client accept or decline the resource pack. */
-	PromptMessage Object // Optional Chat
-}
-
-var _ Packet = (*PlayResourcePackClientPkt)(nil)
-
-func (p PlayResourcePackClientPkt)Encode(b *PacketBuilder){
-	b.String(p.URL)
-	b.String(p.Hash)
-	b.Bool(p.Forced)
-	b.Bool(p.HasPromptMessage)
-	b.JSON(p.PromptMessage)
-}
-
-func (p *PlayResourcePackClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.URL, ok = r.String(); !ok {
-		return io.EOF
-	}
-	if p.Hash, ok = r.String(); !ok {
-		return io.EOF
-	}
-	if p.Forced, ok = r.Bool(); !ok {
-		return io.EOF
-	}
-	if p.HasPromptMessage, ok = r.Bool(); !ok {
-		return io.EOF
-	}
-	if err = r.JSON(&p.PromptMessage); err != nil {
-		return
-	}
-}
+type PlayResourcePackClientPkt = internal.PlayResourcePack_760_2
 
 // ID=0x3e
 type PlayRespawnPkt = internal.PlayRespawn_761_2
@@ -877,23 +769,7 @@ type PlaySetBorderWarningDistancePkt = internal.PlaySetBorderWarningDistance_763
 type PlaySetCameraPkt = internal.PlaySetCamera_763_0
 
 // ID=0x4a
-type PlaySetHeldItemClientPkt struct {
-	/* The slot which the player has selected (0–8). */
-	Slot Byte // Byte
-}
-
-var _ Packet = (*PlaySetHeldItemClientPkt)(nil)
-
-func (p PlaySetHeldItemClientPkt)Encode(b *PacketBuilder){
-	b.Byte(p.Slot)
-}
-
-func (p *PlaySetHeldItemClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Slot, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-}
+type PlaySetHeldItemClientPkt = internal.PlaySetHeldItem_760_2
 
 // ID=0x4b
 type PlaySetCenterChunkPkt = internal.PlaySetCenterChunk_763_0

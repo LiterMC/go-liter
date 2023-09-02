@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=17341
 // Protocol: 757
+// Protocol Name: 1.18.1
 
 package packet_1_18_1
 
@@ -18,7 +19,7 @@ import (
 type LoginLoginStartPkt = internal.LoginLoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ID=0x2
 type LoginLoginPluginResponsePkt = internal.LoginLoginPluginResponse_763_0
@@ -180,7 +181,7 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayCraftRecipeRequestPkt = internal.PlayCraftRecipeRequest_758_0
 
 // ID=0x19
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_758_7
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_760_3
 
 // ID=0x1a
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -539,7 +540,7 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_758_0
 
 // ID=0x32
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_758_6
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_760_2
 
 // ID=0x33
 type PlayEndCombatEventPkt = internal.PlayEndCombatEvent_758_0

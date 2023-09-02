@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=16866
 // Protocol: 755
+// Protocol Name: 1.17
 
 package packet_1_17
 
@@ -55,7 +56,7 @@ type PlayQueryBlockNBTPkt = internal.PlayQueryBlockNBT_758_0
 type PlaySetDifficultyPkt = internal.PlaySetDifficulty_758_0
 
 // ID=0x3
-type PlayChatMessageServerPkt = internal.PlayChatMessage_755_5
+type PlayChatMessageServerPkt = internal.PlayChatMessage_756_5
 
 // ID=0x4
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -135,7 +136,7 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayCraftRecipeRequestPkt = internal.PlayCraftRecipeRequest_758_0
 
 // ID=0x19
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_760_5
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_756_7
 
 // ID=0x1a
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -171,7 +172,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_758_2
 
 // ID=0x25
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_755_3
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_756_3
 
 // ID=0x26
 type PlayUpdateCommandBlockPkt = internal.PlayUpdateCommandBlock_758_0
@@ -281,7 +282,7 @@ type PlayBossBarPkt struct {
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_758_0
 
 // ID=0xf
-type PlayChatMessageClientPkt = internal.PlayChatMessage_755_4
+type PlayChatMessageClientPkt = internal.PlayChatMessage_756_4
 
 // ID=0x10
 type PlayClearTitlesPkt = internal.PlayClearTitles_763_0
@@ -471,7 +472,7 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_758_0
 
 // ID=0x32
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_760_4
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_758_4
 
 // ID=0x33
 type PlayEndCombatEventPkt = internal.PlayEndCombatEvent_758_0
@@ -578,7 +579,7 @@ type PlayWorldBorderWarningReachPkt = internal.PlayWorldBorderWarningReach_758_0
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x48
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_755_2
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_756_2
 
 // ID=0x49
 type PlayUpdateViewPositionPkt = internal.PlayUpdateViewPosition_758_0

@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=16681
 // Protocol: 754
+// Protocol Name: 1.16.5
 
 package packet_1_16_5
 
@@ -55,23 +56,7 @@ type PlayQueryBlockNBTPkt = internal.PlayQueryBlockNBT_758_0
 type PlaySetDifficultyPkt = internal.PlaySetDifficulty_758_0
 
 // ID=0x3
-type PlayChatMessageServerPkt struct {
-	/* The client sends the raw input, not a Chat component. */
-	Message String // String (256)
-}
-
-var _ Packet = (*PlayChatMessageServerPkt)(nil)
-
-func (p PlayChatMessageServerPkt)Encode(b *PacketBuilder){
-	b.String(p.Message)
-}
-
-func (p *PlayChatMessageServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Message, ok = r.String(); !ok {
-		return io.EOF
-	}
-}
+type PlayChatMessageServerPkt = internal.PlayChatMessage_756_5
 
 // ID=0x4
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -140,7 +125,7 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayCraftRecipeRequestPkt = internal.PlayCraftRecipeRequest_758_0
 
 // ID=0x1a
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_758_7
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_756_7
 
 // ID=0x1b
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -173,7 +158,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_758_2
 
 // ID=0x25
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_754_5
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_756_3
 
 // ID=0x26
 type PlayUpdateCommandBlockPkt = internal.PlayUpdateCommandBlock_758_0
@@ -280,35 +265,7 @@ type PlayBossBarPkt struct {
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_758_0
 
 // ID=0xe
-type PlayChatMessageClientPkt struct {
-	/* Limited to 262144 bytes. */
-	JSONData Object // Chat
-	/* 0: chat (chat box), 1: system message (chat box), 2: game info (above hotbar). */
-	Position Byte // Byte
-	/* Used by the Notchian client for the disableChat launch option. Setting both longs to 0 will always display the message regardless of the setting. */
-	Sender UUID // UUID
-}
-
-var _ Packet = (*PlayChatMessageClientPkt)(nil)
-
-func (p PlayChatMessageClientPkt)Encode(b *PacketBuilder){
-	b.JSON(p.JSONData)
-	b.Byte(p.Position)
-	b.UUID(p.Sender)
-}
-
-func (p *PlayChatMessageClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if err = r.JSON(&p.JSONData); err != nil {
-		return
-	}
-	if p.Position, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.Sender, ok = r.UUID(); !ok {
-		return io.EOF
-	}
-}
+type PlayChatMessageClientPkt = internal.PlayChatMessage_756_4
 
 // ID=0xf
 type PlayTabCompleteClientPkt struct {
@@ -489,7 +446,7 @@ type PlayOpenSignEditorPkt = internal.PlayOpenSignEditor_762_1
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_758_0
 
 // ID=0x30
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_758_6
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_758_4
 
 // ID=0x31
 type PlayCombatEventPkt struct {
@@ -597,7 +554,7 @@ type PlayWorldBorderPkt struct {
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x3f
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_754_4
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_756_2
 
 // ID=0x40
 type PlayUpdateViewPositionPkt = internal.PlayUpdateViewPosition_758_0

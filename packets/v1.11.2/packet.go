@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=8543
 // Protocol: 316
+// Protocol Name: 1.11.2
 
 package packet_1_11_2
 
@@ -46,7 +47,7 @@ type PlayTeleportConfirmPkt = internal.PlayTeleportConfirm_758_0
 type PlayTabCompleteServerPkt = internal.PlayTabComplete_340_4
 
 // ID=0x2
-type PlayChatMessageServerPkt = internal.PlayChatMessage_578_9
+type PlayChatMessageServerPkt = internal.PlayChatMessage_578_7
 
 // ID=0x3
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -206,7 +207,7 @@ type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
 type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_3
 
 // ID=0xf
-type PlayChatMessageClientPkt = internal.PlayChatMessage_578_8
+type PlayChatMessageClientPkt = internal.PlayChatMessage_578_6
 
 // ID=0x10
 type PlayMultiBlockChangePkt struct {

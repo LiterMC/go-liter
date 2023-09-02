@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=16918
 // Protocol: 756
+// Protocol Name: 1.17.1
 
 package packet_1_17_1
 
@@ -18,7 +19,7 @@ import (
 type LoginLoginStartPkt = internal.LoginLoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
 
 // ID=0x2
 type LoginLoginPluginResponsePkt = internal.LoginLoginPluginResponse_763_0
@@ -55,7 +56,7 @@ type PlayQueryBlockNBTPkt = internal.PlayQueryBlockNBT_758_0
 type PlaySetDifficultyPkt = internal.PlaySetDifficulty_758_0
 
 // ID=0x3
-type PlayChatMessageServerPkt = internal.PlayChatMessage_758_3
+type PlayChatMessageServerPkt = internal.PlayChatMessage_756_5
 
 // ID=0x4
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -168,7 +169,7 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayCraftRecipeRequestPkt = internal.PlayCraftRecipeRequest_758_0
 
 // ID=0x19
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_763_1
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_756_7
 
 // ID=0x1a
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -204,7 +205,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_758_2
 
 // ID=0x25
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_758_1
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_756_3
 
 // ID=0x26
 type PlayUpdateCommandBlockPkt = internal.PlayUpdateCommandBlock_758_0
@@ -314,7 +315,7 @@ type PlayBossBarPkt struct {
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_758_0
 
 // ID=0xf
-type PlayChatMessageClientPkt = internal.PlayChatMessage_758_2
+type PlayChatMessageClientPkt = internal.PlayChatMessage_756_4
 
 // ID=0x10
 type PlayClearTitlesPkt = internal.PlayClearTitles_763_0
@@ -504,7 +505,35 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_758_0
 
 // ID=0x32
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_763_0
+type PlayPlayerAbilitiesClientPkt struct {
+	/* Bit field, see below. */
+	Flags Byte // Byte
+	/* 0.05 by default. */
+	FlyingSpeed Float // Float
+	/* Modifies the field of view, like a speed potion. A Notchian server will use the same value as the movement speed sent in the Entity Properties packet, which defaults to 0.1 for players. */
+	FieldOfViewModifier Float // Float
+}
+
+var _ Packet = (*PlayPlayerAbilitiesClientPkt)(nil)
+
+func (p PlayPlayerAbilitiesClientPkt)Encode(b *PacketBuilder){
+	b.Byte(p.Flags)
+	b.Float(p.FlyingSpeed)
+	b.Float(p.FieldOfViewModifier)
+}
+
+func (p *PlayPlayerAbilitiesClientPkt)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Flags, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+	if p.FlyingSpeed, ok = r.Float(); !ok {
+		return io.EOF
+	}
+	if p.FieldOfViewModifier, ok = r.Float(); !ok {
+		return io.EOF
+	}
+}
 
 // ID=0x33
 type PlayEndCombatEventPkt = internal.PlayEndCombatEvent_758_0
@@ -595,7 +624,7 @@ type PlayWorldBorderWarningReachPkt = internal.PlayWorldBorderWarningReach_758_0
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x48
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_758_0
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_756_2
 
 // ID=0x49
 type PlayUpdateViewPositionPkt = internal.PlayUpdateViewPosition_758_0

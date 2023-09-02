@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=13223
 // Protocol: 335
+// Protocol Name: 1.12
 
 package packet_1_12
 
@@ -62,59 +63,10 @@ type PlayPrepareCraftingGridPkt struct {
 }
 
 // ID=0x2
-type PlayTabCompleteServerPkt struct {
-	/* All text behind the cursor (e.g. to the left of the cursor in left-to-right languages like English) */
-	Text String // String (32767)
-	/* If true, the server will parse Text as a command even if it doesn't start with a /. Used in the command block GUI. */
-	AssumeCommand Bool // Boolean
-	HasPosition Bool // Boolean
-	/* The position of the block being looked at. Only sent if Has Position is true. */
-	LookedAtBlock Position // Optional Position
-}
-
-var _ Packet = (*PlayTabCompleteServerPkt)(nil)
-
-func (p PlayTabCompleteServerPkt)Encode(b *PacketBuilder){
-	b.String(p.Text)
-	b.Bool(p.AssumeCommand)
-	b.Bool(p.HasPosition)
-	b.Encode(p.LookedAtBlock)
-}
-
-func (p *PlayTabCompleteServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Text, ok = r.String(); !ok {
-		return io.EOF
-	}
-	if p.AssumeCommand, ok = r.Bool(); !ok {
-		return io.EOF
-	}
-	if p.HasPosition, ok = r.Bool(); !ok {
-		return io.EOF
-	}
-	if err = p.LookedAtBlock.DecodeFrom(r); err != nil {
-		return
-	}
-}
+type PlayTabCompleteServerPkt = internal.PlayTabComplete_335_6
 
 // ID=0x3
-type PlayChatMessageServerPkt struct {
-	/* The client sends the raw input, not a Chat component */
-	Message String // String (256)
-}
-
-var _ Packet = (*PlayChatMessageServerPkt)(nil)
-
-func (p PlayChatMessageServerPkt)Encode(b *PacketBuilder){
-	b.String(p.Message)
-}
-
-func (p *PlayChatMessageServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Message, ok = r.String(); !ok {
-		return io.EOF
-	}
-}
+type PlayChatMessageServerPkt = internal.PlayChatMessage_404_11
 
 // ID=0x4
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -150,53 +102,7 @@ type PlayPlayerPkt = internal.PlayPlayer_404_0
 type PlayPlayerPositionPkt = internal.PlayPlayerPosition_758_0
 
 // ID=0xf
-type PlayPlayerPositionAndLookServerPkt struct {
-	/* Absolute position */
-	X Double // Double
-	/* Absolute feet position, normally Head Y - 1.62 */
-	FeetY Double // Double
-	/* Absolute position */
-	Z Double // Double
-	/* Absolute rotation on the X Axis, in degrees */
-	Yaw Float // Float
-	/* Absolute rotation on the Y Axis, in degrees */
-	Pitch Float // Float
-	/* True if the client is on the ground, false otherwise */
-	OnGround Bool // Boolean
-}
-
-var _ Packet = (*PlayPlayerPositionAndLookServerPkt)(nil)
-
-func (p PlayPlayerPositionAndLookServerPkt)Encode(b *PacketBuilder){
-	b.Double(p.X)
-	b.Double(p.FeetY)
-	b.Double(p.Z)
-	b.Float(p.Yaw)
-	b.Float(p.Pitch)
-	b.Bool(p.OnGround)
-}
-
-func (p *PlayPlayerPositionAndLookServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.X, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.FeetY, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.Z, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.Yaw, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.Pitch, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.OnGround, ok = r.Bool(); !ok {
-		return io.EOF
-	}
-}
+type PlayPlayerPositionAndLookServerPkt = internal.PlayPlayerPositionAndLook_335_4
 
 // ID=0x10
 type PlayPlayerLookPkt = internal.PlayPlayerLook_404_0
@@ -208,33 +114,7 @@ type PlayVehicleMoveServerPkt = internal.PlayVehicleMove_758_0
 type PlaySteerBoatPkt = internal.PlaySteerBoat_401_1
 
 // ID=0x13
-type PlayPlayerAbilitiesServerPkt struct {
-	/* Bit mask. 0x08: damage disabled (god mode), 0x04: can fly, 0x02: is flying, 0x01: is Creative */
-	Flags Byte // Byte
-	FlyingSpeed Float // Float
-	WalkingSpeed Float // Float
-}
-
-var _ Packet = (*PlayPlayerAbilitiesServerPkt)(nil)
-
-func (p PlayPlayerAbilitiesServerPkt)Encode(b *PacketBuilder){
-	b.Byte(p.Flags)
-	b.Float(p.FlyingSpeed)
-	b.Float(p.WalkingSpeed)
-}
-
-func (p *PlayPlayerAbilitiesServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Flags, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.FlyingSpeed, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.WalkingSpeed, ok = r.Float(); !ok {
-		return io.EOF
-	}
-}
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_404_12
 
 // ID=0x14
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -266,23 +146,7 @@ type PlayResourcePackStatusPkt = internal.PlayResourcePackStatus_758_0
 type PlayAdvancementTabPkt = internal.PlayAdvancementTab_758_0
 
 // ID=0x1a
-type PlayHeldItemChangeServerPkt struct {
-	/* The slot which the player has selected (0–8) */
-	Slot Short // Short
-}
-
-var _ Packet = (*PlayHeldItemChangeServerPkt)(nil)
-
-func (p PlayHeldItemChangeServerPkt)Encode(b *PacketBuilder){
-	b.Short(p.Slot)
-}
-
-func (p *PlayHeldItemChangeServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Slot, ok = r.Short(); !ok {
-		return io.EOF
-	}
-}
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_404_5
 
 // ID=0x1b
 type PlayCreativeInventoryActionPkt = internal.PlayCreativeInventoryAction_758_0
@@ -291,23 +155,7 @@ type PlayCreativeInventoryActionPkt = internal.PlayCreativeInventoryAction_758_0
 type PlayUpdateSignPkt = internal.PlayUpdateSign_762_1
 
 // ID=0x1d
-type PlayAnimationServerPkt struct {
-	/* Hand used for the animation. 0: main hand, 1: off hand. */
-	Hand VarInt // VarInt Enum
-}
-
-var _ Packet = (*PlayAnimationServerPkt)(nil)
-
-func (p PlayAnimationServerPkt)Encode(b *PacketBuilder){
-	b.VarInt(p.Hand)
-}
-
-func (p *PlayAnimationServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Hand, ok = r.VarInt(); !ok {
-		return io.EOF
-	}
-}
+type PlayAnimationServerPkt = internal.PlayAnimation_335_4
 
 // ID=0x1e
 type PlaySpectatePkt = internal.PlaySpectate_758_0
@@ -339,29 +187,7 @@ type PlaySpawnPaintingPkt = internal.PlaySpawnPainting_340_1
 type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_498_1
 
 // ID=0x6
-type PlayAnimationClientPkt struct {
-	/* Player ID */
-	EntityID VarInt // VarInt
-	/* Animation ID (see below) */
-	Animation UByte // Unsigned Byte
-}
-
-var _ Packet = (*PlayAnimationClientPkt)(nil)
-
-func (p PlayAnimationClientPkt)Encode(b *PacketBuilder){
-	b.VarInt(p.EntityID)
-	b.UByte(p.Animation)
-}
-
-func (p *PlayAnimationClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.EntityID, ok = r.VarInt(); !ok {
-		return io.EOF
-	}
-	if p.Animation, ok = r.UByte(); !ok {
-		return io.EOF
-	}
-}
+type PlayAnimationClientPkt = internal.PlayAnimation_335_3
 
 // ID=0x7
 type PlayStatisticsPkt struct {
@@ -414,60 +240,10 @@ type PlayBossBarPkt struct {
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
 
 // ID=0xe
-type PlayTabCompleteClientPkt struct {
-	/* Number of elements in the following array */
-	Count VarInt // VarInt
-	/* One eligible command, note that each command is sent separately instead of in a single string, hence the need for Count */
-	Matches []String // Array of String (32767)
-}
-
-var _ Packet = (*PlayTabCompleteClientPkt)(nil)
-
-func (p PlayTabCompleteClientPkt)Encode(b *PacketBuilder){
-	p.Count = len(p.Matches)
-	b.VarInt(p.Count)
-	for _, v := range p.Matches {
-		b.String(v)
-	}
-}
-
-func (p *PlayTabCompleteClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Count, ok = r.VarInt(); !ok {
-		return io.EOF
-	}
-	p.Matches = make([]String, p.Count)
-	for i, _ := range p.Matches {
-		if p.Matches[i], ok = r.String(); !ok {
-			return io.EOF
-		}
-	}
-}
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_335_5
 
 // ID=0xf
-type PlayChatMessageClientPkt struct {
-	/* Limited to 32767 bytes */
-	JSONData Object // Chat
-	/* 0: chat (chat box), 1: system message (chat box), 2: game info (above hotbar). */
-	Position Byte // Byte
-}
-
-var _ Packet = (*PlayChatMessageClientPkt)(nil)
-
-func (p PlayChatMessageClientPkt)Encode(b *PacketBuilder){
-	b.JSON(p.JSONData)
-	b.Byte(p.Position)
-}
-
-func (p *PlayChatMessageClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if err = r.JSON(&p.JSONData); err != nil {
-		return
-	}
-	if p.Position, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-}
+type PlayChatMessageClientPkt = internal.PlayChatMessage_404_10
 
 // ID=0x10
 type PlayMultiBlockChangePkt struct {
@@ -582,34 +358,7 @@ type PlayVehicleMoveClientPkt = internal.PlayVehicleMove_758_0
 type PlayOpenSignEditorPkt = internal.PlayOpenSignEditor_762_1
 
 // ID=0x2b
-type PlayPlayerAbilitiesClientPkt struct {
-	/* Bit field, see below */
-	Flags Byte // Byte
-	FlyingSpeed Float // Float
-	/* Modifies the field of view, like a speed potion. A Notchian server will use the same value as the movement speed (send in the Entity Properties packet). */
-	FieldOfViewModifier Float // Float
-}
-
-var _ Packet = (*PlayPlayerAbilitiesClientPkt)(nil)
-
-func (p PlayPlayerAbilitiesClientPkt)Encode(b *PacketBuilder){
-	b.Byte(p.Flags)
-	b.Float(p.FlyingSpeed)
-	b.Float(p.FieldOfViewModifier)
-}
-
-func (p *PlayPlayerAbilitiesClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Flags, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.FlyingSpeed, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.FieldOfViewModifier, ok = r.Float(); !ok {
-		return io.EOF
-	}
-}
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_404_11
 
 // ID=0x2c
 type PlayCombatEventPkt struct {
@@ -657,59 +406,7 @@ type PlayPlayerListItemPkt struct {
 }
 
 // ID=0x2e
-type PlayPlayerPositionAndLookClientPkt struct {
-	/* Absolute or relative position, depending on Flags */
-	X Double // Double
-	/* Absolute or relative position, depending on Flags */
-	Y Double // Double
-	/* Absolute or relative position, depending on Flags */
-	Z Double // Double
-	/* Absolute or relative rotation on the X axis, in degrees */
-	Yaw Float // Float
-	/* Absolute or relative rotation on the Y axis, in degrees */
-	Pitch Float // Float
-	/* Bit field, see below */
-	Flags Byte // Byte
-	/* Client should confirm this packet with Teleport Confirm containing the same Teleport ID */
-	TeleportID VarInt // VarInt
-}
-
-var _ Packet = (*PlayPlayerPositionAndLookClientPkt)(nil)
-
-func (p PlayPlayerPositionAndLookClientPkt)Encode(b *PacketBuilder){
-	b.Double(p.X)
-	b.Double(p.Y)
-	b.Double(p.Z)
-	b.Float(p.Yaw)
-	b.Float(p.Pitch)
-	b.Byte(p.Flags)
-	b.VarInt(p.TeleportID)
-}
-
-func (p *PlayPlayerPositionAndLookClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.X, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.Y, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.Z, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.Yaw, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.Pitch, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.Flags, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.TeleportID, ok = r.VarInt(); !ok {
-		return io.EOF
-	}
-}
+type PlayPlayerPositionAndLookClientPkt = internal.PlayPlayerPositionAndLook_335_3
 
 // ID=0x2f
 type PlayUseBedPkt = internal.PlayUseBed_404_0
@@ -766,23 +463,7 @@ type PlayWorldBorderPkt struct {
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x39
-type PlayHeldItemChangeClientPkt struct {
-	/* The slot which the player has selected (0–8) */
-	Slot Byte // Byte
-}
-
-var _ Packet = (*PlayHeldItemChangeClientPkt)(nil)
-
-func (p PlayHeldItemChangeClientPkt)Encode(b *PacketBuilder){
-	b.Byte(p.Slot)
-}
-
-func (p *PlayHeldItemChangeClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Slot, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-}
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_404_4
 
 // ID=0x3a
 type PlayDisplayScoreboardPkt = internal.PlayDisplayScoreboard_758_0

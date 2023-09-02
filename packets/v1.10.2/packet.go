@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=8235
 // Protocol: 210
+// Protocol Name: 1.10.2
 
 package packet_1_10_2
 
@@ -18,7 +19,7 @@ import (
 type LoginLoginStartPkt = internal.LoginLoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
 
 // ---- login: clientbound ----
 
@@ -43,10 +44,10 @@ type LoginSetCompressionPkt = internal.LoginSetCompression_763_0
 type PlayTeleportConfirmPkt = internal.PlayTeleportConfirm_758_0
 
 // ID=0x1
-type PlayTabCompleteServerPkt = internal.PlayTabComplete_340_4
+type PlayTabCompleteServerPkt = internal.PlayTabComplete_210_8
 
 // ID=0x2
-type PlayChatMessageServerPkt = internal.PlayChatMessage_578_9
+type PlayChatMessageServerPkt = internal.PlayChatMessage_404_11
 
 // ID=0x3
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -79,7 +80,7 @@ type PlayKeepAliveServerPkt = internal.PlayKeepAlive_338_1
 type PlayPlayerPositionPkt = internal.PlayPlayerPosition_758_0
 
 // ID=0xd
-type PlayPlayerPositionAndLookServerPkt = internal.PlayPlayerPositionAndLook_404_2
+type PlayPlayerPositionAndLookServerPkt = internal.PlayPlayerPositionAndLook_210_6
 
 // ID=0xe
 type PlayPlayerLookPkt = internal.PlayPlayerLook_404_0
@@ -94,7 +95,7 @@ type PlayVehicleMoveServerPkt = internal.PlayVehicleMove_758_0
 type PlaySteerBoatPkt = internal.PlaySteerBoat_401_1
 
 // ID=0x12
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_578_8
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_404_12
 
 // ID=0x13
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -109,7 +110,7 @@ type PlaySteerVehiclePkt = internal.PlaySteerVehicle_758_0
 type PlayResourcePackStatusPkt = internal.PlayResourcePackStatus_758_0
 
 // ID=0x17
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_758_1
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_404_5
 
 // ID=0x18
 type PlayCreativeInventoryActionPkt = internal.PlayCreativeInventoryAction_758_0
@@ -118,7 +119,7 @@ type PlayCreativeInventoryActionPkt = internal.PlayCreativeInventoryAction_758_0
 type PlayUpdateSignPkt = internal.PlayUpdateSign_762_1
 
 // ID=0x1a
-type PlayAnimationServerPkt = internal.PlayAnimation_404_2
+type PlayAnimationServerPkt = internal.PlayAnimation_210_6
 
 // ID=0x1b
 type PlaySpectatePkt = internal.PlaySpectate_758_0
@@ -150,7 +151,7 @@ type PlaySpawnPaintingPkt = internal.PlaySpawnPainting_340_1
 type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_498_1
 
 // ID=0x6
-type PlayAnimationClientPkt = internal.PlayAnimation_404_1
+type PlayAnimationClientPkt = internal.PlayAnimation_210_5
 
 // ID=0x7
 type PlayStatisticsPkt struct {
@@ -203,10 +204,10 @@ type PlayBossBarPkt struct {
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
 
 // ID=0xe
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_3
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_210_7
 
 // ID=0xf
-type PlayChatMessageClientPkt = internal.PlayChatMessage_578_8
+type PlayChatMessageClientPkt = internal.PlayChatMessage_404_10
 
 // ID=0x10
 type PlayMultiBlockChangePkt struct {
@@ -321,7 +322,7 @@ type PlayVehicleMoveClientPkt = internal.PlayVehicleMove_758_0
 type PlayOpenSignEditorPkt = internal.PlayOpenSignEditor_762_1
 
 // ID=0x2b
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_763_0
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_404_11
 
 // ID=0x2c
 type PlayCombatEventPkt struct {
@@ -369,7 +370,7 @@ type PlayPlayerListItemPkt struct {
 }
 
 // ID=0x2e
-type PlayPlayerPositionAndLookClientPkt = internal.PlayPlayerPositionAndLook_754_1
+type PlayPlayerPositionAndLookClientPkt = internal.PlayPlayerPositionAndLook_210_5
 
 // ID=0x2f
 type PlayUseBedPkt = internal.PlayUseBed_404_0
@@ -420,7 +421,7 @@ type PlayWorldBorderPkt struct {
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x37
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_758_0
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_404_4
 
 // ID=0x38
 type PlayDisplayScoreboardPkt = internal.PlayDisplayScoreboard_758_0

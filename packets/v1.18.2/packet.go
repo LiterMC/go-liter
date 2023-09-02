@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=17499
 // Protocol: 758
+// Protocol Name: 1.18.2
 
 package packet_1_18_2
 
@@ -136,7 +137,23 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayCraftRecipeRequestPkt = internal.PlayCraftRecipeRequest_758_0
 
 // ID=0x19
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_758_7
+type PlayPlayerAbilitiesServerPkt struct {
+	/* Bit mask. 0x02: is flying. */
+	Flags Byte // Byte
+}
+
+var _ Packet = (*PlayPlayerAbilitiesServerPkt)(nil)
+
+func (p PlayPlayerAbilitiesServerPkt)Encode(b *PacketBuilder){
+	b.Byte(p.Flags)
+}
+
+func (p *PlayPlayerAbilitiesServerPkt)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Flags, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+}
 
 // ID=0x1a
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -569,7 +586,7 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_758_0
 
 // ID=0x32
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_758_6
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_758_4
 
 // ID=0x33
 type PlayEndCombatEventPkt = internal.PlayEndCombatEvent_758_0

@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=7368
 // Protocol: 47
+// Protocol Name: 1.8.9
 
 package packet_1_8_9
 
@@ -18,7 +19,7 @@ import (
 type LoginLoginStartPkt = internal.LoginLoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ---- login: clientbound ----
 
@@ -43,7 +44,7 @@ type LoginSetCompressionPkt = internal.LoginSetCompression_763_0
 type PlayKeepAliveServerPkt = internal.PlayKeepAlive_338_1
 
 // ID=0x1
-type PlayChatMessageServerPkt = internal.PlayChatMessage_404_13
+type PlayChatMessageServerPkt = internal.PlayChatMessage_578_7
 
 // ID=0x2
 type PlayUseEntityPkt struct {
@@ -223,7 +224,7 @@ func (p *PlayPlayerBlockPlacementPkt)DecodeFrom(r *PacketReader)(err error){
 }
 
 // ID=0x9
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_404_7
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_758_1
 
 // ID=0xa
 type PlayAnimationServerPkt struct {
@@ -335,7 +336,7 @@ type PlayEnchantItemPkt = internal.PlayEnchantItem_404_0
 type PlayUpdateSignServerPkt = internal.PlayUpdateSign_47_2
 
 // ID=0x13
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_404_12
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_578_8
 
 // ID=0x14
 type PlayTabCompleteServerPkt struct {
@@ -483,7 +484,7 @@ func (p *PlayJoinGamePkt)DecodeFrom(r *PacketReader)(err error){
 }
 
 // ID=0x2
-type PlayChatMessageClientPkt = internal.PlayChatMessage_404_12
+type PlayChatMessageClientPkt = internal.PlayChatMessage_578_6
 
 // ID=0x3
 type PlayTimeUpdatePkt = internal.PlayTimeUpdate_758_0
@@ -578,13 +579,13 @@ func (p *PlayPlayerPositionAndLookClientPkt)DecodeFrom(r *PacketReader)(err erro
 }
 
 // ID=0x9
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_404_6
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_758_0
 
 // ID=0xa
 type PlayUseBedPkt = internal.PlayUseBed_404_0
 
 // ID=0xb
-type PlayAnimationClientPkt = internal.PlayAnimation_338_3
+type PlayAnimationClientPkt = internal.PlayAnimation_404_1
 
 // ID=0xc
 type PlaySpawnPlayerPkt struct {
@@ -1391,10 +1392,10 @@ type PlayPlayerListItemPkt struct {
 }
 
 // ID=0x39
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_404_11
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_763_0
 
 // ID=0x3a
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_338_5
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_3
 
 // ID=0x3b
 type PlayScoreboardObjectivePkt = internal.PlayScoreboardObjective_340_1

@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=14301
 // Protocol: 401
+// Protocol Name: 1.13.1
 
 package packet_1_13_1
 
@@ -52,7 +53,7 @@ type PlayTeleportConfirmPkt = internal.PlayTeleportConfirm_758_0
 type PlayQueryBlockNBTPkt = internal.PlayQueryBlockNBT_758_0
 
 // ID=0x2
-type PlayChatMessageServerPkt = internal.PlayChatMessage_404_13
+type PlayChatMessageServerPkt = internal.PlayChatMessage_404_11
 
 // ID=0x3
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -180,7 +181,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_758_2
 
 // ID=0x21
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_404_7
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_404_5
 
 // ID=0x22
 type PlayUpdateCommandBlockPkt = internal.PlayUpdateCommandBlock_758_0
@@ -284,7 +285,7 @@ type PlayBossBarPkt struct {
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
 
 // ID=0xe
-type PlayChatMessageClientPkt = internal.PlayChatMessage_404_12
+type PlayChatMessageClientPkt = internal.PlayChatMessage_404_10
 
 // ID=0xf
 type PlayMultiBlockChangePkt struct {
@@ -568,7 +569,7 @@ type PlayWorldBorderPkt struct {
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x3d
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_404_6
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_404_4
 
 // ID=0x3e
 type PlayDisplayScoreboardPkt = internal.PlayDisplayScoreboard_758_0

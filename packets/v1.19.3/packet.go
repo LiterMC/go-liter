@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=18067
 // Protocol: 761
+// Protocol Name: 1.19.3
 
 package packet_1_19_3
 
@@ -65,7 +66,7 @@ type PlayConfirmTeleportationPkt = internal.PlayConfirmTeleportation_763_0
 type PlayQueryBlockEntityTagPkt = internal.PlayQueryBlockEntityTag_763_0
 
 // ID=0x2
-type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficulty_761_3
+type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficulty_763_1
 
 // ID=0x3
 type PlayMessageAcknowledgmentPkt = internal.PlayMessageAcknowledgment_763_0
@@ -169,7 +170,7 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayPlaceRecipePkt = internal.PlayPlaceRecipe_763_0
 
 // ID=0x1b
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_761_3
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_763_1
 
 // ID=0x1c
 type PlayPlayerActionPkt = internal.PlayPlayerAction_763_0
@@ -208,7 +209,7 @@ type PlaySetSeenRecipePkt = internal.PlaySetSeenRecipe_763_0
 type PlayRenameItemPkt = internal.PlayRenameItem_763_0
 
 // ID=0x24
-type PlayResourcePackServerPkt = internal.PlayResourcePack_761_3
+type PlayResourcePackServerPkt = internal.PlayResourcePack_763_1
 
 // ID=0x25
 type PlaySeenAdvancementsPkt = internal.PlaySeenAdvancements_763_0
@@ -220,7 +221,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_763_0
 
 // ID=0x28
-type PlaySetHeldItemServerPkt = internal.PlaySetHeldItem_761_3
+type PlaySetHeldItemServerPkt = internal.PlaySetHeldItem_763_1
 
 // ID=0x29
 type PlayProgramCommandBlockPkt = internal.PlayProgramCommandBlock_763_0
@@ -318,7 +319,7 @@ type PlayBossBarPkt struct {
 }
 
 // ID=0xb
-type PlayChangeDifficultyClientPkt = internal.PlayChangeDifficulty_761_2
+type PlayChangeDifficultyClientPkt = internal.PlayChangeDifficulty_763_0
 
 // ID=0xc
 type PlayClearTitlesPkt = internal.PlayClearTitles_763_0
@@ -535,7 +536,7 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayPlaceGhostRecipePkt = internal.PlayPlaceGhostRecipe_763_0
 
 // ID=0x30
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_761_2
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_763_0
 
 // ID=0x31
 type PlayPlayerChatMessagePkt struct {
@@ -632,7 +633,7 @@ type PlayRemoveEntitiesPkt = internal.PlayRemoveEntities_763_0
 type PlayRemoveEntityEffectPkt = internal.PlayRemoveEntityEffect_763_0
 
 // ID=0x3c
-type PlayResourcePackClientPkt = internal.PlayResourcePack_761_2
+type PlayResourcePackClientPkt = internal.PlayResourcePack_763_0
 
 // ID=0x3d
 type PlayRespawnPkt = internal.PlayRespawn_761_2
@@ -707,7 +708,7 @@ type PlaySetBorderWarningDistancePkt = internal.PlaySetBorderWarningDistance_763
 type PlaySetCameraPkt = internal.PlaySetCamera_763_0
 
 // ID=0x49
-type PlaySetHeldItemClientPkt = internal.PlaySetHeldItem_761_2
+type PlaySetHeldItemClientPkt = internal.PlaySetHeldItem_763_0
 
 // ID=0x4a
 type PlaySetCenterChunkPkt = internal.PlaySetCenterChunk_763_0

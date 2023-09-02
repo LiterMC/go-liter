@@ -2,6 +2,7 @@
 // Generated at {{ gentime }}
 // Origin: {{ .protocol.Doc }}
 // Protocol: {{ .protocol.Version }}
+// Protocol Name: {{ protocolName .protocol.Version }}
 
 package packet_{{ replace .protocol.Name "." "_" }}
 

@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=16067
 // Protocol: 578
+// Protocol Name: 1.15.2
 
 package packet_1_15_2
 
@@ -58,7 +59,7 @@ type PlayQueryEntityNBTPkt = internal.PlayQueryEntityNBT_758_0
 type PlaySetDifficultyPkt = internal.PlaySetDifficulty_758_0
 
 // ID=0x3
-type PlayChatMessageServerPkt = internal.PlayChatMessage_578_9
+type PlayChatMessageServerPkt = internal.PlayChatMessage_578_7
 
 // ID=0x4
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -168,7 +169,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_758_2
 
 // ID=0x23
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_755_3
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_758_1
 
 // ID=0x24
 type PlayUpdateCommandBlockPkt = internal.PlayUpdateCommandBlock_758_0
@@ -315,7 +316,7 @@ type PlayBossBarPkt struct {
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_758_0
 
 // ID=0xf
-type PlayChatMessageClientPkt = internal.PlayChatMessage_578_8
+type PlayChatMessageClientPkt = internal.PlayChatMessage_578_6
 
 // ID=0x10
 type PlayMultiBlockChangePkt struct {
@@ -648,7 +649,7 @@ type PlayOpenSignEditorPkt = internal.PlayOpenSignEditor_762_1
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_758_0
 
 // ID=0x32
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_761_2
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_763_0
 
 // ID=0x33
 type PlayCombatEventPkt struct {
@@ -787,7 +788,7 @@ type PlayWorldBorderPkt struct {
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x40
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_755_2
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_758_0
 
 // ID=0x41
 type PlayUpdateViewPositionPkt = internal.PlayUpdateViewPosition_758_0

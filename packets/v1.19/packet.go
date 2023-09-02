@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=17753
 // Protocol: 759
+// Protocol Name: 1.19
 
 package packet_1_19
 
@@ -65,7 +66,7 @@ type PlayConfirmTeleportationPkt = internal.PlayConfirmTeleportation_763_0
 type PlayQueryBlockEntityTagPkt = internal.PlayQueryBlockEntityTag_763_0
 
 // ID=0x2
-type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficulty_761_3
+type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficulty_760_3
 
 // ID=0x3
 type PlayChatCommandPkt struct {
@@ -215,7 +216,7 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayPlaceRecipePkt = internal.PlayPlaceRecipe_763_0
 
 // ID=0x1b
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_761_3
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_760_3
 
 // ID=0x1c
 type PlayPlayerActionPkt = internal.PlayPlayerAction_763_0
@@ -239,7 +240,7 @@ type PlaySetSeenRecipePkt = internal.PlaySetSeenRecipe_763_0
 type PlayRenameItemPkt = internal.PlayRenameItem_763_0
 
 // ID=0x23
-type PlayResourcePackServerPkt = internal.PlayResourcePack_761_3
+type PlayResourcePackServerPkt = internal.PlayResourcePack_760_3
 
 // ID=0x24
 type PlaySeenAdvancementsPkt = internal.PlaySeenAdvancements_763_0
@@ -283,7 +284,7 @@ func (p *PlaySetBeaconEffectPkt)DecodeFrom(r *PacketReader)(err error){
 }
 
 // ID=0x27
-type PlaySetHeldItemServerPkt = internal.PlaySetHeldItem_761_3
+type PlaySetHeldItemServerPkt = internal.PlaySetHeldItem_760_3
 
 // ID=0x28
 type PlayProgramCommandBlockPkt = internal.PlayProgramCommandBlock_763_0
@@ -381,7 +382,7 @@ type PlayBossBarPkt struct {
 }
 
 // ID=0xb
-type PlayChangeDifficultyClientPkt = internal.PlayChangeDifficulty_761_2
+type PlayChangeDifficultyClientPkt = internal.PlayChangeDifficulty_760_2
 
 // ID=0xc
 type PlayChatPreviewClientPkt = internal.PlayChatPreview_760_0
@@ -597,7 +598,7 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayPlaceGhostRecipePkt = internal.PlayPlaceGhostRecipe_763_0
 
 // ID=0x2f
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_761_2
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_760_2
 
 // ID=0x30
 type PlayPlayerChatMessagePkt struct {
@@ -746,7 +747,7 @@ type PlayRemoveEntitiesPkt = internal.PlayRemoveEntities_763_0
 type PlayRemoveEntityEffectPkt = internal.PlayRemoveEntityEffect_763_0
 
 // ID=0x3a
-type PlayResourcePackClientPkt = internal.PlayResourcePack_761_2
+type PlayResourcePackClientPkt = internal.PlayResourcePack_760_2
 
 // ID=0x3b
 type PlayRespawnPkt = internal.PlayRespawn_761_2
@@ -785,7 +786,7 @@ type PlaySetBorderWarningDistancePkt = internal.PlaySetBorderWarningDistance_763
 type PlaySetCameraPkt = internal.PlaySetCamera_763_0
 
 // ID=0x47
-type PlaySetHeldItemClientPkt = internal.PlaySetHeldItem_761_2
+type PlaySetHeldItemClientPkt = internal.PlaySetHeldItem_760_2
 
 // ID=0x48
 type PlaySetCenterChunkPkt = internal.PlaySetCenterChunk_763_0

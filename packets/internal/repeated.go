@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 
 package internal
 
@@ -7,30 +7,30 @@ import (
 	"io"
 	. "github.com/kmcsr/go-liter"
 )
-				
-// Protocol=763; State=login; Bound=client; ID=0x0
-// Protocol=762; State=login; Bound=client; ID=0x0
-// Protocol=761; State=login; Bound=client; ID=0x0
-// Protocol=760; State=login; Bound=client; ID=0x0
-// Protocol=759; State=login; Bound=client; ID=0x0
-// Protocol=758; State=login; Bound=client; ID=0x0
-// Protocol=757; State=login; Bound=client; ID=0x0
-// Protocol=756; State=login; Bound=client; ID=0x0
-// Protocol=755; State=login; Bound=client; ID=0x0
-// Protocol=754; State=login; Bound=client; ID=0x0
-// Protocol=753; State=login; Bound=client; ID=0x0
-// Protocol=578; State=login; Bound=client; ID=0x0
-// Protocol=498; State=login; Bound=client; ID=0x0
-// Protocol=404; State=login; Bound=client; ID=0x0
-// Protocol=401; State=login; Bound=client; ID=0x0
-// Protocol=340; State=login; Bound=client; ID=0x0
-// Protocol=338; State=login; Bound=client; ID=0x0
-// Protocol=335; State=login; Bound=client; ID=0x0
-// Protocol=316; State=login; Bound=client; ID=0x0
-// Protocol=315; State=login; Bound=client; ID=0x0
-// Protocol=210; State=login; Bound=client; ID=0x0
-// Protocol=110; State=login; Bound=client; ID=0x0
-// Protocol=47; State=login; Bound=client; ID=0x0
+
+// Protocol=763; ProtocolName=1.20; State=login; Bound=client; ID=0x0
+// Protocol=762; ProtocolName=1.19.4; State=login; Bound=client; ID=0x0
+// Protocol=761; ProtocolName=1.19.3; State=login; Bound=client; ID=0x0
+// Protocol=760; ProtocolName=1.19.2; State=login; Bound=client; ID=0x0
+// Protocol=759; ProtocolName=1.19; State=login; Bound=client; ID=0x0
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=client; ID=0x0
+// Protocol=757; ProtocolName=1.18.1; State=login; Bound=client; ID=0x0
+// Protocol=756; ProtocolName=1.17.1; State=login; Bound=client; ID=0x0
+// Protocol=755; ProtocolName=1.17; State=login; Bound=client; ID=0x0
+// Protocol=754; ProtocolName=1.16.5; State=login; Bound=client; ID=0x0
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=client; ID=0x0
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=client; ID=0x0
+// Protocol=498; ProtocolName=1.14.4; State=login; Bound=client; ID=0x0
+// Protocol=404; ProtocolName=1.13.2; State=login; Bound=client; ID=0x0
+// Protocol=401; ProtocolName=1.13.1; State=login; Bound=client; ID=0x0
+// Protocol=340; ProtocolName=1.12.2; State=login; Bound=client; ID=0x0
+// Protocol=338; ProtocolName=1.12.1; State=login; Bound=client; ID=0x0
+// Protocol=335; ProtocolName=1.12; State=login; Bound=client; ID=0x0
+// Protocol=316; ProtocolName=1.11.2; State=login; Bound=client; ID=0x0
+// Protocol=315; ProtocolName=1.11; State=login; Bound=client; ID=0x0
+// Protocol=210; ProtocolName=1.10.2; State=login; Bound=client; ID=0x0
+// Protocol=110; ProtocolName=1.9.4; State=login; Bound=client; ID=0x0
+// Protocol=47; ProtocolName=1.8.9; State=login; Bound=client; ID=0x0
 type LoginDisconnect_763_0 struct {
 	Reason Object // Chat
 }
@@ -47,39 +47,38 @@ func (p *LoginDisconnect_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=login; Bound=client; ID=0x1
-// Protocol=762; State=login; Bound=client; ID=0x1
-// Protocol=761; State=login; Bound=client; ID=0x1
-// Protocol=760; State=login; Bound=client; ID=0x1
-// Protocol=759; State=login; Bound=client; ID=0x1
-// Protocol=758; State=login; Bound=client; ID=0x1
-// Protocol=757; State=login; Bound=client; ID=0x1
-// Protocol=756; State=login; Bound=client; ID=0x1
-// Protocol=755; State=login; Bound=client; ID=0x1
-// Protocol=754; State=login; Bound=client; ID=0x1
-// Protocol=753; State=login; Bound=client; ID=0x1
-// Protocol=578; State=login; Bound=client; ID=0x1
-// Protocol=498; State=login; Bound=client; ID=0x1
-// Protocol=404; State=login; Bound=client; ID=0x1
-// Protocol=401; State=login; Bound=client; ID=0x1
-// Protocol=340; State=login; Bound=client; ID=0x1
-// Protocol=338; State=login; Bound=client; ID=0x1
-// Protocol=335; State=login; Bound=client; ID=0x1
-// Protocol=316; State=login; Bound=client; ID=0x1
-// Protocol=315; State=login; Bound=client; ID=0x1
-// Protocol=210; State=login; Bound=client; ID=0x1
-// Protocol=110; State=login; Bound=client; ID=0x1
-// Protocol=47; State=login; Bound=client; ID=0x1
+
+// Protocol=763; ProtocolName=1.20; State=login; Bound=client; ID=0x1
+// Protocol=762; ProtocolName=1.19.4; State=login; Bound=client; ID=0x1
+// Protocol=761; ProtocolName=1.19.3; State=login; Bound=client; ID=0x1
+// Protocol=760; ProtocolName=1.19.2; State=login; Bound=client; ID=0x1
+// Protocol=759; ProtocolName=1.19; State=login; Bound=client; ID=0x1
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=client; ID=0x1
+// Protocol=757; ProtocolName=1.18.1; State=login; Bound=client; ID=0x1
+// Protocol=756; ProtocolName=1.17.1; State=login; Bound=client; ID=0x1
+// Protocol=755; ProtocolName=1.17; State=login; Bound=client; ID=0x1
+// Protocol=754; ProtocolName=1.16.5; State=login; Bound=client; ID=0x1
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=client; ID=0x1
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=client; ID=0x1
+// Protocol=498; ProtocolName=1.14.4; State=login; Bound=client; ID=0x1
+// Protocol=404; ProtocolName=1.13.2; State=login; Bound=client; ID=0x1
+// Protocol=401; ProtocolName=1.13.1; State=login; Bound=client; ID=0x1
+// Protocol=340; ProtocolName=1.12.2; State=login; Bound=client; ID=0x1
+// Protocol=338; ProtocolName=1.12.1; State=login; Bound=client; ID=0x1
+// Protocol=335; ProtocolName=1.12; State=login; Bound=client; ID=0x1
+// Protocol=316; ProtocolName=1.11.2; State=login; Bound=client; ID=0x1
+// Protocol=315; ProtocolName=1.11; State=login; Bound=client; ID=0x1
+// Protocol=210; ProtocolName=1.10.2; State=login; Bound=client; ID=0x1
+// Protocol=110; ProtocolName=1.9.4; State=login; Bound=client; ID=0x1
+// Protocol=47; ProtocolName=1.8.9; State=login; Bound=client; ID=0x1
 type LoginEncryptionRequest_763_0 struct {
 	/* Appears to be empty */
 	ServerID String // String
 	/* Length of Public Key */
 	PublicKeyLength VarInt // VarInt
 	PublicKey ByteArray // Byte Array
-	/* Length of Verify Token. Always 4 for Notchian servers. */
+	/* Length of Verify Token */
 	VerifyTokenLength VarInt // VarInt
-	/* A sequence of random bytes generated by the server */
 	VerifyToken ByteArray // Byte Array
 }
 
@@ -115,14 +114,18 @@ func (p *LoginEncryptionRequest_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=login; Bound=server; ID=0x1
-// Protocol=762; State=login; Bound=server; ID=0x1
-// Protocol=761; State=login; Bound=server; ID=0x1
-// Protocol=756; State=login; Bound=server; ID=0x1
-// Protocol=578; State=login; Bound=server; ID=0x1
-// Protocol=316; State=login; Bound=server; ID=0x1
-// Protocol=210; State=login; Bound=server; ID=0x1
+
+// Protocol=763; ProtocolName=1.20; State=login; Bound=server; ID=0x1
+// Protocol=762; ProtocolName=1.19.4; State=login; Bound=server; ID=0x1
+// Protocol=761; ProtocolName=1.19.3; State=login; Bound=server; ID=0x1
+// Protocol=757; ProtocolName=1.18.1; State=login; Bound=server; ID=0x1
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=server; ID=0x1
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=server; ID=0x1
+// Protocol=340; ProtocolName=1.12.2; State=login; Bound=server; ID=0x1
+// Protocol=338; ProtocolName=1.12.1; State=login; Bound=server; ID=0x1
+// Protocol=316; ProtocolName=1.11.2; State=login; Bound=server; ID=0x1
+// Protocol=315; ProtocolName=1.11; State=login; Bound=server; ID=0x1
+// Protocol=47; ProtocolName=1.8.9; State=login; Bound=server; ID=0x1
 type LoginEncryptionResponse_763_0 struct {
 	/* Length of Shared Secret */
 	SharedSecretLength VarInt // VarInt
@@ -160,9 +163,9 @@ func (p *LoginEncryptionResponse_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=login; Bound=server; ID=0x1
-// Protocol=759; State=login; Bound=server; ID=0x1
+
+// Protocol=760; ProtocolName=1.19.2; State=login; Bound=server; ID=0x1
+// Protocol=759; ProtocolName=1.19; State=login; Bound=server; ID=0x1
 type LoginEncryptionResponse_760_1 struct {
 	/* Length of Shared Secret. */
 	SharedSecretLength VarInt // VarInt
@@ -228,21 +231,17 @@ func (p *LoginEncryptionResponse_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=login; Bound=server; ID=0x1
-// Protocol=757; State=login; Bound=server; ID=0x1
-// Protocol=755; State=login; Bound=server; ID=0x1
-// Protocol=754; State=login; Bound=server; ID=0x1
-// Protocol=753; State=login; Bound=server; ID=0x1
-// Protocol=498; State=login; Bound=server; ID=0x1
-// Protocol=404; State=login; Bound=server; ID=0x1
-// Protocol=401; State=login; Bound=server; ID=0x1
-// Protocol=340; State=login; Bound=server; ID=0x1
-// Protocol=338; State=login; Bound=server; ID=0x1
-// Protocol=335; State=login; Bound=server; ID=0x1
-// Protocol=315; State=login; Bound=server; ID=0x1
-// Protocol=110; State=login; Bound=server; ID=0x1
-// Protocol=47; State=login; Bound=server; ID=0x1
+
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=server; ID=0x1
+// Protocol=756; ProtocolName=1.17.1; State=login; Bound=server; ID=0x1
+// Protocol=755; ProtocolName=1.17; State=login; Bound=server; ID=0x1
+// Protocol=754; ProtocolName=1.16.5; State=login; Bound=server; ID=0x1
+// Protocol=498; ProtocolName=1.14.4; State=login; Bound=server; ID=0x1
+// Protocol=404; ProtocolName=1.13.2; State=login; Bound=server; ID=0x1
+// Protocol=401; ProtocolName=1.13.1; State=login; Bound=server; ID=0x1
+// Protocol=335; ProtocolName=1.12; State=login; Bound=server; ID=0x1
+// Protocol=210; ProtocolName=1.10.2; State=login; Bound=server; ID=0x1
+// Protocol=110; ProtocolName=1.9.4; State=login; Bound=server; ID=0x1
 type LoginEncryptionResponse_758_2 struct {
 	/* Length of Shared Secret */
 	SharedSecretLength VarInt // VarInt
@@ -280,26 +279,26 @@ func (p *LoginEncryptionResponse_758_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=login; Bound=client; ID=0x4
-// Protocol=762; State=login; Bound=client; ID=0x4
-// Protocol=761; State=login; Bound=client; ID=0x4
-// Protocol=760; State=login; Bound=client; ID=0x4
-// Protocol=759; State=login; Bound=client; ID=0x4
-// Protocol=758; State=login; Bound=client; ID=0x4
-// Protocol=757; State=login; Bound=client; ID=0x4
-// Protocol=756; State=login; Bound=client; ID=0x4
-// Protocol=755; State=login; Bound=client; ID=0x4
-// Protocol=754; State=login; Bound=client; ID=0x4
-// Protocol=753; State=login; Bound=client; ID=0x4
-// Protocol=578; State=login; Bound=client; ID=0x4
-// Protocol=498; State=login; Bound=client; ID=0x4
-// Protocol=404; State=login; Bound=client; ID=0x4
-// Protocol=401; State=login; Bound=client; ID=0x4
+
+// Protocol=763; ProtocolName=1.20; State=login; Bound=client; ID=0x4
+// Protocol=762; ProtocolName=1.19.4; State=login; Bound=client; ID=0x4
+// Protocol=761; ProtocolName=1.19.3; State=login; Bound=client; ID=0x4
+// Protocol=760; ProtocolName=1.19.2; State=login; Bound=client; ID=0x4
+// Protocol=759; ProtocolName=1.19; State=login; Bound=client; ID=0x4
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=client; ID=0x4
+// Protocol=757; ProtocolName=1.18.1; State=login; Bound=client; ID=0x4
+// Protocol=756; ProtocolName=1.17.1; State=login; Bound=client; ID=0x4
+// Protocol=755; ProtocolName=1.17; State=login; Bound=client; ID=0x4
+// Protocol=754; ProtocolName=1.16.5; State=login; Bound=client; ID=0x4
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=client; ID=0x4
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=client; ID=0x4
+// Protocol=498; ProtocolName=1.14.4; State=login; Bound=client; ID=0x4
+// Protocol=404; ProtocolName=1.13.2; State=login; Bound=client; ID=0x4
+// Protocol=401; ProtocolName=1.13.1; State=login; Bound=client; ID=0x4
 type LoginLoginPluginRequest_763_0 struct {
 	/* Generated by the server - should be unique to the connection. */
 	MessageID VarInt // VarInt
-	/* Name of the plugin channel used to send the data. */
+	/* Name of the plugin channel used to send the data */
 	Channel Identifier // Identifier
 	/* Any data, depending on the channel. The length of this array must be inferred from the packet length. */
 	Data ByteArray // Byte Array
@@ -325,22 +324,22 @@ func (p *LoginLoginPluginRequest_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=login; Bound=server; ID=0x2
-// Protocol=762; State=login; Bound=server; ID=0x2
-// Protocol=761; State=login; Bound=server; ID=0x2
-// Protocol=760; State=login; Bound=server; ID=0x2
-// Protocol=759; State=login; Bound=server; ID=0x2
-// Protocol=758; State=login; Bound=server; ID=0x2
-// Protocol=757; State=login; Bound=server; ID=0x2
-// Protocol=756; State=login; Bound=server; ID=0x2
-// Protocol=755; State=login; Bound=server; ID=0x2
-// Protocol=754; State=login; Bound=server; ID=0x2
-// Protocol=753; State=login; Bound=server; ID=0x2
-// Protocol=578; State=login; Bound=server; ID=0x2
-// Protocol=498; State=login; Bound=server; ID=0x2
-// Protocol=404; State=login; Bound=server; ID=0x2
-// Protocol=401; State=login; Bound=server; ID=0x2
+
+// Protocol=763; ProtocolName=1.20; State=login; Bound=server; ID=0x2
+// Protocol=762; ProtocolName=1.19.4; State=login; Bound=server; ID=0x2
+// Protocol=761; ProtocolName=1.19.3; State=login; Bound=server; ID=0x2
+// Protocol=760; ProtocolName=1.19.2; State=login; Bound=server; ID=0x2
+// Protocol=759; ProtocolName=1.19; State=login; Bound=server; ID=0x2
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=server; ID=0x2
+// Protocol=757; ProtocolName=1.18.1; State=login; Bound=server; ID=0x2
+// Protocol=756; ProtocolName=1.17.1; State=login; Bound=server; ID=0x2
+// Protocol=755; ProtocolName=1.17; State=login; Bound=server; ID=0x2
+// Protocol=754; ProtocolName=1.16.5; State=login; Bound=server; ID=0x2
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=server; ID=0x2
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=server; ID=0x2
+// Protocol=498; ProtocolName=1.14.4; State=login; Bound=server; ID=0x2
+// Protocol=404; ProtocolName=1.13.2; State=login; Bound=server; ID=0x2
+// Protocol=401; ProtocolName=1.13.1; State=login; Bound=server; ID=0x2
 type LoginLoginPluginResponse_763_0 struct {
 	/* Should match ID from server. */
 	MessageID VarInt // VarInt
@@ -370,10 +369,10 @@ func (p *LoginLoginPluginResponse_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=login; Bound=server; ID=0x0
-// Protocol=762; State=login; Bound=server; ID=0x0
-// Protocol=761; State=login; Bound=server; ID=0x0
+
+// Protocol=763; ProtocolName=1.20; State=login; Bound=server; ID=0x0
+// Protocol=762; ProtocolName=1.19.4; State=login; Bound=server; ID=0x0
+// Protocol=761; ProtocolName=1.19.3; State=login; Bound=server; ID=0x0
 type LoginLoginStart_763_0 struct {
 	/* Player's Username. */
 	Name String // String (16)
@@ -403,9 +402,9 @@ func (p *LoginLoginStart_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=login; Bound=server; ID=0x0
-// Protocol=759; State=login; Bound=server; ID=0x0
+
+// Protocol=760; ProtocolName=1.19.2; State=login; Bound=server; ID=0x0
+// Protocol=759; ProtocolName=1.19; State=login; Bound=server; ID=0x0
 type LoginLoginStart_760_1 struct {
 	/* Player's Username. */
 	Name String // String (16)
@@ -475,27 +474,26 @@ func (p *LoginLoginStart_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=login; Bound=server; ID=0x0
-// Protocol=757; State=login; Bound=server; ID=0x0
-// Protocol=756; State=login; Bound=server; ID=0x0
-// Protocol=755; State=login; Bound=server; ID=0x0
-// Protocol=754; State=login; Bound=server; ID=0x0
-// Protocol=753; State=login; Bound=server; ID=0x0
-// Protocol=578; State=login; Bound=server; ID=0x0
-// Protocol=498; State=login; Bound=server; ID=0x0
-// Protocol=404; State=login; Bound=server; ID=0x0
-// Protocol=401; State=login; Bound=server; ID=0x0
-// Protocol=340; State=login; Bound=server; ID=0x0
-// Protocol=338; State=login; Bound=server; ID=0x0
-// Protocol=335; State=login; Bound=server; ID=0x0
-// Protocol=316; State=login; Bound=server; ID=0x0
-// Protocol=315; State=login; Bound=server; ID=0x0
-// Protocol=210; State=login; Bound=server; ID=0x0
-// Protocol=110; State=login; Bound=server; ID=0x0
-// Protocol=47; State=login; Bound=server; ID=0x0
+
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=server; ID=0x0
+// Protocol=757; ProtocolName=1.18.1; State=login; Bound=server; ID=0x0
+// Protocol=756; ProtocolName=1.17.1; State=login; Bound=server; ID=0x0
+// Protocol=755; ProtocolName=1.17; State=login; Bound=server; ID=0x0
+// Protocol=754; ProtocolName=1.16.5; State=login; Bound=server; ID=0x0
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=server; ID=0x0
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=server; ID=0x0
+// Protocol=498; ProtocolName=1.14.4; State=login; Bound=server; ID=0x0
+// Protocol=404; ProtocolName=1.13.2; State=login; Bound=server; ID=0x0
+// Protocol=401; ProtocolName=1.13.1; State=login; Bound=server; ID=0x0
+// Protocol=340; ProtocolName=1.12.2; State=login; Bound=server; ID=0x0
+// Protocol=338; ProtocolName=1.12.1; State=login; Bound=server; ID=0x0
+// Protocol=335; ProtocolName=1.12; State=login; Bound=server; ID=0x0
+// Protocol=316; ProtocolName=1.11.2; State=login; Bound=server; ID=0x0
+// Protocol=315; ProtocolName=1.11; State=login; Bound=server; ID=0x0
+// Protocol=210; ProtocolName=1.10.2; State=login; Bound=server; ID=0x0
+// Protocol=110; ProtocolName=1.9.4; State=login; Bound=server; ID=0x0
+// Protocol=47; ProtocolName=1.8.9; State=login; Bound=server; ID=0x0
 type LoginLoginStart_758_2 struct {
-	/* Seems to be Player's Username */
 	Name String // String
 }
 
@@ -511,13 +509,13 @@ func (p *LoginLoginStart_758_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=login; Bound=client; ID=0x2
-// Protocol=757; State=login; Bound=client; ID=0x2
-// Protocol=756; State=login; Bound=client; ID=0x2
-// Protocol=755; State=login; Bound=client; ID=0x2
-// Protocol=754; State=login; Bound=client; ID=0x2
-// Protocol=753; State=login; Bound=client; ID=0x2
+
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=client; ID=0x2
+// Protocol=757; ProtocolName=1.18.1; State=login; Bound=client; ID=0x2
+// Protocol=756; ProtocolName=1.17.1; State=login; Bound=client; ID=0x2
+// Protocol=755; ProtocolName=1.17; State=login; Bound=client; ID=0x2
+// Protocol=754; ProtocolName=1.16.5; State=login; Bound=client; ID=0x2
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=client; ID=0x2
 type LoginLoginSuccess_758_0 struct {
 	UUID UUID // UUID
 	Username String // String (16)
@@ -539,19 +537,19 @@ func (p *LoginLoginSuccess_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=578; State=login; Bound=client; ID=0x2
-// Protocol=498; State=login; Bound=client; ID=0x2
-// Protocol=404; State=login; Bound=client; ID=0x2
-// Protocol=401; State=login; Bound=client; ID=0x2
-// Protocol=340; State=login; Bound=client; ID=0x2
-// Protocol=338; State=login; Bound=client; ID=0x2
-// Protocol=335; State=login; Bound=client; ID=0x2
-// Protocol=316; State=login; Bound=client; ID=0x2
-// Protocol=315; State=login; Bound=client; ID=0x2
-// Protocol=210; State=login; Bound=client; ID=0x2
-// Protocol=110; State=login; Bound=client; ID=0x2
-// Protocol=47; State=login; Bound=client; ID=0x2
+
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=client; ID=0x2
+// Protocol=498; ProtocolName=1.14.4; State=login; Bound=client; ID=0x2
+// Protocol=404; ProtocolName=1.13.2; State=login; Bound=client; ID=0x2
+// Protocol=401; ProtocolName=1.13.1; State=login; Bound=client; ID=0x2
+// Protocol=340; ProtocolName=1.12.2; State=login; Bound=client; ID=0x2
+// Protocol=338; ProtocolName=1.12.1; State=login; Bound=client; ID=0x2
+// Protocol=335; ProtocolName=1.12; State=login; Bound=client; ID=0x2
+// Protocol=316; ProtocolName=1.11.2; State=login; Bound=client; ID=0x2
+// Protocol=315; ProtocolName=1.11; State=login; Bound=client; ID=0x2
+// Protocol=210; ProtocolName=1.10.2; State=login; Bound=client; ID=0x2
+// Protocol=110; ProtocolName=1.9.4; State=login; Bound=client; ID=0x2
+// Protocol=47; ProtocolName=1.8.9; State=login; Bound=client; ID=0x2
 type LoginLoginSuccess_578_1 struct {
 	/* Unlike in other packets, this field contains the UUID as a string with hyphens. */
 	UUID String // String
@@ -574,32 +572,32 @@ func (p *LoginLoginSuccess_578_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=login; Bound=client; ID=0x3
-// Protocol=762; State=login; Bound=client; ID=0x3
-// Protocol=761; State=login; Bound=client; ID=0x3
-// Protocol=760; State=login; Bound=client; ID=0x3
-// Protocol=759; State=login; Bound=client; ID=0x3
-// Protocol=758; State=login; Bound=client; ID=0x3
-// Protocol=757; State=login; Bound=client; ID=0x3
-// Protocol=756; State=login; Bound=client; ID=0x3
-// Protocol=755; State=login; Bound=client; ID=0x3
-// Protocol=754; State=login; Bound=client; ID=0x3
-// Protocol=753; State=login; Bound=client; ID=0x3
-// Protocol=578; State=login; Bound=client; ID=0x3
-// Protocol=498; State=login; Bound=client; ID=0x3
-// Protocol=404; State=login; Bound=client; ID=0x3
-// Protocol=401; State=login; Bound=client; ID=0x3
-// Protocol=340; State=login; Bound=client; ID=0x3
-// Protocol=338; State=login; Bound=client; ID=0x3
-// Protocol=335; State=login; Bound=client; ID=0x3
-// Protocol=316; State=login; Bound=client; ID=0x3
-// Protocol=315; State=login; Bound=client; ID=0x3
-// Protocol=210; State=login; Bound=client; ID=0x3
-// Protocol=110; State=login; Bound=client; ID=0x3
-// Protocol=47; State=login; Bound=client; ID=0x3
+
+// Protocol=763; ProtocolName=1.20; State=login; Bound=client; ID=0x3
+// Protocol=762; ProtocolName=1.19.4; State=login; Bound=client; ID=0x3
+// Protocol=761; ProtocolName=1.19.3; State=login; Bound=client; ID=0x3
+// Protocol=760; ProtocolName=1.19.2; State=login; Bound=client; ID=0x3
+// Protocol=759; ProtocolName=1.19; State=login; Bound=client; ID=0x3
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=client; ID=0x3
+// Protocol=757; ProtocolName=1.18.1; State=login; Bound=client; ID=0x3
+// Protocol=756; ProtocolName=1.17.1; State=login; Bound=client; ID=0x3
+// Protocol=755; ProtocolName=1.17; State=login; Bound=client; ID=0x3
+// Protocol=754; ProtocolName=1.16.5; State=login; Bound=client; ID=0x3
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=client; ID=0x3
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=client; ID=0x3
+// Protocol=498; ProtocolName=1.14.4; State=login; Bound=client; ID=0x3
+// Protocol=404; ProtocolName=1.13.2; State=login; Bound=client; ID=0x3
+// Protocol=401; ProtocolName=1.13.1; State=login; Bound=client; ID=0x3
+// Protocol=340; ProtocolName=1.12.2; State=login; Bound=client; ID=0x3
+// Protocol=338; ProtocolName=1.12.1; State=login; Bound=client; ID=0x3
+// Protocol=335; ProtocolName=1.12; State=login; Bound=client; ID=0x3
+// Protocol=316; ProtocolName=1.11.2; State=login; Bound=client; ID=0x3
+// Protocol=315; ProtocolName=1.11; State=login; Bound=client; ID=0x3
+// Protocol=210; ProtocolName=1.10.2; State=login; Bound=client; ID=0x3
+// Protocol=110; ProtocolName=1.9.4; State=login; Bound=client; ID=0x3
+// Protocol=47; ProtocolName=1.8.9; State=login; Bound=client; ID=0x3
 type LoginSetCompression_763_0 struct {
-	/* Maximum size of a packet before it is compressed */
+	/* Maximum size of a packet before its compressed */
 	Threshold VarInt // VarInt
 }
 
@@ -615,12 +613,12 @@ func (p *LoginSetCompression_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x6
-// Protocol=762; State=play; Bound=client; ID=0x6
-// Protocol=761; State=play; Bound=client; ID=0x5
-// Protocol=760; State=play; Bound=client; ID=0x5
-// Protocol=759; State=play; Bound=client; ID=0x5
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x6
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x6
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x5
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x5
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x5
 type PlayAcknowledgeBlockChange_763_0 struct {
 	/* Represents the sequence to acknowledge, this is used for properly syncing block changes to the client after interactions. */
 	SequenceID VarInt // VarInt
@@ -638,23 +636,23 @@ func (p *PlayAcknowledgeBlockChange_763_0)DecodeFrom(r *PacketReader)(err error)
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x8
-// Protocol=757; State=play; Bound=client; ID=0x8
-// Protocol=756; State=play; Bound=client; ID=0x8
-// Protocol=755; State=play; Bound=client; ID=0x8
-// Protocol=754; State=play; Bound=client; ID=0x7
-// Protocol=753; State=play; Bound=client; ID=0x7
-// Protocol=578; State=play; Bound=client; ID=0x8
-// Protocol=498; State=play; Bound=client; ID=0x5c
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x8
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x8
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x8
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x8
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x7
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x7
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x8
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x5c
 type PlayAcknowledgePlayerDigging_758_0 struct {
-	/* Position where the digging was happening. */
+	/* Position where the digging was happening */
 	Location Position // Position
 	/* Block state ID of the block that should be at that position now. */
 	Block VarInt // VarInt
 	/* Same as Player Digging.  Only Started digging (0), Cancelled digging (1), and Finished digging (2) are used. */
 	Status VarInt // VarInt enum
-	/* True if the digging succeeded; false if the client should undo any changes it made locally. */
+	/* True if the digging succeeded; false if the client should undo any changes it made locally.  (How does this work?) */
 	Successful Bool // Boolean
 }
 
@@ -682,11 +680,11 @@ func (p *PlayAcknowledgePlayerDigging_758_0)DecodeFrom(r *PacketReader)(err erro
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x41
-// Protocol=757; State=play; Bound=client; ID=0x41
-// Protocol=756; State=play; Bound=client; ID=0x41
-// Protocol=755; State=play; Bound=client; ID=0x41
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x41
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x41
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x41
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x41
 type PlayActionBar_758_0 struct {
 	/* Displays a message above the hotbar (the same as position 2 in Chat Message (clientbound). */
 	ActionBarText Object // Chat
@@ -704,24 +702,24 @@ func (p *PlayActionBar_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x22
-// Protocol=757; State=play; Bound=server; ID=0x22
-// Protocol=756; State=play; Bound=server; ID=0x22
-// Protocol=755; State=play; Bound=server; ID=0x22
-// Protocol=754; State=play; Bound=server; ID=0x22
-// Protocol=753; State=play; Bound=server; ID=0x22
-// Protocol=578; State=play; Bound=server; ID=0x20
-// Protocol=498; State=play; Bound=server; ID=0x20
-// Protocol=404; State=play; Bound=server; ID=0x1e
-// Protocol=401; State=play; Bound=server; ID=0x1e
-// Protocol=340; State=play; Bound=server; ID=0x19
-// Protocol=338; State=play; Bound=server; ID=0x19
-// Protocol=335; State=play; Bound=server; ID=0x19
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x22
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x22
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x22
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x22
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x22
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x22
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x20
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x20
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x1e
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x1e
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x19
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x19
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x19
 type PlayAdvancementTab_758_0 struct {
-	/* 0: Opened tab, 1: Closed screen. */
+	/* 0: Opened tab, 1: Closed screen */
 	Action VarInt // VarInt enum
-	/* Only present if action is Opened tab. */
+	/* Only present if action is Opened tab */
 	TabID Identifier // Optional identifier
 }
 
@@ -741,15 +739,15 @@ func (p *PlayAdvancementTab_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x2c
-// Protocol=757; State=play; Bound=server; ID=0x2c
-// Protocol=756; State=play; Bound=server; ID=0x2c
-// Protocol=755; State=play; Bound=server; ID=0x2c
-// Protocol=754; State=play; Bound=server; ID=0x2c
-// Protocol=753; State=play; Bound=server; ID=0x2c
-// Protocol=578; State=play; Bound=server; ID=0x2a
-// Protocol=498; State=play; Bound=server; ID=0x2a
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x2c
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x2c
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x2c
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x2c
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x2c
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x2c
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x2a
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x2a
 type PlayAnimation_758_0 struct {
 	/* Hand used for the animation. 0: main hand, 1: off hand. */
 	Hand VarInt // VarInt Enum
@@ -767,12 +765,13 @@ func (p *PlayAnimation_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x6
-// Protocol=401; State=play; Bound=client; ID=0x6
-// Protocol=340; State=play; Bound=client; ID=0x6
-// Protocol=316; State=play; Bound=client; ID=0x6
-// Protocol=210; State=play; Bound=client; ID=0x6
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x6
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x6
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x6
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x6
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x6
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0xb
 type PlayAnimation_404_1 struct {
 	/* Player ID */
 	EntityID VarInt // VarInt
@@ -796,12 +795,12 @@ func (p *PlayAnimation_404_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=server; ID=0x27
-// Protocol=401; State=play; Bound=server; ID=0x27
-// Protocol=340; State=play; Bound=server; ID=0x1d
-// Protocol=316; State=play; Bound=server; ID=0x1a
-// Protocol=210; State=play; Bound=server; ID=0x1a
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x27
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x27
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x1d
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x1d
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x1a
 type PlayAnimation_404_2 struct {
 	/* Hand used for the animation. 0: main hand, 1: off hand. */
 	Hand VarInt // VarInt Enum
@@ -819,26 +818,24 @@ func (p *PlayAnimation_404_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=338; State=play; Bound=client; ID=0x6
-// Protocol=315; State=play; Bound=client; ID=0x6
-// Protocol=110; State=play; Bound=client; ID=0x6
-// Protocol=47; State=play; Bound=client; ID=0xb
-type PlayAnimation_338_3 struct {
+
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x6
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x6
+type PlayAnimation_335_3 struct {
 	/* Player ID */
 	EntityID VarInt // VarInt
 	/* Animation ID (see below) */
 	Animation UByte // Unsigned Byte
 }
 
-var _ Packet = (*PlayAnimation_338_3)(nil)
+var _ Packet = (*PlayAnimation_335_3)(nil)
 
-func (p PlayAnimation_338_3)Encode(b *PacketBuilder){
+func (p PlayAnimation_335_3)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
 	b.UByte(p.Animation)
 }
 
-func (p *PlayAnimation_338_3)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayAnimation_335_3)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
@@ -847,45 +844,90 @@ func (p *PlayAnimation_338_3)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=338; State=play; Bound=server; ID=0x1d
-// Protocol=315; State=play; Bound=server; ID=0x1a
-// Protocol=110; State=play; Bound=server; ID=0x1a
-type PlayAnimation_338_4 struct {
+
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x1d
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x1a
+type PlayAnimation_335_4 struct {
 	/* Hand used for the animation. 0: main hand, 1: off hand. */
 	Hand VarInt // VarInt Enum
 }
 
-var _ Packet = (*PlayAnimation_338_4)(nil)
+var _ Packet = (*PlayAnimation_335_4)(nil)
 
-func (p PlayAnimation_338_4)Encode(b *PacketBuilder){
+func (p PlayAnimation_335_4)Encode(b *PacketBuilder){
 	b.VarInt(p.Hand)
 }
 
-func (p *PlayAnimation_338_4)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayAnimation_335_4)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Hand, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x4e
-// Protocol=757; State=play; Bound=client; ID=0x4e
-// Protocol=756; State=play; Bound=client; ID=0x4e
-// Protocol=755; State=play; Bound=client; ID=0x4e
-// Protocol=754; State=play; Bound=client; ID=0x45
-// Protocol=753; State=play; Bound=client; ID=0x45
-// Protocol=578; State=play; Bound=client; ID=0x45
-// Protocol=498; State=play; Bound=client; ID=0x44
-// Protocol=404; State=play; Bound=client; ID=0x40
-// Protocol=401; State=play; Bound=client; ID=0x40
-// Protocol=340; State=play; Bound=client; ID=0x3d
-// Protocol=338; State=play; Bound=client; ID=0x3d
-// Protocol=335; State=play; Bound=client; ID=0x3c
-// Protocol=316; State=play; Bound=client; ID=0x3a
-// Protocol=315; State=play; Bound=client; ID=0x3a
-// Protocol=210; State=play; Bound=client; ID=0x3a
-// Protocol=110; State=play; Bound=client; ID=0x3a
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x6
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x6
+type PlayAnimation_210_5 struct {
+	/* Player ID */
+	EntityID VarInt // VarInt
+	/* Animation ID (see below) */
+	Animation UByte // Unsigned Byte
+}
+
+var _ Packet = (*PlayAnimation_210_5)(nil)
+
+func (p PlayAnimation_210_5)Encode(b *PacketBuilder){
+	b.VarInt(p.EntityID)
+	b.UByte(p.Animation)
+}
+
+func (p *PlayAnimation_210_5)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.EntityID, ok = r.VarInt(); !ok {
+		return io.EOF
+	}
+	if p.Animation, ok = r.UByte(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x1a
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x1a
+type PlayAnimation_210_6 struct {
+	/* Hand used for the animation. 0: main hand, 1: off hand. */
+	Hand VarInt // VarInt Enum
+}
+
+var _ Packet = (*PlayAnimation_210_6)(nil)
+
+func (p PlayAnimation_210_6)Encode(b *PacketBuilder){
+	b.VarInt(p.Hand)
+}
+
+func (p *PlayAnimation_210_6)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Hand, ok = r.VarInt(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x4e
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x4e
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x4e
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x4e
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x45
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x45
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x45
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x44
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x40
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x40
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x3d
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x3d
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x3c
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x3a
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x3a
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x3a
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x3a
 type PlayAttachEntity_758_0 struct {
 	/* Attached entity's EID */
 	AttachedEntityID Int // Int
@@ -909,12 +951,12 @@ func (p *PlayAttachEntity_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x9
-// Protocol=762; State=play; Bound=client; ID=0x9
-// Protocol=761; State=play; Bound=client; ID=0x8
-// Protocol=760; State=play; Bound=client; ID=0x8
-// Protocol=759; State=play; Bound=client; ID=0x8
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x9
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x9
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x8
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x8
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x8
 type PlayBlockAction_763_0 struct {
 	/* Block coordinates. */
 	Location Position // Position
@@ -922,7 +964,7 @@ type PlayBlockAction_763_0 struct {
 	ActionID UByte // Unsigned Byte
 	/* Varies depending on block — see Block Actions. */
 	ActionParameter UByte // Unsigned Byte
-	/* The block type ID for the block. This value is unused by the Notchian client, as it will infer the type of block based on the given position. */
+	/* The block type ID for the block.  This must match the block at the given coordinates. */
 	BlockType VarInt // VarInt
 }
 
@@ -950,23 +992,23 @@ func (p *PlayBlockAction_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0xb
-// Protocol=757; State=play; Bound=client; ID=0xb
-// Protocol=756; State=play; Bound=client; ID=0xb
-// Protocol=755; State=play; Bound=client; ID=0xb
-// Protocol=754; State=play; Bound=client; ID=0xa
-// Protocol=753; State=play; Bound=client; ID=0xa
-// Protocol=578; State=play; Bound=client; ID=0xb
-// Protocol=498; State=play; Bound=client; ID=0xa
-// Protocol=404; State=play; Bound=client; ID=0xa
-// Protocol=401; State=play; Bound=client; ID=0xa
-// Protocol=340; State=play; Bound=client; ID=0xa
-// Protocol=338; State=play; Bound=client; ID=0xa
-// Protocol=335; State=play; Bound=client; ID=0xa
-// Protocol=316; State=play; Bound=client; ID=0xa
-// Protocol=315; State=play; Bound=client; ID=0xa
-// Protocol=210; State=play; Bound=client; ID=0xa
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0xb
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0xb
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0xb
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0xb
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0xa
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0xa
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0xb
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0xa
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0xa
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0xa
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0xa
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0xa
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0xa
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0xa
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0xa
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0xa
 type PlayBlockAction_758_1 struct {
 	/* Block coordinates */
 	Location Position // Position
@@ -1002,9 +1044,9 @@ func (p *PlayBlockAction_758_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=110; State=play; Bound=client; ID=0xa
-// Protocol=47; State=play; Bound=client; ID=0x24
+
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0xa
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x24
 type PlayBlockAction_110_2 struct {
 	/* Block coordinates */
 	Location Position // Position
@@ -1040,27 +1082,27 @@ func (p *PlayBlockAction_110_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x9
-// Protocol=757; State=play; Bound=client; ID=0x9
-// Protocol=756; State=play; Bound=client; ID=0x9
-// Protocol=755; State=play; Bound=client; ID=0x9
-// Protocol=754; State=play; Bound=client; ID=0x8
-// Protocol=753; State=play; Bound=client; ID=0x8
-// Protocol=578; State=play; Bound=client; ID=0x9
-// Protocol=498; State=play; Bound=client; ID=0x8
-// Protocol=404; State=play; Bound=client; ID=0x8
-// Protocol=401; State=play; Bound=client; ID=0x8
-// Protocol=340; State=play; Bound=client; ID=0x8
-// Protocol=338; State=play; Bound=client; ID=0x8
-// Protocol=335; State=play; Bound=client; ID=0x8
-// Protocol=316; State=play; Bound=client; ID=0x8
-// Protocol=315; State=play; Bound=client; ID=0x8
-// Protocol=210; State=play; Bound=client; ID=0x8
-// Protocol=110; State=play; Bound=client; ID=0x8
-// Protocol=47; State=play; Bound=client; ID=0x25
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x9
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x9
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x9
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x9
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x8
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x8
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x9
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x8
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x8
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x8
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x8
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x8
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x8
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x8
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x8
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x8
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x8
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x25
 type PlayBlockBreakAnimation_758_0 struct {
-	/* Entity ID of the entity breaking the block */
+	/* EID for the animation */
 	EntityID VarInt // VarInt
 	/* Block Position */
 	Location Position // Position
@@ -1088,25 +1130,25 @@ func (p *PlayBlockBreakAnimation_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0xc
-// Protocol=757; State=play; Bound=client; ID=0xc
-// Protocol=756; State=play; Bound=client; ID=0xc
-// Protocol=755; State=play; Bound=client; ID=0xc
-// Protocol=754; State=play; Bound=client; ID=0xb
-// Protocol=753; State=play; Bound=client; ID=0xb
-// Protocol=578; State=play; Bound=client; ID=0xc
-// Protocol=498; State=play; Bound=client; ID=0xb
-// Protocol=404; State=play; Bound=client; ID=0xb
-// Protocol=401; State=play; Bound=client; ID=0xb
-// Protocol=340; State=play; Bound=client; ID=0xb
-// Protocol=338; State=play; Bound=client; ID=0xb
-// Protocol=335; State=play; Bound=client; ID=0xb
-// Protocol=316; State=play; Bound=client; ID=0xb
-// Protocol=315; State=play; Bound=client; ID=0xb
-// Protocol=210; State=play; Bound=client; ID=0xb
-// Protocol=110; State=play; Bound=client; ID=0xb
-// Protocol=47; State=play; Bound=client; ID=0x23
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0xc
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0xc
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0xc
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0xc
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0xb
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0xb
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0xc
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0xb
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0xb
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0xb
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0xb
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0xb
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0xb
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0xb
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0xb
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0xb
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0xb
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x23
 type PlayBlockChange_758_0 struct {
 	/* Block Coordinates */
 	Location Position // Position
@@ -1130,14 +1172,14 @@ func (p *PlayBlockChange_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x8
-// Protocol=762; State=play; Bound=client; ID=0x8
-// Protocol=761; State=play; Bound=client; ID=0x7
-// Protocol=760; State=play; Bound=client; ID=0x7
-// Protocol=759; State=play; Bound=client; ID=0x7
-// Protocol=758; State=play; Bound=client; ID=0xa
-// Protocol=757; State=play; Bound=client; ID=0xa
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x8
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x8
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x7
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x7
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x7
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0xa
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0xa
 type PlayBlockEntityData_763_0 struct {
 	Location Position // Position
 	/* The type of the block entity */
@@ -1166,17 +1208,17 @@ func (p *PlayBlockEntityData_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=756; State=play; Bound=client; ID=0xa
-// Protocol=755; State=play; Bound=client; ID=0xa
-// Protocol=754; State=play; Bound=client; ID=0x9
-// Protocol=753; State=play; Bound=client; ID=0x9
-// Protocol=578; State=play; Bound=client; ID=0xa
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0xa
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0xa
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x9
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x9
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0xa
 type PlayBlockEntityData_756_1 struct {
 	Location Position // Position
-	/* The type of update to perform, see below. */
+	/* The type of update to perform, see below */
 	Action UByte // Unsigned Byte
-	/* Data to set.  May be a TAG_END (0), in which case the block entity at the given location is removed (though this is not required since the client will remove the block entity automatically on chunk unload or block removal). */
+	/* Data to set.  May be a TAG_END (0), in which case the block entity at the given location is removed (though this is not required since the client will remove the block entity automatically on chunk unload or block removal) */
 	NBTData NBT // NBT Tag
 }
 
@@ -1200,12 +1242,12 @@ func (p *PlayBlockEntityData_756_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0xa
-// Protocol=762; State=play; Bound=client; ID=0xa
-// Protocol=761; State=play; Bound=client; ID=0x9
-// Protocol=760; State=play; Bound=client; ID=0x9
-// Protocol=759; State=play; Bound=client; ID=0x9
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0xa
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0xa
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x9
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x9
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x9
 type PlayBlockUpdate_763_0 struct {
 	/* Block Coordinates. */
 	Location Position // Position
@@ -1229,9 +1271,9 @@ func (p *PlayBlockUpdate_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x0
-// Protocol=762; State=play; Bound=client; ID=0x0
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x0
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x0
 type PlayBundleDelimiter_763_0 struct {
 }
 
@@ -1241,25 +1283,25 @@ func (p PlayBundleDelimiter_763_0)Encode(b *PacketBuilder){
 }
 
 func (p *PlayBundleDelimiter_763_0)DecodeFrom(r *PacketReader)(err error){ return }
-				
-// Protocol=758; State=play; Bound=client; ID=0x47
-// Protocol=757; State=play; Bound=client; ID=0x47
-// Protocol=756; State=play; Bound=client; ID=0x47
-// Protocol=755; State=play; Bound=client; ID=0x47
-// Protocol=754; State=play; Bound=client; ID=0x3e
-// Protocol=753; State=play; Bound=client; ID=0x3e
-// Protocol=578; State=play; Bound=client; ID=0x3f
-// Protocol=498; State=play; Bound=client; ID=0x3e
-// Protocol=404; State=play; Bound=client; ID=0x3c
-// Protocol=401; State=play; Bound=client; ID=0x3c
-// Protocol=340; State=play; Bound=client; ID=0x39
-// Protocol=338; State=play; Bound=client; ID=0x39
-// Protocol=335; State=play; Bound=client; ID=0x38
-// Protocol=316; State=play; Bound=client; ID=0x36
-// Protocol=315; State=play; Bound=client; ID=0x36
-// Protocol=210; State=play; Bound=client; ID=0x36
-// Protocol=110; State=play; Bound=client; ID=0x36
-// Protocol=47; State=play; Bound=client; ID=0x43
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x47
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x47
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x47
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x47
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x3e
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x3e
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x3f
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x3e
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x3c
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x3c
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x39
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x39
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x38
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x36
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x36
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x36
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x36
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x43
 type PlayCamera_758_0 struct {
 	/* ID of the entity to set the client's camera to */
 	CameraID VarInt // VarInt
@@ -1277,9 +1319,10 @@ func (p *PlayCamera_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0xc
-// Protocol=762; State=play; Bound=client; ID=0xc
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0xc
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0xc
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0xb
 type PlayChangeDifficulty_763_0 struct {
 	/* 0: peaceful, 1: easy, 2: normal, 3: hard. */
 	Difficulty UByte // Unsigned Byte
@@ -1302,9 +1345,10 @@ func (p *PlayChangeDifficulty_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x2
-// Protocol=762; State=play; Bound=server; ID=0x2
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x2
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x2
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x2
 type PlayChangeDifficulty_763_1 struct {
 	/* 0: peaceful, 1: easy, 2: normal, 3: hard . */
 	NewDifficulty Byte // Byte
@@ -1322,23 +1366,23 @@ func (p *PlayChangeDifficulty_763_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=client; ID=0xb
-// Protocol=759; State=play; Bound=client; ID=0xb
-type PlayChangeDifficulty_761_2 struct {
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0xb
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0xb
+type PlayChangeDifficulty_760_2 struct {
 	/* 0: peaceful, 1: easy, 2: normal, 3: hard. */
 	Difficulty UByte // Unsigned Byte
 	DifficultyLocked Bool // Boolean
 }
 
-var _ Packet = (*PlayChangeDifficulty_761_2)(nil)
+var _ Packet = (*PlayChangeDifficulty_760_2)(nil)
 
-func (p PlayChangeDifficulty_761_2)Encode(b *PacketBuilder){
+func (p PlayChangeDifficulty_760_2)Encode(b *PacketBuilder){
 	b.UByte(p.Difficulty)
 	b.Bool(p.DifficultyLocked)
 }
 
-func (p *PlayChangeDifficulty_761_2)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayChangeDifficulty_760_2)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Difficulty, ok = r.UByte(); !ok {
 		return io.EOF
@@ -1347,45 +1391,45 @@ func (p *PlayChangeDifficulty_761_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=server; ID=0x2
-// Protocol=759; State=play; Bound=server; ID=0x2
-type PlayChangeDifficulty_761_3 struct {
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x2
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x2
+type PlayChangeDifficulty_760_3 struct {
 	/* 0: peaceful, 1: easy, 2: normal, 3: hard . */
 	NewDifficulty Byte // Byte
 }
 
-var _ Packet = (*PlayChangeDifficulty_761_3)(nil)
+var _ Packet = (*PlayChangeDifficulty_760_3)(nil)
 
-func (p PlayChangeDifficulty_761_3)Encode(b *PacketBuilder){
+func (p PlayChangeDifficulty_760_3)Encode(b *PacketBuilder){
 	b.Byte(p.NewDifficulty)
 }
 
-func (p *PlayChangeDifficulty_761_3)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayChangeDifficulty_760_3)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.NewDifficulty, ok = r.Byte(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x1e
-// Protocol=757; State=play; Bound=client; ID=0x1e
-// Protocol=756; State=play; Bound=client; ID=0x1e
-// Protocol=755; State=play; Bound=client; ID=0x1e
-// Protocol=754; State=play; Bound=client; ID=0x1d
-// Protocol=753; State=play; Bound=client; ID=0x1d
-// Protocol=578; State=play; Bound=client; ID=0x1f
-// Protocol=498; State=play; Bound=client; ID=0x1e
-// Protocol=404; State=play; Bound=client; ID=0x20
-// Protocol=401; State=play; Bound=client; ID=0x20
-// Protocol=340; State=play; Bound=client; ID=0x1e
-// Protocol=338; State=play; Bound=client; ID=0x1e
-// Protocol=335; State=play; Bound=client; ID=0x1e
-// Protocol=316; State=play; Bound=client; ID=0x1e
-// Protocol=315; State=play; Bound=client; ID=0x1e
-// Protocol=210; State=play; Bound=client; ID=0x1e
-// Protocol=110; State=play; Bound=client; ID=0x1e
-// Protocol=47; State=play; Bound=client; ID=0x2b
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x1e
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x1e
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x1e
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x1e
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x1d
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x1d
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x1f
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x1e
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x20
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x20
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x1e
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x1e
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x1e
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x1e
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x1e
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x1e
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x1e
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x2b
 type PlayChangeGameState_758_0 struct {
 	/* See below */
 	Reason UByte // Unsigned Byte
@@ -1409,12 +1453,12 @@ func (p *PlayChangeGameState_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x21
-// Protocol=762; State=play; Bound=server; ID=0x21
-// Protocol=761; State=play; Bound=server; ID=0x21
-// Protocol=760; State=play; Bound=server; ID=0x21
-// Protocol=759; State=play; Bound=server; ID=0x20
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x21
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x21
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x21
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x21
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x20
 type PlayChangeRecipeBookSettings_763_0 struct {
 	/* 0: crafting, 1: furnace, 2: blast furnace, 3: smoker. */
 	BookID VarInt // VarInt Enum
@@ -1442,10 +1486,10 @@ func (p *PlayChangeRecipeBookSettings_763_0)DecodeFrom(r *PacketReader)(err erro
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x5
-// Protocol=762; State=play; Bound=server; ID=0x5
-// Protocol=761; State=play; Bound=server; ID=0x5
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x5
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x5
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x5
 type PlayChatMessage_763_0 struct {
 	Message String // String (256 chars)
 	Timestamp Long // Long
@@ -1495,12 +1539,12 @@ func (p *PlayChatMessage_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0xf
-// Protocol=757; State=play; Bound=client; ID=0xf
-// Protocol=756; State=play; Bound=client; ID=0xf
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0xf
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0xf
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0xe
 type PlayChatMessage_758_2 struct {
-	/* Limited to 262144 bytes. */
+	/* Limited to 32767 bytes */
 	JSONData Object // Chat
 	/* 0: chat (chat box), 1: system message (chat box), 2: game info (above hotbar). */
 	Position Byte // Byte
@@ -1528,12 +1572,12 @@ func (p *PlayChatMessage_758_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x3
-// Protocol=757; State=play; Bound=server; ID=0x3
-// Protocol=756; State=play; Bound=server; ID=0x3
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x3
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x3
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x3
 type PlayChatMessage_758_3 struct {
-	/* The client sends the raw input, not a Chat component. */
+	/* The client sends the raw input, not a Chat component */
 	Message String // String (256)
 }
 
@@ -1549,11 +1593,12 @@ func (p *PlayChatMessage_758_3)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=755; State=play; Bound=client; ID=0xf
-// Protocol=753; State=play; Bound=client; ID=0xe
-type PlayChatMessage_755_4 struct {
-	/* Limited to 32767 bytes */
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0xf
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0xf
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0xe
+type PlayChatMessage_756_4 struct {
+	/* Limited to 262144 bytes. */
 	JSONData Object // Chat
 	/* 0: chat (chat box), 1: system message (chat box), 2: game info (above hotbar). */
 	Position Byte // Byte
@@ -1561,15 +1606,15 @@ type PlayChatMessage_755_4 struct {
 	Sender UUID // UUID
 }
 
-var _ Packet = (*PlayChatMessage_755_4)(nil)
+var _ Packet = (*PlayChatMessage_756_4)(nil)
 
-func (p PlayChatMessage_755_4)Encode(b *PacketBuilder){
+func (p PlayChatMessage_756_4)Encode(b *PacketBuilder){
 	b.JSON(p.JSONData)
 	b.Byte(p.Position)
 	b.UUID(p.Sender)
 }
 
-func (p *PlayChatMessage_755_4)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayChatMessage_756_4)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if err = r.JSON(&p.JSONData); err != nil {
 		return
@@ -1581,45 +1626,46 @@ func (p *PlayChatMessage_755_4)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=755; State=play; Bound=server; ID=0x3
-// Protocol=753; State=play; Bound=server; ID=0x3
-type PlayChatMessage_755_5 struct {
-	/* The client sends the raw input, not a Chat component */
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x3
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x3
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x3
+type PlayChatMessage_756_5 struct {
+	/* The client sends the raw input, not a Chat component. */
 	Message String // String (256)
 }
 
-var _ Packet = (*PlayChatMessage_755_5)(nil)
+var _ Packet = (*PlayChatMessage_756_5)(nil)
 
-func (p PlayChatMessage_755_5)Encode(b *PacketBuilder){
+func (p PlayChatMessage_756_5)Encode(b *PacketBuilder){
 	b.String(p.Message)
 }
 
-func (p *PlayChatMessage_755_5)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayChatMessage_756_5)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Message, ok = r.String(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=578; State=play; Bound=client; ID=0xf
-// Protocol=316; State=play; Bound=client; ID=0xf
-// Protocol=210; State=play; Bound=client; ID=0xf
-type PlayChatMessage_578_8 struct {
+
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0xf
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0xf
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x2
+type PlayChatMessage_578_6 struct {
 	/* Limited to 32767 bytes */
 	JSONData Object // Chat
 	/* 0: chat (chat box), 1: system message (chat box), 2: above hotbar */
 	Position Byte // Byte
 }
 
-var _ Packet = (*PlayChatMessage_578_8)(nil)
+var _ Packet = (*PlayChatMessage_578_6)(nil)
 
-func (p PlayChatMessage_578_8)Encode(b *PacketBuilder){
+func (p PlayChatMessage_578_6)Encode(b *PacketBuilder){
 	b.JSON(p.JSONData)
 	b.Byte(p.Position)
 }
 
-func (p *PlayChatMessage_578_8)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayChatMessage_578_6)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if err = r.JSON(&p.JSONData); err != nil {
 		return
@@ -1628,84 +1674,132 @@ func (p *PlayChatMessage_578_8)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=578; State=play; Bound=server; ID=0x3
-// Protocol=316; State=play; Bound=server; ID=0x2
-// Protocol=210; State=play; Bound=server; ID=0x2
-type PlayChatMessage_578_9 struct {
-	/* The client sends the raw input, not a Chat component */
-	Message String // String
-}
 
-var _ Packet = (*PlayChatMessage_578_9)(nil)
-
-func (p PlayChatMessage_578_9)Encode(b *PacketBuilder){
-	b.String(p.Message)
-}
-
-func (p *PlayChatMessage_578_9)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Message, ok = r.String(); !ok {
-		return io.EOF
-	}
-}
-				
-// Protocol=404; State=play; Bound=client; ID=0xe
-// Protocol=401; State=play; Bound=client; ID=0xe
-// Protocol=340; State=play; Bound=client; ID=0xf
-// Protocol=315; State=play; Bound=client; ID=0xf
-// Protocol=110; State=play; Bound=client; ID=0xf
-// Protocol=47; State=play; Bound=client; ID=0x2
-type PlayChatMessage_404_12 struct {
-	/* Limited to 32767 bytes */
-	JSONData Object // Chat
-	/* 0: chat (chat box), 1: system message (chat box), 2: above hotbar */
-	Position Byte // Byte
-}
-
-var _ Packet = (*PlayChatMessage_404_12)(nil)
-
-func (p PlayChatMessage_404_12)Encode(b *PacketBuilder){
-	b.JSON(p.JSONData)
-	b.Byte(p.Position)
-}
-
-func (p *PlayChatMessage_404_12)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if err = r.JSON(&p.JSONData); err != nil {
-		return
-	}
-	if p.Position, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-}
-				
-// Protocol=404; State=play; Bound=server; ID=0x2
-// Protocol=401; State=play; Bound=server; ID=0x2
-// Protocol=340; State=play; Bound=server; ID=0x2
-// Protocol=315; State=play; Bound=server; ID=0x2
-// Protocol=110; State=play; Bound=server; ID=0x2
-// Protocol=47; State=play; Bound=server; ID=0x1
-type PlayChatMessage_404_13 struct {
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x3
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x2
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x1
+type PlayChatMessage_578_7 struct {
 	/* The client sends the raw input, not Chat */
 	Message String // String
 }
 
-var _ Packet = (*PlayChatMessage_404_13)(nil)
+var _ Packet = (*PlayChatMessage_578_7)(nil)
 
-func (p PlayChatMessage_404_13)Encode(b *PacketBuilder){
+func (p PlayChatMessage_578_7)Encode(b *PacketBuilder){
 	b.String(p.Message)
 }
 
-func (p *PlayChatMessage_404_13)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayChatMessage_578_7)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Message, ok = r.String(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0xc
-// Protocol=759; State=play; Bound=client; ID=0xc
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0xe
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0xf
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0xf
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0xf
+type PlayChatMessage_498_8 struct {
+	/* Limited to 32767 bytes */
+	JSONData Object // Chat
+	/* 0: chat (chat box), 1: system message (chat box), 2: game info (above hotbar). */
+	Position Byte // Byte
+}
+
+var _ Packet = (*PlayChatMessage_498_8)(nil)
+
+func (p PlayChatMessage_498_8)Encode(b *PacketBuilder){
+	b.JSON(p.JSONData)
+	b.Byte(p.Position)
+}
+
+func (p *PlayChatMessage_498_8)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if err = r.JSON(&p.JSONData); err != nil {
+		return
+	}
+	if p.Position, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x3
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x2
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x2
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x2
+type PlayChatMessage_498_9 struct {
+	/* The client sends the raw input, not a Chat component */
+	Message String // String (256)
+}
+
+var _ Packet = (*PlayChatMessage_498_9)(nil)
+
+func (p PlayChatMessage_498_9)Encode(b *PacketBuilder){
+	b.String(p.Message)
+}
+
+func (p *PlayChatMessage_498_9)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Message, ok = r.String(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0xe
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0xe
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0xf
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0xf
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0xf
+type PlayChatMessage_404_10 struct {
+	/* Limited to 32767 bytes */
+	JSONData Object // Chat
+	/* 0: chat (chat box), 1: system message (chat box), 2: above hotbar */
+	Position Byte // Byte
+}
+
+var _ Packet = (*PlayChatMessage_404_10)(nil)
+
+func (p PlayChatMessage_404_10)Encode(b *PacketBuilder){
+	b.JSON(p.JSONData)
+	b.Byte(p.Position)
+}
+
+func (p *PlayChatMessage_404_10)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if err = r.JSON(&p.JSONData); err != nil {
+		return
+	}
+	if p.Position, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x2
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x2
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x3
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x2
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x2
+type PlayChatMessage_404_11 struct {
+	/* The client sends the raw input, not a Chat component */
+	Message String // String
+}
+
+var _ Packet = (*PlayChatMessage_404_11)(nil)
+
+func (p PlayChatMessage_404_11)Encode(b *PacketBuilder){
+	b.String(p.Message)
+}
+
+func (p *PlayChatMessage_404_11)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Message, ok = r.String(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0xc
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0xc
 type PlayChatPreview_760_0 struct {
 	QueryID Int // Integer
 	ComponentIsPresent Bool // Boolean
@@ -1732,9 +1826,9 @@ func (p *PlayChatPreview_760_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=760; State=play; Bound=server; ID=0x6
-// Protocol=759; State=play; Bound=server; ID=0x5
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x6
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x5
 type PlayChatPreview_760_1 struct {
 	Query Int // Integer
 	Message String // String (256)
@@ -1756,11 +1850,11 @@ func (p *PlayChatPreview_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x16
-// Protocol=762; State=play; Bound=client; ID=0x16
-// Protocol=761; State=play; Bound=client; ID=0x14
-// Protocol=760; State=play; Bound=client; ID=0x15
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x16
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x16
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x14
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x15
 type PlayChatSuggestions_763_0 struct {
 	/* 0: Add, 1: Remove, 2: Set */
 	Action VarInt // VarInt Enum
@@ -1795,9 +1889,9 @@ func (p *PlayChatSuggestions_763_0)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=756; State=play; Bound=client; ID=0x22
-// Protocol=755; State=play; Bound=client; ID=0x22
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x22
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x22
 type PlayChunkData_756_0 struct {
 	/* Chunk coordinate (block coordinate divided by 16, rounded down) */
 	ChunkX Int // Int
@@ -1807,11 +1901,11 @@ type PlayChunkData_756_0 struct {
 	BitMaskLength VarInt // VarInt
 	/* BitSet with bits (world height in blocks / 16) set to 1 for every 16×16×16 chunk section whose data is included in Data. The least significant bit represents the chunk section at the bottom of the chunk column (from the lowest y to 15 blocks above). */
 	PrimaryBitMask []Long // Array of Long
-	/* Compound containing one long array named MOTION_BLOCKING, which is a heightmap for the highest solid block at each position in the chunk (as a compacted long array with 256 entries at 9 bits per entry totaling 37 longs). The Notchian server also adds a WORLD_SURFACE long array, the purpose of which is unknown, but it's not required for the chunk to be accepted. */
+	/* Compound containing one long array named MOTION_BLOCKING, which is a heightmap for the highest solid block at each position in the chunk (as a compacted long array with 256 entries at 9 bits per entry totaling 36 longs). The Notchian server also adds a WORLD_SURFACE long array, the purpose of which is unknown, but it's not required for the chunk to be accepted. */
 	Heightmaps NBT // NBT
-	/* Size of the following array */
+	/* Size of the following array; should always be 1024. */
 	BiomesLength VarInt // VarInt
-	/* Biome IDs, ordered by x then z then y, in 4×4×4 blocks.  See Chunk Format § Biomes. */
+	/* 1024 biome IDs, ordered by x then z then y, in 4×4×4 blocks.  See Chunk Format § Biomes. */
 	Biomes []VarInt // Array of VarInt
 	/* Size of Data in bytes */
 	Size VarInt // VarInt
@@ -1890,9 +1984,9 @@ func (p *PlayChunkData_756_0)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x20
-// Protocol=753; State=play; Bound=client; ID=0x20
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x20
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x20
 type PlayChunkData_754_1 struct {
 	/* Chunk coordinate (block coordinate divided by 16, rounded down) */
 	ChunkX Int // Int
@@ -1982,11 +2076,11 @@ func (p *PlayChunkData_754_1)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=401; State=play; Bound=client; ID=0x22
-// Protocol=340; State=play; Bound=client; ID=0x20
-// Protocol=338; State=play; Bound=client; ID=0x20
-// Protocol=335; State=play; Bound=client; ID=0x20
+
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x22
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x20
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x20
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x20
 type PlayChunkData_401_5 struct {
 	/* Chunk coordinate (block coordinate divided by 16, rounded down) */
 	ChunkX Int // Int
@@ -2000,7 +2094,7 @@ type PlayChunkData_401_5 struct {
 	Size VarInt // VarInt
 	/* See data structure in Chunk Format */
 	Data ByteArray // Byte array
-	/* Number of elements in the following array */
+	/* Length of the following array */
 	NumberOfBlockEntities VarInt // VarInt
 	/* All block entities in the chunk.  Use the x, y, and z tags in the NBT to determine their positions. */
 	BlockEntities []NBT // Array of NBT Tag
@@ -2052,11 +2146,11 @@ func (p *PlayChunkData_401_5)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=316; State=play; Bound=client; ID=0x20
-// Protocol=315; State=play; Bound=client; ID=0x20
-// Protocol=210; State=play; Bound=client; ID=0x20
-// Protocol=110; State=play; Bound=client; ID=0x20
+
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x20
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x20
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x20
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x20
 type PlayChunkData_316_6 struct {
 	/* Block coordinate divided by 16, rounded down */
 	ChunkX Int // Int
@@ -2126,16 +2220,16 @@ func (p *PlayChunkData_316_6)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0xe
-// Protocol=762; State=play; Bound=client; ID=0xe
-// Protocol=761; State=play; Bound=client; ID=0xc
-// Protocol=760; State=play; Bound=client; ID=0xd
-// Protocol=759; State=play; Bound=client; ID=0xd
-// Protocol=758; State=play; Bound=client; ID=0x10
-// Protocol=757; State=play; Bound=client; ID=0x10
-// Protocol=756; State=play; Bound=client; ID=0x10
-// Protocol=755; State=play; Bound=client; ID=0x10
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0xe
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0xe
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0xc
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0xd
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0xd
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x10
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x10
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x10
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x10
 type PlayClearTitles_763_0 struct {
 	Reset Bool // Boolean
 }
@@ -2152,12 +2246,12 @@ func (p *PlayClearTitles_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0xa
-// Protocol=762; State=play; Bound=server; ID=0xa
-// Protocol=761; State=play; Bound=server; ID=0x9
-// Protocol=760; State=play; Bound=server; ID=0xa
-// Protocol=759; State=play; Bound=server; ID=0x9
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0xa
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0xa
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x9
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0xa
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x9
 type PlayClickContainerButton_763_0 struct {
 	/* The ID of the window sent by Open Screen. */
 	WindowID Byte // Byte
@@ -2181,20 +2275,20 @@ func (p *PlayClickContainerButton_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=754; State=play; Bound=server; ID=0x9
-// Protocol=753; State=play; Bound=server; ID=0x9
-// Protocol=578; State=play; Bound=server; ID=0x9
-// Protocol=498; State=play; Bound=server; ID=0x9
-// Protocol=404; State=play; Bound=server; ID=0x8
-// Protocol=401; State=play; Bound=server; ID=0x8
-// Protocol=340; State=play; Bound=server; ID=0x7
-// Protocol=338; State=play; Bound=server; ID=0x7
-// Protocol=335; State=play; Bound=server; ID=0x8
-// Protocol=316; State=play; Bound=server; ID=0x7
-// Protocol=315; State=play; Bound=server; ID=0x7
-// Protocol=210; State=play; Bound=server; ID=0x7
-// Protocol=110; State=play; Bound=server; ID=0x7
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x9
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x9
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x9
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x9
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x8
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x8
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x7
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x7
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x8
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x7
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x7
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x7
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x7
 type PlayClickWindow_754_0 struct {
 	/* The ID of the window which was clicked. 0 for player inventory. */
 	WindowID UByte // Unsigned Byte
@@ -2242,19 +2336,19 @@ func (p *PlayClickWindow_754_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x7
-// Protocol=757; State=play; Bound=server; ID=0x7
-// Protocol=756; State=play; Bound=server; ID=0x7
-// Protocol=755; State=play; Bound=server; ID=0x7
-// Protocol=754; State=play; Bound=server; ID=0x8
-// Protocol=753; State=play; Bound=server; ID=0x8
-// Protocol=578; State=play; Bound=server; ID=0x8
-// Protocol=498; State=play; Bound=server; ID=0x8
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x7
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x7
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x7
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x7
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x8
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x8
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x8
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x8
 type PlayClickWindowButton_758_0 struct {
-	/* The ID of the window sent by Open Window. */
+	/* The ID of the window sent by Open Window */
 	WindowID Byte // Byte
-	/* Meaning depends on window type; see below. */
+	/* Meaning depends on window type; see below */
 	ButtonID Byte // Byte
 }
 
@@ -2274,12 +2368,12 @@ func (p *PlayClickWindowButton_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x7
-// Protocol=762; State=play; Bound=server; ID=0x7
-// Protocol=761; State=play; Bound=server; ID=0x6
-// Protocol=760; State=play; Bound=server; ID=0x7
-// Protocol=759; State=play; Bound=server; ID=0x6
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x7
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x7
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x6
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x7
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x6
 type PlayClientCommand_763_0 struct {
 	/* See below */
 	ActionID VarInt // VarInt Enum
@@ -2297,12 +2391,12 @@ func (p *PlayClientCommand_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x8
-// Protocol=762; State=play; Bound=server; ID=0x8
-// Protocol=761; State=play; Bound=server; ID=0x7
-// Protocol=760; State=play; Bound=server; ID=0x8
-// Protocol=759; State=play; Bound=server; ID=0x7
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x8
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x8
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x7
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x8
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x7
 type PlayClientInformation_763_0 struct {
 	/* e.g. en_GB. */
 	Locale String // String (16)
@@ -2362,9 +2456,9 @@ func (p *PlayClientInformation_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x5
-// Protocol=757; State=play; Bound=server; ID=0x5
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x5
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x5
 type PlayClientSettings_758_0 struct {
 	/* e.g. en_GB. */
 	Locale String // String (16)
@@ -2424,9 +2518,9 @@ func (p *PlayClientSettings_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=756; State=play; Bound=server; ID=0x5
-// Protocol=755; State=play; Bound=server; ID=0x5
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x5
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x5
 type PlayClientSettings_756_1 struct {
 	/* e.g. en_GB. */
 	Locale String // String (16)
@@ -2480,26 +2574,26 @@ func (p *PlayClientSettings_756_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=754; State=play; Bound=server; ID=0x5
-// Protocol=753; State=play; Bound=server; ID=0x5
-// Protocol=578; State=play; Bound=server; ID=0x5
-// Protocol=498; State=play; Bound=server; ID=0x5
-// Protocol=404; State=play; Bound=server; ID=0x4
-// Protocol=401; State=play; Bound=server; ID=0x4
-// Protocol=340; State=play; Bound=server; ID=0x4
-// Protocol=338; State=play; Bound=server; ID=0x4
-// Protocol=335; State=play; Bound=server; ID=0x5
-// Protocol=316; State=play; Bound=server; ID=0x4
-// Protocol=315; State=play; Bound=server; ID=0x4
-// Protocol=210; State=play; Bound=server; ID=0x4
-// Protocol=110; State=play; Bound=server; ID=0x4
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x5
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x5
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x5
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x5
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x4
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x4
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x4
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x4
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x5
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x4
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x4
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x4
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x4
 type PlayClientSettings_754_2 struct {
 	/* e.g. en_GB */
-	Locale String // String
+	Locale String // String (7)
 	/* Client-side render distance, in chunks */
 	ViewDistance Byte // Byte
-	/* 0: enabled, 1: commands only, 2: hidden */
+	/* 0: enabled, 1: commands only, 2: hidden.  See processing chat for more information. */
 	ChatMode VarInt // VarInt Enum
 	/* “Colors” multiplayer setting */
 	ChatColors Bool // Boolean
@@ -2541,28 +2635,28 @@ func (p *PlayClientSettings_754_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x4
-// Protocol=757; State=play; Bound=server; ID=0x4
-// Protocol=756; State=play; Bound=server; ID=0x4
-// Protocol=755; State=play; Bound=server; ID=0x4
-// Protocol=754; State=play; Bound=server; ID=0x4
-// Protocol=753; State=play; Bound=server; ID=0x4
-// Protocol=578; State=play; Bound=server; ID=0x4
-// Protocol=498; State=play; Bound=server; ID=0x4
-// Protocol=404; State=play; Bound=server; ID=0x3
-// Protocol=401; State=play; Bound=server; ID=0x3
-// Protocol=340; State=play; Bound=server; ID=0x3
-// Protocol=338; State=play; Bound=server; ID=0x3
-// Protocol=335; State=play; Bound=server; ID=0x4
-// Protocol=316; State=play; Bound=server; ID=0x3
-// Protocol=315; State=play; Bound=server; ID=0x3
-// Protocol=210; State=play; Bound=server; ID=0x3
-// Protocol=110; State=play; Bound=server; ID=0x3
-// Protocol=47; State=play; Bound=server; ID=0x16
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x4
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x4
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x4
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x4
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x4
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x4
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x4
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x4
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x3
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x3
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x3
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x3
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x4
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x3
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x3
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x3
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x3
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x16
 type PlayClientStatus_758_0 struct {
 	/* See below */
-	ActionID VarInt // VarInt Enum
+	ActionID VarInt // VarInt
 }
 
 var _ Packet = (*PlayClientStatus_758_0)(nil)
@@ -2577,17 +2671,17 @@ func (p *PlayClientStatus_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x11
-// Protocol=763; State=play; Bound=server; ID=0xc
-// Protocol=762; State=play; Bound=client; ID=0x11
-// Protocol=762; State=play; Bound=server; ID=0xc
-// Protocol=761; State=play; Bound=client; ID=0xf
-// Protocol=761; State=play; Bound=server; ID=0xb
-// Protocol=760; State=play; Bound=client; ID=0x10
-// Protocol=760; State=play; Bound=server; ID=0xc
-// Protocol=759; State=play; Bound=client; ID=0x10
-// Protocol=759; State=play; Bound=server; ID=0xb
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x11
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0xc
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x11
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0xc
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0xf
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0xb
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x10
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0xc
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x10
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0xb
 type PlayCloseContainer_763_0 struct {
 	/* This is the ID of the window that was closed. 0 for inventory. */
 	WindowID UByte // Unsigned Byte
@@ -2605,43 +2699,43 @@ func (p *PlayCloseContainer_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x13
-// Protocol=758; State=play; Bound=server; ID=0x9
-// Protocol=757; State=play; Bound=client; ID=0x13
-// Protocol=757; State=play; Bound=server; ID=0x9
-// Protocol=756; State=play; Bound=client; ID=0x13
-// Protocol=756; State=play; Bound=server; ID=0x9
-// Protocol=755; State=play; Bound=client; ID=0x13
-// Protocol=755; State=play; Bound=server; ID=0x9
-// Protocol=754; State=play; Bound=client; ID=0x12
-// Protocol=754; State=play; Bound=server; ID=0xa
-// Protocol=753; State=play; Bound=client; ID=0x12
-// Protocol=753; State=play; Bound=server; ID=0xa
-// Protocol=578; State=play; Bound=client; ID=0x14
-// Protocol=578; State=play; Bound=server; ID=0xa
-// Protocol=498; State=play; Bound=client; ID=0x13
-// Protocol=498; State=play; Bound=server; ID=0xa
-// Protocol=404; State=play; Bound=client; ID=0x13
-// Protocol=404; State=play; Bound=server; ID=0x9
-// Protocol=401; State=play; Bound=client; ID=0x13
-// Protocol=401; State=play; Bound=server; ID=0x9
-// Protocol=340; State=play; Bound=client; ID=0x12
-// Protocol=340; State=play; Bound=server; ID=0x8
-// Protocol=338; State=play; Bound=client; ID=0x12
-// Protocol=338; State=play; Bound=server; ID=0x8
-// Protocol=335; State=play; Bound=client; ID=0x12
-// Protocol=335; State=play; Bound=server; ID=0x9
-// Protocol=316; State=play; Bound=client; ID=0x12
-// Protocol=316; State=play; Bound=server; ID=0x8
-// Protocol=315; State=play; Bound=client; ID=0x12
-// Protocol=315; State=play; Bound=server; ID=0x8
-// Protocol=210; State=play; Bound=client; ID=0x12
-// Protocol=210; State=play; Bound=server; ID=0x8
-// Protocol=110; State=play; Bound=client; ID=0x12
-// Protocol=110; State=play; Bound=server; ID=0x8
-// Protocol=47; State=play; Bound=client; ID=0x2e
-// Protocol=47; State=play; Bound=server; ID=0xd
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x13
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x9
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x13
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x9
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x13
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x9
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x13
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x9
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x12
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0xa
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x12
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0xa
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x14
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0xa
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x13
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0xa
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x13
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x9
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x13
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x9
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x12
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x8
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x12
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x8
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x12
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x9
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x12
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x8
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x12
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x8
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x12
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x8
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x12
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x8
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x2e
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0xd
 type PlayCloseWindow_758_0 struct {
 	/* This is the ID of the window that was closed. 0 for inventory. */
 	WindowID UByte // Unsigned Byte
@@ -2659,22 +2753,22 @@ func (p *PlayCloseWindow_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x61
-// Protocol=757; State=play; Bound=client; ID=0x61
-// Protocol=756; State=play; Bound=client; ID=0x60
-// Protocol=755; State=play; Bound=client; ID=0x60
-// Protocol=754; State=play; Bound=client; ID=0x55
-// Protocol=753; State=play; Bound=client; ID=0x55
-// Protocol=578; State=play; Bound=client; ID=0x56
-// Protocol=498; State=play; Bound=client; ID=0x55
-// Protocol=404; State=play; Bound=client; ID=0x4f
-// Protocol=401; State=play; Bound=client; ID=0x4f
-// Protocol=340; State=play; Bound=client; ID=0x4b
-// Protocol=338; State=play; Bound=client; ID=0x4b
-// Protocol=335; State=play; Bound=client; ID=0x4a
-// Protocol=316; State=play; Bound=client; ID=0x48
-// Protocol=315; State=play; Bound=client; ID=0x48
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x61
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x61
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x60
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x60
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x55
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x55
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x56
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x55
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x4f
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x4f
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x4b
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x4b
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x4a
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x48
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x48
 type PlayCollectItem_758_0 struct {
 	CollectedEntityID VarInt // VarInt
 	CollectorEntityID VarInt // VarInt
@@ -2702,10 +2796,10 @@ func (p *PlayCollectItem_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=210; State=play; Bound=client; ID=0x48
-// Protocol=110; State=play; Bound=client; ID=0x48
-// Protocol=47; State=play; Bound=client; ID=0xd
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x48
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x48
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0xd
 type PlayCollectItem_210_1 struct {
 	CollectedEntityID VarInt // VarInt
 	CollectorEntityID VarInt // VarInt
@@ -2727,11 +2821,11 @@ func (p *PlayCollectItem_210_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=762; State=play; Bound=client; ID=0x38
-// Protocol=761; State=play; Bound=client; ID=0x34
-// Protocol=760; State=play; Bound=client; ID=0x36
-// Protocol=759; State=play; Bound=client; ID=0x33
+
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x38
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x34
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x36
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x33
 type PlayCombatDeath_762_1 struct {
 	/* Entity ID of the player that died (should match the client's entity ID). */
 	PlayerID VarInt // VarInt
@@ -2761,12 +2855,12 @@ func (p *PlayCombatDeath_762_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x9
-// Protocol=762; State=play; Bound=server; ID=0x9
-// Protocol=761; State=play; Bound=server; ID=0x8
-// Protocol=760; State=play; Bound=server; ID=0x9
-// Protocol=759; State=play; Bound=server; ID=0x8
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x9
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x9
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x8
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x9
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x8
 type PlayCommandSuggestionsRequest_763_0 struct {
 	/* The id of the transaction that the server will send back to the client in the response of this packet. Client generates this and increments it each time it sends another tab completion that doesn't get a response. */
 	TransactionId VarInt // VarInt
@@ -2790,12 +2884,12 @@ func (p *PlayCommandSuggestionsRequest_763_0)DecodeFrom(r *PacketReader)(err err
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x10
-// Protocol=762; State=play; Bound=client; ID=0x10
-// Protocol=761; State=play; Bound=client; ID=0xe
-// Protocol=760; State=play; Bound=client; ID=0xf
-// Protocol=759; State=play; Bound=client; ID=0xf
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x10
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x10
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0xe
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0xf
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0xf
 type PlayCommands_763_0 struct {
 	/* Number of elements in the following array. */
 	Count VarInt // VarInt
@@ -2831,12 +2925,12 @@ func (p *PlayCommands_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x0
-// Protocol=762; State=play; Bound=server; ID=0x0
-// Protocol=761; State=play; Bound=server; ID=0x0
-// Protocol=760; State=play; Bound=server; ID=0x0
-// Protocol=759; State=play; Bound=server; ID=0x0
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x0
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x0
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x0
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x0
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x0
 type PlayConfirmTeleportation_763_0 struct {
 	/* The ID given by the Synchronize Player Position packet. */
 	TeleportID VarInt // VarInt
@@ -2854,27 +2948,27 @@ func (p *PlayConfirmTeleportation_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x12
-// Protocol=404; State=play; Bound=server; ID=0x6
-// Protocol=401; State=play; Bound=client; ID=0x12
-// Protocol=401; State=play; Bound=server; ID=0x6
-// Protocol=340; State=play; Bound=client; ID=0x11
-// Protocol=340; State=play; Bound=server; ID=0x5
-// Protocol=338; State=play; Bound=client; ID=0x11
-// Protocol=338; State=play; Bound=server; ID=0x5
-// Protocol=335; State=play; Bound=client; ID=0x11
-// Protocol=335; State=play; Bound=server; ID=0x6
-// Protocol=316; State=play; Bound=client; ID=0x11
-// Protocol=316; State=play; Bound=server; ID=0x5
-// Protocol=315; State=play; Bound=client; ID=0x11
-// Protocol=315; State=play; Bound=server; ID=0x5
-// Protocol=210; State=play; Bound=client; ID=0x11
-// Protocol=210; State=play; Bound=server; ID=0x5
-// Protocol=110; State=play; Bound=client; ID=0x11
-// Protocol=110; State=play; Bound=server; ID=0x5
-// Protocol=47; State=play; Bound=client; ID=0x32
-// Protocol=47; State=play; Bound=server; ID=0xf
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x12
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x6
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x12
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x6
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x11
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x5
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x11
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x5
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x11
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x6
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x11
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x5
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x11
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x5
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x11
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x5
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x11
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x5
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x32
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0xf
 type PlayConfirmTransaction_404_0 struct {
 	/* The ID of the window that the action occurred in */
 	WindowID Byte // Byte
@@ -2904,22 +2998,22 @@ func (p *PlayConfirmTransaction_404_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x18
-// Protocol=757; State=play; Bound=server; ID=0x18
-// Protocol=756; State=play; Bound=server; ID=0x18
-// Protocol=755; State=play; Bound=server; ID=0x18
-// Protocol=754; State=play; Bound=server; ID=0x19
-// Protocol=753; State=play; Bound=server; ID=0x19
-// Protocol=578; State=play; Bound=server; ID=0x18
-// Protocol=498; State=play; Bound=server; ID=0x18
-// Protocol=404; State=play; Bound=server; ID=0x16
-// Protocol=401; State=play; Bound=server; ID=0x16
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x18
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x18
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x18
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x18
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x19
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x19
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x18
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x18
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x16
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x16
 type PlayCraftRecipeRequest_758_0 struct {
 	WindowID Byte // Byte
-	/* A recipe ID. */
+	/* A recipe ID */
 	Recipe Identifier // Identifier
-	/* Affects the amount of items processed; true if shift is down when clicked. */
+	/* Affects the amount of items processed; true if shift is down when clicked */
 	MakeAll Bool // Boolean
 }
 
@@ -2943,9 +3037,9 @@ func (p *PlayCraftRecipeRequest_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=340; State=play; Bound=server; ID=0x12
-// Protocol=338; State=play; Bound=server; ID=0x12
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x12
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x12
 type PlayCraftRecipeRequest_340_1 struct {
 	WindowID Byte // Byte
 	/* A recipe ID */
@@ -2974,20 +3068,20 @@ func (p *PlayCraftRecipeRequest_340_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x31
-// Protocol=757; State=play; Bound=client; ID=0x31
-// Protocol=756; State=play; Bound=client; ID=0x31
-// Protocol=755; State=play; Bound=client; ID=0x31
-// Protocol=754; State=play; Bound=client; ID=0x2f
-// Protocol=753; State=play; Bound=client; ID=0x2f
-// Protocol=578; State=play; Bound=client; ID=0x31
-// Protocol=498; State=play; Bound=client; ID=0x30
-// Protocol=404; State=play; Bound=client; ID=0x2d
-// Protocol=401; State=play; Bound=client; ID=0x2d
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x31
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x31
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x31
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x31
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x2f
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x2f
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x31
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x30
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x2d
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x2d
 type PlayCraftRecipeResponse_758_0 struct {
 	WindowID Byte // Byte
-	/* A recipe ID. */
+	/* A recipe ID */
 	Recipe Identifier // Identifier
 }
 
@@ -3007,9 +3101,9 @@ func (p *PlayCraftRecipeResponse_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=340; State=play; Bound=client; ID=0x2b
-// Protocol=338; State=play; Bound=client; ID=0x2b
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x2b
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x2b
 type PlayCraftRecipeResponse_340_1 struct {
 	WindowID Byte // Byte
 	/* A recipe ID */
@@ -3032,25 +3126,25 @@ func (p *PlayCraftRecipeResponse_340_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x28
-// Protocol=757; State=play; Bound=server; ID=0x28
-// Protocol=756; State=play; Bound=server; ID=0x28
-// Protocol=755; State=play; Bound=server; ID=0x28
-// Protocol=754; State=play; Bound=server; ID=0x28
-// Protocol=753; State=play; Bound=server; ID=0x29
-// Protocol=578; State=play; Bound=server; ID=0x26
-// Protocol=498; State=play; Bound=server; ID=0x26
-// Protocol=404; State=play; Bound=server; ID=0x24
-// Protocol=401; State=play; Bound=server; ID=0x24
-// Protocol=340; State=play; Bound=server; ID=0x1b
-// Protocol=338; State=play; Bound=server; ID=0x1b
-// Protocol=335; State=play; Bound=server; ID=0x1b
-// Protocol=316; State=play; Bound=server; ID=0x18
-// Protocol=315; State=play; Bound=server; ID=0x18
-// Protocol=210; State=play; Bound=server; ID=0x18
-// Protocol=110; State=play; Bound=server; ID=0x18
-// Protocol=47; State=play; Bound=server; ID=0x10
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x28
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x28
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x28
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x28
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x28
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x29
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x26
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x26
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x24
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x24
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x1b
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x1b
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x1b
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x18
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x18
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x18
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x18
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x10
 type PlayCreativeInventoryAction_758_0 struct {
 	/* Inventory slot */
 	Slot Short // Short
@@ -3073,9 +3167,9 @@ func (p *PlayCreativeInventoryAction_758_0)DecodeFrom(r *PacketReader)(err error
 		return
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x17
-// Protocol=759; State=play; Bound=client; ID=0x16
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x17
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x16
 type PlayCustomSoundEffect_760_0 struct {
 	/* All sound effect names can be seen here. */
 	SoundName Identifier // Identifier
@@ -3135,15 +3229,15 @@ func (p *PlayCustomSoundEffect_760_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x35
-// Protocol=757; State=play; Bound=client; ID=0x35
-// Protocol=756; State=play; Bound=client; ID=0x35
-// Protocol=755; State=play; Bound=client; ID=0x35
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x35
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x35
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x35
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x35
 type PlayDeathCombatEvent_758_0 struct {
 	/* Entity ID of the player that died (should match the client's entity ID). */
 	PlayerID VarInt // VarInt
-	/* The killing entity's ID, or -1 if there is no obvious killer. */
+	/* The killer entity's ID, or -1 if there is no obvious killer. */
 	EntityID Int // Int
 	/* The death message. */
 	Message Object // Chat
@@ -3169,23 +3263,23 @@ func (p *PlayDeathCombatEvent_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x12
-// Protocol=757; State=play; Bound=client; ID=0x12
-// Protocol=756; State=play; Bound=client; ID=0x12
-// Protocol=755; State=play; Bound=client; ID=0x12
-// Protocol=754; State=play; Bound=client; ID=0x10
-// Protocol=753; State=play; Bound=client; ID=0x10
-// Protocol=578; State=play; Bound=client; ID=0x12
-// Protocol=498; State=play; Bound=client; ID=0x11
-// Protocol=404; State=play; Bound=client; ID=0x11
-// Protocol=401; State=play; Bound=client; ID=0x11
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x12
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x12
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x12
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x12
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x10
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x10
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x12
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x11
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x11
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x11
 type PlayDeclareCommands_758_0 struct {
-	/* Number of elements in the following array. */
+	/* Number of elements in the following array */
 	Count VarInt // VarInt
-	/* An array of nodes. */
+	/* An array of nodes */
 	Nodes []*CommandNode // Array of Node
-	/* Index of the root node in the previous array. */
+	/* Index of the root node in the previous array */
 	RootIndex VarInt // VarInt
 }
 
@@ -3215,10 +3309,10 @@ func (p *PlayDeclareCommands_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x19
-// Protocol=762; State=play; Bound=client; ID=0x19
-// Protocol=761; State=play; Bound=client; ID=0x16
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x19
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x19
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x16
 type PlayDeleteMessage_763_0 struct {
 	/* Length of Signature. */
 	SignatureLength VarInt // VarInt
@@ -3244,24 +3338,24 @@ func (p *PlayDeleteMessage_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x3a
-// Protocol=757; State=play; Bound=client; ID=0x3a
-// Protocol=756; State=play; Bound=client; ID=0x3a
-// Protocol=754; State=play; Bound=client; ID=0x36
-// Protocol=753; State=play; Bound=client; ID=0x36
-// Protocol=578; State=play; Bound=client; ID=0x38
-// Protocol=498; State=play; Bound=client; ID=0x37
-// Protocol=404; State=play; Bound=client; ID=0x35
-// Protocol=401; State=play; Bound=client; ID=0x35
-// Protocol=340; State=play; Bound=client; ID=0x32
-// Protocol=338; State=play; Bound=client; ID=0x32
-// Protocol=335; State=play; Bound=client; ID=0x31
-// Protocol=316; State=play; Bound=client; ID=0x30
-// Protocol=315; State=play; Bound=client; ID=0x30
-// Protocol=210; State=play; Bound=client; ID=0x30
-// Protocol=110; State=play; Bound=client; ID=0x30
-// Protocol=47; State=play; Bound=client; ID=0x13
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x3a
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x3a
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x3a
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x36
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x36
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x38
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x37
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x35
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x35
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x32
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x32
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x31
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x30
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x30
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x30
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x30
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x13
 type PlayDestroyEntities_758_0 struct {
 	/* Number of elements in the following array */
 	Count VarInt // VarInt
@@ -3291,30 +3385,30 @@ func (p *PlayDestroyEntities_758_0)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x1a
-// Protocol=762; State=play; Bound=client; ID=0x1a
-// Protocol=761; State=play; Bound=client; ID=0x17
-// Protocol=760; State=play; Bound=client; ID=0x19
-// Protocol=759; State=play; Bound=client; ID=0x17
-// Protocol=758; State=play; Bound=client; ID=0x1a
-// Protocol=757; State=play; Bound=client; ID=0x1a
-// Protocol=756; State=play; Bound=client; ID=0x1a
-// Protocol=755; State=play; Bound=client; ID=0x1a
-// Protocol=754; State=play; Bound=client; ID=0x19
-// Protocol=753; State=play; Bound=client; ID=0x19
-// Protocol=578; State=play; Bound=client; ID=0x1b
-// Protocol=498; State=play; Bound=client; ID=0x1a
-// Protocol=404; State=play; Bound=client; ID=0x1b
-// Protocol=401; State=play; Bound=client; ID=0x1b
-// Protocol=340; State=play; Bound=client; ID=0x1a
-// Protocol=338; State=play; Bound=client; ID=0x1a
-// Protocol=335; State=play; Bound=client; ID=0x1a
-// Protocol=316; State=play; Bound=client; ID=0x1a
-// Protocol=315; State=play; Bound=client; ID=0x1a
-// Protocol=210; State=play; Bound=client; ID=0x1a
-// Protocol=110; State=play; Bound=client; ID=0x1a
-// Protocol=47; State=play; Bound=client; ID=0x40
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x1a
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x1a
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x17
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x19
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x17
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x1a
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x1a
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x1a
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x1a
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x19
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x19
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x1b
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x1a
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x1b
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x1b
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x1a
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x1a
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x1a
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x1a
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x1a
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x1a
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x1a
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x40
 type PlayDisconnect_763_0 struct {
 	/* Displayed to the client when the connection terminates. */
 	Reason Object // Chat
@@ -3332,10 +3426,10 @@ func (p *PlayDisconnect_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x1b
-// Protocol=762; State=play; Bound=client; ID=0x1b
-// Protocol=761; State=play; Bound=client; ID=0x18
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x1b
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x1b
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x18
 type PlayDisguisedChatMessage_763_0 struct {
 	Message Object // Chat
 	/* The chat message type. */
@@ -3376,12 +3470,12 @@ func (p *PlayDisguisedChatMessage_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x51
-// Protocol=762; State=play; Bound=client; ID=0x51
-// Protocol=761; State=play; Bound=client; ID=0x4d
-// Protocol=760; State=play; Bound=client; ID=0x4f
-// Protocol=759; State=play; Bound=client; ID=0x4c
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x51
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x51
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x4d
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x4f
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x4c
 type PlayDisplayObjective_763_0 struct {
 	/* The position of the scoreboard. 0: list, 1: sidebar, 2: below name, 3 - 18: team specific sidebar, indexed as 3 + team color. */
 	Position Byte // Byte
@@ -3405,25 +3499,25 @@ func (p *PlayDisplayObjective_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x4c
-// Protocol=757; State=play; Bound=client; ID=0x4c
-// Protocol=756; State=play; Bound=client; ID=0x4c
-// Protocol=755; State=play; Bound=client; ID=0x4c
-// Protocol=754; State=play; Bound=client; ID=0x43
-// Protocol=753; State=play; Bound=client; ID=0x43
-// Protocol=578; State=play; Bound=client; ID=0x43
-// Protocol=498; State=play; Bound=client; ID=0x42
-// Protocol=404; State=play; Bound=client; ID=0x3e
-// Protocol=401; State=play; Bound=client; ID=0x3e
-// Protocol=340; State=play; Bound=client; ID=0x3b
-// Protocol=338; State=play; Bound=client; ID=0x3b
-// Protocol=335; State=play; Bound=client; ID=0x3a
-// Protocol=316; State=play; Bound=client; ID=0x38
-// Protocol=315; State=play; Bound=client; ID=0x38
-// Protocol=210; State=play; Bound=client; ID=0x38
-// Protocol=110; State=play; Bound=client; ID=0x38
-// Protocol=47; State=play; Bound=client; ID=0x3d
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x4c
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x4c
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x4c
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x4c
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x43
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x43
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x43
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x42
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x3e
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x3e
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x3b
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x3b
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x3a
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x38
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x38
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x38
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x38
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x3d
 type PlayDisplayScoreboard_758_0 struct {
 	/* The position of the scoreboard. 0: list, 1: sidebar, 2: below name. */
 	Position Byte // Byte
@@ -3447,13 +3541,13 @@ func (p *PlayDisplayScoreboard_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0xe
-// Protocol=762; State=play; Bound=server; ID=0xe
-// Protocol=761; State=play; Bound=server; ID=0xd
-// Protocol=760; State=play; Bound=server; ID=0xe
-// Protocol=759; State=play; Bound=server; ID=0xd
-// Protocol=758; State=play; Bound=server; ID=0xb
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0xe
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0xe
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0xd
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0xe
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0xd
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0xb
 type PlayEditBook_763_0 struct {
 	/* The hotbar slot where the written book is located */
 	Slot VarInt // VarInt
@@ -3499,14 +3593,14 @@ func (p *PlayEditBook_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=755; State=play; Bound=server; ID=0xb
-// Protocol=754; State=play; Bound=server; ID=0xc
-// Protocol=753; State=play; Bound=server; ID=0xc
-// Protocol=578; State=play; Bound=server; ID=0xc
-// Protocol=498; State=play; Bound=server; ID=0xc
-// Protocol=404; State=play; Bound=server; ID=0xb
-// Protocol=401; State=play; Bound=server; ID=0xb
+
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0xb
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0xc
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0xc
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0xc
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0xc
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0xb
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0xb
 type PlayEditBook_755_3 struct {
 	NewBook *Slot // Slot
 	/* True if the player is signing the book; false if the player is saving a draft. */
@@ -3535,25 +3629,25 @@ func (p *PlayEditBook_755_3)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x23
-// Protocol=757; State=play; Bound=client; ID=0x23
-// Protocol=756; State=play; Bound=client; ID=0x23
-// Protocol=755; State=play; Bound=client; ID=0x23
-// Protocol=754; State=play; Bound=client; ID=0x21
-// Protocol=753; State=play; Bound=client; ID=0x21
-// Protocol=578; State=play; Bound=client; ID=0x23
-// Protocol=498; State=play; Bound=client; ID=0x22
-// Protocol=404; State=play; Bound=client; ID=0x23
-// Protocol=401; State=play; Bound=client; ID=0x23
-// Protocol=340; State=play; Bound=client; ID=0x21
-// Protocol=338; State=play; Bound=client; ID=0x21
-// Protocol=335; State=play; Bound=client; ID=0x21
-// Protocol=316; State=play; Bound=client; ID=0x21
-// Protocol=315; State=play; Bound=client; ID=0x21
-// Protocol=210; State=play; Bound=client; ID=0x21
-// Protocol=110; State=play; Bound=client; ID=0x21
-// Protocol=47; State=play; Bound=client; ID=0x28
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x23
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x23
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x23
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x23
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x21
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x21
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x23
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x22
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x23
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x23
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x21
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x21
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x21
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x21
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x21
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x21
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x21
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x28
 type PlayEffect_758_0 struct {
 	/* The ID of the effect, see below */
 	EffectID Int // Int
@@ -3589,17 +3683,17 @@ func (p *PlayEffect_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=server; ID=0x7
-// Protocol=401; State=play; Bound=server; ID=0x7
-// Protocol=340; State=play; Bound=server; ID=0x6
-// Protocol=338; State=play; Bound=server; ID=0x6
-// Protocol=335; State=play; Bound=server; ID=0x7
-// Protocol=316; State=play; Bound=server; ID=0x6
-// Protocol=315; State=play; Bound=server; ID=0x6
-// Protocol=210; State=play; Bound=server; ID=0x6
-// Protocol=110; State=play; Bound=server; ID=0x6
-// Protocol=47; State=play; Bound=server; ID=0x11
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x7
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x7
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x6
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x6
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x7
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x6
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x6
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x6
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x6
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x11
 type PlayEnchantItem_404_0 struct {
 	/* The ID of the enchantment table window sent by Open Window */
 	WindowID Byte // Byte
@@ -3623,11 +3717,11 @@ func (p *PlayEnchantItem_404_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=762; State=play; Bound=client; ID=0x36
-// Protocol=761; State=play; Bound=client; ID=0x32
-// Protocol=760; State=play; Bound=client; ID=0x34
-// Protocol=759; State=play; Bound=client; ID=0x31
+
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x36
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x32
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x34
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x31
 type PlayEndCombat_762_1 struct {
 	/* Length of the combat in ticks. */
 	Duration VarInt // VarInt
@@ -3651,11 +3745,11 @@ func (p *PlayEndCombat_762_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x33
-// Protocol=757; State=play; Bound=client; ID=0x33
-// Protocol=756; State=play; Bound=client; ID=0x33
-// Protocol=755; State=play; Bound=client; ID=0x33
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x33
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x33
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x33
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x33
 type PlayEndCombatEvent_758_0 struct {
 	/* Length of the combat in ticks. */
 	Duration VarInt // VarInt
@@ -3679,12 +3773,12 @@ func (p *PlayEndCombatEvent_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x37
-// Protocol=762; State=play; Bound=client; ID=0x37
-// Protocol=761; State=play; Bound=client; ID=0x33
-// Protocol=760; State=play; Bound=client; ID=0x35
-// Protocol=759; State=play; Bound=client; ID=0x32
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x37
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x37
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x33
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x35
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x32
 type PlayEnterCombat_763_0 struct {
 }
 
@@ -3694,11 +3788,11 @@ func (p PlayEnterCombat_763_0)Encode(b *PacketBuilder){
 }
 
 func (p *PlayEnterCombat_763_0)DecodeFrom(r *PacketReader)(err error){ return }
-				
-// Protocol=758; State=play; Bound=client; ID=0x34
-// Protocol=757; State=play; Bound=client; ID=0x34
-// Protocol=756; State=play; Bound=client; ID=0x34
-// Protocol=755; State=play; Bound=client; ID=0x34
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x34
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x34
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x34
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x34
 type PlayEnterCombatEvent_758_0 struct {
 }
 
@@ -3708,17 +3802,17 @@ func (p PlayEnterCombatEvent_758_0)Encode(b *PacketBuilder){
 }
 
 func (p *PlayEnterCombatEvent_758_0)DecodeFrom(r *PacketReader)(err error){ return }
-				
-// Protocol=404; State=play; Bound=client; ID=0x27
-// Protocol=401; State=play; Bound=client; ID=0x27
-// Protocol=340; State=play; Bound=client; ID=0x25
-// Protocol=338; State=play; Bound=client; ID=0x25
-// Protocol=335; State=play; Bound=client; ID=0x25
-// Protocol=316; State=play; Bound=client; ID=0x28
-// Protocol=315; State=play; Bound=client; ID=0x28
-// Protocol=210; State=play; Bound=client; ID=0x28
-// Protocol=110; State=play; Bound=client; ID=0x28
-// Protocol=47; State=play; Bound=client; ID=0x14
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x27
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x27
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x25
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x25
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x25
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x28
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x28
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x28
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x28
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x14
 type PlayEntity_404_0 struct {
 	EntityID VarInt // VarInt
 }
@@ -3735,24 +3829,24 @@ func (p *PlayEntity_404_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x1b
-// Protocol=757; State=play; Bound=server; ID=0x1b
-// Protocol=756; State=play; Bound=server; ID=0x1b
-// Protocol=755; State=play; Bound=server; ID=0x1b
-// Protocol=754; State=play; Bound=server; ID=0x1c
-// Protocol=753; State=play; Bound=server; ID=0x1c
-// Protocol=578; State=play; Bound=server; ID=0x1b
-// Protocol=498; State=play; Bound=server; ID=0x1b
-// Protocol=404; State=play; Bound=server; ID=0x19
-// Protocol=401; State=play; Bound=server; ID=0x19
-// Protocol=340; State=play; Bound=server; ID=0x15
-// Protocol=338; State=play; Bound=server; ID=0x15
-// Protocol=335; State=play; Bound=server; ID=0x15
-// Protocol=316; State=play; Bound=server; ID=0x14
-// Protocol=315; State=play; Bound=server; ID=0x14
-// Protocol=210; State=play; Bound=server; ID=0x14
-// Protocol=110; State=play; Bound=server; ID=0x14
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x1b
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x1b
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x1b
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x1b
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1c
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1c
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x1b
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x1b
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x19
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x19
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x15
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x15
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x15
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x14
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x14
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x14
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x14
 type PlayEntityAction_758_0 struct {
 	/* Player ID */
 	EntityID VarInt // VarInt
@@ -3782,24 +3876,24 @@ func (p *PlayEntityAction_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x4
-// Protocol=762; State=play; Bound=client; ID=0x4
-// Protocol=761; State=play; Bound=client; ID=0x3
-// Protocol=760; State=play; Bound=client; ID=0x3
-// Protocol=759; State=play; Bound=client; ID=0x3
-// Protocol=758; State=play; Bound=client; ID=0x6
-// Protocol=757; State=play; Bound=client; ID=0x6
-// Protocol=756; State=play; Bound=client; ID=0x6
-// Protocol=755; State=play; Bound=client; ID=0x6
-// Protocol=754; State=play; Bound=client; ID=0x5
-// Protocol=753; State=play; Bound=client; ID=0x5
-// Protocol=578; State=play; Bound=client; ID=0x6
-// Protocol=498; State=play; Bound=client; ID=0x6
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x4
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x4
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x3
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x3
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x3
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x6
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x6
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x6
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x6
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x5
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x5
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x6
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x6
 type PlayEntityAnimation_763_0 struct {
-	/* Player ID. */
+	/* Player ID */
 	EntityID VarInt // VarInt
-	/* Animation ID (see below). */
+	/* Animation ID (see below) */
 	Animation UByte // Unsigned Byte
 }
 
@@ -3819,12 +3913,12 @@ func (p *PlayEntityAnimation_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x6c
-// Protocol=762; State=play; Bound=client; ID=0x6c
-// Protocol=761; State=play; Bound=client; ID=0x68
-// Protocol=760; State=play; Bound=client; ID=0x69
-// Protocol=759; State=play; Bound=client; ID=0x66
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x6c
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x6c
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x68
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x69
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x66
 type PlayEntityEffect_763_0 struct {
 	EntityID VarInt // VarInt
 	/* See this table. */
@@ -3877,22 +3971,22 @@ func (p *PlayEntityEffect_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=757; State=play; Bound=client; ID=0x65
-// Protocol=756; State=play; Bound=client; ID=0x64
-// Protocol=755; State=play; Bound=client; ID=0x64
-// Protocol=754; State=play; Bound=client; ID=0x59
-// Protocol=753; State=play; Bound=client; ID=0x59
-// Protocol=578; State=play; Bound=client; ID=0x5a
-// Protocol=498; State=play; Bound=client; ID=0x59
-// Protocol=404; State=play; Bound=client; ID=0x53
-// Protocol=401; State=play; Bound=client; ID=0x53
-// Protocol=340; State=play; Bound=client; ID=0x4f
-// Protocol=338; State=play; Bound=client; ID=0x4f
-// Protocol=335; State=play; Bound=client; ID=0x4e
-// Protocol=316; State=play; Bound=client; ID=0x4b
-// Protocol=315; State=play; Bound=client; ID=0x4b
-// Protocol=210; State=play; Bound=client; ID=0x4b
+
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x65
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x64
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x64
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x59
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x59
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x5a
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x59
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x53
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x53
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x4f
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x4f
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x4e
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x4b
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x4b
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x4b
 type PlayEntityEffect_757_2 struct {
 	EntityID VarInt // VarInt
 	/* See this table */
@@ -3933,9 +4027,9 @@ func (p *PlayEntityEffect_757_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=110; State=play; Bound=client; ID=0x4b
-// Protocol=47; State=play; Bound=client; ID=0x1d
+
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x4b
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x1d
 type PlayEntityEffect_110_3 struct {
 	EntityID VarInt // VarInt
 	/* See this table */
@@ -3975,18 +4069,18 @@ func (p *PlayEntityEffect_110_3)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=578; State=play; Bound=client; ID=0x47
-// Protocol=498; State=play; Bound=client; ID=0x46
-// Protocol=404; State=play; Bound=client; ID=0x42
-// Protocol=401; State=play; Bound=client; ID=0x42
-// Protocol=340; State=play; Bound=client; ID=0x3f
-// Protocol=338; State=play; Bound=client; ID=0x3f
-// Protocol=335; State=play; Bound=client; ID=0x3e
-// Protocol=316; State=play; Bound=client; ID=0x3c
-// Protocol=315; State=play; Bound=client; ID=0x3c
-// Protocol=210; State=play; Bound=client; ID=0x3c
-// Protocol=110; State=play; Bound=client; ID=0x3c
+
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x47
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x46
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x42
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x42
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x3f
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x3f
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x3e
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x3c
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x3c
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x3c
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x3c
 type PlayEntityEquipment_578_0 struct {
 	/* Entity's EID */
 	EntityID VarInt // VarInt
@@ -4015,12 +4109,12 @@ func (p *PlayEntityEquipment_578_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x1c
-// Protocol=762; State=play; Bound=client; ID=0x1c
-// Protocol=761; State=play; Bound=client; ID=0x19
-// Protocol=760; State=play; Bound=client; ID=0x1a
-// Protocol=759; State=play; Bound=client; ID=0x18
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x1c
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x1c
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x19
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x1a
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x18
 type PlayEntityEvent_763_0 struct {
 	EntityID Int // Int
 	/* See Entity statuses for a list of which statuses are valid for each type of entity. */
@@ -4043,25 +4137,25 @@ func (p *PlayEntityEvent_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x3e
-// Protocol=757; State=play; Bound=client; ID=0x3e
-// Protocol=756; State=play; Bound=client; ID=0x3e
-// Protocol=755; State=play; Bound=client; ID=0x3e
-// Protocol=754; State=play; Bound=client; ID=0x3a
-// Protocol=753; State=play; Bound=client; ID=0x3a
-// Protocol=578; State=play; Bound=client; ID=0x3c
-// Protocol=498; State=play; Bound=client; ID=0x3b
-// Protocol=404; State=play; Bound=client; ID=0x39
-// Protocol=401; State=play; Bound=client; ID=0x39
-// Protocol=340; State=play; Bound=client; ID=0x36
-// Protocol=338; State=play; Bound=client; ID=0x36
-// Protocol=335; State=play; Bound=client; ID=0x35
-// Protocol=316; State=play; Bound=client; ID=0x34
-// Protocol=315; State=play; Bound=client; ID=0x34
-// Protocol=210; State=play; Bound=client; ID=0x34
-// Protocol=110; State=play; Bound=client; ID=0x34
-// Protocol=47; State=play; Bound=client; ID=0x19
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x3e
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x3e
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x3e
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x3e
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x3a
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x3a
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x3c
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x3b
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x39
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x39
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x36
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x36
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x35
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x34
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x34
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x34
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x34
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x19
 type PlayEntityHeadLook_758_0 struct {
 	EntityID VarInt // VarInt
 	/* New angle, not a delta */
@@ -4084,17 +4178,17 @@ func (p *PlayEntityHeadLook_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x2a
-// Protocol=401; State=play; Bound=client; ID=0x2a
-// Protocol=340; State=play; Bound=client; ID=0x28
-// Protocol=338; State=play; Bound=client; ID=0x28
-// Protocol=335; State=play; Bound=client; ID=0x28
-// Protocol=316; State=play; Bound=client; ID=0x27
-// Protocol=315; State=play; Bound=client; ID=0x27
-// Protocol=210; State=play; Bound=client; ID=0x27
-// Protocol=110; State=play; Bound=client; ID=0x27
-// Protocol=47; State=play; Bound=client; ID=0x16
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x2a
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x2a
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x28
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x28
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x28
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x27
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x27
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x27
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x27
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x16
 type PlayEntityLook_404_0 struct {
 	EntityID VarInt // VarInt
 	/* New angle, not a delta */
@@ -4128,16 +4222,16 @@ func (p *PlayEntityLook_404_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x29
-// Protocol=401; State=play; Bound=client; ID=0x29
-// Protocol=340; State=play; Bound=client; ID=0x27
-// Protocol=338; State=play; Bound=client; ID=0x27
-// Protocol=335; State=play; Bound=client; ID=0x27
-// Protocol=316; State=play; Bound=client; ID=0x26
-// Protocol=315; State=play; Bound=client; ID=0x26
-// Protocol=210; State=play; Bound=client; ID=0x26
-// Protocol=110; State=play; Bound=client; ID=0x26
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x29
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x29
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x27
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x27
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x27
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x26
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x26
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x26
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x26
 type PlayEntityLookAndRelativeMove_404_0 struct {
 	EntityID VarInt // VarInt
 	/* Change in X position as (currentX * 32 - prevX * 32) * 128 */
@@ -4189,28 +4283,28 @@ func (p *PlayEntityLookAndRelativeMove_404_0)DecodeFrom(r *PacketReader)(err err
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x4d
-// Protocol=757; State=play; Bound=client; ID=0x4d
-// Protocol=756; State=play; Bound=client; ID=0x4d
-// Protocol=755; State=play; Bound=client; ID=0x4d
-// Protocol=754; State=play; Bound=client; ID=0x44
-// Protocol=753; State=play; Bound=client; ID=0x44
-// Protocol=578; State=play; Bound=client; ID=0x44
-// Protocol=498; State=play; Bound=client; ID=0x43
-// Protocol=404; State=play; Bound=client; ID=0x3f
-// Protocol=401; State=play; Bound=client; ID=0x3f
-// Protocol=340; State=play; Bound=client; ID=0x3c
-// Protocol=338; State=play; Bound=client; ID=0x3c
-// Protocol=335; State=play; Bound=client; ID=0x3b
-// Protocol=316; State=play; Bound=client; ID=0x39
-// Protocol=315; State=play; Bound=client; ID=0x39
-// Protocol=210; State=play; Bound=client; ID=0x39
-// Protocol=110; State=play; Bound=client; ID=0x39
-// Protocol=47; State=play; Bound=client; ID=0x1c
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x4d
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x4d
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x4d
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x4d
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x44
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x44
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x44
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x43
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x3f
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x3f
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x3c
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x3c
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x3b
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x39
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x39
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x39
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x39
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x1c
 type PlayEntityMetadata_758_0 struct {
 	EntityID VarInt // VarInt
-	Metadata *EntityMetadata // Entity Metadata
+	Metadata *EntityMetadata // Metadata
 }
 
 var _ Packet = (*PlayEntityMetadata_758_0)(nil)
@@ -4229,11 +4323,11 @@ func (p *PlayEntityMetadata_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x2a
-// Protocol=753; State=play; Bound=client; ID=0x2a
-// Protocol=578; State=play; Bound=client; ID=0x2c
-// Protocol=498; State=play; Bound=client; ID=0x2b
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x2a
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x2a
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x2c
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2b
 type PlayEntityMovement_754_0 struct {
 	EntityID VarInt // VarInt
 }
@@ -4250,22 +4344,22 @@ func (p *PlayEntityMovement_754_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x29
-// Protocol=757; State=play; Bound=client; ID=0x29
-// Protocol=756; State=play; Bound=client; ID=0x29
-// Protocol=755; State=play; Bound=client; ID=0x29
-// Protocol=754; State=play; Bound=client; ID=0x27
-// Protocol=753; State=play; Bound=client; ID=0x27
-// Protocol=578; State=play; Bound=client; ID=0x29
-// Protocol=498; State=play; Bound=client; ID=0x28
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x29
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x29
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x29
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x29
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x27
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x27
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x29
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x28
 type PlayEntityPosition_758_0 struct {
 	EntityID VarInt // VarInt
-	/* Change in X position as (currentX * 32 - prevX * 32) * 128. */
+	/* Change in X position as (currentX * 32 - prevX * 32) * 128 */
 	DeltaX Short // Short
-	/* Change in Y position as (currentY * 32 - prevY * 32) * 128. */
+	/* Change in Y position as (currentY * 32 - prevY * 32) * 128 */
 	DeltaY Short // Short
-	/* Change in Z position as (currentZ * 32 - prevZ * 32) * 128. */
+	/* Change in Z position as (currentZ * 32 - prevZ * 32) * 128 */
 	DeltaZ Short // Short
 	OnGround Bool // Boolean
 }
@@ -4298,26 +4392,26 @@ func (p *PlayEntityPosition_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x2a
-// Protocol=757; State=play; Bound=client; ID=0x2a
-// Protocol=756; State=play; Bound=client; ID=0x2a
-// Protocol=755; State=play; Bound=client; ID=0x2a
-// Protocol=754; State=play; Bound=client; ID=0x28
-// Protocol=753; State=play; Bound=client; ID=0x28
-// Protocol=578; State=play; Bound=client; ID=0x2a
-// Protocol=498; State=play; Bound=client; ID=0x29
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x2a
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x2a
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x2a
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x2a
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x28
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x28
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x2a
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x29
 type PlayEntityPositionAndRotation_758_0 struct {
 	EntityID VarInt // VarInt
-	/* Change in X position as (currentX * 32 - prevX * 32) * 128. */
+	/* Change in X position as (currentX * 32 - prevX * 32) * 128 */
 	DeltaX Short // Short
-	/* Change in Y position as (currentY * 32 - prevY * 32) * 128. */
+	/* Change in Y position as (currentY * 32 - prevY * 32) * 128 */
 	DeltaY Short // Short
-	/* Change in Z position as (currentZ * 32 - prevZ * 32) * 128. */
+	/* Change in Z position as (currentZ * 32 - prevZ * 32) * 128 */
 	DeltaZ Short // Short
-	/* New angle, not a delta. */
+	/* New angle, not a delta */
 	Yaw Angle // Angle
-	/* New angle, not a delta. */
+	/* New angle, not a delta */
 	Pitch Angle // Angle
 	OnGround Bool // Boolean
 }
@@ -4358,16 +4452,16 @@ func (p *PlayEntityPositionAndRotation_758_0)DecodeFrom(r *PacketReader)(err err
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x28
-// Protocol=401; State=play; Bound=client; ID=0x28
-// Protocol=340; State=play; Bound=client; ID=0x26
-// Protocol=338; State=play; Bound=client; ID=0x26
-// Protocol=335; State=play; Bound=client; ID=0x26
-// Protocol=316; State=play; Bound=client; ID=0x25
-// Protocol=315; State=play; Bound=client; ID=0x25
-// Protocol=210; State=play; Bound=client; ID=0x25
-// Protocol=110; State=play; Bound=client; ID=0x25
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x28
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x28
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x26
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x26
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x26
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x25
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x25
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x25
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x25
 type PlayEntityRelativeMove_404_0 struct {
 	EntityID VarInt // VarInt
 	/* Change in X position as (currentX * 32 - prevX * 32) * 128 */
@@ -4407,20 +4501,20 @@ func (p *PlayEntityRelativeMove_404_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x2b
-// Protocol=757; State=play; Bound=client; ID=0x2b
-// Protocol=756; State=play; Bound=client; ID=0x2b
-// Protocol=755; State=play; Bound=client; ID=0x2b
-// Protocol=754; State=play; Bound=client; ID=0x29
-// Protocol=753; State=play; Bound=client; ID=0x29
-// Protocol=578; State=play; Bound=client; ID=0x2b
-// Protocol=498; State=play; Bound=client; ID=0x2a
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x2b
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x2b
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x2b
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x2b
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x29
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x29
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x2b
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2a
 type PlayEntityRotation_758_0 struct {
 	EntityID VarInt // VarInt
-	/* New angle, not a delta. */
+	/* New angle, not a delta */
 	Yaw Angle // Angle
-	/* New angle, not a delta. */
+	/* New angle, not a delta */
 	Pitch Angle // Angle
 	OnGround Bool // Boolean
 }
@@ -4449,10 +4543,10 @@ func (p *PlayEntityRotation_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x61
-// Protocol=762; State=play; Bound=client; ID=0x61
-// Protocol=761; State=play; Bound=client; ID=0x5d
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x61
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x61
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x5d
 type PlayEntitySoundEffect_763_0 struct {
 	/* Represents the Sound ID + 1. If the value is 0, the packet contains a sound specified by Identifier. */
 	SoundID VarInt // VarInt
@@ -4517,26 +4611,26 @@ func (p *PlayEntitySoundEffect_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x5f
-// Protocol=759; State=play; Bound=client; ID=0x5c
-// Protocol=758; State=play; Bound=client; ID=0x5c
-// Protocol=757; State=play; Bound=client; ID=0x5c
-// Protocol=756; State=play; Bound=client; ID=0x5b
-// Protocol=755; State=play; Bound=client; ID=0x5b
-// Protocol=754; State=play; Bound=client; ID=0x50
-// Protocol=753; State=play; Bound=client; ID=0x50
-// Protocol=578; State=play; Bound=client; ID=0x51
-// Protocol=498; State=play; Bound=client; ID=0x50
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x5f
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x5c
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x5c
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x5c
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x5b
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x5b
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x50
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x50
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x51
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x50
 type PlayEntitySoundEffect_760_1 struct {
-	/* ID of hardcoded sound event (events as of 1.16.5). */
+	/* ID of hardcoded sound event (events as of 1.15.2) */
 	SoundID VarInt // VarInt
-	/* The category that this sound will be played from (current categories). */
+	/* The category that this sound will be played from (current categories) */
 	SoundCategory VarInt // VarInt Enum
 	EntityID VarInt // VarInt
-	/* 1.0 is 100%, capped between 0.0 and 1.0 by Notchian clients. */
+	/* 1.0 is 100%, capped between 0.0 and 1.0 by Notchian clients */
 	Volume Float // Float
-	/* Float between 0.5 and 2.0 by Notchian clients. */
+	/* Float between 0.5 and 2.0 by Notchian clients */
 	Pitch Float // Float
 }
 
@@ -4568,29 +4662,29 @@ func (p *PlayEntitySoundEffect_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x1b
-// Protocol=757; State=play; Bound=client; ID=0x1b
-// Protocol=756; State=play; Bound=client; ID=0x1b
-// Protocol=755; State=play; Bound=client; ID=0x1b
-// Protocol=754; State=play; Bound=client; ID=0x1a
-// Protocol=753; State=play; Bound=client; ID=0x1a
-// Protocol=578; State=play; Bound=client; ID=0x1c
-// Protocol=498; State=play; Bound=client; ID=0x1b
-// Protocol=404; State=play; Bound=client; ID=0x1c
-// Protocol=401; State=play; Bound=client; ID=0x1c
-// Protocol=340; State=play; Bound=client; ID=0x1b
-// Protocol=338; State=play; Bound=client; ID=0x1b
-// Protocol=335; State=play; Bound=client; ID=0x1b
-// Protocol=316; State=play; Bound=client; ID=0x1b
-// Protocol=315; State=play; Bound=client; ID=0x1b
-// Protocol=210; State=play; Bound=client; ID=0x1b
-// Protocol=110; State=play; Bound=client; ID=0x1b
-// Protocol=47; State=play; Bound=client; ID=0x1a
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x1b
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x1b
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x1b
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x1b
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x1a
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x1a
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x1c
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x1b
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x1c
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x1c
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x1b
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x1b
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x1b
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x1b
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x1b
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x1b
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x1b
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x1a
 type PlayEntityStatus_758_0 struct {
 	EntityID Int // Int
 	/* See below */
-	EntityStatus Byte // Byte Enum
+	EntityStatus Byte // Byte
 }
 
 var _ Packet = (*PlayEntityStatus_758_0)(nil)
@@ -4609,24 +4703,24 @@ func (p *PlayEntityStatus_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x62
-// Protocol=757; State=play; Bound=client; ID=0x62
-// Protocol=756; State=play; Bound=client; ID=0x61
-// Protocol=755; State=play; Bound=client; ID=0x61
-// Protocol=754; State=play; Bound=client; ID=0x56
-// Protocol=753; State=play; Bound=client; ID=0x56
-// Protocol=578; State=play; Bound=client; ID=0x57
-// Protocol=498; State=play; Bound=client; ID=0x56
-// Protocol=404; State=play; Bound=client; ID=0x50
-// Protocol=401; State=play; Bound=client; ID=0x50
-// Protocol=340; State=play; Bound=client; ID=0x4c
-// Protocol=338; State=play; Bound=client; ID=0x4c
-// Protocol=335; State=play; Bound=client; ID=0x4b
-// Protocol=316; State=play; Bound=client; ID=0x49
-// Protocol=315; State=play; Bound=client; ID=0x49
-// Protocol=210; State=play; Bound=client; ID=0x49
-// Protocol=110; State=play; Bound=client; ID=0x49
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x62
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x62
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x61
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x61
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x56
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x56
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x57
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x56
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x50
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x50
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x4c
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x4c
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x4b
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x49
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x49
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x49
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x49
 type PlayEntityTeleport_758_0 struct {
 	EntityID VarInt // VarInt
 	X Double // Double
@@ -4675,25 +4769,25 @@ func (p *PlayEntityTeleport_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x4f
-// Protocol=757; State=play; Bound=client; ID=0x4f
-// Protocol=756; State=play; Bound=client; ID=0x4f
-// Protocol=755; State=play; Bound=client; ID=0x4f
-// Protocol=754; State=play; Bound=client; ID=0x46
-// Protocol=753; State=play; Bound=client; ID=0x46
-// Protocol=578; State=play; Bound=client; ID=0x46
-// Protocol=498; State=play; Bound=client; ID=0x45
-// Protocol=404; State=play; Bound=client; ID=0x41
-// Protocol=401; State=play; Bound=client; ID=0x41
-// Protocol=340; State=play; Bound=client; ID=0x3e
-// Protocol=338; State=play; Bound=client; ID=0x3e
-// Protocol=335; State=play; Bound=client; ID=0x3d
-// Protocol=316; State=play; Bound=client; ID=0x3b
-// Protocol=315; State=play; Bound=client; ID=0x3b
-// Protocol=210; State=play; Bound=client; ID=0x3b
-// Protocol=110; State=play; Bound=client; ID=0x3b
-// Protocol=47; State=play; Bound=client; ID=0x12
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x4f
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x4f
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x4f
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x4f
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x46
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x46
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x46
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x45
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x41
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x41
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x3e
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x3e
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x3d
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x3b
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x3b
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x3b
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x3b
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x12
 type PlayEntityVelocity_758_0 struct {
 	EntityID VarInt // VarInt
 	/* Velocity on the X axis */
@@ -4728,11 +4822,11 @@ func (p *PlayEntityVelocity_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x1d
-// Protocol=762; State=play; Bound=client; ID=0x1d
-// Protocol=761; State=play; Bound=client; ID=0x1a
-// Protocol=759; State=play; Bound=client; ID=0x19
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x1d
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x1d
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x1a
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x19
 type PlayExplosion_763_0 struct {
 	X Double // Double
 	Y Double // Double
@@ -4801,12 +4895,12 @@ func (p *PlayExplosion_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x1b
-// Protocol=758; State=play; Bound=client; ID=0x1c
-// Protocol=757; State=play; Bound=client; ID=0x1c
-// Protocol=756; State=play; Bound=client; ID=0x1c
-// Protocol=755; State=play; Bound=client; ID=0x1c
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x1b
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x1c
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x1c
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x1c
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x1c
 type PlayExplosion_760_1 struct {
 	X Float // Float
 	Y Float // Float
@@ -4875,10 +4969,10 @@ func (p *PlayExplosion_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x1b
-// Protocol=753; State=play; Bound=client; ID=0x1b
-// Protocol=578; State=play; Bound=client; ID=0x1d
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x1b
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x1b
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x1d
 type PlayExplosion_754_2 struct {
 	X Float // Float
 	Y Float // Float
@@ -4947,18 +5041,18 @@ func (p *PlayExplosion_754_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=498; State=play; Bound=client; ID=0x1c
-// Protocol=404; State=play; Bound=client; ID=0x1e
-// Protocol=401; State=play; Bound=client; ID=0x1e
-// Protocol=340; State=play; Bound=client; ID=0x1c
-// Protocol=338; State=play; Bound=client; ID=0x1c
-// Protocol=335; State=play; Bound=client; ID=0x1c
-// Protocol=316; State=play; Bound=client; ID=0x1c
-// Protocol=315; State=play; Bound=client; ID=0x1c
-// Protocol=210; State=play; Bound=client; ID=0x1c
-// Protocol=110; State=play; Bound=client; ID=0x1c
-// Protocol=47; State=play; Bound=client; ID=0x27
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x1c
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x1e
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x1e
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x1c
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x1c
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x1c
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x1c
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x1c
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x1c
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x1c
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x27
 type PlayExplosion_498_3 struct {
 	X Float // Float
 	Y Float // Float
@@ -5027,28 +5121,28 @@ func (p *PlayExplosion_498_3)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=757; State=play; Bound=client; ID=0x37
-// Protocol=756; State=play; Bound=client; ID=0x37
-// Protocol=755; State=play; Bound=client; ID=0x37
-// Protocol=754; State=play; Bound=client; ID=0x33
-// Protocol=753; State=play; Bound=client; ID=0x33
-// Protocol=578; State=play; Bound=client; ID=0x35
-// Protocol=498; State=play; Bound=client; ID=0x34
-// Protocol=404; State=play; Bound=client; ID=0x31
-// Protocol=401; State=play; Bound=client; ID=0x31
+
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x37
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x37
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x37
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x33
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x33
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x35
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x34
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x31
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x31
 type PlayFacePlayer_757_0 struct {
 	/* Values are feet=0, eyes=1.  If set to eyes, aims using the head position; otherwise aims using the feet position. */
 	FeetOrEyes VarInt // VarInt enum
-	/* x coordinate of the point to face towards. */
+	/* x coordinate of the point to face towards */
 	TargetX Double // Double
-	/* y coordinate of the point to face towards. */
+	/* y coordinate of the point to face towards */
 	TargetY Double // Double
-	/* z coordinate of the point to face towards. */
+	/* z coordinate of the point to face towards */
 	TargetZ Double // Double
 	/* If true, additional information about an entity is provided. */
 	IsEntity Bool // Boolean
-	/* Only if is entity is true — the entity to face towards. */
+	/* Only if is entity is true — the entity to face towards */
 	EntityID VarInt // Optional VarInt
 	/* Whether to look at the entity's eyes or feet.  Same values and meanings as before, just for the entity's head/feet. */
 	EntityFeetOrEyes VarInt // Optional VarInt enum
@@ -5090,10 +5184,10 @@ func (p *PlayFacePlayer_757_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x6b
-// Protocol=762; State=play; Bound=client; ID=0x6b
-// Protocol=761; State=play; Bound=client; ID=0x67
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x6b
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x6b
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x67
 type PlayFeatureFlags_763_0 struct {
 	/* Number of features that appear in the array below. */
 	TotalFeatures VarInt // VarInt
@@ -5114,12 +5208,12 @@ func (p *PlayFeatureFlags_763_0)DecodeFrom(r *PacketReader)(err error){
 	}
 	TODO_Decode_Array(p.FeatureFlags)
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x1f
-// Protocol=762; State=play; Bound=client; ID=0x1f
-// Protocol=761; State=play; Bound=client; ID=0x1c
-// Protocol=760; State=play; Bound=client; ID=0x1d
-// Protocol=759; State=play; Bound=client; ID=0x1b
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x1f
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x1f
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x1c
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x1d
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x1b
 type PlayGameEvent_763_0 struct {
 	/* See below. */
 	Event UByte // Unsigned Byte
@@ -5143,17 +5237,17 @@ func (p *PlayGameEvent_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0xe
-// Protocol=757; State=play; Bound=server; ID=0xe
-// Protocol=756; State=play; Bound=server; ID=0xe
-// Protocol=755; State=play; Bound=server; ID=0xe
-// Protocol=754; State=play; Bound=server; ID=0xf
-// Protocol=753; State=play; Bound=server; ID=0xf
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0xe
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0xe
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0xe
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0xe
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0xf
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0xf
 type PlayGenerateStructure_758_0 struct {
-	/* Block entity location. */
+	/* Block entity location */
 	Location Position // Position
-	/* Value of the levels slider/max depth to generate. */
+	/* Value of the levels slider/max depth to generate */
 	Levels VarInt // VarInt
 	KeepJigsaws Bool // Boolean
 }
@@ -5178,12 +5272,13 @@ func (p *PlayGenerateStructure_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x48
-// Protocol=757; State=play; Bound=client; ID=0x48
-// Protocol=756; State=play; Bound=client; ID=0x48
-// Protocol=316; State=play; Bound=client; ID=0x37
-// Protocol=210; State=play; Bound=client; ID=0x37
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x48
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x48
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x3f
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x40
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x37
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x9
 type PlayHeldItemChange_758_0 struct {
 	/* The slot which the player has selected (0–8) */
 	Slot Byte // Byte
@@ -5201,12 +5296,13 @@ func (p *PlayHeldItemChange_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x25
-// Protocol=757; State=play; Bound=server; ID=0x25
-// Protocol=756; State=play; Bound=server; ID=0x25
-// Protocol=316; State=play; Bound=server; ID=0x17
-// Protocol=210; State=play; Bound=server; ID=0x17
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x25
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x25
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x25
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x23
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x17
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x9
 type PlayHeldItemChange_758_1 struct {
 	/* The slot which the player has selected (0–8) */
 	Slot Short // Short
@@ -5224,146 +5320,112 @@ func (p *PlayHeldItemChange_758_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=755; State=play; Bound=client; ID=0x48
-// Protocol=753; State=play; Bound=client; ID=0x3f
-// Protocol=578; State=play; Bound=client; ID=0x40
-type PlayHeldItemChange_755_2 struct {
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x48
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x48
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x3f
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x3f
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x3a
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x3a
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x37
+type PlayHeldItemChange_756_2 struct {
 	/* The slot which the player has selected (0–8) */
 	Slot Byte // Byte
 }
 
-var _ Packet = (*PlayHeldItemChange_755_2)(nil)
+var _ Packet = (*PlayHeldItemChange_756_2)(nil)
 
-func (p PlayHeldItemChange_755_2)Encode(b *PacketBuilder){
+func (p PlayHeldItemChange_756_2)Encode(b *PacketBuilder){
 	b.Byte(p.Slot)
 }
 
-func (p *PlayHeldItemChange_755_2)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayHeldItemChange_756_2)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Slot, ok = r.Byte(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=755; State=play; Bound=server; ID=0x25
-// Protocol=753; State=play; Bound=server; ID=0x25
-// Protocol=578; State=play; Bound=server; ID=0x23
-type PlayHeldItemChange_755_3 struct {
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x25
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x25
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x25
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x23
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x1a
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x1a
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x17
+type PlayHeldItemChange_756_3 struct {
 	/* The slot which the player has selected (0–8) */
 	Slot Short // Short
 }
 
-var _ Packet = (*PlayHeldItemChange_755_3)(nil)
+var _ Packet = (*PlayHeldItemChange_756_3)(nil)
 
-func (p PlayHeldItemChange_755_3)Encode(b *PacketBuilder){
+func (p PlayHeldItemChange_756_3)Encode(b *PacketBuilder){
 	b.Short(p.Slot)
 }
 
-func (p *PlayHeldItemChange_755_3)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayHeldItemChange_756_3)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x3f
-// Protocol=498; State=play; Bound=client; ID=0x3f
-type PlayHeldItemChange_754_4 struct {
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x3d
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x3d
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x39
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x37
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x37
+type PlayHeldItemChange_404_4 struct {
 	/* The slot which the player has selected (0–8) */
 	Slot Byte // Byte
 }
 
-var _ Packet = (*PlayHeldItemChange_754_4)(nil)
+var _ Packet = (*PlayHeldItemChange_404_4)(nil)
 
-func (p PlayHeldItemChange_754_4)Encode(b *PacketBuilder){
+func (p PlayHeldItemChange_404_4)Encode(b *PacketBuilder){
 	b.Byte(p.Slot)
 }
 
-func (p *PlayHeldItemChange_754_4)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayHeldItemChange_404_4)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Slot, ok = r.Byte(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=754; State=play; Bound=server; ID=0x25
-// Protocol=498; State=play; Bound=server; ID=0x23
-type PlayHeldItemChange_754_5 struct {
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x21
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x21
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x1a
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x17
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x17
+type PlayHeldItemChange_404_5 struct {
 	/* The slot which the player has selected (0–8) */
 	Slot Short // Short
 }
 
-var _ Packet = (*PlayHeldItemChange_754_5)(nil)
+var _ Packet = (*PlayHeldItemChange_404_5)(nil)
 
-func (p PlayHeldItemChange_754_5)Encode(b *PacketBuilder){
+func (p PlayHeldItemChange_404_5)Encode(b *PacketBuilder){
 	b.Short(p.Slot)
 }
 
-func (p *PlayHeldItemChange_754_5)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayHeldItemChange_404_5)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x3d
-// Protocol=401; State=play; Bound=client; ID=0x3d
-// Protocol=340; State=play; Bound=client; ID=0x3a
-// Protocol=315; State=play; Bound=client; ID=0x37
-// Protocol=110; State=play; Bound=client; ID=0x37
-// Protocol=47; State=play; Bound=client; ID=0x9
-type PlayHeldItemChange_404_6 struct {
-	/* The slot which the player has selected (0–8) */
-	Slot Byte // Byte
-}
 
-var _ Packet = (*PlayHeldItemChange_404_6)(nil)
-
-func (p PlayHeldItemChange_404_6)Encode(b *PacketBuilder){
-	b.Byte(p.Slot)
-}
-
-func (p *PlayHeldItemChange_404_6)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Slot, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-}
-				
-// Protocol=404; State=play; Bound=server; ID=0x21
-// Protocol=401; State=play; Bound=server; ID=0x21
-// Protocol=340; State=play; Bound=server; ID=0x1a
-// Protocol=315; State=play; Bound=server; ID=0x17
-// Protocol=110; State=play; Bound=server; ID=0x17
-// Protocol=47; State=play; Bound=server; ID=0x9
-type PlayHeldItemChange_404_7 struct {
-	/* The slot which the player has selected (0–8) */
-	Slot Short // Short
-}
-
-var _ Packet = (*PlayHeldItemChange_404_7)(nil)
-
-func (p PlayHeldItemChange_404_7)Encode(b *PacketBuilder){
-	b.Short(p.Slot)
-}
-
-func (p *PlayHeldItemChange_404_7)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Slot, ok = r.Short(); !ok {
-		return io.EOF
-	}
-}
-				
-// Protocol=763; State=play; Bound=client; ID=0x22
-// Protocol=762; State=play; Bound=client; ID=0x22
-// Protocol=761; State=play; Bound=client; ID=0x1e
-// Protocol=760; State=play; Bound=client; ID=0x1f
-// Protocol=759; State=play; Bound=client; ID=0x1d
-// Protocol=758; State=play; Bound=client; ID=0x20
-// Protocol=757; State=play; Bound=client; ID=0x20
-// Protocol=756; State=play; Bound=client; ID=0x20
-// Protocol=755; State=play; Bound=client; ID=0x20
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x22
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x22
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x1e
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x1f
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x1d
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x20
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x20
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x20
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x20
 type PlayInitializeWorldBorder_763_0 struct {
 	X Double // Double
 	Z Double // Double
@@ -5421,12 +5483,12 @@ func (p *PlayInitializeWorldBorder_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x10
-// Protocol=762; State=play; Bound=server; ID=0x10
-// Protocol=761; State=play; Bound=server; ID=0xf
-// Protocol=760; State=play; Bound=server; ID=0x10
-// Protocol=759; State=play; Bound=server; ID=0xf
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x10
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x10
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0xf
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x10
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0xf
 type PlayInteract_763_0 struct {
 	/* The ID of the entity to interact. */
 	EntityID VarInt // VarInt
@@ -5480,25 +5542,25 @@ func (p *PlayInteract_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0xd
-// Protocol=757; State=play; Bound=server; ID=0xd
-// Protocol=756; State=play; Bound=server; ID=0xd
-// Protocol=755; State=play; Bound=server; ID=0xd
-// Protocol=754; State=play; Bound=server; ID=0xe
-// Protocol=753; State=play; Bound=server; ID=0xe
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0xd
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0xd
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0xd
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0xd
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0xe
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0xe
 type PlayInteractEntity_758_0 struct {
-	/* The ID of the entity to interact. */
+	/* The ID of the entity to interact */
 	EntityID VarInt // VarInt
-	/* 0: interact, 1: attack, 2: interact at. */
+	/* 0: interact, 1: attack, 2: interact at */
 	Type VarInt // VarInt Enum
-	/* Only if Type is interact at. */
+	/* Only if Type is interact at */
 	TargetX Float // Optional Float
-	/* Only if Type is interact at. */
+	/* Only if Type is interact at */
 	TargetY Float // Optional Float
-	/* Only if Type is interact at. */
+	/* Only if Type is interact at */
 	TargetZ Float // Optional Float
-	/* Only if Type is interact or interact at; 0: main hand, 1: off hand. */
+	/* Only if Type is interact or interact at; 0: main hand, 1: off hand */
 	Hand VarInt // Optional VarInt Enum
 	/* If the client is sneaking. */
 	Sneaking Bool // Boolean
@@ -5540,9 +5602,9 @@ func (p *PlayInteractEntity_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=578; State=play; Bound=server; ID=0xe
-// Protocol=498; State=play; Bound=server; ID=0xe
+
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0xe
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0xe
 type PlayInteractEntity_578_1 struct {
 	/* The ID of the entity to interact */
 	EntityID VarInt // VarInt
@@ -5590,12 +5652,12 @@ func (p *PlayInteractEntity_578_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x11
-// Protocol=762; State=play; Bound=server; ID=0x11
-// Protocol=761; State=play; Bound=server; ID=0x10
-// Protocol=760; State=play; Bound=server; ID=0x11
-// Protocol=759; State=play; Bound=server; ID=0x10
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x11
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x11
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x10
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x11
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x10
 type PlayJigsawGenerate_763_0 struct {
 	/* Block entity location. */
 	Location Position // Position
@@ -5624,9 +5686,9 @@ func (p *PlayJigsawGenerate_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x26
-// Protocol=757; State=play; Bound=client; ID=0x26
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x26
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x26
 type PlayJoinGame_758_0 struct {
 	/* The player's Entity ID (EID). */
 	EntityID Int // Int
@@ -5737,42 +5799,42 @@ func (p *PlayJoinGame_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=756; State=play; Bound=client; ID=0x26
-// Protocol=755; State=play; Bound=client; ID=0x26
-// Protocol=754; State=play; Bound=client; ID=0x24
-// Protocol=753; State=play; Bound=client; ID=0x24
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x26
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x26
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x24
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x24
 type PlayJoinGame_756_1 struct {
-	/* The player's Entity ID (EID). */
+	/* The player's Entity ID (EID) */
 	EntityID Int // Int
 	IsHardcore Bool // Boolean
 	/* 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. */
 	Gamemode UByte // Unsigned Byte
 	/* 0: survival, 1: creative, 2: adventure, 3: spectator. The hardcore flag is not included. The previous gamemode. Defaults to -1 if there is no previous gamemode. (More information needed) */
 	PreviousGamemode Byte // Byte
-	/* Size of the following array. */
+	/* Size of the following array */
 	WorldCount VarInt // VarInt
-	/* Identifiers for all worlds on the server. */
+	/* Identifiers for all worlds on the server */
 	WorldNames []Identifier // Array of Identifier
 	/* The full extent of these is still unknown, but the tag represents a dimension and biome registry. See below for the vanilla default. */
 	DimensionCodec *NBTCompound // NBT Tag Compound
-	/* Valid dimensions are defined per dimension registry sent before this. The structure of this tag is a dimension type (see below). */
+	/* Valid dimensions are defined per dimension registry sent before this */
 	Dimension *NBTCompound // NBT Tag Compound
-	/* Name of the world being spawned into. */
+	/* Name of the world being spawned into */
 	WorldName Identifier // Identifier
-	/* First 8 bytes of the SHA-256 hash of the world's seed. Used client side for biome noise */
+	/* First 8 bytes of the SHA-256 hash of the world's seed. */
 	HashedSeed Long // Long
-	/* Was once used by the client to draw the player list, but now is ignored. */
+	/* Was once used by the client to draw the player list, but now is ignored */
 	MaxPlayers VarInt // VarInt
-	/* Render distance (2-32). */
+	/* Render distance (2-32) */
 	ViewDistance VarInt // VarInt
 	/* If true, a Notchian client shows reduced information on the debug screen.  For servers in development, this should almost always be false. */
 	ReducedDebugInfo Bool // Boolean
-	/* Set to false when the doImmediateRespawn gamerule is true. */
+	/* Set to false when the doImmediateRespawn gamerule is true */
 	EnableRespawnScreen Bool // Boolean
-	/* True if the world is a debug mode world; debug mode worlds cannot be modified and have predefined blocks. */
+	/* True if the world is a debug mode world; debug mode worlds cannot be modified and have predefined blocks */
 	IsDebug Bool // Boolean
-	/* True if the world is a superflat world; flat worlds have different void fog and a horizon at y=0 instead of y=63. */
+	/* True if the world is a superflat world; flat worlds have different void fog and a horizon at y=0 instead of y=63 */
 	IsFlat Bool // Boolean
 }
 
@@ -5854,16 +5916,16 @@ func (p *PlayJoinGame_756_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x25
-// Protocol=401; State=play; Bound=client; ID=0x25
-// Protocol=340; State=play; Bound=client; ID=0x23
-// Protocol=338; State=play; Bound=client; ID=0x23
-// Protocol=335; State=play; Bound=client; ID=0x23
-// Protocol=316; State=play; Bound=client; ID=0x23
-// Protocol=315; State=play; Bound=client; ID=0x23
-// Protocol=210; State=play; Bound=client; ID=0x23
-// Protocol=110; State=play; Bound=client; ID=0x23
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x25
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x25
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x23
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x23
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x23
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x23
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x23
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x23
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x23
 type PlayJoinGame_404_4 struct {
 	/* The player's Entity ID (EID) */
 	EntityID Int // Int
@@ -5876,8 +5938,8 @@ type PlayJoinGame_404_4 struct {
 	/* Was once used by the client to draw the player list, but now is ignored */
 	MaxPlayers UByte // Unsigned Byte
 	/* default, flat, largeBiomes, amplified, default_1_1 */
-	LevelType String // String
-	/* If true, a Notchian client shows reduced information on the debug screen. */
+	LevelType String // String Enum (16)
+	/* If true, a Notchian client shows reduced information on the debug screen.  For servers in development, this should almost always be false. */
 	ReducedDebugInfo Bool // Boolean
 }
 
@@ -5917,39 +5979,39 @@ func (p *PlayJoinGame_404_4)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x23
-// Protocol=763; State=play; Bound=server; ID=0x12
-// Protocol=762; State=play; Bound=client; ID=0x23
-// Protocol=762; State=play; Bound=server; ID=0x12
-// Protocol=761; State=play; Bound=client; ID=0x1f
-// Protocol=761; State=play; Bound=server; ID=0x11
-// Protocol=760; State=play; Bound=client; ID=0x20
-// Protocol=760; State=play; Bound=server; ID=0x12
-// Protocol=759; State=play; Bound=client; ID=0x1e
-// Protocol=759; State=play; Bound=server; ID=0x11
-// Protocol=758; State=play; Bound=client; ID=0x21
-// Protocol=758; State=play; Bound=server; ID=0xf
-// Protocol=757; State=play; Bound=client; ID=0x21
-// Protocol=757; State=play; Bound=server; ID=0xf
-// Protocol=756; State=play; Bound=client; ID=0x21
-// Protocol=756; State=play; Bound=server; ID=0xf
-// Protocol=755; State=play; Bound=client; ID=0x21
-// Protocol=755; State=play; Bound=server; ID=0xf
-// Protocol=754; State=play; Bound=client; ID=0x1f
-// Protocol=754; State=play; Bound=server; ID=0x10
-// Protocol=753; State=play; Bound=client; ID=0x1f
-// Protocol=753; State=play; Bound=server; ID=0x10
-// Protocol=578; State=play; Bound=client; ID=0x21
-// Protocol=578; State=play; Bound=server; ID=0xf
-// Protocol=498; State=play; Bound=client; ID=0x20
-// Protocol=498; State=play; Bound=server; ID=0xf
-// Protocol=404; State=play; Bound=client; ID=0x21
-// Protocol=404; State=play; Bound=server; ID=0xe
-// Protocol=401; State=play; Bound=client; ID=0x21
-// Protocol=401; State=play; Bound=server; ID=0xe
-// Protocol=340; State=play; Bound=client; ID=0x1f
-// Protocol=340; State=play; Bound=server; ID=0xb
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x23
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x12
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x23
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x12
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x1f
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x11
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x20
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x12
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x1e
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x11
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x21
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0xf
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x21
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0xf
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x21
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0xf
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x21
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0xf
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x1f
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x10
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x1f
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x10
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x21
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0xf
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x20
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0xf
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x21
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0xe
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x21
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0xe
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x1f
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0xb
 type PlayKeepAlive_763_0 struct {
 	KeepAliveID Long // Long
 }
@@ -5966,21 +6028,21 @@ func (p *PlayKeepAlive_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=338; State=play; Bound=client; ID=0x1f
-// Protocol=338; State=play; Bound=server; ID=0xb
-// Protocol=335; State=play; Bound=client; ID=0x1f
-// Protocol=335; State=play; Bound=server; ID=0xc
-// Protocol=316; State=play; Bound=client; ID=0x1f
-// Protocol=316; State=play; Bound=server; ID=0xb
-// Protocol=315; State=play; Bound=client; ID=0x1f
-// Protocol=315; State=play; Bound=server; ID=0xb
-// Protocol=210; State=play; Bound=client; ID=0x1f
-// Protocol=210; State=play; Bound=server; ID=0xb
-// Protocol=110; State=play; Bound=client; ID=0x1f
-// Protocol=110; State=play; Bound=server; ID=0xb
-// Protocol=47; State=play; Bound=client; ID=0x0
-// Protocol=47; State=play; Bound=server; ID=0x0
+
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x1f
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0xb
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x1f
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0xc
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x1f
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0xb
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x1f
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0xb
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x1f
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0xb
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x1f
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0xb
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x0
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x0
 type PlayKeepAlive_338_1 struct {
 	KeepAliveID VarInt // VarInt
 }
@@ -5997,12 +6059,12 @@ func (p *PlayKeepAlive_338_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x53
-// Protocol=762; State=play; Bound=client; ID=0x53
-// Protocol=761; State=play; Bound=client; ID=0x4f
-// Protocol=760; State=play; Bound=client; ID=0x51
-// Protocol=759; State=play; Bound=client; ID=0x4e
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x53
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x53
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x4f
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x51
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x4e
 type PlayLinkEntities_763_0 struct {
 	/* Attached entity's EID. */
 	AttachedEntityID Int // Int
@@ -6026,20 +6088,20 @@ func (p *PlayLinkEntities_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x13
-// Protocol=762; State=play; Bound=server; ID=0x13
-// Protocol=761; State=play; Bound=server; ID=0x12
-// Protocol=760; State=play; Bound=server; ID=0x13
-// Protocol=759; State=play; Bound=server; ID=0x12
-// Protocol=758; State=play; Bound=server; ID=0x10
-// Protocol=757; State=play; Bound=server; ID=0x10
-// Protocol=756; State=play; Bound=server; ID=0x10
-// Protocol=755; State=play; Bound=server; ID=0x10
-// Protocol=754; State=play; Bound=server; ID=0x11
-// Protocol=753; State=play; Bound=server; ID=0x11
-// Protocol=578; State=play; Bound=server; ID=0x10
-// Protocol=498; State=play; Bound=server; ID=0x10
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x13
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x13
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x12
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x13
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x12
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x10
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x10
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x10
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x10
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x11
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x11
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x10
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x10
 type PlayLockDifficulty_763_0 struct {
 	Locked Bool // Boolean
 }
@@ -6056,17 +6118,17 @@ func (p *PlayLockDifficulty_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=client; ID=0x24
-// Protocol=760; State=play; Bound=client; ID=0x25
-// Protocol=759; State=play; Bound=client; ID=0x23
+
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x24
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x25
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x23
 type PlayLogin_761_2 struct {
 	/* The player's Entity ID (EID). */
 	EntityID Int // Int
 	IsHardcore Bool // Boolean
 	/* 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. */
 	Gamemode UByte // Unsigned Byte
-	/* 0: survival, 1: creative, 2: adventure, 3: spectator. The hardcore flag is not included. The previous gamemode. Defaults to -1 if there is no previous gamemode. (More information needed) */
+	/* -1: Undefined (null), 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. The previous gamemode. Vanilla client uses this for the debug (F3 + N & F3 + F4) gamemode switch. (More information needed) */
 	PreviousGamemode Byte // Byte
 	/* Size of the following array. */
 	DimensionCount VarInt // VarInt
@@ -6097,9 +6159,9 @@ type PlayLogin_761_2 struct {
 	/* If true, then the next two fields are present. */
 	HasDeathLocation Bool // Boolean
 	/* Name of the dimension the player died in. */
-	DeathDimensionName Identifier // Identifier
+	DeathDimensionName Identifier // Optional Identifier
 	/* The location that the player died at. */
-	DeathLocation Position // Position
+	DeathLocation Position // Optional Position
 }
 
 var _ Packet = (*PlayLogin_761_2)(nil)
@@ -6196,12 +6258,12 @@ func (p *PlayLogin_761_2)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x3b
-// Protocol=762; State=play; Bound=client; ID=0x3b
-// Protocol=761; State=play; Bound=client; ID=0x37
-// Protocol=760; State=play; Bound=client; ID=0x38
-// Protocol=759; State=play; Bound=client; ID=0x35
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x3b
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x3b
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x37
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x38
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x35
 type PlayLookAt_763_0 struct {
 	/* Values are feet=0, eyes=1.  If set to eyes, aims using the head position; otherwise aims using the feet position. */
 	FeetOrEyes VarInt // VarInt Enum
@@ -6255,10 +6317,10 @@ func (p *PlayLookAt_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x3
-// Protocol=762; State=play; Bound=server; ID=0x3
-// Protocol=761; State=play; Bound=server; ID=0x3
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x3
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x3
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x3
 type PlayMessageAcknowledgment_763_0 struct {
 	MessageCount VarInt // VarInt
 }
@@ -6275,17 +6337,17 @@ func (p *PlayMessageAcknowledgment_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x2e
-// Protocol=763; State=play; Bound=server; ID=0x18
-// Protocol=762; State=play; Bound=client; ID=0x2e
-// Protocol=762; State=play; Bound=server; ID=0x18
-// Protocol=761; State=play; Bound=client; ID=0x2a
-// Protocol=761; State=play; Bound=server; ID=0x17
-// Protocol=760; State=play; Bound=client; ID=0x2b
-// Protocol=760; State=play; Bound=server; ID=0x18
-// Protocol=759; State=play; Bound=client; ID=0x29
-// Protocol=759; State=play; Bound=server; ID=0x17
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x2e
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x18
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x2e
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x18
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x2a
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x17
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x2b
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x18
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x29
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x17
 type PlayMoveVehicle_763_0 struct {
 	/* Absolute position (X coordinate). */
 	X Double // Double
@@ -6327,19 +6389,19 @@ func (p *PlayMoveVehicle_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x3f
-// Protocol=757; State=play; Bound=client; ID=0x3f
-// Protocol=756; State=play; Bound=client; ID=0x3f
-// Protocol=755; State=play; Bound=client; ID=0x3f
-// Protocol=754; State=play; Bound=client; ID=0x3b
-// Protocol=753; State=play; Bound=client; ID=0x3b
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x3f
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x3f
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x3f
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x3f
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x3b
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x3b
 type PlayMultiBlockChange_758_0 struct {
-	/* Chunk section coordinate (encoded chunk x and z with each 22 bits, and section y with 20 bits, from left to right). */
+	/* Chunk section coordinate (encoded chunk x and z with each 22 bits, and section y with 20 bits, from left to right) */
 	ChunkSectionPosition Long // Long
-	/* Number of elements in the following array. */
+	/* Number of elements in the following array */
 	BlocksArraySize VarInt // VarInt
-	/* Each entry is composed of the block state id, shifted right by 12, and the relative block position in the chunk section (4 bits for x, z, and y, from left to right). */
+	/* Each entry is composed of the block id, shifted right by 12, and the relative block position in the chunk section (4 bits for x, z, and y, from left to right). */
 	Blocks []VarLong // Array of VarLong
 }
 
@@ -6361,17 +6423,17 @@ func (p *PlayMultiBlockChange_758_0)DecodeFrom(r *PacketReader)(err error){
 	}
 	TODO_Decode_Array(p.Blocks)
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x60
-// Protocol=757; State=play; Bound=client; ID=0x60
-// Protocol=756; State=play; Bound=client; ID=0x5f
-// Protocol=755; State=play; Bound=client; ID=0x5f
-// Protocol=754; State=play; Bound=client; ID=0x54
-// Protocol=753; State=play; Bound=client; ID=0x54
-// Protocol=578; State=play; Bound=client; ID=0x55
-// Protocol=498; State=play; Bound=client; ID=0x54
-// Protocol=404; State=play; Bound=client; ID=0x1d
-// Protocol=401; State=play; Bound=client; ID=0x1d
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x60
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x60
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x5f
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x5f
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x54
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x54
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x55
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x54
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x1d
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x1d
 type PlayNBTQueryResponse_758_0 struct {
 	/* Can be compared to the one sent in the original query packet. */
 	TransactionID VarInt // VarInt
@@ -6395,19 +6457,19 @@ func (p *PlayNBTQueryResponse_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x20
-// Protocol=757; State=play; Bound=server; ID=0x20
-// Protocol=756; State=play; Bound=server; ID=0x20
-// Protocol=755; State=play; Bound=server; ID=0x20
-// Protocol=754; State=play; Bound=server; ID=0x20
-// Protocol=753; State=play; Bound=server; ID=0x20
-// Protocol=578; State=play; Bound=server; ID=0x1e
-// Protocol=498; State=play; Bound=server; ID=0x1e
-// Protocol=404; State=play; Bound=server; ID=0x1c
-// Protocol=401; State=play; Bound=server; ID=0x1c
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x20
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x20
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x20
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x20
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x20
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x20
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x1e
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x1e
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x1c
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x1c
 type PlayNameItem_758_0 struct {
-	/* The new name of the item. */
+	/* The new name of the item */
 	ItemName String // String (32767)
 }
 
@@ -6423,31 +6485,31 @@ func (p *PlayNameItem_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x19
-// Protocol=757; State=play; Bound=client; ID=0x19
-// Protocol=756; State=play; Bound=client; ID=0x19
-// Protocol=755; State=play; Bound=client; ID=0x19
-// Protocol=754; State=play; Bound=client; ID=0x18
-// Protocol=753; State=play; Bound=client; ID=0x18
-// Protocol=578; State=play; Bound=client; ID=0x1a
-// Protocol=498; State=play; Bound=client; ID=0x19
-// Protocol=404; State=play; Bound=client; ID=0x1a
-// Protocol=401; State=play; Bound=client; ID=0x1a
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x19
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x19
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x19
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x19
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x18
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x18
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x1a
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x19
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x1a
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x1a
 type PlayNamedSoundEffect_758_0 struct {
-	/* All sound effect names as of 1.16.5 can be seen here. */
+	/* All sound effect names as of 1.15.2 can be seen here. */
 	SoundName Identifier // Identifier
-	/* The category that this sound will be played from (current categories). */
+	/* The category that this sound will be played from (current categories) */
 	SoundCategory VarInt // VarInt Enum
-	/* Effect X multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part). */
+	/* Effect X multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part) */
 	EffectPositionX Int // Int
-	/* Effect Y multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part). */
+	/* Effect Y multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part) */
 	EffectPositionY Int // Int
-	/* Effect Z multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part). */
+	/* Effect Z multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part) */
 	EffectPositionZ Int // Int
-	/* 1 is 100%, can be more. */
+	/* 1 is 100%, can be more */
 	Volume Float // Float
-	/* Float between 0.5 and 2.0 by Notchian clients. */
+	/* Float between 0.5 and 2.0 by Notchian clients */
 	Pitch Float // Float
 }
 
@@ -6487,16 +6549,16 @@ func (p *PlayNamedSoundEffect_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=340; State=play; Bound=client; ID=0x19
-// Protocol=338; State=play; Bound=client; ID=0x19
-// Protocol=335; State=play; Bound=client; ID=0x19
-// Protocol=316; State=play; Bound=client; ID=0x19
-// Protocol=315; State=play; Bound=client; ID=0x19
-// Protocol=210; State=play; Bound=client; ID=0x19
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x19
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x19
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x19
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x19
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x19
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x19
 type PlayNamedSoundEffect_340_1 struct {
-	/* All sound effect names as of 1.10.0 can be seen here. */
-	SoundName String // String
+	/* All sound effect names as of 1.11.0 can be seen here. */
+	SoundName String // String (256)
 	/* The category that this sound will be played from (current categories) */
 	SoundCategory VarInt // VarInt Enum
 	/* Effect X multiplied by 8 (fixed-point number with only 3 bits dedicated to the fractional part) */
@@ -6547,22 +6609,22 @@ func (p *PlayNamedSoundEffect_340_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x2f
-// Protocol=762; State=play; Bound=client; ID=0x2f
-// Protocol=761; State=play; Bound=client; ID=0x2b
-// Protocol=760; State=play; Bound=client; ID=0x2c
-// Protocol=759; State=play; Bound=client; ID=0x2a
-// Protocol=758; State=play; Bound=client; ID=0x2d
-// Protocol=757; State=play; Bound=client; ID=0x2d
-// Protocol=756; State=play; Bound=client; ID=0x2d
-// Protocol=755; State=play; Bound=client; ID=0x2d
-// Protocol=754; State=play; Bound=client; ID=0x2c
-// Protocol=753; State=play; Bound=client; ID=0x2c
-// Protocol=578; State=play; Bound=client; ID=0x2e
-// Protocol=498; State=play; Bound=client; ID=0x2d
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x2f
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x2f
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x2b
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x2c
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x2a
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x2d
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x2d
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x2d
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x2d
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x2c
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x2c
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x2e
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2d
 type PlayOpenBook_763_0 struct {
-	/* 0: Main hand, 1: Off hand . */
+	/* 0: Main hand, 1: Off hand */
 	Hand VarInt // VarInt enum
 }
 
@@ -6578,12 +6640,12 @@ func (p *PlayOpenBook_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x20
-// Protocol=762; State=play; Bound=client; ID=0x20
-// Protocol=761; State=play; Bound=client; ID=0x1d
-// Protocol=760; State=play; Bound=client; ID=0x1e
-// Protocol=759; State=play; Bound=client; ID=0x1c
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x20
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x20
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x1d
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x1e
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x1c
 type PlayOpenHorseScreen_763_0 struct {
 	WindowID UByte // Unsigned Byte
 	SlotCount VarInt // VarInt
@@ -6610,9 +6672,9 @@ func (p *PlayOpenHorseScreen_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x1f
-// Protocol=757; State=play; Bound=client; ID=0x1f
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x1f
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x1f
 type PlayOpenHorseWindow_758_0 struct {
 	WindowID UByte // Unsigned Byte
 	SlotCount VarInt // VarInt
@@ -6639,13 +6701,13 @@ func (p *PlayOpenHorseWindow_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=756; State=play; Bound=client; ID=0x1f
-// Protocol=755; State=play; Bound=client; ID=0x1f
-// Protocol=754; State=play; Bound=client; ID=0x1e
-// Protocol=753; State=play; Bound=client; ID=0x1e
-// Protocol=578; State=play; Bound=client; ID=0x20
-// Protocol=498; State=play; Bound=client; ID=0x1f
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x1f
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x1f
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x1e
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x1e
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x20
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x1f
 type PlayOpenHorseWindow_756_1 struct {
 	WindowID Byte // Byte
 	NumberOfSlots VarInt // VarInt
@@ -6672,12 +6734,12 @@ func (p *PlayOpenHorseWindow_756_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x30
-// Protocol=762; State=play; Bound=client; ID=0x30
-// Protocol=761; State=play; Bound=client; ID=0x2c
-// Protocol=760; State=play; Bound=client; ID=0x2d
-// Protocol=759; State=play; Bound=client; ID=0x2b
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x30
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x30
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x2c
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x2d
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x2b
 type PlayOpenScreen_763_0 struct {
 	/* A unique id number for the window to be displayed. Notchian server implementation is a counter, starting at 1. */
 	WindowID VarInt // VarInt
@@ -6707,29 +6769,29 @@ func (p *PlayOpenScreen_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=762; State=play; Bound=client; ID=0x31
-// Protocol=761; State=play; Bound=client; ID=0x2d
-// Protocol=760; State=play; Bound=client; ID=0x2e
-// Protocol=759; State=play; Bound=client; ID=0x2c
-// Protocol=758; State=play; Bound=client; ID=0x2f
-// Protocol=757; State=play; Bound=client; ID=0x2f
-// Protocol=756; State=play; Bound=client; ID=0x2f
-// Protocol=755; State=play; Bound=client; ID=0x2f
-// Protocol=754; State=play; Bound=client; ID=0x2e
-// Protocol=753; State=play; Bound=client; ID=0x2e
-// Protocol=578; State=play; Bound=client; ID=0x30
-// Protocol=498; State=play; Bound=client; ID=0x2f
-// Protocol=404; State=play; Bound=client; ID=0x2c
-// Protocol=401; State=play; Bound=client; ID=0x2c
-// Protocol=340; State=play; Bound=client; ID=0x2a
-// Protocol=338; State=play; Bound=client; ID=0x2a
-// Protocol=335; State=play; Bound=client; ID=0x2a
-// Protocol=316; State=play; Bound=client; ID=0x2a
-// Protocol=315; State=play; Bound=client; ID=0x2a
-// Protocol=210; State=play; Bound=client; ID=0x2a
-// Protocol=110; State=play; Bound=client; ID=0x2a
-// Protocol=47; State=play; Bound=client; ID=0x36
+
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x31
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x2d
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x2e
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x2c
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x2f
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x2f
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x2f
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x2f
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x2e
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x2e
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x30
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2f
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x2c
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x2c
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x2a
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x2a
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x2a
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x2a
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x2a
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x2a
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x2a
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x36
 type PlayOpenSignEditor_762_1 struct {
 	Location Position // Position
 }
@@ -6746,21 +6808,21 @@ func (p *PlayOpenSignEditor_762_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x2e
-// Protocol=757; State=play; Bound=client; ID=0x2e
-// Protocol=756; State=play; Bound=client; ID=0x2e
-// Protocol=755; State=play; Bound=client; ID=0x2e
-// Protocol=754; State=play; Bound=client; ID=0x2d
-// Protocol=753; State=play; Bound=client; ID=0x2d
-// Protocol=578; State=play; Bound=client; ID=0x2f
-// Protocol=498; State=play; Bound=client; ID=0x2e
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x2e
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x2e
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x2e
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x2e
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x2d
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x2d
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x2f
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2e
 type PlayOpenWindow_758_0 struct {
 	/* A unique id number for the window to be displayed. Notchian server implementation is a counter, starting at 1. */
 	WindowID VarInt // VarInt
-	/* The window type to use for display. Contained in the minecraft:menu registry; see Inventory for the different values. */
+	/* The window type to use for display. Contained in the minecraft:menu regisry; see Inventory for the different values. */
 	WindowType VarInt // VarInt
-	/* The title of the window. */
+	/* The title of the window */
 	WindowTitle Object // Chat
 }
 
@@ -6784,17 +6846,17 @@ func (p *PlayOpenWindow_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x14
-// Protocol=401; State=play; Bound=client; ID=0x14
-// Protocol=340; State=play; Bound=client; ID=0x13
-// Protocol=338; State=play; Bound=client; ID=0x13
-// Protocol=335; State=play; Bound=client; ID=0x13
-// Protocol=316; State=play; Bound=client; ID=0x13
-// Protocol=315; State=play; Bound=client; ID=0x13
-// Protocol=210; State=play; Bound=client; ID=0x13
-// Protocol=110; State=play; Bound=client; ID=0x13
-// Protocol=47; State=play; Bound=client; ID=0x2d
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x14
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x14
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x13
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x13
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x13
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x13
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x13
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x13
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x13
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x2d
 type PlayOpenWindow_404_1 struct {
 	/* A unique id number for the window to be displayed. Notchian server implementation is a counter, starting at 1. */
 	WindowID UByte // Unsigned Byte
@@ -6836,12 +6898,12 @@ func (p *PlayOpenWindow_404_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x19
-// Protocol=762; State=play; Bound=server; ID=0x19
-// Protocol=761; State=play; Bound=server; ID=0x18
-// Protocol=760; State=play; Bound=server; ID=0x19
-// Protocol=759; State=play; Bound=server; ID=0x18
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x19
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x19
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x18
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x19
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x18
 type PlayPaddleBoat_763_0 struct {
 	LeftPaddleTurning Bool // Boolean
 	RightPaddleTurning Bool // Boolean
@@ -6863,12 +6925,12 @@ func (p *PlayPaddleBoat_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x26
-// Protocol=762; State=play; Bound=client; ID=0x26
-// Protocol=761; State=play; Bound=client; ID=0x22
-// Protocol=760; State=play; Bound=client; ID=0x23
-// Protocol=759; State=play; Bound=client; ID=0x21
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x26
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x26
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x22
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x23
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x21
 type PlayParticle_763_0 struct {
 	/* The particle ID listed in the particle data type. */
 	ParticleID VarInt // VarInt
@@ -6945,34 +7007,34 @@ func (p *PlayParticle_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x24
-// Protocol=757; State=play; Bound=client; ID=0x24
-// Protocol=756; State=play; Bound=client; ID=0x24
-// Protocol=755; State=play; Bound=client; ID=0x24
-// Protocol=754; State=play; Bound=client; ID=0x22
-// Protocol=753; State=play; Bound=client; ID=0x22
-// Protocol=578; State=play; Bound=client; ID=0x24
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x24
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x24
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x24
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x24
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x22
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x22
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x24
 type PlayParticle_758_1 struct {
 	/* The particle ID listed in the particle data type. */
 	ParticleID Int // Int
-	/* If true, particle distance increases from 256 to 65536. */
+	/* If true, particle distance increases from 256 to 65536 */
 	LongDistance Bool // Boolean
-	/* X position of the particle. */
+	/* X position of the particle */
 	X Double // Double
-	/* Y position of the particle. */
+	/* Y position of the particle */
 	Y Double // Double
-	/* Z position of the particle. */
+	/* Z position of the particle */
 	Z Double // Double
-	/* This is added to the X position after being multiplied by random.nextGaussian(). */
+	/* This is added to the X position after being multiplied by random.nextGaussian() */
 	OffsetX Float // Float
-	/* This is added to the Y position after being multiplied by random.nextGaussian(). */
+	/* This is added to the Y position after being multiplied by random.nextGaussian() */
 	OffsetY Float // Float
-	/* This is added to the Z position after being multiplied by random.nextGaussian(). */
+	/* This is added to the Z position after being multiplied by random.nextGaussian() */
 	OffsetZ Float // Float
-	/* The data of each particle. */
+	/* The data of each particle */
 	ParticleData Float // Float
-	/* The number of particles to create. */
+	/* The number of particles to create */
 	ParticleCount Int // Int
 	/* The variable data listed in the particle data type. */
 	Data any // Varies
@@ -7030,10 +7092,10 @@ func (p *PlayParticle_758_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=498; State=play; Bound=client; ID=0x23
-// Protocol=404; State=play; Bound=client; ID=0x24
-// Protocol=401; State=play; Bound=client; ID=0x24
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x23
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x24
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x24
 type PlayParticle_498_2 struct {
 	/* The particle ID listed in the particle data type. */
 	ParticleID Int // Int
@@ -7111,15 +7173,15 @@ func (p *PlayParticle_498_2)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=340; State=play; Bound=client; ID=0x22
-// Protocol=338; State=play; Bound=client; ID=0x22
-// Protocol=335; State=play; Bound=client; ID=0x22
-// Protocol=316; State=play; Bound=client; ID=0x22
-// Protocol=315; State=play; Bound=client; ID=0x22
-// Protocol=210; State=play; Bound=client; ID=0x22
-// Protocol=110; State=play; Bound=client; ID=0x22
-// Protocol=47; State=play; Bound=client; ID=0x2a
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x22
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x22
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x22
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x22
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x22
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x22
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x22
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x2a
 type PlayParticle_340_3 struct {
 	/* See below */
 	ParticleID Int // Int
@@ -7195,24 +7257,24 @@ func (p *PlayParticle_340_3)DecodeFrom(r *PacketReader)(err error){
 	}
 	TODO_Decode_Array(p.Data)
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x1a
-// Protocol=762; State=play; Bound=server; ID=0x1a
-// Protocol=761; State=play; Bound=server; ID=0x19
-// Protocol=760; State=play; Bound=server; ID=0x1a
-// Protocol=759; State=play; Bound=server; ID=0x19
-// Protocol=758; State=play; Bound=server; ID=0x17
-// Protocol=757; State=play; Bound=server; ID=0x17
-// Protocol=756; State=play; Bound=server; ID=0x17
-// Protocol=755; State=play; Bound=server; ID=0x17
-// Protocol=754; State=play; Bound=server; ID=0x18
-// Protocol=753; State=play; Bound=server; ID=0x18
-// Protocol=578; State=play; Bound=server; ID=0x17
-// Protocol=498; State=play; Bound=server; ID=0x17
-// Protocol=404; State=play; Bound=server; ID=0x15
-// Protocol=401; State=play; Bound=server; ID=0x15
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x1a
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x1a
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x19
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x1a
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x19
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x17
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x17
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x17
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x17
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x18
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x18
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x17
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x17
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x15
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x15
 type PlayPickItem_763_0 struct {
-	/* See Inventory. */
+	/* See Inventory */
 	SlotToUse VarInt // VarInt
 }
 
@@ -7228,12 +7290,12 @@ func (p *PlayPickItem_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x67
-// Protocol=762; State=play; Bound=client; ID=0x67
-// Protocol=761; State=play; Bound=client; ID=0x63
-// Protocol=760; State=play; Bound=client; ID=0x65
-// Protocol=759; State=play; Bound=client; ID=0x62
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x67
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x67
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x63
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x65
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x62
 type PlayPickupItem_763_0 struct {
 	CollectedEntityID VarInt // VarInt
 	CollectorEntityID VarInt // VarInt
@@ -7261,16 +7323,16 @@ func (p *PlayPickupItem_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x32
-// Protocol=762; State=play; Bound=client; ID=0x32
-// Protocol=761; State=play; Bound=client; ID=0x2e
-// Protocol=760; State=play; Bound=client; ID=0x2f
-// Protocol=759; State=play; Bound=client; ID=0x2d
-// Protocol=758; State=play; Bound=client; ID=0x30
-// Protocol=757; State=play; Bound=client; ID=0x30
-// Protocol=756; State=play; Bound=client; ID=0x30
-// Protocol=755; State=play; Bound=client; ID=0x30
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x32
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x32
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x2e
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x2f
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x2d
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x30
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x30
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x30
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x30
 type PlayPing_763_0 struct {
 	ID Int // Int
 }
@@ -7287,12 +7349,12 @@ func (p *PlayPing_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x33
-// Protocol=762; State=play; Bound=client; ID=0x33
-// Protocol=761; State=play; Bound=client; ID=0x2f
-// Protocol=760; State=play; Bound=client; ID=0x30
-// Protocol=759; State=play; Bound=client; ID=0x2e
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x33
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x33
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x2f
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x30
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x2e
 type PlayPlaceGhostRecipe_763_0 struct {
 	WindowID Byte // Byte
 	/* A recipe ID. */
@@ -7315,12 +7377,12 @@ func (p *PlayPlaceGhostRecipe_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x1b
-// Protocol=762; State=play; Bound=server; ID=0x1b
-// Protocol=761; State=play; Bound=server; ID=0x1a
-// Protocol=760; State=play; Bound=server; ID=0x1b
-// Protocol=759; State=play; Bound=server; ID=0x1a
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x1b
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x1b
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x1a
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x1b
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x1a
 type PlayPlaceRecipe_763_0 struct {
 	WindowID Byte // Byte
 	/* A recipe ID. */
@@ -7349,17 +7411,17 @@ func (p *PlayPlaceRecipe_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=server; ID=0xf
-// Protocol=401; State=play; Bound=server; ID=0xf
-// Protocol=340; State=play; Bound=server; ID=0xc
-// Protocol=338; State=play; Bound=server; ID=0xc
-// Protocol=335; State=play; Bound=server; ID=0xd
-// Protocol=316; State=play; Bound=server; ID=0xf
-// Protocol=315; State=play; Bound=server; ID=0xf
-// Protocol=210; State=play; Bound=server; ID=0xf
-// Protocol=110; State=play; Bound=server; ID=0xf
-// Protocol=47; State=play; Bound=server; ID=0x3
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0xf
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0xf
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0xc
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0xc
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0xd
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0xf
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0xf
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0xf
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0xf
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x3
 type PlayPlayer_404_0 struct {
 	/* True if the client is on the ground, false otherwise */
 	OnGround Bool // Boolean
@@ -7377,12 +7439,14 @@ func (p *PlayPlayer_404_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x34
-// Protocol=762; State=play; Bound=client; ID=0x34
-// Protocol=756; State=play; Bound=client; ID=0x32
-// Protocol=316; State=play; Bound=client; ID=0x2b
-// Protocol=210; State=play; Bound=client; ID=0x2b
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x34
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x34
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x30
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x30
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x32
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x2b
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x39
 type PlayPlayerAbilities_763_0 struct {
 	/* Bit field, see below */
 	Flags Byte // Byte
@@ -7411,12 +7475,13 @@ func (p *PlayPlayerAbilities_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x1c
-// Protocol=762; State=play; Bound=server; ID=0x1c
-// Protocol=756; State=play; Bound=server; ID=0x19
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x1c
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x1c
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x1b
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1a
 type PlayPlayerAbilities_763_1 struct {
-	/* Bit mask. 0x02: is flying. */
+	/* Bit mask. 0x02: is flying */
 	Flags Byte // Byte
 }
 
@@ -7432,65 +7497,11 @@ func (p *PlayPlayerAbilities_763_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=client; ID=0x30
-// Protocol=759; State=play; Bound=client; ID=0x2f
-// Protocol=753; State=play; Bound=client; ID=0x30
-// Protocol=578; State=play; Bound=client; ID=0x32
-type PlayPlayerAbilities_761_2 struct {
-	/* Bit field, see below */
-	Flags Byte // Byte
-	/* 0.05 by default */
-	FlyingSpeed Float // Float
-	/* Modifies the field of view, like a speed potion. A Notchian server will use the same value as the movement speed sent in the Entity Properties packet, which defaults to 0.1 for players. */
-	FieldOfViewModifier Float // Float
-}
 
-var _ Packet = (*PlayPlayerAbilities_761_2)(nil)
-
-func (p PlayPlayerAbilities_761_2)Encode(b *PacketBuilder){
-	b.Byte(p.Flags)
-	b.Float(p.FlyingSpeed)
-	b.Float(p.FieldOfViewModifier)
-}
-
-func (p *PlayPlayerAbilities_761_2)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Flags, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.FlyingSpeed, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.FieldOfViewModifier, ok = r.Float(); !ok {
-		return io.EOF
-	}
-}
-				
-// Protocol=761; State=play; Bound=server; ID=0x1b
-// Protocol=759; State=play; Bound=server; ID=0x1b
-// Protocol=753; State=play; Bound=server; ID=0x1a
-type PlayPlayerAbilities_761_3 struct {
-	/* Bit mask. 0x02: is flying. */
-	Flags Byte // Byte
-}
-
-var _ Packet = (*PlayPlayerAbilities_761_3)(nil)
-
-func (p PlayPlayerAbilities_761_3)Encode(b *PacketBuilder){
-	b.Byte(p.Flags)
-}
-
-func (p *PlayPlayerAbilities_761_3)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Flags, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-}
-				
-// Protocol=760; State=play; Bound=client; ID=0x31
-// Protocol=755; State=play; Bound=client; ID=0x32
-type PlayPlayerAbilities_760_4 struct {
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x31
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x2f
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x32
+type PlayPlayerAbilities_760_2 struct {
 	/* Bit field, see below. */
 	Flags Byte // Byte
 	/* 0.05 by default. */
@@ -7499,15 +7510,15 @@ type PlayPlayerAbilities_760_4 struct {
 	FieldOfViewModifier Float // Float
 }
 
-var _ Packet = (*PlayPlayerAbilities_760_4)(nil)
+var _ Packet = (*PlayPlayerAbilities_760_2)(nil)
 
-func (p PlayPlayerAbilities_760_4)Encode(b *PacketBuilder){
+func (p PlayPlayerAbilities_760_2)Encode(b *PacketBuilder){
 	b.Byte(p.Flags)
 	b.Float(p.FlyingSpeed)
 	b.Float(p.FieldOfViewModifier)
 }
 
-func (p *PlayPlayerAbilities_760_4)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayPlayerAbilities_760_2)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Flags, ok = r.Byte(); !ok {
 		return io.EOF
@@ -7519,31 +7530,32 @@ func (p *PlayPlayerAbilities_760_4)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=server; ID=0x1c
-// Protocol=755; State=play; Bound=server; ID=0x19
-type PlayPlayerAbilities_760_5 struct {
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x1c
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x1b
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x19
+type PlayPlayerAbilities_760_3 struct {
 	/* Bit mask. 0x02: is flying. */
 	Flags Byte // Byte
 }
 
-var _ Packet = (*PlayPlayerAbilities_760_5)(nil)
+var _ Packet = (*PlayPlayerAbilities_760_3)(nil)
 
-func (p PlayPlayerAbilities_760_5)Encode(b *PacketBuilder){
+func (p PlayPlayerAbilities_760_3)Encode(b *PacketBuilder){
 	b.Byte(p.Flags)
 }
 
-func (p *PlayPlayerAbilities_760_5)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayPlayerAbilities_760_3)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Flags, ok = r.Byte(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x32
-// Protocol=757; State=play; Bound=client; ID=0x32
-// Protocol=754; State=play; Bound=client; ID=0x30
-type PlayPlayerAbilities_758_6 struct {
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x32
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x32
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x30
+type PlayPlayerAbilities_758_4 struct {
 	/* Bit field, see below. */
 	Flags Byte // Byte
 	/* 0.05 by default. */
@@ -7552,15 +7564,15 @@ type PlayPlayerAbilities_758_6 struct {
 	FieldOfViewModifier Float // Float
 }
 
-var _ Packet = (*PlayPlayerAbilities_758_6)(nil)
+var _ Packet = (*PlayPlayerAbilities_758_4)(nil)
 
-func (p PlayPlayerAbilities_758_6)Encode(b *PacketBuilder){
+func (p PlayPlayerAbilities_758_4)Encode(b *PacketBuilder){
 	b.Byte(p.Flags)
 	b.Float(p.FlyingSpeed)
 	b.Float(p.FieldOfViewModifier)
 }
 
-func (p *PlayPlayerAbilities_758_6)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayPlayerAbilities_758_4)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Flags, ok = r.Byte(); !ok {
 		return io.EOF
@@ -7572,31 +7584,31 @@ func (p *PlayPlayerAbilities_758_6)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x19
-// Protocol=757; State=play; Bound=server; ID=0x19
-// Protocol=754; State=play; Bound=server; ID=0x1a
-type PlayPlayerAbilities_758_7 struct {
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x19
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x19
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1a
+type PlayPlayerAbilities_756_7 struct {
 	/* Bit mask. 0x02: is flying. */
 	Flags Byte // Byte
 }
 
-var _ Packet = (*PlayPlayerAbilities_758_7)(nil)
+var _ Packet = (*PlayPlayerAbilities_756_7)(nil)
 
-func (p PlayPlayerAbilities_758_7)Encode(b *PacketBuilder){
+func (p PlayPlayerAbilities_756_7)Encode(b *PacketBuilder){
 	b.Byte(p.Flags)
 }
 
-func (p *PlayPlayerAbilities_758_7)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayPlayerAbilities_756_7)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Flags, ok = r.Byte(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=578; State=play; Bound=server; ID=0x19
-// Protocol=316; State=play; Bound=server; ID=0x12
-// Protocol=210; State=play; Bound=server; ID=0x12
+
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x19
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x12
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x13
 type PlayPlayerAbilities_578_8 struct {
 	/* Bit mask. 0x08: damage disabled (god mode), 0x04: can fly, 0x02: is flying, 0x01: is Creative */
 	Flags Byte // Byte
@@ -7624,13 +7636,77 @@ func (p *PlayPlayerAbilities_578_8)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x2e
-// Protocol=401; State=play; Bound=client; ID=0x2e
-// Protocol=340; State=play; Bound=client; ID=0x2c
-// Protocol=315; State=play; Bound=client; ID=0x2b
-// Protocol=110; State=play; Bound=client; ID=0x2b
-// Protocol=47; State=play; Bound=client; ID=0x39
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x31
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x2c
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x2c
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x2b
+type PlayPlayerAbilities_498_9 struct {
+	/* Bit field, see below */
+	Flags Byte // Byte
+	FlyingSpeed Float // Float
+	/* Modifies the field of view, like a speed potion. A Notchian server will use the same value as the movement speed (send in the Entity Properties packet). */
+	FieldOfViewModifier Float // Float
+}
+
+var _ Packet = (*PlayPlayerAbilities_498_9)(nil)
+
+func (p PlayPlayerAbilities_498_9)Encode(b *PacketBuilder){
+	b.Byte(p.Flags)
+	b.Float(p.FlyingSpeed)
+	b.Float(p.FieldOfViewModifier)
+}
+
+func (p *PlayPlayerAbilities_498_9)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Flags, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+	if p.FlyingSpeed, ok = r.Float(); !ok {
+		return io.EOF
+	}
+	if p.FieldOfViewModifier, ok = r.Float(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x19
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x13
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x13
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x12
+type PlayPlayerAbilities_498_10 struct {
+	/* Bit mask. 0x08: damage disabled (god mode), 0x04: can fly, 0x02: is flying, 0x01: is Creative */
+	Flags Byte // Byte
+	FlyingSpeed Float // Float
+	WalkingSpeed Float // Float
+}
+
+var _ Packet = (*PlayPlayerAbilities_498_10)(nil)
+
+func (p PlayPlayerAbilities_498_10)Encode(b *PacketBuilder){
+	b.Byte(p.Flags)
+	b.Float(p.FlyingSpeed)
+	b.Float(p.WalkingSpeed)
+}
+
+func (p *PlayPlayerAbilities_498_10)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Flags, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+	if p.FlyingSpeed, ok = r.Float(); !ok {
+		return io.EOF
+	}
+	if p.WalkingSpeed, ok = r.Float(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x2e
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x2e
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x2b
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x2b
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x2b
 type PlayPlayerAbilities_404_11 struct {
 	/* Bit field, see below */
 	Flags Byte // Byte
@@ -7659,13 +7735,12 @@ func (p *PlayPlayerAbilities_404_11)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=server; ID=0x17
-// Protocol=401; State=play; Bound=server; ID=0x17
-// Protocol=340; State=play; Bound=server; ID=0x13
-// Protocol=315; State=play; Bound=server; ID=0x12
-// Protocol=110; State=play; Bound=server; ID=0x12
-// Protocol=47; State=play; Bound=server; ID=0x13
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x17
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x17
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x13
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x12
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x12
 type PlayPlayerAbilities_404_12 struct {
 	/* Bit mask. 0x08: damage disabled (god mode), 0x04: can fly, 0x02: is flying, 0x01: is Creative */
 	Flags Byte // Byte
@@ -7693,12 +7768,12 @@ func (p *PlayPlayerAbilities_404_12)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x1d
-// Protocol=762; State=play; Bound=server; ID=0x1d
-// Protocol=761; State=play; Bound=server; ID=0x1c
-// Protocol=760; State=play; Bound=server; ID=0x1d
-// Protocol=759; State=play; Bound=server; ID=0x1c
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x1d
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x1d
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x1c
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x1d
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x1c
 type PlayPlayerAction_763_0 struct {
 	/* The action the player is taking against the block (see below). */
 	Status VarInt // VarInt Enum
@@ -7733,27 +7808,27 @@ func (p *PlayPlayerAction_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x2e
-// Protocol=757; State=play; Bound=server; ID=0x2e
-// Protocol=756; State=play; Bound=server; ID=0x2e
-// Protocol=755; State=play; Bound=server; ID=0x2e
-// Protocol=754; State=play; Bound=server; ID=0x2e
-// Protocol=753; State=play; Bound=server; ID=0x2e
-// Protocol=578; State=play; Bound=server; ID=0x2c
-// Protocol=498; State=play; Bound=server; ID=0x2c
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x2e
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x2e
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x2e
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x2e
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x2e
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x2e
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x2c
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x2c
 type PlayPlayerBlockPlacement_758_0 struct {
-	/* The hand from which the block is placed; 0: main hand, 1: off hand. */
+	/* The hand from which the block is placed; 0: main hand, 1: off hand */
 	Hand VarInt // VarInt Enum
-	/* Block position. */
+	/* Block position */
 	Location Position // Position
-	/* The face on which the block is placed (as documented at Player Digging). */
+	/* The face on which the block is placed (as documented at Player Digging) */
 	Face VarInt // VarInt Enum
-	/* The position of the crosshair on the block, from 0 to 1 increasing from west to east. */
+	/* The position of the crosshair on the block, from 0 to 1 increasing from west to east */
 	CursorPositionX Float // Float
-	/* The position of the crosshair on the block, from 0 to 1 increasing from bottom to top. */
+	/* The position of the crosshair on the block, from 0 to 1 increasing from bottom to top */
 	CursorPositionY Float // Float
-	/* The position of the crosshair on the block, from 0 to 1 increasing from north to south. */
+	/* The position of the crosshair on the block, from 0 to 1 increasing from north to south */
 	CursorPositionZ Float // Float
 	/* True when the player's head is inside of a block. */
 	InsideBlock Bool // Boolean
@@ -7795,14 +7870,14 @@ func (p *PlayPlayerBlockPlacement_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=server; ID=0x29
-// Protocol=401; State=play; Bound=server; ID=0x29
-// Protocol=340; State=play; Bound=server; ID=0x1f
-// Protocol=338; State=play; Bound=server; ID=0x1f
-// Protocol=335; State=play; Bound=server; ID=0x1f
-// Protocol=316; State=play; Bound=server; ID=0x1c
-// Protocol=315; State=play; Bound=server; ID=0x1c
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x29
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x29
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x1f
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x1f
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x1f
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x1c
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x1c
 type PlayPlayerBlockPlacement_404_1 struct {
 	/* Block position */
 	Location Position // Position
@@ -7850,9 +7925,9 @@ func (p *PlayPlayerBlockPlacement_404_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=210; State=play; Bound=server; ID=0x1c
-// Protocol=110; State=play; Bound=server; ID=0x1c
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x1c
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x1c
 type PlayPlayerBlockPlacement_210_2 struct {
 	/* Block position */
 	Location Position // Position
@@ -7900,12 +7975,12 @@ func (p *PlayPlayerBlockPlacement_210_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x1e
-// Protocol=762; State=play; Bound=server; ID=0x1e
-// Protocol=761; State=play; Bound=server; ID=0x1d
-// Protocol=760; State=play; Bound=server; ID=0x1e
-// Protocol=759; State=play; Bound=server; ID=0x1d
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x1e
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x1e
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x1d
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x1e
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x1d
 type PlayPlayerCommand_763_0 struct {
 	/* Player ID */
 	EntityID VarInt // VarInt
@@ -7935,24 +8010,24 @@ func (p *PlayPlayerCommand_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x1a
-// Protocol=757; State=play; Bound=server; ID=0x1a
-// Protocol=756; State=play; Bound=server; ID=0x1a
-// Protocol=755; State=play; Bound=server; ID=0x1a
-// Protocol=754; State=play; Bound=server; ID=0x1b
-// Protocol=753; State=play; Bound=server; ID=0x1b
-// Protocol=578; State=play; Bound=server; ID=0x1a
-// Protocol=498; State=play; Bound=server; ID=0x1a
-// Protocol=404; State=play; Bound=server; ID=0x18
-// Protocol=401; State=play; Bound=server; ID=0x18
-// Protocol=340; State=play; Bound=server; ID=0x14
-// Protocol=338; State=play; Bound=server; ID=0x14
-// Protocol=335; State=play; Bound=server; ID=0x14
-// Protocol=316; State=play; Bound=server; ID=0x13
-// Protocol=315; State=play; Bound=server; ID=0x13
-// Protocol=210; State=play; Bound=server; ID=0x13
-// Protocol=110; State=play; Bound=server; ID=0x13
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x1a
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x1a
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x1a
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x1a
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1b
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1b
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x1a
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x1a
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x18
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x18
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x14
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x14
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x14
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x13
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x13
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x13
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x13
 type PlayPlayerDigging_758_0 struct {
 	/* The action the player is taking against the block (see below) */
 	Status VarInt // VarInt Enum
@@ -7982,12 +8057,12 @@ func (p *PlayPlayerDigging_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x1f
-// Protocol=762; State=play; Bound=server; ID=0x1f
-// Protocol=761; State=play; Bound=server; ID=0x1e
-// Protocol=760; State=play; Bound=server; ID=0x1f
-// Protocol=759; State=play; Bound=server; ID=0x1e
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x1f
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x1f
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x1e
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x1f
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x1e
 type PlayPlayerInput_763_0 struct {
 	/* Positive to the left of the player. */
 	Sideways Float // Float
@@ -8017,29 +8092,27 @@ func (p *PlayPlayerInput_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x5f
-// Protocol=757; State=play; Bound=client; ID=0x5f
-// Protocol=756; State=play; Bound=client; ID=0x5e
-// Protocol=755; State=play; Bound=client; ID=0x5e
-// Protocol=754; State=play; Bound=client; ID=0x53
-// Protocol=753; State=play; Bound=client; ID=0x53
-// Protocol=578; State=play; Bound=client; ID=0x54
-// Protocol=498; State=play; Bound=client; ID=0x53
-// Protocol=404; State=play; Bound=client; ID=0x4e
-// Protocol=401; State=play; Bound=client; ID=0x4e
-// Protocol=340; State=play; Bound=client; ID=0x4a
-// Protocol=338; State=play; Bound=client; ID=0x4a
-// Protocol=335; State=play; Bound=client; ID=0x49
-// Protocol=316; State=play; Bound=client; ID=0x47
-// Protocol=315; State=play; Bound=client; ID=0x47
-// Protocol=210; State=play; Bound=client; ID=0x47
-// Protocol=110; State=play; Bound=client; ID=0x47
-// Protocol=47; State=play; Bound=client; ID=0x47
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x5f
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x5f
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x5e
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x5e
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x53
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x53
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x54
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x53
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x4e
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x4e
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x4a
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x4a
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x49
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x47
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x47
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x47
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x47
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x47
 type PlayPlayerListHeaderAndFooter_758_0 struct {
-	/* To remove the header, send a empty translatable component: {"translate":""} */
 	Header Object // Chat
-	/* To remove the footer, send a empty translatable component: {"translate":""} */
 	Footer Object // Chat
 }
 
@@ -8059,17 +8132,17 @@ func (p *PlayPlayerListHeaderAndFooter_758_0)DecodeFrom(r *PacketReader)(err err
 		return
 	}
 }
-				
-// Protocol=404; State=play; Bound=server; ID=0x12
-// Protocol=401; State=play; Bound=server; ID=0x12
-// Protocol=340; State=play; Bound=server; ID=0xf
-// Protocol=338; State=play; Bound=server; ID=0xf
-// Protocol=335; State=play; Bound=server; ID=0x10
-// Protocol=316; State=play; Bound=server; ID=0xe
-// Protocol=315; State=play; Bound=server; ID=0xe
-// Protocol=210; State=play; Bound=server; ID=0xe
-// Protocol=110; State=play; Bound=server; ID=0xe
-// Protocol=47; State=play; Bound=server; ID=0x5
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x12
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x12
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0xf
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0xf
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x10
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0xe
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0xe
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0xe
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0xe
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x5
 type PlayPlayerLook_404_0 struct {
 	/* Absolute rotation on the X Axis, in degrees */
 	Yaw Float // Float
@@ -8099,17 +8172,17 @@ func (p *PlayPlayerLook_404_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x14
-// Protocol=757; State=play; Bound=server; ID=0x14
-// Protocol=756; State=play; Bound=server; ID=0x14
-// Protocol=755; State=play; Bound=server; ID=0x14
-// Protocol=754; State=play; Bound=server; ID=0x15
-// Protocol=753; State=play; Bound=server; ID=0x15
-// Protocol=578; State=play; Bound=server; ID=0x14
-// Protocol=498; State=play; Bound=server; ID=0x14
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x14
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x14
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x14
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x14
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x15
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x15
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x14
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x14
 type PlayPlayerMovement_758_0 struct {
-	/* True if the client is on the ground, false otherwise. */
+	/* True if the client is on the ground, false otherwise */
 	OnGround Bool // Boolean
 }
 
@@ -8125,29 +8198,29 @@ func (p *PlayPlayerMovement_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x11
-// Protocol=757; State=play; Bound=server; ID=0x11
-// Protocol=756; State=play; Bound=server; ID=0x11
-// Protocol=755; State=play; Bound=server; ID=0x11
-// Protocol=754; State=play; Bound=server; ID=0x12
-// Protocol=753; State=play; Bound=server; ID=0x12
-// Protocol=578; State=play; Bound=server; ID=0x11
-// Protocol=498; State=play; Bound=server; ID=0x11
-// Protocol=404; State=play; Bound=server; ID=0x10
-// Protocol=401; State=play; Bound=server; ID=0x10
-// Protocol=340; State=play; Bound=server; ID=0xd
-// Protocol=338; State=play; Bound=server; ID=0xd
-// Protocol=335; State=play; Bound=server; ID=0xe
-// Protocol=316; State=play; Bound=server; ID=0xc
-// Protocol=315; State=play; Bound=server; ID=0xc
-// Protocol=210; State=play; Bound=server; ID=0xc
-// Protocol=110; State=play; Bound=server; ID=0xc
-// Protocol=47; State=play; Bound=server; ID=0x4
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x11
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x11
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x11
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x11
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x12
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x12
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x11
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x11
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x10
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x10
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0xd
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0xd
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0xe
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0xc
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0xc
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0xc
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0xc
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x4
 type PlayPlayerPosition_758_0 struct {
 	/* Absolute position */
 	X Double // Double
-	/* Absolute feet position, normally Head Y - 1.62 */
+	/* Absolute position, normally Head Y - 1.62 */
 	FeetY Double // Double
 	/* Absolute position */
 	Z Double // Double
@@ -8179,11 +8252,11 @@ func (p *PlayPlayerPosition_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x38
-// Protocol=757; State=play; Bound=client; ID=0x38
-// Protocol=756; State=play; Bound=client; ID=0x38
-// Protocol=755; State=play; Bound=client; ID=0x38
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x38
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x38
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x38
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x38
 type PlayPlayerPositionAndLook_758_0 struct {
 	/* Absolute or relative position, depending on Flags. */
 	X Double // Double
@@ -8243,16 +8316,16 @@ func (p *PlayPlayerPositionAndLook_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x34
-// Protocol=753; State=play; Bound=client; ID=0x34
-// Protocol=578; State=play; Bound=client; ID=0x36
-// Protocol=498; State=play; Bound=client; ID=0x35
-// Protocol=404; State=play; Bound=client; ID=0x32
-// Protocol=401; State=play; Bound=client; ID=0x32
-// Protocol=340; State=play; Bound=client; ID=0x2f
-// Protocol=316; State=play; Bound=client; ID=0x2e
-// Protocol=210; State=play; Bound=client; ID=0x2e
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x34
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x34
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x36
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x35
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x32
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x32
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x2f
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x2f
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x2e
 type PlayPlayerPositionAndLook_754_1 struct {
 	/* Absolute or relative position, depending on Flags */
 	X Double // Double
@@ -8306,12 +8379,12 @@ func (p *PlayPlayerPositionAndLook_754_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=server; ID=0x11
-// Protocol=401; State=play; Bound=server; ID=0x11
-// Protocol=340; State=play; Bound=server; ID=0xe
-// Protocol=316; State=play; Bound=server; ID=0xd
-// Protocol=210; State=play; Bound=server; ID=0xd
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x11
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x11
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0xe
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0xe
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0xd
 type PlayPlayerPositionAndLook_404_2 struct {
 	/* Absolute position */
 	X Double // Double
@@ -8359,11 +8432,10 @@ func (p *PlayPlayerPositionAndLook_404_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=338; State=play; Bound=client; ID=0x2f
-// Protocol=315; State=play; Bound=client; ID=0x2e
-// Protocol=110; State=play; Bound=client; ID=0x2e
-type PlayPlayerPositionAndLook_338_3 struct {
+
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x2e
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x2e
+type PlayPlayerPositionAndLook_335_3 struct {
 	/* Absolute or relative position, depending on Flags */
 	X Double // Double
 	/* Absolute or relative position, depending on Flags */
@@ -8380,9 +8452,9 @@ type PlayPlayerPositionAndLook_338_3 struct {
 	TeleportID VarInt // VarInt
 }
 
-var _ Packet = (*PlayPlayerPositionAndLook_338_3)(nil)
+var _ Packet = (*PlayPlayerPositionAndLook_335_3)(nil)
 
-func (p PlayPlayerPositionAndLook_338_3)Encode(b *PacketBuilder){
+func (p PlayPlayerPositionAndLook_335_3)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
@@ -8392,7 +8464,7 @@ func (p PlayPlayerPositionAndLook_338_3)Encode(b *PacketBuilder){
 	b.VarInt(p.TeleportID)
 }
 
-func (p *PlayPlayerPositionAndLook_338_3)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayPlayerPositionAndLook_335_3)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.X, ok = r.Double(); !ok {
 		return io.EOF
@@ -8416,11 +8488,10 @@ func (p *PlayPlayerPositionAndLook_338_3)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=338; State=play; Bound=server; ID=0xe
-// Protocol=315; State=play; Bound=server; ID=0xd
-// Protocol=110; State=play; Bound=server; ID=0xd
-type PlayPlayerPositionAndLook_338_4 struct {
+
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0xf
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0xd
+type PlayPlayerPositionAndLook_335_4 struct {
 	/* Absolute position */
 	X Double // Double
 	/* Absolute feet position, normally Head Y - 1.62 */
@@ -8435,9 +8506,9 @@ type PlayPlayerPositionAndLook_338_4 struct {
 	OnGround Bool // Boolean
 }
 
-var _ Packet = (*PlayPlayerPositionAndLook_338_4)(nil)
+var _ Packet = (*PlayPlayerPositionAndLook_335_4)(nil)
 
-func (p PlayPlayerPositionAndLook_338_4)Encode(b *PacketBuilder){
+func (p PlayPlayerPositionAndLook_335_4)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.FeetY)
 	b.Double(p.Z)
@@ -8446,7 +8517,7 @@ func (p PlayPlayerPositionAndLook_338_4)Encode(b *PacketBuilder){
 	b.Bool(p.OnGround)
 }
 
-func (p *PlayPlayerPositionAndLook_338_4)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayPlayerPositionAndLook_335_4)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.X, ok = r.Double(); !ok {
 		return io.EOF
@@ -8467,27 +8538,133 @@ func (p *PlayPlayerPositionAndLook_338_4)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x12
-// Protocol=757; State=play; Bound=server; ID=0x12
-// Protocol=756; State=play; Bound=server; ID=0x12
-// Protocol=755; State=play; Bound=server; ID=0x12
-// Protocol=754; State=play; Bound=server; ID=0x13
-// Protocol=753; State=play; Bound=server; ID=0x13
-// Protocol=578; State=play; Bound=server; ID=0x12
-// Protocol=498; State=play; Bound=server; ID=0x12
-type PlayPlayerPositionAndRotation_758_0 struct {
-	/* Absolute position. */
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x2e
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x2e
+type PlayPlayerPositionAndLook_210_5 struct {
+	/* Absolute or relative position, depending on Flags */
 	X Double // Double
-	/* Absolute feet position, normally Head Y - 1.62. */
-	FeetY Double // Double
-	/* Absolute position. */
+	/* Absolute or relative position, depending on Flags */
+	Y Double // Double
+	/* Absolute or relative position, depending on Flags */
 	Z Double // Double
-	/* Absolute rotation on the X Axis, in degrees. */
+	/* Absolute or relative rotation on the X axis, in degrees */
 	Yaw Float // Float
-	/* Absolute rotation on the Y Axis, in degrees. */
+	/* Absolute or relative rotation on the Y axis, in degrees */
 	Pitch Float // Float
-	/* True if the client is on the ground, false otherwise. */
+	/* Bit field, see below */
+	Flags Byte // Byte
+	/* Client should confirm this packet with Teleport Confirm containing the same Teleport ID */
+	TeleportID VarInt // VarInt
+}
+
+var _ Packet = (*PlayPlayerPositionAndLook_210_5)(nil)
+
+func (p PlayPlayerPositionAndLook_210_5)Encode(b *PacketBuilder){
+	b.Double(p.X)
+	b.Double(p.Y)
+	b.Double(p.Z)
+	b.Float(p.Yaw)
+	b.Float(p.Pitch)
+	b.Byte(p.Flags)
+	b.VarInt(p.TeleportID)
+}
+
+func (p *PlayPlayerPositionAndLook_210_5)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.X, ok = r.Double(); !ok {
+		return io.EOF
+	}
+	if p.Y, ok = r.Double(); !ok {
+		return io.EOF
+	}
+	if p.Z, ok = r.Double(); !ok {
+		return io.EOF
+	}
+	if p.Yaw, ok = r.Float(); !ok {
+		return io.EOF
+	}
+	if p.Pitch, ok = r.Float(); !ok {
+		return io.EOF
+	}
+	if p.Flags, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+	if p.TeleportID, ok = r.VarInt(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0xd
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0xd
+type PlayPlayerPositionAndLook_210_6 struct {
+	/* Absolute position */
+	X Double // Double
+	/* Absolute feet position, normally Head Y - 1.62 */
+	FeetY Double // Double
+	/* Absolute position */
+	Z Double // Double
+	/* Absolute rotation on the X Axis, in degrees */
+	Yaw Float // Float
+	/* Absolute rotation on the Y Axis, in degrees */
+	Pitch Float // Float
+	/* True if the client is on the ground, false otherwise */
+	OnGround Bool // Boolean
+}
+
+var _ Packet = (*PlayPlayerPositionAndLook_210_6)(nil)
+
+func (p PlayPlayerPositionAndLook_210_6)Encode(b *PacketBuilder){
+	b.Double(p.X)
+	b.Double(p.FeetY)
+	b.Double(p.Z)
+	b.Float(p.Yaw)
+	b.Float(p.Pitch)
+	b.Bool(p.OnGround)
+}
+
+func (p *PlayPlayerPositionAndLook_210_6)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.X, ok = r.Double(); !ok {
+		return io.EOF
+	}
+	if p.FeetY, ok = r.Double(); !ok {
+		return io.EOF
+	}
+	if p.Z, ok = r.Double(); !ok {
+		return io.EOF
+	}
+	if p.Yaw, ok = r.Float(); !ok {
+		return io.EOF
+	}
+	if p.Pitch, ok = r.Float(); !ok {
+		return io.EOF
+	}
+	if p.OnGround, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+}
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x12
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x12
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x12
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x12
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x13
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x13
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x12
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x12
+type PlayPlayerPositionAndRotation_758_0 struct {
+	/* Absolute position */
+	X Double // Double
+	/* Absolute feet position, normally Head Y - 1.62 */
+	FeetY Double // Double
+	/* Absolute position */
+	Z Double // Double
+	/* Absolute rotation on the X Axis, in degrees */
+	Yaw Float // Float
+	/* Absolute rotation on the Y Axis, in degrees */
+	Pitch Float // Float
+	/* True if the client is on the ground, false otherwise */
 	OnGround Bool // Boolean
 }
 
@@ -8523,21 +8700,21 @@ func (p *PlayPlayerPositionAndRotation_758_0)DecodeFrom(r *PacketReader)(err err
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x13
-// Protocol=757; State=play; Bound=server; ID=0x13
-// Protocol=756; State=play; Bound=server; ID=0x13
-// Protocol=755; State=play; Bound=server; ID=0x13
-// Protocol=754; State=play; Bound=server; ID=0x14
-// Protocol=753; State=play; Bound=server; ID=0x14
-// Protocol=578; State=play; Bound=server; ID=0x13
-// Protocol=498; State=play; Bound=server; ID=0x13
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x13
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x13
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x13
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x13
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x14
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x14
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x13
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x13
 type PlayPlayerRotation_758_0 struct {
-	/* Absolute rotation on the X Axis, in degrees. */
+	/* Absolute rotation on the X Axis, in degrees */
 	Yaw Float // Float
-	/* Absolute rotation on the Y Axis, in degrees. */
+	/* Absolute rotation on the Y Axis, in degrees */
 	Pitch Float // Float
-	/* True if the client is on the ground, false otherwise. */
+	/* True if the client is on the ground, False otherwise */
 	OnGround Bool // Boolean
 }
 
@@ -8561,39 +8738,39 @@ func (p *PlayPlayerRotation_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x17
-// Protocol=763; State=play; Bound=server; ID=0xd
-// Protocol=762; State=play; Bound=client; ID=0x17
-// Protocol=762; State=play; Bound=server; ID=0xd
-// Protocol=761; State=play; Bound=client; ID=0x15
-// Protocol=761; State=play; Bound=server; ID=0xc
-// Protocol=760; State=play; Bound=client; ID=0x16
-// Protocol=760; State=play; Bound=server; ID=0xd
-// Protocol=759; State=play; Bound=client; ID=0x15
-// Protocol=759; State=play; Bound=server; ID=0xc
-// Protocol=758; State=play; Bound=client; ID=0x18
-// Protocol=758; State=play; Bound=server; ID=0xa
-// Protocol=757; State=play; Bound=client; ID=0x18
-// Protocol=757; State=play; Bound=server; ID=0xa
-// Protocol=756; State=play; Bound=client; ID=0x18
-// Protocol=756; State=play; Bound=server; ID=0xa
-// Protocol=755; State=play; Bound=client; ID=0x18
-// Protocol=755; State=play; Bound=server; ID=0xa
-// Protocol=754; State=play; Bound=client; ID=0x17
-// Protocol=754; State=play; Bound=server; ID=0xb
-// Protocol=753; State=play; Bound=client; ID=0x17
-// Protocol=753; State=play; Bound=server; ID=0xb
-// Protocol=578; State=play; Bound=client; ID=0x19
-// Protocol=578; State=play; Bound=server; ID=0xb
-// Protocol=498; State=play; Bound=client; ID=0x18
-// Protocol=498; State=play; Bound=server; ID=0xb
-// Protocol=404; State=play; Bound=client; ID=0x19
-// Protocol=404; State=play; Bound=server; ID=0xa
-// Protocol=401; State=play; Bound=client; ID=0x19
-// Protocol=401; State=play; Bound=server; ID=0xa
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x17
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0xd
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x17
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0xd
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x15
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0xc
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x16
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0xd
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x15
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0xc
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x18
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0xa
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x18
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0xa
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x18
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0xa
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x18
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0xa
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x17
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0xb
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x17
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0xb
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x19
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0xb
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x18
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0xb
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x19
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0xa
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x19
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0xa
 type PlayPluginMessage_763_0 struct {
-	/* Name of the plugin channel used to send the data. */
+	/* Name of the plugin channel used to send the data */
 	Channel Identifier // Identifier
 	/* Any data, depending on the channel. minecraft: channels are documented here.  The length of this array must be inferred from the packet length. */
 	Data ByteArray // Byte Array
@@ -8615,27 +8792,27 @@ func (p *PlayPluginMessage_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=340; State=play; Bound=client; ID=0x18
-// Protocol=340; State=play; Bound=server; ID=0x9
-// Protocol=338; State=play; Bound=client; ID=0x18
-// Protocol=338; State=play; Bound=server; ID=0x9
-// Protocol=335; State=play; Bound=client; ID=0x18
-// Protocol=335; State=play; Bound=server; ID=0xa
-// Protocol=316; State=play; Bound=client; ID=0x18
-// Protocol=316; State=play; Bound=server; ID=0x9
-// Protocol=315; State=play; Bound=client; ID=0x18
-// Protocol=315; State=play; Bound=server; ID=0x9
-// Protocol=210; State=play; Bound=client; ID=0x18
-// Protocol=210; State=play; Bound=server; ID=0x9
-// Protocol=110; State=play; Bound=client; ID=0x18
-// Protocol=110; State=play; Bound=server; ID=0x9
-// Protocol=47; State=play; Bound=client; ID=0x3f
-// Protocol=47; State=play; Bound=server; ID=0x17
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x18
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x9
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x18
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x9
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x18
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0xa
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x18
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x9
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x18
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x9
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x18
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x9
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x18
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x9
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x3f
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x17
 type PlayPluginMessage_340_1 struct {
 	/* Name of the plugin channel used to send the data */
 	Channel String // String
-	/* Any data, depending on the channel. MC| channels are documented here.  The length of this array must be inferred from the packet length. */
+	/* Any data, depending on the channel. MC| channels are documented here. */
 	Data ByteArray // Byte Array
 }
 
@@ -8655,17 +8832,18 @@ func (p *PlayPluginMessage_340_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x20
-// Protocol=762; State=play; Bound=server; ID=0x20
-// Protocol=761; State=play; Bound=server; ID=0x1f
-// Protocol=760; State=play; Bound=server; ID=0x20
-// Protocol=759; State=play; Bound=server; ID=0x1f
-// Protocol=758; State=play; Bound=server; ID=0x1d
-// Protocol=757; State=play; Bound=server; ID=0x1d
-// Protocol=756; State=play; Bound=server; ID=0x1d
-// Protocol=755; State=play; Bound=server; ID=0x1d
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x20
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x20
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x1f
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x20
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x1f
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x1d
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x1d
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x1d
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x1d
 type PlayPong_763_0 struct {
+	/* id is the same as the ping packet */
 	ID Int // Int
 }
 
@@ -8681,12 +8859,12 @@ func (p *PlayPong_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x29
-// Protocol=762; State=play; Bound=server; ID=0x29
-// Protocol=761; State=play; Bound=server; ID=0x29
-// Protocol=760; State=play; Bound=server; ID=0x29
-// Protocol=759; State=play; Bound=server; ID=0x28
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x29
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x29
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x29
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x29
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x28
 type PlayProgramCommandBlock_763_0 struct {
 	Location Position // Position
 	Command String // String (32767)
@@ -8720,12 +8898,11 @@ func (p *PlayProgramCommandBlock_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x2a
-// Protocol=762; State=play; Bound=server; ID=0x2a
-// Protocol=761; State=play; Bound=server; ID=0x2a
-// Protocol=760; State=play; Bound=server; ID=0x2a
-// Protocol=759; State=play; Bound=server; ID=0x29
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x2a
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x2a
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x2a
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x2a
 type PlayProgramCommandBlockMinecart_763_0 struct {
 	EntityID VarInt // VarInt
 	Command String // String (32767)
@@ -8753,12 +8930,12 @@ func (p *PlayProgramCommandBlockMinecart_763_0)DecodeFrom(r *PacketReader)(err e
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x2c
-// Protocol=762; State=play; Bound=server; ID=0x2c
-// Protocol=761; State=play; Bound=server; ID=0x2c
-// Protocol=760; State=play; Bound=server; ID=0x2c
-// Protocol=759; State=play; Bound=server; ID=0x2b
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x2c
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x2c
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x2c
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x2c
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x2b
 type PlayProgramJigsawBlock_763_0 struct {
 	/* Block entity location */
 	Location Position // Position
@@ -8803,12 +8980,12 @@ func (p *PlayProgramJigsawBlock_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x2d
-// Protocol=762; State=play; Bound=server; ID=0x2d
-// Protocol=761; State=play; Bound=server; ID=0x2d
-// Protocol=760; State=play; Bound=server; ID=0x2d
-// Protocol=759; State=play; Bound=server; ID=0x2c
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x2d
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x2d
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x2d
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x2d
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x2c
 type PlayProgramStructureBlock_763_0 struct {
 	/* Block entity location. */
 	Location Position // Position
@@ -8913,12 +9090,12 @@ func (p *PlayProgramStructureBlock_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x1
-// Protocol=762; State=play; Bound=server; ID=0x1
-// Protocol=761; State=play; Bound=server; ID=0x1
-// Protocol=760; State=play; Bound=server; ID=0x1
-// Protocol=759; State=play; Bound=server; ID=0x1
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x1
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x1
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x1
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x1
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x1
 type PlayQueryBlockEntityTag_763_0 struct {
 	/* An incremental ID so that the client can verify that the response matches. */
 	TransactionID VarInt // VarInt
@@ -8942,17 +9119,17 @@ func (p *PlayQueryBlockEntityTag_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x1
-// Protocol=757; State=play; Bound=server; ID=0x1
-// Protocol=756; State=play; Bound=server; ID=0x1
-// Protocol=755; State=play; Bound=server; ID=0x1
-// Protocol=754; State=play; Bound=server; ID=0x1
-// Protocol=753; State=play; Bound=server; ID=0x1
-// Protocol=578; State=play; Bound=server; ID=0x1
-// Protocol=498; State=play; Bound=server; ID=0x1
-// Protocol=404; State=play; Bound=server; ID=0x1
-// Protocol=401; State=play; Bound=server; ID=0x1
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x1
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x1
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x1
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x1
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x1
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x1
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x1
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x1
 type PlayQueryBlockNBT_758_0 struct {
 	/* An incremental ID so that the client can verify that the response matches. */
 	TransactionID VarInt // VarInt
@@ -8976,16 +9153,16 @@ func (p *PlayQueryBlockNBT_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0xc
-// Protocol=757; State=play; Bound=server; ID=0xc
-// Protocol=756; State=play; Bound=server; ID=0xc
-// Protocol=755; State=play; Bound=server; ID=0xc
-// Protocol=754; State=play; Bound=server; ID=0xd
-// Protocol=753; State=play; Bound=server; ID=0xd
-// Protocol=578; State=play; Bound=server; ID=0xd
-// Protocol=404; State=play; Bound=server; ID=0xc
-// Protocol=401; State=play; Bound=server; ID=0xc
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0xc
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0xc
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0xc
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0xc
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0xd
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0xd
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0xd
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0xc
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0xc
 type PlayQueryEntityNBT_758_0 struct {
 	/* An incremental ID so that the client can verify that the response matches. */
 	TransactionID VarInt // VarInt
@@ -9009,12 +9186,12 @@ func (p *PlayQueryEntityNBT_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0xf
-// Protocol=762; State=play; Bound=server; ID=0xf
-// Protocol=761; State=play; Bound=server; ID=0xe
-// Protocol=760; State=play; Bound=server; ID=0xf
-// Protocol=759; State=play; Bound=server; ID=0xe
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0xf
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0xf
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0xe
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0xf
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0xe
 type PlayQueryEntityTag_763_0 struct {
 	/* An incremental ID so that the client can verify that the response matches. */
 	TransactionID VarInt // VarInt
@@ -9038,12 +9215,12 @@ func (p *PlayQueryEntityTag_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x3e
-// Protocol=762; State=play; Bound=client; ID=0x3e
-// Protocol=761; State=play; Bound=client; ID=0x3a
-// Protocol=760; State=play; Bound=client; ID=0x3b
-// Protocol=759; State=play; Bound=client; ID=0x38
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x3e
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x3e
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x3a
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x3b
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x38
 type PlayRemoveEntities_763_0 struct {
 	/* Number of elements in the following array. */
 	Count VarInt // VarInt
@@ -9073,13 +9250,13 @@ func (p *PlayRemoveEntities_763_0)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x3f
-// Protocol=762; State=play; Bound=client; ID=0x3f
-// Protocol=761; State=play; Bound=client; ID=0x3b
-// Protocol=760; State=play; Bound=client; ID=0x3c
-// Protocol=759; State=play; Bound=client; ID=0x39
-// Protocol=758; State=play; Bound=client; ID=0x3b
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x3f
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x3f
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x3b
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x3c
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x39
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x3b
 type PlayRemoveEntityEffect_763_0 struct {
 	EntityID VarInt // VarInt
 	/* See this table. */
@@ -9102,24 +9279,24 @@ func (p *PlayRemoveEntityEffect_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=757; State=play; Bound=client; ID=0x3b
-// Protocol=756; State=play; Bound=client; ID=0x3b
-// Protocol=755; State=play; Bound=client; ID=0x3b
-// Protocol=754; State=play; Bound=client; ID=0x37
-// Protocol=753; State=play; Bound=client; ID=0x37
-// Protocol=578; State=play; Bound=client; ID=0x39
-// Protocol=498; State=play; Bound=client; ID=0x38
-// Protocol=404; State=play; Bound=client; ID=0x36
-// Protocol=401; State=play; Bound=client; ID=0x36
-// Protocol=340; State=play; Bound=client; ID=0x33
-// Protocol=338; State=play; Bound=client; ID=0x33
-// Protocol=335; State=play; Bound=client; ID=0x32
-// Protocol=316; State=play; Bound=client; ID=0x31
-// Protocol=315; State=play; Bound=client; ID=0x31
-// Protocol=210; State=play; Bound=client; ID=0x31
-// Protocol=110; State=play; Bound=client; ID=0x31
-// Protocol=47; State=play; Bound=client; ID=0x1e
+
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x3b
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x3b
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x3b
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x37
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x37
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x39
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x38
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x36
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x36
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x33
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x33
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x32
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x31
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x31
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x31
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x31
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x1e
 type PlayRemoveEntityEffect_757_1 struct {
 	EntityID VarInt // VarInt
 	/* See this table */
@@ -9142,12 +9319,12 @@ func (p *PlayRemoveEntityEffect_757_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x23
-// Protocol=762; State=play; Bound=server; ID=0x23
-// Protocol=761; State=play; Bound=server; ID=0x23
-// Protocol=760; State=play; Bound=server; ID=0x23
-// Protocol=759; State=play; Bound=server; ID=0x22
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x23
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x23
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x23
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x23
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x22
 type PlayRenameItem_763_0 struct {
 	/* The new name of the item. */
 	ItemName String // String (32767)
@@ -9165,9 +9342,10 @@ func (p *PlayRenameItem_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x40
-// Protocol=762; State=play; Bound=client; ID=0x40
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x40
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x40
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x3c
 type PlayResourcePack_763_0 struct {
 	/* The URL to the resource pack. */
 	URL String // String (32767)
@@ -9209,9 +9387,10 @@ func (p *PlayResourcePack_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x24
-// Protocol=762; State=play; Bound=server; ID=0x24
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x24
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x24
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x24
 type PlayResourcePack_763_1 struct {
 	/* 0: successfully loaded, 1: declined, 2: failed download, 3: accepted. */
 	Result VarInt // VarInt Enum
@@ -9229,10 +9408,10 @@ func (p *PlayResourcePack_763_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=client; ID=0x3c
-// Protocol=759; State=play; Bound=client; ID=0x3a
-type PlayResourcePack_761_2 struct {
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x3d
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x3a
+type PlayResourcePack_760_2 struct {
 	/* The URL to the resource pack. */
 	URL String // String (32767)
 	/* A 40 character hexadecimal and lowercase SHA-1 hash of the resource pack file. (must be lower case in order to work)If it's not a 40 character hexadecimal string, the client will not use it for hash verification and likely waste bandwidth — but it will still treat it as a unique id */
@@ -9245,9 +9424,9 @@ type PlayResourcePack_761_2 struct {
 	PromptMessage Object // Optional Chat
 }
 
-var _ Packet = (*PlayResourcePack_761_2)(nil)
+var _ Packet = (*PlayResourcePack_760_2)(nil)
 
-func (p PlayResourcePack_761_2)Encode(b *PacketBuilder){
+func (p PlayResourcePack_760_2)Encode(b *PacketBuilder){
 	b.String(p.URL)
 	b.String(p.Hash)
 	b.Bool(p.Forced)
@@ -9255,7 +9434,7 @@ func (p PlayResourcePack_761_2)Encode(b *PacketBuilder){
 	b.JSON(p.PromptMessage)
 }
 
-func (p *PlayResourcePack_761_2)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayResourcePack_760_2)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.URL, ok = r.String(); !ok {
 		return io.EOF
@@ -9273,31 +9452,31 @@ func (p *PlayResourcePack_761_2)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=761; State=play; Bound=server; ID=0x24
-// Protocol=759; State=play; Bound=server; ID=0x23
-type PlayResourcePack_761_3 struct {
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x24
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x23
+type PlayResourcePack_760_3 struct {
 	/* 0: successfully loaded, 1: declined, 2: failed download, 3: accepted. */
 	Result VarInt // VarInt Enum
 }
 
-var _ Packet = (*PlayResourcePack_761_3)(nil)
+var _ Packet = (*PlayResourcePack_760_3)(nil)
 
-func (p PlayResourcePack_761_3)Encode(b *PacketBuilder){
+func (p PlayResourcePack_760_3)Encode(b *PacketBuilder){
 	b.VarInt(p.Result)
 }
 
-func (p *PlayResourcePack_761_3)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayResourcePack_760_3)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Result, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x3c
-// Protocol=757; State=play; Bound=client; ID=0x3c
-// Protocol=756; State=play; Bound=client; ID=0x3c
-// Protocol=755; State=play; Bound=client; ID=0x3c
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x3c
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x3c
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x3c
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x3c
 type PlayResourcePackSend_758_0 struct {
 	/* The URL to the resource pack. */
 	URL String // String (32767)
@@ -9339,21 +9518,21 @@ func (p *PlayResourcePackSend_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x38
-// Protocol=753; State=play; Bound=client; ID=0x38
-// Protocol=578; State=play; Bound=client; ID=0x3a
-// Protocol=498; State=play; Bound=client; ID=0x39
-// Protocol=404; State=play; Bound=client; ID=0x37
-// Protocol=401; State=play; Bound=client; ID=0x37
-// Protocol=340; State=play; Bound=client; ID=0x34
-// Protocol=338; State=play; Bound=client; ID=0x34
-// Protocol=335; State=play; Bound=client; ID=0x33
-// Protocol=316; State=play; Bound=client; ID=0x32
-// Protocol=315; State=play; Bound=client; ID=0x32
-// Protocol=210; State=play; Bound=client; ID=0x32
-// Protocol=110; State=play; Bound=client; ID=0x32
-// Protocol=47; State=play; Bound=client; ID=0x48
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x38
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x38
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x3a
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x39
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x37
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x37
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x34
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x34
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x33
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x32
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x32
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x32
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x32
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x48
 type PlayResourcePackSend_754_1 struct {
 	/* The URL to the resource pack. */
 	URL String // String
@@ -9377,23 +9556,23 @@ func (p *PlayResourcePackSend_754_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x21
-// Protocol=757; State=play; Bound=server; ID=0x21
-// Protocol=756; State=play; Bound=server; ID=0x21
-// Protocol=755; State=play; Bound=server; ID=0x21
-// Protocol=754; State=play; Bound=server; ID=0x21
-// Protocol=753; State=play; Bound=server; ID=0x21
-// Protocol=578; State=play; Bound=server; ID=0x1f
-// Protocol=498; State=play; Bound=server; ID=0x1f
-// Protocol=404; State=play; Bound=server; ID=0x1d
-// Protocol=401; State=play; Bound=server; ID=0x1d
-// Protocol=340; State=play; Bound=server; ID=0x18
-// Protocol=338; State=play; Bound=server; ID=0x18
-// Protocol=335; State=play; Bound=server; ID=0x18
-// Protocol=316; State=play; Bound=server; ID=0x16
-// Protocol=315; State=play; Bound=server; ID=0x16
-// Protocol=210; State=play; Bound=server; ID=0x16
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x21
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x21
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x21
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x21
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x21
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x21
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x1f
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x1f
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x1d
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x1d
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x18
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x18
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x18
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x16
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x16
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x16
 type PlayResourcePackStatus_758_0 struct {
 	/* 0: successfully loaded, 1: declined, 2: failed download, 3: accepted */
 	Result VarInt // VarInt Enum
@@ -9411,9 +9590,9 @@ func (p *PlayResourcePackStatus_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=110; State=play; Bound=server; ID=0x16
-// Protocol=47; State=play; Bound=server; ID=0x19
+
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x16
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x19
 type PlayResourcePackStatus_110_1 struct {
 	/* The hash sent in the Resource Pack Send packet. */
 	Hash String // String
@@ -9437,10 +9616,10 @@ func (p *PlayResourcePackStatus_110_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=client; ID=0x3d
-// Protocol=760; State=play; Bound=client; ID=0x3e
-// Protocol=759; State=play; Bound=client; ID=0x3b
+
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x3d
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x3e
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x3b
 type PlayRespawn_761_2 struct {
 	/* Valid dimensions are defined per dimension registry sent in Login (play) */
 	DimensionType Identifier // Identifier
@@ -9448,9 +9627,9 @@ type PlayRespawn_761_2 struct {
 	DimensionName Identifier // Identifier
 	/* First 8 bytes of the SHA-256 hash of the world's seed. Used client side for biome noise */
 	HashedSeed Long // Long
-	/* 0: survival, 1: creative, 2: adventure, 3: spectator. The hardcore flag is not included */
+	/* 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. */
 	Gamemode UByte // Unsigned Byte
-	/* -1: null 0: survival, 1: creative, 2: adventure, 3: spectator. The hardcore flag is not included. The previous gamemode. (More information needed) */
+	/* -1: Undefined (null), 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. The previous gamemode. Vanilla client uses this for the debug (F3 + N & F3 + F4) gamemode switch. (More information needed) */
 	PreviousGamemode Byte // Byte
 	/* True if the world is a debug mode world; debug mode worlds cannot be modified and have predefined blocks. */
 	IsDebug Bool // Boolean
@@ -9461,9 +9640,9 @@ type PlayRespawn_761_2 struct {
 	/* If true, then the next two fields are present. */
 	HasDeathLocation Bool // Boolean
 	/* Name of the dimension the player died in. */
-	DeathDimensionName Identifier // Identifier
+	DeathDimensionName Identifier // Optional Identifier
 	/* The location that the player died at. */
-	DeathLocation Position // Position
+	DeathLocation Position // Optional Position
 }
 
 var _ Packet = (*PlayRespawn_761_2)(nil)
@@ -9518,9 +9697,9 @@ func (p *PlayRespawn_761_2)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x3d
-// Protocol=757; State=play; Bound=client; ID=0x3d
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x3d
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x3d
 type PlayRespawn_758_3 struct {
 	/* Valid dimensions are defined per dimension registry sent in Join Game */
 	Dimension *NBTCompound // NBT Tag Compound
@@ -9580,25 +9759,25 @@ func (p *PlayRespawn_758_3)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=756; State=play; Bound=client; ID=0x3d
-// Protocol=755; State=play; Bound=client; ID=0x3d
-// Protocol=754; State=play; Bound=client; ID=0x39
-// Protocol=753; State=play; Bound=client; ID=0x39
+
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x3d
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x3d
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x39
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x39
 type PlayRespawn_756_4 struct {
 	/* Valid dimensions are defined per dimension registry sent in Join Game */
 	Dimension *NBTCompound // NBT Tag Compound
 	/* Name of the world being spawned into */
 	WorldName Identifier // Identifier
-	/* First 8 bytes of the SHA-256 hash of the world's seed. Used client side for biome noise */
+	/* First 8 bytes of the SHA-256 hash of the world's seed. */
 	HashedSeed Long // Long
 	/* 0: survival, 1: creative, 2: adventure, 3: spectator. The hardcore flag is not included */
 	Gamemode UByte // Unsigned Byte
 	/* 0: survival, 1: creative, 2: adventure, 3: spectator. The hardcore flag is not included. The previous gamemode. (More information needed) */
 	PreviousGamemode UByte // Unsigned Byte
-	/* True if the world is a debug mode world; debug mode worlds cannot be modified and have predefined blocks. */
+	/* True if the world is a debug mode world; debug mode worlds cannot be modified and have predefined blocks */
 	IsDebug Bool // Boolean
-	/* True if the world is a superflat world; flat worlds have different void fog and a horizon at y=0 instead of y=63. */
+	/* True if the world is a superflat world; flat worlds have different void fog and a horizon at y=0 instead of y=63 */
 	IsFlat Bool // Boolean
 	/* If false, metadata is reset on the respawned player entity.  Set to true for dimension changes (including the dimension change triggered by sending client status perform respawn to exit the end poem/credits), and false for normal respawns. */
 	CopyMetadata Bool // Boolean
@@ -9644,23 +9823,23 @@ func (p *PlayRespawn_756_4)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x38
-// Protocol=401; State=play; Bound=client; ID=0x38
-// Protocol=340; State=play; Bound=client; ID=0x35
-// Protocol=338; State=play; Bound=client; ID=0x35
-// Protocol=335; State=play; Bound=client; ID=0x34
-// Protocol=316; State=play; Bound=client; ID=0x33
-// Protocol=315; State=play; Bound=client; ID=0x33
-// Protocol=210; State=play; Bound=client; ID=0x33
-// Protocol=110; State=play; Bound=client; ID=0x33
-// Protocol=47; State=play; Bound=client; ID=0x7
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x38
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x38
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x35
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x35
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x34
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x33
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x33
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x33
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x33
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x7
 type PlayRespawn_404_7 struct {
 	/* -1: The Nether, 0: The Overworld, 1: The End */
-	Dimension Int // Int Enum
+	Dimension Int // Int
 	/* 0: Peaceful, 1: Easy, 2: Normal, 3: Hard */
 	Difficulty UByte // Unsigned Byte
-	/* 0: survival, 1: creative, 2: adventure, 3: spectator. The hardcore flag is not included */
+	/* 0: survival, 1: creative, 2: adventure. The hardcore flag is not included */
 	Gamemode UByte // Unsigned Byte
 	/* Same as Join Game */
 	LevelType String // String
@@ -9690,23 +9869,23 @@ func (p *PlayRespawn_404_7)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x53
-// Protocol=757; State=play; Bound=client; ID=0x53
-// Protocol=756; State=play; Bound=client; ID=0x53
-// Protocol=755; State=play; Bound=client; ID=0x53
-// Protocol=754; State=play; Bound=client; ID=0x4a
-// Protocol=753; State=play; Bound=client; ID=0x4a
-// Protocol=578; State=play; Bound=client; ID=0x4a
-// Protocol=498; State=play; Bound=client; ID=0x49
-// Protocol=404; State=play; Bound=client; ID=0x45
-// Protocol=401; State=play; Bound=client; ID=0x45
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x53
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x53
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x53
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x53
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x4a
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x4a
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x4a
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x49
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x45
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x45
 type PlayScoreboardObjective_758_0 struct {
-	/* A unique name for the objective. */
+	/* An unique name for the objective */
 	ObjectiveName String // String (16)
 	/* 0 to create the scoreboard. 1 to remove the scoreboard. 2 to update the display text. */
 	Mode Byte // Byte
-	/* Only if mode is 0 or 2. The text to be displayed for the score. */
+	/* Only if mode is 0 or 2. The text to be displayed for the score */
 	ObjectiveValue Object // Optional Chat
 	/* Only if mode is 0 or 2. 0 = "integer", 1 = "hearts". */
 	Type VarInt // Optional VarInt enum
@@ -9736,15 +9915,15 @@ func (p *PlayScoreboardObjective_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=340; State=play; Bound=client; ID=0x42
-// Protocol=338; State=play; Bound=client; ID=0x42
-// Protocol=335; State=play; Bound=client; ID=0x41
-// Protocol=316; State=play; Bound=client; ID=0x3f
-// Protocol=315; State=play; Bound=client; ID=0x3f
-// Protocol=210; State=play; Bound=client; ID=0x3f
-// Protocol=110; State=play; Bound=client; ID=0x3f
-// Protocol=47; State=play; Bound=client; ID=0x3b
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x42
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x42
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x41
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x3f
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x3f
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x3f
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x3f
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x3b
 type PlayScoreboardObjective_340_1 struct {
 	/* An unique name for the objective */
 	ObjectiveName String // String
@@ -9780,11 +9959,11 @@ func (p *PlayScoreboardObjective_340_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x5
-// Protocol=757; State=play; Bound=client; ID=0x5
-// Protocol=756; State=play; Bound=client; ID=0x5
-// Protocol=755; State=play; Bound=client; ID=0x5
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x5
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x5
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x5
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x5
 type PlaySculkVibrationSignal_758_0 struct {
 	/* Source position for the vibration. */
 	SourcePosition Position // Position
@@ -9820,12 +9999,12 @@ func (p *PlaySculkVibrationSignal_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x25
-// Protocol=762; State=play; Bound=server; ID=0x25
-// Protocol=761; State=play; Bound=server; ID=0x25
-// Protocol=760; State=play; Bound=server; ID=0x25
-// Protocol=759; State=play; Bound=server; ID=0x24
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x25
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x25
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x25
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x25
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x24
 type PlaySeenAdvancements_763_0 struct {
 	/* 0: Opened tab, 1: Closed screen. */
 	Action VarInt // VarInt Enum
@@ -9849,24 +10028,24 @@ func (p *PlaySeenAdvancements_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x40
-// Protocol=757; State=play; Bound=client; ID=0x40
-// Protocol=756; State=play; Bound=client; ID=0x40
-// Protocol=755; State=play; Bound=client; ID=0x40
-// Protocol=754; State=play; Bound=client; ID=0x3c
-// Protocol=753; State=play; Bound=client; ID=0x3c
-// Protocol=578; State=play; Bound=client; ID=0x3d
-// Protocol=498; State=play; Bound=client; ID=0x3c
-// Protocol=404; State=play; Bound=client; ID=0x3a
-// Protocol=401; State=play; Bound=client; ID=0x3a
-// Protocol=340; State=play; Bound=client; ID=0x37
-// Protocol=338; State=play; Bound=client; ID=0x37
-// Protocol=335; State=play; Bound=client; ID=0x36
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x40
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x40
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x40
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x40
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x3c
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x3c
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x3d
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x3c
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x3a
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x3a
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x37
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x37
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x36
 type PlaySelectAdvancementTab_758_0 struct {
-	/* Indicates if the next field is present. */
+	/* Indicates if the next field is present */
 	HasId Bool // Boolean
-	/* See below. */
+	/* See below */
 	OptionalIdentifier String // String (32767)
 }
 
@@ -9886,10 +10065,10 @@ func (p *PlaySelectAdvancementTab_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x44
-// Protocol=762; State=play; Bound=client; ID=0x44
-// Protocol=761; State=play; Bound=client; ID=0x40
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x44
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x44
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x40
 type PlaySelectAdvancementsTab_763_0 struct {
 	/* Indicates if the next field is present. */
 	HasId Bool // Boolean
@@ -9913,9 +10092,9 @@ func (p *PlaySelectAdvancementsTab_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x41
-// Protocol=759; State=play; Bound=client; ID=0x3e
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x41
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x3e
 type PlaySelectAdvancementsTab_760_1 struct {
 	/* Indicates if the next field is present. */
 	HasId Bool // Boolean
@@ -9939,24 +10118,24 @@ func (p *PlaySelectAdvancementsTab_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x26
-// Protocol=762; State=play; Bound=server; ID=0x26
-// Protocol=761; State=play; Bound=server; ID=0x26
-// Protocol=760; State=play; Bound=server; ID=0x26
-// Protocol=759; State=play; Bound=server; ID=0x25
-// Protocol=758; State=play; Bound=server; ID=0x23
-// Protocol=757; State=play; Bound=server; ID=0x23
-// Protocol=756; State=play; Bound=server; ID=0x23
-// Protocol=755; State=play; Bound=server; ID=0x23
-// Protocol=754; State=play; Bound=server; ID=0x23
-// Protocol=753; State=play; Bound=server; ID=0x23
-// Protocol=578; State=play; Bound=server; ID=0x21
-// Protocol=498; State=play; Bound=server; ID=0x21
-// Protocol=404; State=play; Bound=server; ID=0x1f
-// Protocol=401; State=play; Bound=server; ID=0x1f
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x26
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x26
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x26
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x26
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x25
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x23
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x23
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x23
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x23
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x23
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x23
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x21
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x21
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x1f
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x1f
 type PlaySelectTrade_763_0 struct {
-	/* The selected slot in the players current (trading) inventory. (Was a full Integer for the plugin message). */
+	/* The selected slot int the players current (trading) inventory. (Was a full Integer for the plugin message) */
 	SelectedSlot VarInt // VarInt
 }
 
@@ -9972,9 +10151,9 @@ func (p *PlaySelectTrade_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x45
-// Protocol=762; State=play; Bound=client; ID=0x45
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x45
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x45
 type PlayServerData_763_0 struct {
 	MOTD Object // Chat
 	HasIcon Bool // Boolean
@@ -10007,9 +10186,9 @@ func (p *PlayServerData_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x42
-// Protocol=759; State=play; Bound=client; ID=0x3f
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x42
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x3f
 type PlayServerData_760_2 struct {
 	HasMOTD Bool // Boolean
 	MOTD Object // Optional Chat
@@ -10052,17 +10231,17 @@ func (p *PlayServerData_760_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0xe
-// Protocol=757; State=play; Bound=client; ID=0xe
-// Protocol=756; State=play; Bound=client; ID=0xe
-// Protocol=755; State=play; Bound=client; ID=0xe
-// Protocol=754; State=play; Bound=client; ID=0xd
-// Protocol=753; State=play; Bound=client; ID=0xd
-// Protocol=578; State=play; Bound=client; ID=0xe
-// Protocol=498; State=play; Bound=client; ID=0xd
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0xe
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0xe
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0xe
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0xe
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0xd
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0xd
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0xe
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0xd
 type PlayServerDifficulty_758_0 struct {
-	/* 0: peaceful, 1: easy, 2: normal, 3: hard. */
+	/* 0: peaceful, 1: easy, 2: normal, 3: hard */
 	Difficulty UByte // Unsigned Byte
 	DifficultyLocked Bool // Boolean
 }
@@ -10083,17 +10262,17 @@ func (p *PlayServerDifficulty_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0xd
-// Protocol=401; State=play; Bound=client; ID=0xd
-// Protocol=340; State=play; Bound=client; ID=0xd
-// Protocol=338; State=play; Bound=client; ID=0xd
-// Protocol=335; State=play; Bound=client; ID=0xd
-// Protocol=316; State=play; Bound=client; ID=0xd
-// Protocol=315; State=play; Bound=client; ID=0xd
-// Protocol=210; State=play; Bound=client; ID=0xd
-// Protocol=110; State=play; Bound=client; ID=0xd
-// Protocol=47; State=play; Bound=client; ID=0x41
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0xd
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0xd
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0xd
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0xd
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0xd
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0xd
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0xd
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0xd
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0xd
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x41
 type PlayServerDifficulty_404_1 struct {
 	/* 0: peaceful, 1: easy, 2: normal, 3: hard */
 	Difficulty UByte // Unsigned Byte
@@ -10111,12 +10290,12 @@ func (p *PlayServerDifficulty_404_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x46
-// Protocol=762; State=play; Bound=client; ID=0x46
-// Protocol=761; State=play; Bound=client; ID=0x42
-// Protocol=760; State=play; Bound=client; ID=0x43
-// Protocol=759; State=play; Bound=client; ID=0x40
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x46
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x46
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x42
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x43
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x40
 type PlaySetActionBarText_763_0 struct {
 	/* Displays a message above the hotbar (the same as position 2 in Player Chat Message. */
 	ActionBarText Object // Chat
@@ -10134,11 +10313,11 @@ func (p *PlaySetActionBarText_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x27
-// Protocol=762; State=play; Bound=server; ID=0x27
-// Protocol=761; State=play; Bound=server; ID=0x27
-// Protocol=760; State=play; Bound=server; ID=0x27
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x27
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x27
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x27
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x27
 type PlaySetBeaconEffect_763_0 struct {
 	HasPrimaryEffect Bool // Boolean
 	/* A Potion ID. (Was a full Integer for the plugin message). */
@@ -10172,21 +10351,21 @@ func (p *PlaySetBeaconEffect_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x24
-// Protocol=757; State=play; Bound=server; ID=0x24
-// Protocol=756; State=play; Bound=server; ID=0x24
-// Protocol=755; State=play; Bound=server; ID=0x24
-// Protocol=754; State=play; Bound=server; ID=0x24
-// Protocol=753; State=play; Bound=server; ID=0x24
-// Protocol=578; State=play; Bound=server; ID=0x22
-// Protocol=498; State=play; Bound=server; ID=0x22
-// Protocol=404; State=play; Bound=server; ID=0x20
-// Protocol=401; State=play; Bound=server; ID=0x20
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x24
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x24
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x24
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x24
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x24
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x24
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x22
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x22
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x20
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x20
 type PlaySetBeaconEffect_758_2 struct {
-	/* A Potion ID. (Was a full Integer for the plugin message). */
+	/* A Potion ID. (Was a full Integer for the plugin message) */
 	PrimaryEffect VarInt // VarInt
-	/* A Potion ID. (Was a full Integer for the plugin message). */
+	/* A Potion ID. (Was a full Integer for the plugin message) */
 	SecondaryEffect VarInt // VarInt
 }
 
@@ -10206,12 +10385,12 @@ func (p *PlaySetBeaconEffect_758_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x7
-// Protocol=762; State=play; Bound=client; ID=0x7
-// Protocol=761; State=play; Bound=client; ID=0x6
-// Protocol=760; State=play; Bound=client; ID=0x6
-// Protocol=759; State=play; Bound=client; ID=0x6
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x7
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x7
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x6
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x6
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x6
 type PlaySetBlockDestroyStage_763_0 struct {
 	/* The ID of the entity breaking the block. */
 	EntityID VarInt // VarInt
@@ -10241,12 +10420,12 @@ func (p *PlaySetBlockDestroyStage_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x47
-// Protocol=762; State=play; Bound=client; ID=0x47
-// Protocol=761; State=play; Bound=client; ID=0x43
-// Protocol=760; State=play; Bound=client; ID=0x44
-// Protocol=759; State=play; Bound=client; ID=0x41
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x47
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x47
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x43
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x44
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x41
 type PlaySetBorderCenter_763_0 struct {
 	X Double // Double
 	Z Double // Double
@@ -10268,12 +10447,12 @@ func (p *PlaySetBorderCenter_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x48
-// Protocol=762; State=play; Bound=client; ID=0x48
-// Protocol=761; State=play; Bound=client; ID=0x44
-// Protocol=760; State=play; Bound=client; ID=0x45
-// Protocol=759; State=play; Bound=client; ID=0x42
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x48
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x48
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x44
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x45
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x42
 type PlaySetBorderLerpSize_763_0 struct {
 	/* Current length of a single side of the world border, in meters. */
 	OldDiameter Double // Double
@@ -10303,12 +10482,12 @@ func (p *PlaySetBorderLerpSize_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x49
-// Protocol=762; State=play; Bound=client; ID=0x49
-// Protocol=761; State=play; Bound=client; ID=0x45
-// Protocol=760; State=play; Bound=client; ID=0x46
-// Protocol=759; State=play; Bound=client; ID=0x43
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x49
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x49
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x45
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x46
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x43
 type PlaySetBorderSize_763_0 struct {
 	/* Length of a single side of the world border, in meters. */
 	Diameter Double // Double
@@ -10326,12 +10505,12 @@ func (p *PlaySetBorderSize_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x4a
-// Protocol=762; State=play; Bound=client; ID=0x4a
-// Protocol=761; State=play; Bound=client; ID=0x46
-// Protocol=760; State=play; Bound=client; ID=0x47
-// Protocol=759; State=play; Bound=client; ID=0x44
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x4a
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x4a
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x46
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x47
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x44
 type PlaySetBorderWarningDelay_763_0 struct {
 	/* In seconds as set by /worldborder warning time. */
 	WarningTime VarInt // VarInt
@@ -10349,12 +10528,12 @@ func (p *PlaySetBorderWarningDelay_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x4b
-// Protocol=762; State=play; Bound=client; ID=0x4b
-// Protocol=761; State=play; Bound=client; ID=0x47
-// Protocol=760; State=play; Bound=client; ID=0x48
-// Protocol=759; State=play; Bound=client; ID=0x45
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x4b
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x4b
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x47
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x48
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x45
 type PlaySetBorderWarningDistance_763_0 struct {
 	/* In meters. */
 	WarningBlocks VarInt // VarInt
@@ -10372,12 +10551,12 @@ func (p *PlaySetBorderWarningDistance_763_0)DecodeFrom(r *PacketReader)(err erro
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x4c
-// Protocol=762; State=play; Bound=client; ID=0x4c
-// Protocol=761; State=play; Bound=client; ID=0x48
-// Protocol=760; State=play; Bound=client; ID=0x49
-// Protocol=759; State=play; Bound=client; ID=0x46
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x4c
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x4c
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x48
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x49
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x46
 type PlaySetCamera_763_0 struct {
 	/* ID of the entity to set the client's camera to. */
 	CameraID VarInt // VarInt
@@ -10395,12 +10574,12 @@ func (p *PlaySetCamera_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x4e
-// Protocol=762; State=play; Bound=client; ID=0x4e
-// Protocol=761; State=play; Bound=client; ID=0x4a
-// Protocol=760; State=play; Bound=client; ID=0x4b
-// Protocol=759; State=play; Bound=client; ID=0x48
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x4e
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x4e
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x4a
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x4b
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x48
 type PlaySetCenterChunk_763_0 struct {
 	/* Chunk X coordinate of the player's position. */
 	ChunkX VarInt // VarInt
@@ -10424,12 +10603,12 @@ func (p *PlaySetCenterChunk_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x12
-// Protocol=762; State=play; Bound=client; ID=0x12
-// Protocol=761; State=play; Bound=client; ID=0x10
-// Protocol=760; State=play; Bound=client; ID=0x11
-// Protocol=759; State=play; Bound=client; ID=0x11
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x12
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x12
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x10
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x11
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x11
 type PlaySetContainerContent_763_0 struct {
 	/* The ID of window which items are being sent for. 0 for player inventory. */
 	WindowID UByte // Unsigned Byte
@@ -10476,12 +10655,12 @@ func (p *PlaySetContainerContent_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x13
-// Protocol=762; State=play; Bound=client; ID=0x13
-// Protocol=761; State=play; Bound=client; ID=0x11
-// Protocol=760; State=play; Bound=client; ID=0x12
-// Protocol=759; State=play; Bound=client; ID=0x12
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x13
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x13
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x11
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x12
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x12
 type PlaySetContainerProperty_763_0 struct {
 	WindowID UByte // Unsigned Byte
 	/* The property to be updated, see below. */
@@ -10510,12 +10689,12 @@ func (p *PlaySetContainerProperty_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x14
-// Protocol=762; State=play; Bound=client; ID=0x14
-// Protocol=761; State=play; Bound=client; ID=0x12
-// Protocol=760; State=play; Bound=client; ID=0x13
-// Protocol=759; State=play; Bound=client; ID=0x13
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x14
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x14
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x12
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x13
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x13
 type PlaySetContainerSlot_763_0 struct {
 	/* The window which is being updated. 0 for player inventory. Note that all known window types include the player inventory. This packet will only be sent for the currently opened window while the player is performing actions, even if it affects the player inventory. After the window is closed, a number of these packets are sent to update the player's inventory window (0). */
 	WindowID Byte // Byte
@@ -10550,29 +10729,29 @@ func (p *PlaySetContainerSlot_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x15
-// Protocol=762; State=play; Bound=client; ID=0x15
-// Protocol=761; State=play; Bound=client; ID=0x13
-// Protocol=760; State=play; Bound=client; ID=0x14
-// Protocol=759; State=play; Bound=client; ID=0x14
-// Protocol=758; State=play; Bound=client; ID=0x17
-// Protocol=757; State=play; Bound=client; ID=0x17
-// Protocol=756; State=play; Bound=client; ID=0x17
-// Protocol=755; State=play; Bound=client; ID=0x17
-// Protocol=754; State=play; Bound=client; ID=0x16
-// Protocol=753; State=play; Bound=client; ID=0x16
-// Protocol=578; State=play; Bound=client; ID=0x18
-// Protocol=498; State=play; Bound=client; ID=0x17
-// Protocol=404; State=play; Bound=client; ID=0x18
-// Protocol=401; State=play; Bound=client; ID=0x18
-// Protocol=340; State=play; Bound=client; ID=0x17
-// Protocol=338; State=play; Bound=client; ID=0x17
-// Protocol=335; State=play; Bound=client; ID=0x17
-// Protocol=316; State=play; Bound=client; ID=0x17
-// Protocol=315; State=play; Bound=client; ID=0x17
-// Protocol=210; State=play; Bound=client; ID=0x17
-// Protocol=110; State=play; Bound=client; ID=0x17
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x15
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x15
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x13
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x14
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x14
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x17
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x17
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x17
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x17
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x16
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x16
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x18
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x17
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x18
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x18
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x17
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x17
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x17
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x17
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x17
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x17
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x17
 type PlaySetCooldown_763_0 struct {
 	/* Numeric ID of the item to apply a cooldown to. */
 	ItemID VarInt // VarInt
@@ -10596,12 +10775,12 @@ func (p *PlaySetCooldown_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x2b
-// Protocol=762; State=play; Bound=server; ID=0x2b
-// Protocol=761; State=play; Bound=server; ID=0x2b
-// Protocol=760; State=play; Bound=server; ID=0x2b
-// Protocol=759; State=play; Bound=server; ID=0x2a
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x2b
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x2b
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x2b
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x2b
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x2a
 type PlaySetCreativeModeSlot_763_0 struct {
 	/* Inventory slot. */
 	Slot Short // Short
@@ -10624,12 +10803,12 @@ func (p *PlaySetCreativeModeSlot_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x50
-// Protocol=762; State=play; Bound=client; ID=0x50
-// Protocol=761; State=play; Bound=client; ID=0x4c
-// Protocol=760; State=play; Bound=client; ID=0x4d
-// Protocol=759; State=play; Bound=client; ID=0x4a
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x50
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x50
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x4c
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x4d
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x4a
 type PlaySetDefaultSpawnPosition_763_0 struct {
 	/* Spawn location. */
 	Location Position // Position
@@ -10653,17 +10832,17 @@ func (p *PlaySetDefaultSpawnPosition_763_0)DecodeFrom(r *PacketReader)(err error
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x2
-// Protocol=757; State=play; Bound=server; ID=0x2
-// Protocol=756; State=play; Bound=server; ID=0x2
-// Protocol=755; State=play; Bound=server; ID=0x2
-// Protocol=754; State=play; Bound=server; ID=0x2
-// Protocol=753; State=play; Bound=server; ID=0x2
-// Protocol=578; State=play; Bound=server; ID=0x2
-// Protocol=498; State=play; Bound=server; ID=0x2
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x2
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x2
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x2
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x2
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x2
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x2
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x2
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x2
 type PlaySetDifficulty_758_0 struct {
-	/* 0: peaceful, 1: easy, 2: normal, 3: hard . */
+	/* 0: peaceful, 1: easy, 2: normal, 3: hard */
 	NewDifficulty Byte // Byte
 }
 
@@ -10679,9 +10858,9 @@ func (p *PlaySetDifficulty_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x4e
-// Protocol=759; State=play; Bound=client; ID=0x4b
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x4e
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x4b
 type PlaySetDisplayChatPreview_760_0 struct {
 	ChatPreviewSetting Bool // Boolean
 }
@@ -10698,13 +10877,13 @@ func (p *PlaySetDisplayChatPreview_760_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x1f
-// Protocol=757; State=play; Bound=server; ID=0x1f
-// Protocol=756; State=play; Bound=server; ID=0x1f
-// Protocol=755; State=play; Bound=server; ID=0x1f
-// Protocol=754; State=play; Bound=server; ID=0x1f
-// Protocol=753; State=play; Bound=server; ID=0x1e
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x1f
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x1f
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x1f
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x1f
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1f
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1e
 type PlaySetDisplayedRecipe_758_0 struct {
 	RecipeID Identifier // Identifier
 }
@@ -10721,12 +10900,12 @@ func (p *PlaySetDisplayedRecipe_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x52
-// Protocol=762; State=play; Bound=client; ID=0x52
-// Protocol=761; State=play; Bound=client; ID=0x4e
-// Protocol=760; State=play; Bound=client; ID=0x50
-// Protocol=759; State=play; Bound=client; ID=0x4d
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x52
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x52
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x4e
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x50
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x4d
 type PlaySetEntityMetadata_763_0 struct {
 	EntityID VarInt // VarInt
 	Metadata *EntityMetadata // Entity Metadata
@@ -10748,12 +10927,12 @@ func (p *PlaySetEntityMetadata_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x54
-// Protocol=762; State=play; Bound=client; ID=0x54
-// Protocol=761; State=play; Bound=client; ID=0x50
-// Protocol=760; State=play; Bound=client; ID=0x52
-// Protocol=759; State=play; Bound=client; ID=0x4f
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x54
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x54
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x50
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x52
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x4f
 type PlaySetEntityVelocity_763_0 struct {
 	EntityID VarInt // VarInt
 	/* Velocity on the X axis. */
@@ -10788,10 +10967,10 @@ func (p *PlaySetEntityVelocity_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x56
-// Protocol=762; State=play; Bound=client; ID=0x56
-// Protocol=761; State=play; Bound=client; ID=0x52
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x56
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x56
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x52
 type PlaySetExperience_763_0 struct {
 	/* Between 0 and 1. */
 	ExperienceBar Float // Float
@@ -10820,27 +10999,27 @@ func (p *PlaySetExperience_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x54
-// Protocol=759; State=play; Bound=client; ID=0x51
-// Protocol=758; State=play; Bound=client; ID=0x51
-// Protocol=757; State=play; Bound=client; ID=0x51
-// Protocol=756; State=play; Bound=client; ID=0x51
-// Protocol=755; State=play; Bound=client; ID=0x51
-// Protocol=754; State=play; Bound=client; ID=0x48
-// Protocol=753; State=play; Bound=client; ID=0x48
-// Protocol=578; State=play; Bound=client; ID=0x48
-// Protocol=498; State=play; Bound=client; ID=0x47
-// Protocol=404; State=play; Bound=client; ID=0x43
-// Protocol=401; State=play; Bound=client; ID=0x43
-// Protocol=340; State=play; Bound=client; ID=0x40
-// Protocol=338; State=play; Bound=client; ID=0x40
-// Protocol=335; State=play; Bound=client; ID=0x3f
-// Protocol=316; State=play; Bound=client; ID=0x3d
-// Protocol=315; State=play; Bound=client; ID=0x3d
-// Protocol=210; State=play; Bound=client; ID=0x3d
-// Protocol=110; State=play; Bound=client; ID=0x3d
-// Protocol=47; State=play; Bound=client; ID=0x1f
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x54
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x51
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x51
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x51
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x51
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x51
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x48
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x48
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x48
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x47
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x43
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x43
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x40
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x40
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x3f
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x3d
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x3d
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x3d
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x3d
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x1f
 type PlaySetExperience_760_1 struct {
 	/* Between 0 and 1 */
 	ExperienceBar Float // Float
@@ -10869,12 +11048,12 @@ func (p *PlaySetExperience_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x42
-// Protocol=762; State=play; Bound=client; ID=0x42
-// Protocol=761; State=play; Bound=client; ID=0x3e
-// Protocol=760; State=play; Bound=client; ID=0x3f
-// Protocol=759; State=play; Bound=client; ID=0x3c
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x42
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x42
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x3e
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x3f
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x3c
 type PlaySetHeadRotation_763_0 struct {
 	EntityID VarInt // VarInt
 	/* New angle, not a delta. */
@@ -10897,12 +11076,12 @@ func (p *PlaySetHeadRotation_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x57
-// Protocol=762; State=play; Bound=client; ID=0x57
-// Protocol=761; State=play; Bound=client; ID=0x53
-// Protocol=760; State=play; Bound=client; ID=0x55
-// Protocol=759; State=play; Bound=client; ID=0x52
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x57
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x57
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x53
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x55
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x52
 type PlaySetHealth_763_0 struct {
 	/* 0 or less = dead, 20 = full HP. */
 	Health Float // Float
@@ -10932,9 +11111,10 @@ func (p *PlaySetHealth_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x4d
-// Protocol=762; State=play; Bound=client; ID=0x4d
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x4d
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x4d
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x49
 type PlaySetHeldItem_763_0 struct {
 	/* The slot which the player has selected (0–8). */
 	Slot Byte // Byte
@@ -10952,9 +11132,10 @@ func (p *PlaySetHeldItem_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x28
-// Protocol=762; State=play; Bound=server; ID=0x28
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x28
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x28
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x28
 type PlaySetHeldItem_763_1 struct {
 	/* The slot which the player has selected (0–8). */
 	Slot Short // Short
@@ -10972,69 +11153,69 @@ func (p *PlaySetHeldItem_763_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=client; ID=0x49
-// Protocol=759; State=play; Bound=client; ID=0x47
-type PlaySetHeldItem_761_2 struct {
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x4a
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x47
+type PlaySetHeldItem_760_2 struct {
 	/* The slot which the player has selected (0–8). */
 	Slot Byte // Byte
 }
 
-var _ Packet = (*PlaySetHeldItem_761_2)(nil)
+var _ Packet = (*PlaySetHeldItem_760_2)(nil)
 
-func (p PlaySetHeldItem_761_2)Encode(b *PacketBuilder){
+func (p PlaySetHeldItem_760_2)Encode(b *PacketBuilder){
 	b.Byte(p.Slot)
 }
 
-func (p *PlaySetHeldItem_761_2)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySetHeldItem_760_2)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Slot, ok = r.Byte(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=server; ID=0x28
-// Protocol=759; State=play; Bound=server; ID=0x27
-type PlaySetHeldItem_761_3 struct {
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x28
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x27
+type PlaySetHeldItem_760_3 struct {
 	/* The slot which the player has selected (0–8). */
 	Slot Short // Short
 }
 
-var _ Packet = (*PlaySetHeldItem_761_3)(nil)
+var _ Packet = (*PlaySetHeldItem_760_3)(nil)
 
-func (p PlaySetHeldItem_761_3)Encode(b *PacketBuilder){
+func (p PlaySetHeldItem_760_3)Encode(b *PacketBuilder){
 	b.Short(p.Slot)
 }
 
-func (p *PlaySetHeldItem_761_3)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySetHeldItem_760_3)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x59
-// Protocol=762; State=play; Bound=client; ID=0x59
-// Protocol=761; State=play; Bound=client; ID=0x55
-// Protocol=760; State=play; Bound=client; ID=0x57
-// Protocol=759; State=play; Bound=client; ID=0x54
-// Protocol=758; State=play; Bound=client; ID=0x54
-// Protocol=757; State=play; Bound=client; ID=0x54
-// Protocol=756; State=play; Bound=client; ID=0x54
-// Protocol=755; State=play; Bound=client; ID=0x54
-// Protocol=754; State=play; Bound=client; ID=0x4b
-// Protocol=753; State=play; Bound=client; ID=0x4b
-// Protocol=578; State=play; Bound=client; ID=0x4b
-// Protocol=498; State=play; Bound=client; ID=0x4a
-// Protocol=404; State=play; Bound=client; ID=0x46
-// Protocol=401; State=play; Bound=client; ID=0x46
-// Protocol=340; State=play; Bound=client; ID=0x43
-// Protocol=338; State=play; Bound=client; ID=0x43
-// Protocol=335; State=play; Bound=client; ID=0x42
-// Protocol=316; State=play; Bound=client; ID=0x40
-// Protocol=315; State=play; Bound=client; ID=0x40
-// Protocol=210; State=play; Bound=client; ID=0x40
-// Protocol=110; State=play; Bound=client; ID=0x40
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x59
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x59
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x55
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x57
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x54
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x54
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x54
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x54
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x54
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x4b
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x4b
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x4b
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x4a
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x46
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x46
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x43
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x43
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x42
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x40
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x40
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x40
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x40
 type PlaySetPassengers_763_0 struct {
 	/* Vehicle's EID */
 	EntityID VarInt // VarInt
@@ -11070,12 +11251,12 @@ func (p *PlaySetPassengers_763_0)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x17
-// Protocol=762; State=play; Bound=server; ID=0x17
-// Protocol=761; State=play; Bound=server; ID=0x16
-// Protocol=760; State=play; Bound=server; ID=0x17
-// Protocol=759; State=play; Bound=server; ID=0x16
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x17
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x17
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x16
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x17
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x16
 type PlaySetPlayerOnGround_763_0 struct {
 	/* True if the client is on the ground, false otherwise. */
 	OnGround Bool // Boolean
@@ -11093,12 +11274,12 @@ func (p *PlaySetPlayerOnGround_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x14
-// Protocol=762; State=play; Bound=server; ID=0x14
-// Protocol=761; State=play; Bound=server; ID=0x13
-// Protocol=760; State=play; Bound=server; ID=0x14
-// Protocol=759; State=play; Bound=server; ID=0x13
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x14
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x14
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x13
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x14
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x13
 type PlaySetPlayerPosition_763_0 struct {
 	/* Absolute position. */
 	X Double // Double
@@ -11134,12 +11315,12 @@ func (p *PlaySetPlayerPosition_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x15
-// Protocol=762; State=play; Bound=server; ID=0x15
-// Protocol=761; State=play; Bound=server; ID=0x14
-// Protocol=760; State=play; Bound=server; ID=0x15
-// Protocol=759; State=play; Bound=server; ID=0x14
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x15
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x15
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x14
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x15
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x14
 type PlaySetPlayerPositionAndRotation_763_0 struct {
 	/* Absolute position. */
 	X Double // Double
@@ -11187,12 +11368,12 @@ func (p *PlaySetPlayerPositionAndRotation_763_0)DecodeFrom(r *PacketReader)(err 
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x16
-// Protocol=762; State=play; Bound=server; ID=0x16
-// Protocol=761; State=play; Bound=server; ID=0x15
-// Protocol=760; State=play; Bound=server; ID=0x16
-// Protocol=759; State=play; Bound=server; ID=0x15
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x16
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x16
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x15
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x16
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x15
 type PlaySetPlayerRotation_763_0 struct {
 	/* Absolute rotation on the X Axis, in degrees. */
 	Yaw Float // Float
@@ -11222,15 +11403,15 @@ func (p *PlaySetPlayerRotation_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x1e
-// Protocol=757; State=play; Bound=server; ID=0x1e
-// Protocol=756; State=play; Bound=server; ID=0x1e
-// Protocol=755; State=play; Bound=server; ID=0x1e
-// Protocol=754; State=play; Bound=server; ID=0x1e
-// Protocol=753; State=play; Bound=server; ID=0x1f
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x1e
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x1e
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x1e
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x1e
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1e
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1f
 type PlaySetRecipeBookState_758_0 struct {
-	/* 0: crafting, 1: furnace, 2: blast furnace, 3: smoker. */
+	/* 0: crafting, 1: furnace, 2: blast furnace, 3: smoker */
 	BookID VarInt // VarInt enum
 	BookOpen Bool // Boolean
 	FilterActive Bool // Boolean
@@ -11256,12 +11437,12 @@ func (p *PlaySetRecipeBookState_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x4f
-// Protocol=762; State=play; Bound=client; ID=0x4f
-// Protocol=761; State=play; Bound=client; ID=0x4b
-// Protocol=760; State=play; Bound=client; ID=0x4c
-// Protocol=759; State=play; Bound=client; ID=0x49
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x4f
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x4f
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x4b
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x4c
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x49
 type PlaySetRenderDistance_763_0 struct {
 	/* Render distance (2-32). */
 	ViewDistance VarInt // VarInt
@@ -11279,12 +11460,12 @@ func (p *PlaySetRenderDistance_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x22
-// Protocol=762; State=play; Bound=server; ID=0x22
-// Protocol=761; State=play; Bound=server; ID=0x22
-// Protocol=760; State=play; Bound=server; ID=0x22
-// Protocol=759; State=play; Bound=server; ID=0x21
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x22
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x22
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x22
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x22
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x21
 type PlaySetSeenRecipe_763_0 struct {
 	RecipeID Identifier // Identifier
 }
@@ -11301,12 +11482,12 @@ func (p *PlaySetSeenRecipe_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x5c
-// Protocol=762; State=play; Bound=client; ID=0x5c
-// Protocol=761; State=play; Bound=client; ID=0x58
-// Protocol=760; State=play; Bound=client; ID=0x5a
-// Protocol=759; State=play; Bound=client; ID=0x57
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x5c
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x5c
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x58
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x5a
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x57
 type PlaySetSimulationDistance_763_0 struct {
 	/* The distance that the client will process specific things, such as entities. */
 	SimulationDistance VarInt // VarInt
@@ -11324,10 +11505,10 @@ func (p *PlaySetSimulationDistance_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x16
-// Protocol=757; State=play; Bound=client; ID=0x16
-// Protocol=756; State=play; Bound=client; ID=0x16
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x16
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x16
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x16
 type PlaySetSlot_758_0 struct {
 	/* The window which is being updated. 0 for player inventory. Note that all known window types include the player inventory. This packet will only be sent for the currently opened window while the player is performing actions, even if it affects the player inventory. After the window is closed, a number of these packets are sent to update the player's inventory window (0). */
 	WindowID Byte // Byte
@@ -11362,22 +11543,22 @@ func (p *PlaySetSlot_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=755; State=play; Bound=client; ID=0x16
-// Protocol=754; State=play; Bound=client; ID=0x15
-// Protocol=753; State=play; Bound=client; ID=0x15
-// Protocol=578; State=play; Bound=client; ID=0x17
-// Protocol=498; State=play; Bound=client; ID=0x16
-// Protocol=404; State=play; Bound=client; ID=0x17
-// Protocol=401; State=play; Bound=client; ID=0x17
-// Protocol=340; State=play; Bound=client; ID=0x16
-// Protocol=338; State=play; Bound=client; ID=0x16
-// Protocol=335; State=play; Bound=client; ID=0x16
-// Protocol=316; State=play; Bound=client; ID=0x16
-// Protocol=315; State=play; Bound=client; ID=0x16
-// Protocol=210; State=play; Bound=client; ID=0x16
-// Protocol=110; State=play; Bound=client; ID=0x16
-// Protocol=47; State=play; Bound=client; ID=0x2f
+
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x16
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x15
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x15
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x17
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x16
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x17
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x17
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x16
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x16
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x16
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x16
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x16
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x16
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x16
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x2f
 type PlaySetSlot_755_1 struct {
 	/* The window which is being updated. 0 for player inventory. Note that all known window types include the player inventory. This packet will only be sent for the currently opened window while the player is performing actions, even if it affects the player inventory. After the window is closed, a number of these packets are sent to update the player's inventory window (0). */
 	WindowID Byte // Byte
@@ -11406,12 +11587,12 @@ func (p *PlaySetSlot_755_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x5d
-// Protocol=762; State=play; Bound=client; ID=0x5d
-// Protocol=761; State=play; Bound=client; ID=0x59
-// Protocol=760; State=play; Bound=client; ID=0x5b
-// Protocol=759; State=play; Bound=client; ID=0x58
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x5d
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x5d
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x59
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x5b
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x58
 type PlaySetSubtitleText_763_0 struct {
 	SubtitleText Object // Chat
 }
@@ -11428,12 +11609,12 @@ func (p *PlaySetSubtitleText_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x65
-// Protocol=762; State=play; Bound=client; ID=0x65
-// Protocol=761; State=play; Bound=client; ID=0x61
-// Protocol=760; State=play; Bound=client; ID=0x63
-// Protocol=759; State=play; Bound=client; ID=0x60
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x65
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x65
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x61
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x63
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x60
 type PlaySetTabListHeaderAndFooter_763_0 struct {
 	/* To remove the header, send a empty text component: {"text":""}. */
 	Header Object // Chat
@@ -11457,12 +11638,12 @@ func (p *PlaySetTabListHeaderAndFooter_763_0)DecodeFrom(r *PacketReader)(err err
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x60
-// Protocol=762; State=play; Bound=client; ID=0x60
-// Protocol=761; State=play; Bound=client; ID=0x5c
-// Protocol=760; State=play; Bound=client; ID=0x5e
-// Protocol=759; State=play; Bound=client; ID=0x5b
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x60
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x60
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x5c
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x5e
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x5b
 type PlaySetTitleAnimationTimes_763_0 struct {
 	/* Ticks to spend fading in. */
 	FadeIn Int // Int
@@ -11492,11 +11673,11 @@ func (p *PlaySetTitleAnimationTimes_763_0)DecodeFrom(r *PacketReader)(err error)
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x58
-// Protocol=757; State=play; Bound=client; ID=0x58
-// Protocol=756; State=play; Bound=client; ID=0x57
-// Protocol=755; State=play; Bound=client; ID=0x57
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x58
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x58
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x57
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x57
 type PlaySetTitleSubTitle_758_0 struct {
 	SubtitleText Object // Chat
 }
@@ -11513,16 +11694,16 @@ func (p *PlaySetTitleSubTitle_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x5f
-// Protocol=762; State=play; Bound=client; ID=0x5f
-// Protocol=761; State=play; Bound=client; ID=0x5b
-// Protocol=760; State=play; Bound=client; ID=0x5d
-// Protocol=759; State=play; Bound=client; ID=0x5a
-// Protocol=758; State=play; Bound=client; ID=0x5a
-// Protocol=757; State=play; Bound=client; ID=0x5a
-// Protocol=756; State=play; Bound=client; ID=0x59
-// Protocol=755; State=play; Bound=client; ID=0x59
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x5f
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x5f
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x5b
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x5d
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x5a
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x5a
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x5a
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x59
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x59
 type PlaySetTitleText_763_0 struct {
 	TitleText Object // Chat
 }
@@ -11539,11 +11720,11 @@ func (p *PlaySetTitleText_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x5b
-// Protocol=757; State=play; Bound=client; ID=0x5b
-// Protocol=756; State=play; Bound=client; ID=0x5a
-// Protocol=755; State=play; Bound=client; ID=0x5a
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x5b
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x5b
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x5a
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x5a
 type PlaySetTitleTimes_758_0 struct {
 	/* Ticks to spend fading in. */
 	FadeIn Int // Int
@@ -11573,10 +11754,10 @@ func (p *PlaySetTitleTimes_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x62
-// Protocol=762; State=play; Bound=client; ID=0x62
-// Protocol=761; State=play; Bound=client; ID=0x5e
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x62
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x62
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x5e
 type PlaySoundEffect_763_0 struct {
 	/* Represents the Sound ID + 1. If the value is 0, the packet contains a sound specified by Identifier. */
 	SoundID VarInt // VarInt
@@ -11654,9 +11835,9 @@ func (p *PlaySoundEffect_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x60
-// Protocol=759; State=play; Bound=client; ID=0x5d
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x60
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x5d
 type PlaySoundEffect_760_1 struct {
 	/* ID of hardcoded sound event (events). */
 	SoundID VarInt // VarInt
@@ -11716,25 +11897,25 @@ func (p *PlaySoundEffect_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x5d
-// Protocol=757; State=play; Bound=client; ID=0x5d
-// Protocol=756; State=play; Bound=client; ID=0x5c
-// Protocol=755; State=play; Bound=client; ID=0x5c
-// Protocol=754; State=play; Bound=client; ID=0x51
-// Protocol=753; State=play; Bound=client; ID=0x51
-// Protocol=578; State=play; Bound=client; ID=0x52
-// Protocol=498; State=play; Bound=client; ID=0x51
-// Protocol=404; State=play; Bound=client; ID=0x4d
-// Protocol=401; State=play; Bound=client; ID=0x4d
-// Protocol=340; State=play; Bound=client; ID=0x49
-// Protocol=338; State=play; Bound=client; ID=0x49
-// Protocol=335; State=play; Bound=client; ID=0x48
-// Protocol=316; State=play; Bound=client; ID=0x46
-// Protocol=315; State=play; Bound=client; ID=0x46
-// Protocol=210; State=play; Bound=client; ID=0x46
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x5d
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x5d
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x5c
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x5c
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x51
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x51
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x52
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x51
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x4d
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x4d
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x49
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x49
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x48
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x46
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x46
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x46
 type PlaySoundEffect_758_2 struct {
-	/* ID of hardcoded sound event (events as of 1.10.0) */
+	/* ID of hardcoded sound event (events as of 1.11.0) */
 	SoundID VarInt // VarInt
 	/* The category that this sound will be played from (current categories) */
 	SoundCategory VarInt // VarInt Enum
@@ -11786,12 +11967,12 @@ func (p *PlaySoundEffect_758_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x1
-// Protocol=762; State=play; Bound=client; ID=0x1
-// Protocol=761; State=play; Bound=client; ID=0x0
-// Protocol=760; State=play; Bound=client; ID=0x0
-// Protocol=759; State=play; Bound=client; ID=0x0
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x1
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x1
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x0
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x0
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x0
 type PlaySpawnEntity_763_0 struct {
 	/* A unique integer ID mostly used in the protocol to identify the entity. */
 	EntityID VarInt // VarInt
@@ -11876,19 +12057,19 @@ func (p *PlaySpawnEntity_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x0
-// Protocol=757; State=play; Bound=client; ID=0x0
-// Protocol=756; State=play; Bound=client; ID=0x0
-// Protocol=755; State=play; Bound=client; ID=0x0
-// Protocol=754; State=play; Bound=client; ID=0x0
-// Protocol=753; State=play; Bound=client; ID=0x0
-// Protocol=578; State=play; Bound=client; ID=0x0
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x0
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x0
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x0
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x0
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x0
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x0
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x0
 type PlaySpawnEntity_758_1 struct {
-	/* EID of the entity. */
+	/* EID of the entity */
 	EntityID VarInt // VarInt
 	ObjectUUID UUID // UUID
-	/* The type of entity (same as in Spawn Living Entity). */
+	/* The type of entity (same as in Spawn Living Entity) */
 	Type VarInt // VarInt
 	X Double // Double
 	Y Double // Double
@@ -11959,29 +12140,29 @@ func (p *PlaySpawnEntity_758_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x2
-// Protocol=762; State=play; Bound=client; ID=0x2
-// Protocol=761; State=play; Bound=client; ID=0x1
-// Protocol=760; State=play; Bound=client; ID=0x1
-// Protocol=759; State=play; Bound=client; ID=0x1
-// Protocol=758; State=play; Bound=client; ID=0x1
-// Protocol=757; State=play; Bound=client; ID=0x1
-// Protocol=756; State=play; Bound=client; ID=0x1
-// Protocol=755; State=play; Bound=client; ID=0x1
-// Protocol=754; State=play; Bound=client; ID=0x1
-// Protocol=753; State=play; Bound=client; ID=0x1
-// Protocol=578; State=play; Bound=client; ID=0x1
-// Protocol=498; State=play; Bound=client; ID=0x1
-// Protocol=404; State=play; Bound=client; ID=0x1
-// Protocol=401; State=play; Bound=client; ID=0x1
-// Protocol=340; State=play; Bound=client; ID=0x1
-// Protocol=338; State=play; Bound=client; ID=0x1
-// Protocol=335; State=play; Bound=client; ID=0x1
-// Protocol=316; State=play; Bound=client; ID=0x1
-// Protocol=315; State=play; Bound=client; ID=0x1
-// Protocol=210; State=play; Bound=client; ID=0x1
-// Protocol=110; State=play; Bound=client; ID=0x1
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x2
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x2
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x1
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x1
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x1
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x1
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x1
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x1
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x1
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x1
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x1
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x1
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x1
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x1
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x1
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x1
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x1
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x1
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x1
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x1
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x1
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x1
 type PlaySpawnExperienceOrb_763_0 struct {
 	EntityID VarInt // VarInt
 	X Double // Double
@@ -12019,17 +12200,17 @@ func (p *PlaySpawnExperienceOrb_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=498; State=play; Bound=client; ID=0x2
-// Protocol=404; State=play; Bound=client; ID=0x2
-// Protocol=401; State=play; Bound=client; ID=0x2
-// Protocol=340; State=play; Bound=client; ID=0x2
-// Protocol=338; State=play; Bound=client; ID=0x2
-// Protocol=335; State=play; Bound=client; ID=0x2
-// Protocol=316; State=play; Bound=client; ID=0x2
-// Protocol=315; State=play; Bound=client; ID=0x2
-// Protocol=210; State=play; Bound=client; ID=0x2
-// Protocol=110; State=play; Bound=client; ID=0x2
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x2
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x2
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x2
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x2
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x2
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x2
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x2
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x2
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x2
 type PlaySpawnGlobalEntity_498_0 struct {
 	/* The EID of the thunderbolt */
 	EntityID VarInt // VarInt
@@ -12068,17 +12249,17 @@ func (p *PlaySpawnGlobalEntity_498_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=757; State=play; Bound=client; ID=0x2
-// Protocol=756; State=play; Bound=client; ID=0x2
-// Protocol=755; State=play; Bound=client; ID=0x2
-// Protocol=754; State=play; Bound=client; ID=0x2
-// Protocol=753; State=play; Bound=client; ID=0x2
-// Protocol=578; State=play; Bound=client; ID=0x3
+
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x2
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x2
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x2
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x2
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x2
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x3
 type PlaySpawnLivingEntity_757_1 struct {
 	EntityID VarInt // VarInt
 	EntityUUID UUID // UUID
-	/* The type of mob. See Entities#Mobs. */
+	/* The type of mob. See Entities#Mobs */
 	Type VarInt // VarInt
 	X Double // Double
 	Y Double // Double
@@ -12086,11 +12267,11 @@ type PlaySpawnLivingEntity_757_1 struct {
 	Yaw Angle // Angle
 	Pitch Angle // Angle
 	HeadPitch Angle // Angle
-	/* Same units as Entity Velocity. */
+	/* Same units as Entity Velocity */
 	VelocityX Short // Short
-	/* Same units as Entity Velocity. */
+	/* Same units as Entity Velocity */
 	VelocityY Short // Short
-	/* Same units as Entity Velocity. */
+	/* Same units as Entity Velocity */
 	VelocityZ Short // Short
 }
 
@@ -12150,15 +12331,15 @@ func (p *PlaySpawnLivingEntity_757_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=498; State=play; Bound=client; ID=0x3
-// Protocol=404; State=play; Bound=client; ID=0x3
-// Protocol=401; State=play; Bound=client; ID=0x3
-// Protocol=340; State=play; Bound=client; ID=0x3
-// Protocol=338; State=play; Bound=client; ID=0x3
-// Protocol=335; State=play; Bound=client; ID=0x3
-// Protocol=316; State=play; Bound=client; ID=0x3
-// Protocol=315; State=play; Bound=client; ID=0x3
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x3
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x3
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x3
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x3
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x3
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x3
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x3
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x3
 type PlaySpawnMob_498_0 struct {
 	EntityID VarInt // VarInt
 	EntityUUID UUID // UUID
@@ -12239,9 +12420,9 @@ func (p *PlaySpawnMob_498_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=210; State=play; Bound=client; ID=0x3
-// Protocol=110; State=play; Bound=client; ID=0x3
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x3
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x3
 type PlaySpawnMob_210_1 struct {
 	EntityID VarInt // VarInt
 	EntityUUID UUID // UUID
@@ -12322,16 +12503,16 @@ func (p *PlaySpawnMob_210_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x0
-// Protocol=401; State=play; Bound=client; ID=0x0
-// Protocol=340; State=play; Bound=client; ID=0x0
-// Protocol=338; State=play; Bound=client; ID=0x0
-// Protocol=335; State=play; Bound=client; ID=0x0
-// Protocol=316; State=play; Bound=client; ID=0x0
-// Protocol=315; State=play; Bound=client; ID=0x0
-// Protocol=210; State=play; Bound=client; ID=0x0
-// Protocol=110; State=play; Bound=client; ID=0x0
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x0
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x0
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x0
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x0
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x0
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x0
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x0
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x0
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x0
 type PlaySpawnObject_404_1 struct {
 	/* EID of the object */
 	EntityID VarInt // VarInt
@@ -12345,11 +12526,9 @@ type PlaySpawnObject_404_1 struct {
 	Yaw Angle // Angle
 	/* Meaning dependent on the value of the Type field, see Object Data for details. */
 	Data Int // Int
-	/* Same units as Entity Velocity. */
+	/* Same units as Entity Velocity.  Always sent, but only used when Data is greater than 0 (except for some entities which always ignore it; see Object Data for details). */
 	VelocityX Short // Short
-	/* Same units as Entity Velocity. */
 	VelocityY Short // Short
-	/* Same units as Entity Velocity. */
 	VelocityZ Short // Short
 }
 
@@ -12409,25 +12588,25 @@ func (p *PlaySpawnObject_404_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x3
-// Protocol=757; State=play; Bound=client; ID=0x3
-// Protocol=756; State=play; Bound=client; ID=0x3
-// Protocol=755; State=play; Bound=client; ID=0x3
-// Protocol=754; State=play; Bound=client; ID=0x3
-// Protocol=753; State=play; Bound=client; ID=0x3
-// Protocol=578; State=play; Bound=client; ID=0x4
-// Protocol=498; State=play; Bound=client; ID=0x4
-// Protocol=404; State=play; Bound=client; ID=0x4
-// Protocol=401; State=play; Bound=client; ID=0x4
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x3
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x3
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x3
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x3
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x3
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x3
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x4
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x4
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x4
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x4
 type PlaySpawnPainting_758_0 struct {
 	EntityID VarInt // VarInt
 	EntityUUID UUID // UUID
-	/* Painting's ID, see below. */
+	/* Panting's ID, see below */
 	Motive VarInt // VarInt
-	/* Center coordinates (see below). */
+	/* Center coordinates (see below) */
 	Location Position // Position
-	/* Direction the painting faces (North = 2, South = 0, West = 1, East = 3). */
+	/* Direction the painting faces (North = 2, South = 0, West = 1, East = 3) */
 	Direction Byte // Byte Enum
 }
 
@@ -12459,19 +12638,19 @@ func (p *PlaySpawnPainting_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=340; State=play; Bound=client; ID=0x4
-// Protocol=338; State=play; Bound=client; ID=0x4
-// Protocol=335; State=play; Bound=client; ID=0x4
-// Protocol=316; State=play; Bound=client; ID=0x4
-// Protocol=315; State=play; Bound=client; ID=0x4
-// Protocol=210; State=play; Bound=client; ID=0x4
-// Protocol=110; State=play; Bound=client; ID=0x4
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x4
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x4
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x4
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x4
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x4
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x4
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x4
 type PlaySpawnPainting_340_1 struct {
 	EntityID VarInt // VarInt
 	EntityUUID UUID // UUID
 	/* Name of the painting. Max length 13 */
-	Title String // String
+	Title String // String (13)
 	/* Center coordinates (see below) */
 	Location Position // Position
 	/* Direction the painting faces (North = 2, South = 0, West = 1, East = 3) */
@@ -12506,23 +12685,23 @@ func (p *PlaySpawnPainting_340_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x3
-// Protocol=762; State=play; Bound=client; ID=0x3
-// Protocol=761; State=play; Bound=client; ID=0x2
-// Protocol=760; State=play; Bound=client; ID=0x2
-// Protocol=759; State=play; Bound=client; ID=0x2
-// Protocol=758; State=play; Bound=client; ID=0x4
-// Protocol=757; State=play; Bound=client; ID=0x4
-// Protocol=756; State=play; Bound=client; ID=0x4
-// Protocol=755; State=play; Bound=client; ID=0x4
-// Protocol=754; State=play; Bound=client; ID=0x4
-// Protocol=753; State=play; Bound=client; ID=0x4
-// Protocol=578; State=play; Bound=client; ID=0x5
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x3
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x3
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x2
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x2
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x2
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x4
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x4
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x4
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x4
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x4
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x4
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x5
 type PlaySpawnPlayer_763_0 struct {
-	/* Player's EID. */
+	/* Player's EID */
 	EntityID VarInt // VarInt
-	/* See below for notes on offline mode and NPCs. */
+	/* See below for notes on offline mode and NPCs */
 	PlayerUUID UUID // UUID
 	X Double // Double
 	Y Double // Double
@@ -12567,17 +12746,17 @@ func (p *PlaySpawnPlayer_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=498; State=play; Bound=client; ID=0x5
-// Protocol=404; State=play; Bound=client; ID=0x5
-// Protocol=401; State=play; Bound=client; ID=0x5
-// Protocol=340; State=play; Bound=client; ID=0x5
-// Protocol=338; State=play; Bound=client; ID=0x5
-// Protocol=335; State=play; Bound=client; ID=0x5
-// Protocol=316; State=play; Bound=client; ID=0x5
-// Protocol=315; State=play; Bound=client; ID=0x5
-// Protocol=210; State=play; Bound=client; ID=0x5
-// Protocol=110; State=play; Bound=client; ID=0x5
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x5
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x5
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x5
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x5
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x5
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x5
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x5
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x5
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x5
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x5
 type PlaySpawnPlayer_498_1 struct {
 	/* Player's EID */
 	EntityID VarInt // VarInt
@@ -12631,11 +12810,11 @@ func (p *PlaySpawnPlayer_498_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x4b
-// Protocol=757; State=play; Bound=client; ID=0x4b
-// Protocol=756; State=play; Bound=client; ID=0x4b
-// Protocol=755; State=play; Bound=client; ID=0x4b
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x4b
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x4b
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x4b
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x4b
 type PlaySpawnPosition_758_0 struct {
 	/* Spawn location. */
 	Location Position // Position
@@ -12659,21 +12838,21 @@ func (p *PlaySpawnPosition_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x42
-// Protocol=753; State=play; Bound=client; ID=0x42
-// Protocol=578; State=play; Bound=client; ID=0x4e
-// Protocol=498; State=play; Bound=client; ID=0x4d
-// Protocol=404; State=play; Bound=client; ID=0x49
-// Protocol=401; State=play; Bound=client; ID=0x49
-// Protocol=340; State=play; Bound=client; ID=0x46
-// Protocol=338; State=play; Bound=client; ID=0x46
-// Protocol=335; State=play; Bound=client; ID=0x45
-// Protocol=316; State=play; Bound=client; ID=0x43
-// Protocol=315; State=play; Bound=client; ID=0x43
-// Protocol=210; State=play; Bound=client; ID=0x43
-// Protocol=110; State=play; Bound=client; ID=0x43
-// Protocol=47; State=play; Bound=client; ID=0x5
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x42
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x42
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x4e
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x4d
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x49
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x49
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x46
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x46
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x45
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x43
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x43
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x43
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x43
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x5
 type PlaySpawnPosition_754_1 struct {
 	/* Spawn location */
 	Location Position // Position
@@ -12691,25 +12870,25 @@ func (p *PlaySpawnPosition_754_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x2d
-// Protocol=757; State=play; Bound=server; ID=0x2d
-// Protocol=756; State=play; Bound=server; ID=0x2d
-// Protocol=755; State=play; Bound=server; ID=0x2d
-// Protocol=754; State=play; Bound=server; ID=0x2d
-// Protocol=753; State=play; Bound=server; ID=0x2d
-// Protocol=578; State=play; Bound=server; ID=0x2b
-// Protocol=498; State=play; Bound=server; ID=0x2b
-// Protocol=404; State=play; Bound=server; ID=0x28
-// Protocol=401; State=play; Bound=server; ID=0x28
-// Protocol=340; State=play; Bound=server; ID=0x1e
-// Protocol=338; State=play; Bound=server; ID=0x1e
-// Protocol=335; State=play; Bound=server; ID=0x1e
-// Protocol=316; State=play; Bound=server; ID=0x1b
-// Protocol=315; State=play; Bound=server; ID=0x1b
-// Protocol=210; State=play; Bound=server; ID=0x1b
-// Protocol=110; State=play; Bound=server; ID=0x1b
-// Protocol=47; State=play; Bound=server; ID=0x18
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x2d
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x2d
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x2d
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x2d
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x2d
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x2d
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x2b
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x2b
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x28
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x28
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x1e
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x1e
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x1e
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x1b
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x1b
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x1b
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x1b
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x18
 type PlaySpectate_758_0 struct {
 	/* UUID of the player to teleport to (can also be an entity UUID) */
 	TargetPlayer UUID // UUID
@@ -12727,16 +12906,16 @@ func (p *PlaySpectate_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x16
-// Protocol=757; State=play; Bound=server; ID=0x16
-// Protocol=756; State=play; Bound=server; ID=0x16
-// Protocol=755; State=play; Bound=server; ID=0x16
-// Protocol=754; State=play; Bound=server; ID=0x17
-// Protocol=753; State=play; Bound=server; ID=0x17
-// Protocol=578; State=play; Bound=server; ID=0x16
-// Protocol=498; State=play; Bound=server; ID=0x16
-// Protocol=404; State=play; Bound=server; ID=0x14
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x16
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x16
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x16
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x16
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x17
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x17
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x16
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x16
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x14
 type PlaySteerBoat_758_0 struct {
 	LeftPaddleTurning Bool // Boolean
 	RightPaddleTurning Bool // Boolean
@@ -12758,15 +12937,15 @@ func (p *PlaySteerBoat_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=401; State=play; Bound=server; ID=0x14
-// Protocol=340; State=play; Bound=server; ID=0x11
-// Protocol=338; State=play; Bound=server; ID=0x11
-// Protocol=335; State=play; Bound=server; ID=0x12
-// Protocol=316; State=play; Bound=server; ID=0x11
-// Protocol=315; State=play; Bound=server; ID=0x11
-// Protocol=210; State=play; Bound=server; ID=0x11
-// Protocol=110; State=play; Bound=server; ID=0x11
+
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x14
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x11
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x11
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x12
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x11
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x11
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x11
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x11
 type PlaySteerBoat_401_1 struct {
 	RightPaddleTurning Bool // Boolean
 	LeftPaddleTurning Bool // Boolean
@@ -12788,25 +12967,25 @@ func (p *PlaySteerBoat_401_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x1c
-// Protocol=757; State=play; Bound=server; ID=0x1c
-// Protocol=756; State=play; Bound=server; ID=0x1c
-// Protocol=755; State=play; Bound=server; ID=0x1c
-// Protocol=754; State=play; Bound=server; ID=0x1d
-// Protocol=753; State=play; Bound=server; ID=0x1d
-// Protocol=578; State=play; Bound=server; ID=0x1c
-// Protocol=498; State=play; Bound=server; ID=0x1c
-// Protocol=404; State=play; Bound=server; ID=0x1a
-// Protocol=401; State=play; Bound=server; ID=0x1a
-// Protocol=340; State=play; Bound=server; ID=0x16
-// Protocol=338; State=play; Bound=server; ID=0x16
-// Protocol=335; State=play; Bound=server; ID=0x16
-// Protocol=316; State=play; Bound=server; ID=0x15
-// Protocol=315; State=play; Bound=server; ID=0x15
-// Protocol=210; State=play; Bound=server; ID=0x15
-// Protocol=110; State=play; Bound=server; ID=0x15
-// Protocol=47; State=play; Bound=server; ID=0xc
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x1c
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x1c
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x1c
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x1c
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1d
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1d
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x1c
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x1c
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x1a
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x1a
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x16
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x16
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x16
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x15
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x15
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x15
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x15
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0xc
 type PlaySteerVehicle_758_0 struct {
 	/* Positive to the left of the player */
 	Sideways Float // Float
@@ -12836,22 +13015,22 @@ func (p *PlaySteerVehicle_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x63
-// Protocol=762; State=play; Bound=client; ID=0x63
-// Protocol=761; State=play; Bound=client; ID=0x5f
-// Protocol=760; State=play; Bound=client; ID=0x61
-// Protocol=759; State=play; Bound=client; ID=0x5e
-// Protocol=758; State=play; Bound=client; ID=0x5e
-// Protocol=757; State=play; Bound=client; ID=0x5e
-// Protocol=756; State=play; Bound=client; ID=0x5d
-// Protocol=755; State=play; Bound=client; ID=0x5d
-// Protocol=754; State=play; Bound=client; ID=0x52
-// Protocol=753; State=play; Bound=client; ID=0x52
-// Protocol=578; State=play; Bound=client; ID=0x53
-// Protocol=498; State=play; Bound=client; ID=0x52
-// Protocol=404; State=play; Bound=client; ID=0x4c
-// Protocol=401; State=play; Bound=client; ID=0x4c
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x63
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x63
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x5f
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x61
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x5e
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x5e
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x5e
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x5d
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x5d
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x52
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x52
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x53
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x52
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x4c
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x4c
 type PlayStopSound_763_0 struct {
 	/* Controls which fields are present. */
 	Flags Byte // Byte
@@ -12881,12 +13060,12 @@ func (p *PlayStopSound_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x2f
-// Protocol=762; State=play; Bound=server; ID=0x2f
-// Protocol=761; State=play; Bound=server; ID=0x2f
-// Protocol=760; State=play; Bound=server; ID=0x2f
-// Protocol=759; State=play; Bound=server; ID=0x2e
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x2f
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x2f
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x2f
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x2f
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x2e
 type PlaySwingArm_763_0 struct {
 	/* Hand used for the animation. 0: main hand, 1: off hand. */
 	Hand VarInt // VarInt Enum
@@ -12904,9 +13083,9 @@ func (p *PlaySwingArm_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x3c
-// Protocol=762; State=play; Bound=client; ID=0x3c
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x3c
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x3c
 type PlaySynchronizePlayerPosition_763_0 struct {
 	/* Absolute or relative position, depending on Flags. */
 	X Double // Double
@@ -12960,10 +13139,10 @@ func (p *PlaySynchronizePlayerPosition_763_0)DecodeFrom(r *PacketReader)(err err
 		return io.EOF
 	}
 }
-				
-// Protocol=761; State=play; Bound=client; ID=0x38
-// Protocol=760; State=play; Bound=client; ID=0x39
-// Protocol=759; State=play; Bound=client; ID=0x36
+
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x38
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x39
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x36
 type PlaySynchronizePlayerPosition_761_1 struct {
 	/* Absolute or relative position, depending on Flags. */
 	X Double // Double
@@ -12977,7 +13156,7 @@ type PlaySynchronizePlayerPosition_761_1 struct {
 	Pitch Float // Float
 	/* Bit field, see below. */
 	Flags Byte // Byte
-	/* Client should confirm this packet with Accept Teleportation containing the same Teleport ID. */
+	/* Client should confirm this packet with Confirm Teleportation containing the same Teleport ID. */
 	TeleportID VarInt // VarInt
 	/* True if the player should dismount their vehicle. */
 	DismountVehicle Bool // Boolean
@@ -13023,10 +13202,10 @@ func (p *PlaySynchronizePlayerPosition_761_1)DecodeFrom(r *PacketReader)(err err
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x64
-// Protocol=762; State=play; Bound=client; ID=0x64
-// Protocol=761; State=play; Bound=client; ID=0x60
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x64
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x64
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x60
 type PlaySystemChatMessage_763_0 struct {
 	/* Limited to 262144 bytes. */
 	Content Object // Chat
@@ -13050,9 +13229,9 @@ func (p *PlaySystemChatMessage_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=760; State=play; Bound=client; ID=0x62
-// Protocol=759; State=play; Bound=client; ID=0x5f
+
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x62
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x5f
 type PlaySystemChatMessage_760_1 struct {
 	/* Limited to 262144 bytes. */
 	JSONData Object // Chat
@@ -13076,20 +13255,20 @@ func (p *PlaySystemChatMessage_760_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x6
-// Protocol=757; State=play; Bound=server; ID=0x6
-// Protocol=756; State=play; Bound=server; ID=0x6
-// Protocol=755; State=play; Bound=server; ID=0x6
-// Protocol=754; State=play; Bound=server; ID=0x6
-// Protocol=753; State=play; Bound=server; ID=0x6
-// Protocol=578; State=play; Bound=server; ID=0x6
-// Protocol=498; State=play; Bound=server; ID=0x6
-// Protocol=404; State=play; Bound=server; ID=0x5
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x6
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x6
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x6
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x6
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x6
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x6
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x6
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x6
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x5
 type PlayTabComplete_758_0 struct {
-	/* The id of the transaction that the server will send back to the client in the response of this packet. Client generates this and increments it each time it sends another tab completion that doesn't get a response. */
+	/* The id received in the tab completion request packet, must match or the client will ignore this packet.  Client generates this and increments it each time it sends another tab completion that doesn't get a response. */
 	TransactionId VarInt // VarInt
-	/* All text behind the cursor without the / (e.g. to the left of the cursor in left-to-right languages like English). */
+	/* All text behind the cursor without the / (e.g. to the left of the cursor in left-to-right languages like English) */
 	Text String // String (32500)
 }
 
@@ -13109,10 +13288,11 @@ func (p *PlayTabComplete_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=340; State=play; Bound=client; ID=0xe
-// Protocol=316; State=play; Bound=client; ID=0xe
-// Protocol=210; State=play; Bound=client; ID=0xe
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0xe
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0xe
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0xe
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x3a
 type PlayTabComplete_340_3 struct {
 	/* Number of elements in the following array */
 	Count VarInt // VarInt
@@ -13142,13 +13322,13 @@ func (p *PlayTabComplete_340_3)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=340; State=play; Bound=server; ID=0x1
-// Protocol=316; State=play; Bound=server; ID=0x1
-// Protocol=210; State=play; Bound=server; ID=0x1
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x1
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x1
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x1
 type PlayTabComplete_340_4 struct {
 	/* All text behind the cursor (e.g. to the left of the cursor in left-to-right languages like English) */
-	Text String // String
+	Text String // String (32767)
 	/* If true, the server will parse Text as a command even if it doesn't start with a /. Used in the command block GUI. */
 	AssumeCommand Bool // Boolean
 	HasPosition Bool // Boolean
@@ -13180,21 +13360,19 @@ func (p *PlayTabComplete_340_4)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=338; State=play; Bound=client; ID=0xe
-// Protocol=315; State=play; Bound=client; ID=0xe
-// Protocol=110; State=play; Bound=client; ID=0xe
-// Protocol=47; State=play; Bound=client; ID=0x3a
-type PlayTabComplete_338_5 struct {
+
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0xe
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0xe
+type PlayTabComplete_335_5 struct {
 	/* Number of elements in the following array */
 	Count VarInt // VarInt
 	/* One eligible command, note that each command is sent separately instead of in a single string, hence the need for Count */
 	Matches []String // Array of String
 }
 
-var _ Packet = (*PlayTabComplete_338_5)(nil)
+var _ Packet = (*PlayTabComplete_335_5)(nil)
 
-func (p PlayTabComplete_338_5)Encode(b *PacketBuilder){
+func (p PlayTabComplete_335_5)Encode(b *PacketBuilder){
 	p.Count = len(p.Matches)
 	b.VarInt(p.Count)
 	for _, v := range p.Matches {
@@ -13202,7 +13380,7 @@ func (p PlayTabComplete_338_5)Encode(b *PacketBuilder){
 	}
 }
 
-func (p *PlayTabComplete_338_5)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayTabComplete_335_5)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Count, ok = r.VarInt(); !ok {
 		return io.EOF
@@ -13214,11 +13392,10 @@ func (p *PlayTabComplete_338_5)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=338; State=play; Bound=server; ID=0x1
-// Protocol=315; State=play; Bound=server; ID=0x1
-// Protocol=110; State=play; Bound=server; ID=0x1
-type PlayTabComplete_338_6 struct {
+
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x2
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x1
+type PlayTabComplete_335_6 struct {
 	/* All text behind the cursor (e.g. to the left of the cursor in left-to-right languages like English) */
 	Text String // String
 	/* If true, the server will parse Text as a command even if it doesn't start with a /. Used in the command block GUI. */
@@ -13228,16 +13405,16 @@ type PlayTabComplete_338_6 struct {
 	LookedAtBlock Position // Optional Position
 }
 
-var _ Packet = (*PlayTabComplete_338_6)(nil)
+var _ Packet = (*PlayTabComplete_335_6)(nil)
 
-func (p PlayTabComplete_338_6)Encode(b *PacketBuilder){
+func (p PlayTabComplete_335_6)Encode(b *PacketBuilder){
 	b.String(p.Text)
 	b.Bool(p.AssumeCommand)
 	b.Bool(p.HasPosition)
 	b.Encode(p.LookedAtBlock)
 }
 
-func (p *PlayTabComplete_338_6)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayTabComplete_335_6)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Text, ok = r.String(); !ok {
 		return io.EOF
@@ -13252,12 +13429,81 @@ func (p *PlayTabComplete_338_6)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x66
-// Protocol=762; State=play; Bound=client; ID=0x66
-// Protocol=761; State=play; Bound=client; ID=0x62
-// Protocol=760; State=play; Bound=client; ID=0x64
-// Protocol=759; State=play; Bound=client; ID=0x61
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0xe
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0xe
+type PlayTabComplete_210_7 struct {
+	/* Number of elements in the following array */
+	Count VarInt // VarInt
+	/* One eligible command, note that each command is sent separately instead of in a single string, hence the need for Count */
+	Matches []String // Array of String
+}
+
+var _ Packet = (*PlayTabComplete_210_7)(nil)
+
+func (p PlayTabComplete_210_7)Encode(b *PacketBuilder){
+	p.Count = len(p.Matches)
+	b.VarInt(p.Count)
+	for _, v := range p.Matches {
+		b.String(v)
+	}
+}
+
+func (p *PlayTabComplete_210_7)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Count, ok = r.VarInt(); !ok {
+		return io.EOF
+	}
+	p.Matches = make([]String, p.Count)
+	for i, _ := range p.Matches {
+		if p.Matches[i], ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
+}
+
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x1
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x1
+type PlayTabComplete_210_8 struct {
+	/* All text behind the cursor (e.g. to the left of the cursor in left-to-right languages like English) */
+	Text String // String
+	/* If true, the server will parse Text as a command even if it doesn't start with a /. Used in the command block GUI. */
+	AssumeCommand Bool // Boolean
+	HasPosition Bool // Boolean
+	/* The position of the block being looked at. Only sent if Has Position is true. */
+	LookedAtBlock Position // Optional Position
+}
+
+var _ Packet = (*PlayTabComplete_210_8)(nil)
+
+func (p PlayTabComplete_210_8)Encode(b *PacketBuilder){
+	b.String(p.Text)
+	b.Bool(p.AssumeCommand)
+	b.Bool(p.HasPosition)
+	b.Encode(p.LookedAtBlock)
+}
+
+func (p *PlayTabComplete_210_8)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Text, ok = r.String(); !ok {
+		return io.EOF
+	}
+	if p.AssumeCommand, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.HasPosition, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if err = p.LookedAtBlock.DecodeFrom(r); err != nil {
+		return
+	}
+}
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x66
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x66
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x62
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x64
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x61
 type PlayTagQueryResponse_763_0 struct {
 	/* Can be compared to the one sent in the original query packet. */
 	TransactionID VarInt // VarInt
@@ -13281,11 +13527,11 @@ func (p *PlayTagQueryResponse_763_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x5b
-// Protocol=753; State=play; Bound=client; ID=0x5b
-// Protocol=578; State=play; Bound=client; ID=0x5c
-// Protocol=498; State=play; Bound=client; ID=0x5b
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x5b
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x5b
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x5c
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x5b
 type PlayTags_754_0 struct {
 	/* IDs are block IDs */
 	BlockTags Unknown_ // (See below)
@@ -13321,9 +13567,9 @@ func (p *PlayTags_754_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x55
-// Protocol=401; State=play; Bound=client; ID=0x55
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x55
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x55
 type PlayTags_404_1 struct {
 	/* IDs are block IDs */
 	BlockTags Unknown_ // (See below)
@@ -13353,24 +13599,24 @@ func (p *PlayTags_404_1)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x0
-// Protocol=757; State=play; Bound=server; ID=0x0
-// Protocol=756; State=play; Bound=server; ID=0x0
-// Protocol=755; State=play; Bound=server; ID=0x0
-// Protocol=754; State=play; Bound=server; ID=0x0
-// Protocol=753; State=play; Bound=server; ID=0x0
-// Protocol=578; State=play; Bound=server; ID=0x0
-// Protocol=498; State=play; Bound=server; ID=0x0
-// Protocol=404; State=play; Bound=server; ID=0x0
-// Protocol=401; State=play; Bound=server; ID=0x0
-// Protocol=340; State=play; Bound=server; ID=0x0
-// Protocol=338; State=play; Bound=server; ID=0x0
-// Protocol=335; State=play; Bound=server; ID=0x0
-// Protocol=316; State=play; Bound=server; ID=0x0
-// Protocol=315; State=play; Bound=server; ID=0x0
-// Protocol=210; State=play; Bound=server; ID=0x0
-// Protocol=110; State=play; Bound=server; ID=0x0
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x0
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x0
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x0
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x0
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x0
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x0
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x0
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x0
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x0
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x0
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x0
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x0
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x0
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x0
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x0
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x0
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x0
 type PlayTeleportConfirm_758_0 struct {
 	/* The ID given by the Player Position And Look packet */
 	TeleportID VarInt // VarInt
@@ -13388,12 +13634,12 @@ func (p *PlayTeleportConfirm_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x68
-// Protocol=762; State=play; Bound=client; ID=0x68
-// Protocol=761; State=play; Bound=client; ID=0x64
-// Protocol=760; State=play; Bound=client; ID=0x66
-// Protocol=759; State=play; Bound=client; ID=0x63
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x68
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x68
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x64
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x66
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x63
 type PlayTeleportEntity_763_0 struct {
 	EntityID VarInt // VarInt
 	X Double // Double
@@ -13442,12 +13688,12 @@ func (p *PlayTeleportEntity_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x30
-// Protocol=762; State=play; Bound=server; ID=0x30
-// Protocol=761; State=play; Bound=server; ID=0x30
-// Protocol=760; State=play; Bound=server; ID=0x30
-// Protocol=759; State=play; Bound=server; ID=0x2f
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x30
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x30
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x30
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x30
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x2f
 type PlayTeleportToEntity_763_0 struct {
 	/* UUID of the player to teleport to (can also be an entity UUID). */
 	TargetPlayer UUID // UUID
@@ -13465,25 +13711,25 @@ func (p *PlayTeleportToEntity_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x59
-// Protocol=757; State=play; Bound=client; ID=0x59
-// Protocol=756; State=play; Bound=client; ID=0x58
-// Protocol=755; State=play; Bound=client; ID=0x58
-// Protocol=754; State=play; Bound=client; ID=0x4e
-// Protocol=753; State=play; Bound=client; ID=0x4e
-// Protocol=578; State=play; Bound=client; ID=0x4f
-// Protocol=498; State=play; Bound=client; ID=0x4e
-// Protocol=404; State=play; Bound=client; ID=0x4a
-// Protocol=401; State=play; Bound=client; ID=0x4a
-// Protocol=340; State=play; Bound=client; ID=0x47
-// Protocol=338; State=play; Bound=client; ID=0x47
-// Protocol=335; State=play; Bound=client; ID=0x46
-// Protocol=316; State=play; Bound=client; ID=0x44
-// Protocol=315; State=play; Bound=client; ID=0x44
-// Protocol=210; State=play; Bound=client; ID=0x44
-// Protocol=110; State=play; Bound=client; ID=0x44
-// Protocol=47; State=play; Bound=client; ID=0x3
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x59
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x59
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x58
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x58
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x4e
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x4e
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x4f
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x4e
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x4a
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x4a
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x47
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x47
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x46
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x44
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x44
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x44
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x44
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x3
 type PlayTimeUpdate_758_0 struct {
 	/* In ticks; not changed by server commands */
 	WorldAge Long // Long
@@ -13507,29 +13753,29 @@ func (p *PlayTimeUpdate_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x1e
-// Protocol=762; State=play; Bound=client; ID=0x1e
-// Protocol=761; State=play; Bound=client; ID=0x1b
-// Protocol=760; State=play; Bound=client; ID=0x1c
-// Protocol=759; State=play; Bound=client; ID=0x1a
-// Protocol=758; State=play; Bound=client; ID=0x1d
-// Protocol=757; State=play; Bound=client; ID=0x1d
-// Protocol=756; State=play; Bound=client; ID=0x1d
-// Protocol=755; State=play; Bound=client; ID=0x1d
-// Protocol=754; State=play; Bound=client; ID=0x1c
-// Protocol=753; State=play; Bound=client; ID=0x1c
-// Protocol=578; State=play; Bound=client; ID=0x1e
-// Protocol=498; State=play; Bound=client; ID=0x1d
-// Protocol=404; State=play; Bound=client; ID=0x1f
-// Protocol=401; State=play; Bound=client; ID=0x1f
-// Protocol=340; State=play; Bound=client; ID=0x1d
-// Protocol=338; State=play; Bound=client; ID=0x1d
-// Protocol=335; State=play; Bound=client; ID=0x1d
-// Protocol=316; State=play; Bound=client; ID=0x1d
-// Protocol=315; State=play; Bound=client; ID=0x1d
-// Protocol=210; State=play; Bound=client; ID=0x1d
-// Protocol=110; State=play; Bound=client; ID=0x1d
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x1e
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x1e
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x1b
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x1c
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x1a
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x1d
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x1d
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x1d
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x1d
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x1c
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x1c
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x1e
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x1d
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x1f
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x1f
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x1d
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x1d
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x1d
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x1d
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x1d
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x1d
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x1d
 type PlayUnloadChunk_763_0 struct {
 	/* Block coordinate divided by 16, rounded down */
 	ChunkX Int // Int
@@ -13553,12 +13799,12 @@ func (p *PlayUnloadChunk_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x39
-// Protocol=757; State=play; Bound=client; ID=0x39
-// Protocol=756; State=play; Bound=client; ID=0x39
-// Protocol=755; State=play; Bound=client; ID=0x39
-// Protocol=754; State=play; Bound=client; ID=0x35
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x39
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x39
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x39
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x39
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x35
 type PlayUnlockRecipes_758_0 struct {
 	/* 0: init, 1: add, 2: remove. */
 	Action VarInt // VarInt
@@ -13643,11 +13889,11 @@ func (p *PlayUnlockRecipes_758_0)DecodeFrom(r *PacketReader)(err error){
 	}
 	TODO_Decode_Array(p.RecipeIDs)
 }
-				
-// Protocol=578; State=play; Bound=client; ID=0x37
-// Protocol=498; State=play; Bound=client; ID=0x36
-// Protocol=404; State=play; Bound=client; ID=0x34
-// Protocol=401; State=play; Bound=client; ID=0x34
+
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x37
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x36
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x34
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x34
 type PlayUnlockRecipes_578_2 struct {
 	/* 0: init, 1: add, 2: remove */
 	Action VarInt // VarInt
@@ -13707,10 +13953,10 @@ func (p *PlayUnlockRecipes_578_2)DecodeFrom(r *PacketReader)(err error){
 	}
 	TODO_Decode_Array(p.RecipeIDs)
 }
-				
-// Protocol=340; State=play; Bound=client; ID=0x31
-// Protocol=338; State=play; Bound=client; ID=0x31
-// Protocol=335; State=play; Bound=client; ID=0x30
+
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x31
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x31
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x30
 type PlayUnlockRecipes_340_3 struct {
 	/* 0: init, 1: add, 2: remove */
 	Action VarInt // VarInt
@@ -13758,24 +14004,24 @@ func (p *PlayUnlockRecipes_340_3)DecodeFrom(r *PacketReader)(err error){
 	}
 	TODO_Decode_Array(p.RecipeIDs)
 }
-				
-// Protocol=498; State=play; Bound=client; ID=0x9
-// Protocol=404; State=play; Bound=client; ID=0x9
-// Protocol=401; State=play; Bound=client; ID=0x9
-// Protocol=340; State=play; Bound=client; ID=0x9
-// Protocol=338; State=play; Bound=client; ID=0x9
-// Protocol=335; State=play; Bound=client; ID=0x9
-// Protocol=316; State=play; Bound=client; ID=0x9
-// Protocol=315; State=play; Bound=client; ID=0x9
-// Protocol=210; State=play; Bound=client; ID=0x9
-// Protocol=110; State=play; Bound=client; ID=0x9
-// Protocol=47; State=play; Bound=client; ID=0x35
+
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x9
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x9
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x9
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x9
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x9
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x9
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x9
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x9
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x9
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x9
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x35
 type PlayUpdateBlockEntity_498_0 struct {
 	Location Position // Position
 	/* The type of update to perform, see below */
 	Action UByte // Unsigned Byte
-	/* Data to set.  May be a TAG_END (0), in which case the block entity at the given location is removed (though this is not required since the client will remove the block entity automatically on chunk unload or block removal) */
-	NBTData NBT // NBT Tag
+	/* If not present then it's a TAG_END (0) */
+	NBTData NBT // Optional NBT Tag
 }
 
 var _ Packet = (*PlayUpdateBlockEntity_498_0)(nil)
@@ -13798,23 +14044,23 @@ func (p *PlayUpdateBlockEntity_498_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x26
-// Protocol=757; State=play; Bound=server; ID=0x26
-// Protocol=756; State=play; Bound=server; ID=0x26
-// Protocol=755; State=play; Bound=server; ID=0x26
-// Protocol=754; State=play; Bound=server; ID=0x26
-// Protocol=753; State=play; Bound=server; ID=0x26
-// Protocol=578; State=play; Bound=server; ID=0x24
-// Protocol=498; State=play; Bound=server; ID=0x24
-// Protocol=404; State=play; Bound=server; ID=0x22
-// Protocol=401; State=play; Bound=server; ID=0x22
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x26
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x26
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x26
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x26
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x26
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x26
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x24
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x24
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x22
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x22
 type PlayUpdateCommandBlock_758_0 struct {
 	Location Position // Position
 	Command String // String (32767)
-	/* One of SEQUENCE (0), AUTO (1), or REDSTONE (2). */
+	/* One of SEQUENCE (0), AUTO (1), or REDSTONE (2) */
 	Mode VarInt // VarInt enum
-	/* 0x01: Track Output (if false, the output of the previous command will not be stored within the command block); 0x02: Is conditional; 0x04: Automatic. */
+	/* 0x01: Track Output (if false, the output of the previous command will not be stored within the command block); 0x02: Is conditional; 0x04: Automatic */
 	Flags Byte // Byte
 }
 
@@ -13842,17 +14088,17 @@ func (p *PlayUpdateCommandBlock_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x27
-// Protocol=757; State=play; Bound=server; ID=0x27
-// Protocol=756; State=play; Bound=server; ID=0x27
-// Protocol=755; State=play; Bound=server; ID=0x27
-// Protocol=754; State=play; Bound=server; ID=0x27
-// Protocol=753; State=play; Bound=server; ID=0x27
-// Protocol=578; State=play; Bound=server; ID=0x25
-// Protocol=498; State=play; Bound=server; ID=0x25
-// Protocol=404; State=play; Bound=server; ID=0x23
-// Protocol=401; State=play; Bound=server; ID=0x23
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x27
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x27
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x27
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x27
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x27
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x27
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x25
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x25
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x23
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x23
 type PlayUpdateCommandBlockMinecart_758_0 struct {
 	EntityID VarInt // VarInt
 	Command String // String
@@ -13880,12 +14126,12 @@ func (p *PlayUpdateCommandBlockMinecart_758_0)DecodeFrom(r *PacketReader)(err er
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x2b
-// Protocol=762; State=play; Bound=client; ID=0x2b
-// Protocol=761; State=play; Bound=client; ID=0x27
-// Protocol=760; State=play; Bound=client; ID=0x28
-// Protocol=759; State=play; Bound=client; ID=0x26
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x2b
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x2b
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x27
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x28
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x26
 type PlayUpdateEntityPosition_763_0 struct {
 	EntityID VarInt // VarInt
 	/* Change in X position as (currentX * 32 - prevX * 32) * 128. */
@@ -13925,12 +14171,12 @@ func (p *PlayUpdateEntityPosition_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x2c
-// Protocol=762; State=play; Bound=client; ID=0x2c
-// Protocol=761; State=play; Bound=client; ID=0x28
-// Protocol=760; State=play; Bound=client; ID=0x29
-// Protocol=759; State=play; Bound=client; ID=0x27
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x2c
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x2c
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x28
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x29
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x27
 type PlayUpdateEntityPositionAndRotation_763_0 struct {
 	EntityID VarInt // VarInt
 	/* Change in X position as (currentX * 32 - prevX * 32) * 128. */
@@ -13982,12 +14228,12 @@ func (p *PlayUpdateEntityPositionAndRotation_763_0)DecodeFrom(r *PacketReader)(e
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x2d
-// Protocol=762; State=play; Bound=client; ID=0x2d
-// Protocol=761; State=play; Bound=client; ID=0x29
-// Protocol=760; State=play; Bound=client; ID=0x2a
-// Protocol=759; State=play; Bound=client; ID=0x28
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x2d
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x2d
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x29
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x2a
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x28
 type PlayUpdateEntityRotation_763_0 struct {
 	EntityID VarInt // VarInt
 	/* New angle, not a delta. */
@@ -14021,25 +14267,25 @@ func (p *PlayUpdateEntityRotation_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x52
-// Protocol=757; State=play; Bound=client; ID=0x52
-// Protocol=756; State=play; Bound=client; ID=0x52
-// Protocol=755; State=play; Bound=client; ID=0x52
-// Protocol=754; State=play; Bound=client; ID=0x49
-// Protocol=753; State=play; Bound=client; ID=0x49
-// Protocol=578; State=play; Bound=client; ID=0x49
-// Protocol=498; State=play; Bound=client; ID=0x48
-// Protocol=404; State=play; Bound=client; ID=0x44
-// Protocol=401; State=play; Bound=client; ID=0x44
-// Protocol=340; State=play; Bound=client; ID=0x41
-// Protocol=338; State=play; Bound=client; ID=0x41
-// Protocol=335; State=play; Bound=client; ID=0x40
-// Protocol=316; State=play; Bound=client; ID=0x3e
-// Protocol=315; State=play; Bound=client; ID=0x3e
-// Protocol=210; State=play; Bound=client; ID=0x3e
-// Protocol=110; State=play; Bound=client; ID=0x3e
-// Protocol=47; State=play; Bound=client; ID=0x6
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x52
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x52
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x52
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x52
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x49
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x49
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x49
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x48
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x44
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x44
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x41
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x41
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x40
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x3e
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x3e
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x3e
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x3e
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x6
 type PlayUpdateHealth_758_0 struct {
 	/* 0 or less = dead, 20 = full HP */
 	Health Float // Float
@@ -14069,22 +14315,22 @@ func (p *PlayUpdateHealth_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x29
-// Protocol=757; State=play; Bound=server; ID=0x29
-// Protocol=756; State=play; Bound=server; ID=0x29
-// Protocol=755; State=play; Bound=server; ID=0x29
-// Protocol=754; State=play; Bound=server; ID=0x29
-// Protocol=753; State=play; Bound=server; ID=0x28
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x29
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x29
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x29
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x29
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x29
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x28
 type PlayUpdateJigsawBlock_758_0 struct {
 	/* Block entity location */
 	Location Position // Position
 	Name Identifier // Identifier
 	Target Identifier // Identifier
 	Pool Identifier // Identifier
-	/* "Turns into" on the GUI, final_state in NBT. */
+	/* "Turns into" on the GUI, final_state in NBT */
 	FinalState String // String
-	/* rollable if the attached piece can be rotated, else aligned. */
+	/* rollable if the attached piece can be rotated, else aligned */
 	JointType String // String
 }
 
@@ -14120,9 +14366,9 @@ func (p *PlayUpdateJigsawBlock_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=578; State=play; Bound=server; ID=0x27
-// Protocol=498; State=play; Bound=server; ID=0x27
+
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x27
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x27
 type PlayUpdateJigsawBlock_578_1 struct {
 	/* Block entity location */
 	Location Position // Position
@@ -14156,12 +14402,12 @@ func (p *PlayUpdateJigsawBlock_578_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x58
-// Protocol=762; State=play; Bound=client; ID=0x58
-// Protocol=761; State=play; Bound=client; ID=0x54
-// Protocol=760; State=play; Bound=client; ID=0x56
-// Protocol=759; State=play; Bound=client; ID=0x53
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x58
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x58
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x54
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x56
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x53
 type PlayUpdateObjectives_763_0 struct {
 	/* A unique name for the objective. */
 	ObjectiveName String // String (16)
@@ -14197,12 +14443,12 @@ func (p *PlayUpdateObjectives_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x3d
-// Protocol=762; State=play; Bound=client; ID=0x3d
-// Protocol=761; State=play; Bound=client; ID=0x39
-// Protocol=760; State=play; Bound=client; ID=0x3a
-// Protocol=759; State=play; Bound=client; ID=0x37
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x3d
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x3d
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x39
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x3a
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x37
 type PlayUpdateRecipeBook_763_0 struct {
 	/* 0: init, 1: add, 2: remove. */
 	Action VarInt // VarInt
@@ -14287,13 +14533,13 @@ func (p *PlayUpdateRecipeBook_763_0)DecodeFrom(r *PacketReader)(err error){
 	}
 	TODO_Decode_Array(p.RecipeIDs)
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x5b
-// Protocol=762; State=play; Bound=client; ID=0x5b
-// Protocol=761; State=play; Bound=client; ID=0x57
-// Protocol=760; State=play; Bound=client; ID=0x59
-// Protocol=759; State=play; Bound=client; ID=0x56
-// Protocol=758; State=play; Bound=client; ID=0x56
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x5b
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x5b
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x57
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x59
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x56
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x56
 type PlayUpdateScore_763_0 struct {
 	/* The entity whose score this is.  For players, this is their username; for other entities, it is their UUID. */
 	EntityName String // String (40)
@@ -14329,20 +14575,20 @@ func (p *PlayUpdateScore_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=757; State=play; Bound=client; ID=0x56
-// Protocol=756; State=play; Bound=client; ID=0x56
-// Protocol=755; State=play; Bound=client; ID=0x56
-// Protocol=754; State=play; Bound=client; ID=0x4d
-// Protocol=753; State=play; Bound=client; ID=0x4d
-// Protocol=578; State=play; Bound=client; ID=0x4d
-// Protocol=498; State=play; Bound=client; ID=0x4c
-// Protocol=404; State=play; Bound=client; ID=0x48
-// Protocol=401; State=play; Bound=client; ID=0x48
-// Protocol=340; State=play; Bound=client; ID=0x45
-// Protocol=338; State=play; Bound=client; ID=0x45
-// Protocol=335; State=play; Bound=client; ID=0x44
-// Protocol=316; State=play; Bound=client; ID=0x42
+
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x56
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x56
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x56
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x4d
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x4d
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x4d
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x4c
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x48
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x48
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x45
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x45
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x44
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x42
 type PlayUpdateScore_757_1 struct {
 	/* The entity whose score this is.  For players, this is their username; for other entities, it is their UUID. */
 	EntityName String // String (40)
@@ -14378,11 +14624,11 @@ func (p *PlayUpdateScore_757_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=315; State=play; Bound=client; ID=0x42
-// Protocol=210; State=play; Bound=client; ID=0x42
-// Protocol=110; State=play; Bound=client; ID=0x42
-// Protocol=47; State=play; Bound=client; ID=0x3c
+
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x42
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x42
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x42
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x3c
 type PlayUpdateScore_315_2 struct {
 	/* The name of the score to be updated or removed */
 	ScoreName String // String
@@ -14418,11 +14664,11 @@ func (p *PlayUpdateScore_315_2)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=762; State=play; Bound=client; ID=0x43
-// Protocol=761; State=play; Bound=client; ID=0x3f
-// Protocol=760; State=play; Bound=client; ID=0x40
-// Protocol=759; State=play; Bound=client; ID=0x3d
+
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x43
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x3f
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x40
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x3d
 type PlayUpdateSectionBlocks_762_1 struct {
 	/* Chunk section coordinate (encoded chunk x and z with each 22 bits, and section y with 20 bits, from left to right). */
 	ChunkSectionPosition Long // Long
@@ -14456,39 +14702,39 @@ func (p *PlayUpdateSectionBlocks_762_1)DecodeFrom(r *PacketReader)(err error){
 	}
 	TODO_Decode_Array(p.Blocks)
 }
-				
-// Protocol=762; State=play; Bound=server; ID=0x2e
-// Protocol=761; State=play; Bound=server; ID=0x2e
-// Protocol=760; State=play; Bound=server; ID=0x2e
-// Protocol=759; State=play; Bound=server; ID=0x2d
-// Protocol=758; State=play; Bound=server; ID=0x2b
-// Protocol=757; State=play; Bound=server; ID=0x2b
-// Protocol=756; State=play; Bound=server; ID=0x2b
-// Protocol=755; State=play; Bound=server; ID=0x2b
-// Protocol=754; State=play; Bound=server; ID=0x2b
-// Protocol=753; State=play; Bound=server; ID=0x2b
-// Protocol=578; State=play; Bound=server; ID=0x29
-// Protocol=498; State=play; Bound=server; ID=0x29
-// Protocol=404; State=play; Bound=server; ID=0x26
-// Protocol=401; State=play; Bound=server; ID=0x26
-// Protocol=340; State=play; Bound=server; ID=0x1c
-// Protocol=338; State=play; Bound=server; ID=0x1c
-// Protocol=335; State=play; Bound=server; ID=0x1c
-// Protocol=316; State=play; Bound=server; ID=0x19
-// Protocol=315; State=play; Bound=server; ID=0x19
-// Protocol=210; State=play; Bound=server; ID=0x19
-// Protocol=110; State=play; Bound=server; ID=0x19
+
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x2e
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x2e
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x2e
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x2d
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x2b
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x2b
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x2b
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x2b
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x2b
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x2b
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x29
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x29
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x26
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x26
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x1c
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x1c
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x1c
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x19
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x19
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x19
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x19
 type PlayUpdateSign_762_1 struct {
 	/* Block Coordinates */
 	Location Position // Position
 	/* First line of text in the sign */
-	Line1 String // String
+	Line1 String // String (384)
 	/* Second line of text in the sign */
-	Line2 String // String
+	Line2 String // String (384)
 	/* Third line of text in the sign */
-	Line3 String // String
+	Line3 String // String (384)
 	/* Fourth line of text in the sign */
-	Line4 String // String
+	Line4 String // String (384)
 }
 
 var _ Packet = (*PlayUpdateSign_762_1)(nil)
@@ -14519,9 +14765,9 @@ func (p *PlayUpdateSign_762_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=47; State=play; Bound=client; ID=0x33
-// Protocol=47; State=play; Bound=server; ID=0x12
+
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x33
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x12
 type PlayUpdateSign_47_2 struct {
 	Location Position // Position
 	/* First line of text in the sign */
@@ -14562,9 +14808,9 @@ func (p *PlayUpdateSign_47_2)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x57
-// Protocol=757; State=play; Bound=client; ID=0x57
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x57
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x57
 type PlayUpdateSimulationDistance_758_0 struct {
 	/* The distance that the client will process specific things, such as entities. */
 	SimulationDistance VarInt // VarInt
@@ -14582,46 +14828,46 @@ func (p *PlayUpdateSimulationDistance_758_0)DecodeFrom(r *PacketReader)(err erro
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x2a
-// Protocol=757; State=play; Bound=server; ID=0x2a
-// Protocol=756; State=play; Bound=server; ID=0x2a
-// Protocol=755; State=play; Bound=server; ID=0x2a
-// Protocol=754; State=play; Bound=server; ID=0x2a
-// Protocol=753; State=play; Bound=server; ID=0x2a
-// Protocol=578; State=play; Bound=server; ID=0x28
-// Protocol=498; State=play; Bound=server; ID=0x28
-// Protocol=404; State=play; Bound=server; ID=0x25
-// Protocol=401; State=play; Bound=server; ID=0x25
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x2a
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x2a
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x2a
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x2a
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x2a
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x2a
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x28
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x28
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x25
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x25
 type PlayUpdateStructureBlock_758_0 struct {
-	/* Block entity location. */
+	/* Block entity location */
 	Location Position // Position
-	/* An additional action to perform beyond simply saving the given data; see below. */
+	/* An additional action to perform beyond simply saving the given data; see below */
 	Action VarInt // VarInt enum
 	/* One of SAVE (0), LOAD (1), CORNER (2), DATA (3). */
 	Mode VarInt // VarInt enum
 	Name String // String
-	/* Between -32 and 32. */
+	/* Between -32 and 32 */
 	OffsetX Byte // Byte
-	/* Between -32 and 32. */
+	/* Between -32 and 32 */
 	OffsetY Byte // Byte
-	/* Between -32 and 32. */
+	/* Between -32 and 32 */
 	OffsetZ Byte // Byte
-	/* Between 0 and 32. */
+	/* Between 0 and 32 */
 	SizeX Byte // Byte
-	/* Between 0 and 32. */
+	/* Between 0 and 32 */
 	SizeY Byte // Byte
-	/* Between 0 and 32. */
+	/* Between 0 and 32 */
 	SizeZ Byte // Byte
 	/* One of NONE (0), LEFT_RIGHT (1), FRONT_BACK (2). */
 	Mirror VarInt // VarInt enum
 	/* One of NONE (0), CLOCKWISE_90 (1), CLOCKWISE_180 (2), COUNTERCLOCKWISE_90 (3). */
 	Rotation VarInt // VarInt enum
 	Metadata String // String
-	/* Between 0 and 1. */
+	/* Between 0 and 1 */
 	Integrity Float // Float
 	Seed VarLong // VarLong
-	/* 0x01: Ignore entities; 0x02: Show air; 0x04: Show bounding box. */
+	/* 0x01: Ignore entities; 0x02: Show air; 0x04: Show bounding box */
 	Flags Byte // Byte
 }
 
@@ -14697,12 +14943,12 @@ func (p *PlayUpdateStructureBlock_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x5e
-// Protocol=762; State=play; Bound=client; ID=0x5e
-// Protocol=761; State=play; Bound=client; ID=0x5a
-// Protocol=760; State=play; Bound=client; ID=0x5c
-// Protocol=759; State=play; Bound=client; ID=0x59
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x5e
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x5e
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x5a
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x5c
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x59
 type PlayUpdateTime_763_0 struct {
 	/* In ticks; not changed by server commands. */
 	WorldAge Long // Long
@@ -14726,17 +14972,17 @@ func (p *PlayUpdateTime_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x4a
-// Protocol=757; State=play; Bound=client; ID=0x4a
-// Protocol=756; State=play; Bound=client; ID=0x4a
-// Protocol=755; State=play; Bound=client; ID=0x4a
-// Protocol=754; State=play; Bound=client; ID=0x41
-// Protocol=753; State=play; Bound=client; ID=0x41
-// Protocol=578; State=play; Bound=client; ID=0x42
-// Protocol=498; State=play; Bound=client; ID=0x41
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x4a
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x4a
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x4a
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x4a
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x41
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x41
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x42
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x41
 type PlayUpdateViewDistance_758_0 struct {
-	/* Render distance (2-32). */
+	/* Render distance (2-32) */
 	ViewDistance VarInt // VarInt
 }
 
@@ -14752,19 +14998,19 @@ func (p *PlayUpdateViewDistance_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x49
-// Protocol=757; State=play; Bound=client; ID=0x49
-// Protocol=756; State=play; Bound=client; ID=0x49
-// Protocol=755; State=play; Bound=client; ID=0x49
-// Protocol=754; State=play; Bound=client; ID=0x40
-// Protocol=753; State=play; Bound=client; ID=0x40
-// Protocol=578; State=play; Bound=client; ID=0x41
-// Protocol=498; State=play; Bound=client; ID=0x40
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x49
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x49
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x49
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x49
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x40
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x40
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x41
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x40
 type PlayUpdateViewPosition_758_0 struct {
-	/* Chunk X coordinate of the player's position. */
+	/* Chunk X coordinate of the player's position */
 	ChunkX VarInt // VarInt
-	/* Chunk Z coordinate of the player's position. */
+	/* Chunk Z coordinate of the player's position */
 	ChunkZ VarInt // VarInt
 }
 
@@ -14784,17 +15030,17 @@ func (p *PlayUpdateViewPosition_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=404; State=play; Bound=client; ID=0x33
-// Protocol=401; State=play; Bound=client; ID=0x33
-// Protocol=340; State=play; Bound=client; ID=0x30
-// Protocol=338; State=play; Bound=client; ID=0x30
-// Protocol=335; State=play; Bound=client; ID=0x2f
-// Protocol=316; State=play; Bound=client; ID=0x2f
-// Protocol=315; State=play; Bound=client; ID=0x2f
-// Protocol=210; State=play; Bound=client; ID=0x2f
-// Protocol=110; State=play; Bound=client; ID=0x2f
-// Protocol=47; State=play; Bound=client; ID=0xa
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x33
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x33
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x30
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x30
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x2f
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x2f
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x2f
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x2f
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x2f
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0xa
 type PlayUseBed_404_0 struct {
 	/* Sleeping player's EID */
 	EntityID VarInt // VarInt
@@ -14818,16 +15064,16 @@ func (p *PlayUseBed_404_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=404; State=play; Bound=server; ID=0xd
-// Protocol=401; State=play; Bound=server; ID=0xd
-// Protocol=340; State=play; Bound=server; ID=0xa
-// Protocol=338; State=play; Bound=server; ID=0xa
-// Protocol=335; State=play; Bound=server; ID=0xb
-// Protocol=316; State=play; Bound=server; ID=0xa
-// Protocol=315; State=play; Bound=server; ID=0xa
-// Protocol=210; State=play; Bound=server; ID=0xa
-// Protocol=110; State=play; Bound=server; ID=0xa
+
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0xd
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0xd
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0xa
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0xa
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0xb
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0xa
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0xa
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0xa
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0xa
 type PlayUseEntity_404_0 struct {
 	Target VarInt // VarInt
 	/* 0: interact, 1: attack, 2: interact at */
@@ -14874,12 +15120,12 @@ func (p *PlayUseEntity_404_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x32
-// Protocol=762; State=play; Bound=server; ID=0x32
-// Protocol=761; State=play; Bound=server; ID=0x32
-// Protocol=760; State=play; Bound=server; ID=0x32
-// Protocol=759; State=play; Bound=server; ID=0x31
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x32
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x32
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x32
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x32
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x31
 type PlayUseItem_763_0 struct {
 	/* Hand used for the animation. 0: main hand, 1: off hand. */
 	Hand VarInt // VarInt Enum
@@ -14902,24 +15148,24 @@ func (p *PlayUseItem_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=server; ID=0x2f
-// Protocol=757; State=play; Bound=server; ID=0x2f
-// Protocol=756; State=play; Bound=server; ID=0x2f
-// Protocol=755; State=play; Bound=server; ID=0x2f
-// Protocol=754; State=play; Bound=server; ID=0x2f
-// Protocol=753; State=play; Bound=server; ID=0x2f
-// Protocol=578; State=play; Bound=server; ID=0x2d
-// Protocol=498; State=play; Bound=server; ID=0x2d
-// Protocol=404; State=play; Bound=server; ID=0x2a
-// Protocol=401; State=play; Bound=server; ID=0x2a
-// Protocol=340; State=play; Bound=server; ID=0x20
-// Protocol=338; State=play; Bound=server; ID=0x20
-// Protocol=335; State=play; Bound=server; ID=0x20
-// Protocol=316; State=play; Bound=server; ID=0x1d
-// Protocol=315; State=play; Bound=server; ID=0x1d
-// Protocol=210; State=play; Bound=server; ID=0x1d
-// Protocol=110; State=play; Bound=server; ID=0x1d
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x2f
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x2f
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x2f
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x2f
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x2f
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x2f
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x2d
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x2d
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x2a
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x2a
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x20
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x20
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x20
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x1d
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x1d
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x1d
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x1d
 type PlayUseItem_758_1 struct {
 	/* Hand used for the animation. 0: main hand, 1: off hand. */
 	Hand VarInt // VarInt Enum
@@ -14937,12 +15183,12 @@ func (p *PlayUseItem_758_1)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=server; ID=0x31
-// Protocol=762; State=play; Bound=server; ID=0x31
-// Protocol=761; State=play; Bound=server; ID=0x31
-// Protocol=760; State=play; Bound=server; ID=0x31
-// Protocol=759; State=play; Bound=server; ID=0x30
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=server; ID=0x31
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=server; ID=0x31
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=server; ID=0x31
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=server; ID=0x31
+// Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x30
 type PlayUseItemOn_763_0 struct {
 	/* The hand from which the block is placed; 0: main hand, 1: off hand. */
 	Hand VarInt // VarInt Enum
@@ -15001,41 +15247,41 @@ func (p *PlayUseItemOn_763_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x2c
-// Protocol=758; State=play; Bound=server; ID=0x15
-// Protocol=757; State=play; Bound=client; ID=0x2c
-// Protocol=757; State=play; Bound=server; ID=0x15
-// Protocol=756; State=play; Bound=client; ID=0x2c
-// Protocol=756; State=play; Bound=server; ID=0x15
-// Protocol=755; State=play; Bound=client; ID=0x2c
-// Protocol=755; State=play; Bound=server; ID=0x15
-// Protocol=754; State=play; Bound=client; ID=0x2b
-// Protocol=754; State=play; Bound=server; ID=0x16
-// Protocol=753; State=play; Bound=client; ID=0x2b
-// Protocol=753; State=play; Bound=server; ID=0x16
-// Protocol=578; State=play; Bound=client; ID=0x2d
-// Protocol=578; State=play; Bound=server; ID=0x15
-// Protocol=498; State=play; Bound=client; ID=0x2c
-// Protocol=498; State=play; Bound=server; ID=0x15
-// Protocol=404; State=play; Bound=client; ID=0x2b
-// Protocol=404; State=play; Bound=server; ID=0x13
-// Protocol=401; State=play; Bound=client; ID=0x2b
-// Protocol=401; State=play; Bound=server; ID=0x13
-// Protocol=340; State=play; Bound=client; ID=0x29
-// Protocol=340; State=play; Bound=server; ID=0x10
-// Protocol=338; State=play; Bound=client; ID=0x29
-// Protocol=338; State=play; Bound=server; ID=0x10
-// Protocol=335; State=play; Bound=client; ID=0x29
-// Protocol=335; State=play; Bound=server; ID=0x11
-// Protocol=316; State=play; Bound=client; ID=0x29
-// Protocol=316; State=play; Bound=server; ID=0x10
-// Protocol=315; State=play; Bound=client; ID=0x29
-// Protocol=315; State=play; Bound=server; ID=0x10
-// Protocol=210; State=play; Bound=client; ID=0x29
-// Protocol=210; State=play; Bound=server; ID=0x10
-// Protocol=110; State=play; Bound=client; ID=0x29
-// Protocol=110; State=play; Bound=server; ID=0x10
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x2c
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=server; ID=0x15
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x2c
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=server; ID=0x15
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x2c
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x15
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x2c
+// Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x15
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x2b
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x16
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x2b
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x16
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x2d
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x15
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2c
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x15
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x2b
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x13
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x2b
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=server; ID=0x13
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x29
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=server; ID=0x10
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x29
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=server; ID=0x10
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x29
+// Protocol=335; ProtocolName=1.12; State=play; Bound=server; ID=0x11
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x29
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=server; ID=0x10
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x29
+// Protocol=315; ProtocolName=1.11; State=play; Bound=server; ID=0x10
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x29
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=server; ID=0x10
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x29
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=server; ID=0x10
 type PlayVehicleMove_758_0 struct {
 	/* Absolute position (X coordinate) */
 	X Double // Double
@@ -15077,15 +15323,15 @@ func (p *PlayVehicleMove_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=754; State=play; Bound=client; ID=0x11
-// Protocol=754; State=play; Bound=server; ID=0x7
-// Protocol=753; State=play; Bound=client; ID=0x11
-// Protocol=753; State=play; Bound=server; ID=0x7
-// Protocol=578; State=play; Bound=client; ID=0x13
-// Protocol=578; State=play; Bound=server; ID=0x7
-// Protocol=498; State=play; Bound=client; ID=0x12
-// Protocol=498; State=play; Bound=server; ID=0x7
+
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x11
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x7
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x11
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x7
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x13
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x7
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x12
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x7
 type PlayWindowConfirmation_754_0 struct {
 	/* The ID of the window that the action occurred in */
 	WindowID Byte // Byte
@@ -15115,10 +15361,10 @@ func (p *PlayWindowConfirmation_754_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x14
-// Protocol=757; State=play; Bound=client; ID=0x14
-// Protocol=756; State=play; Bound=client; ID=0x14
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x14
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x14
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x14
 type PlayWindowItems_758_0 struct {
 	/* The ID of window which items are being sent for. 0 for player inventory. */
 	WindowID UByte // Unsigned Byte
@@ -15165,22 +15411,22 @@ func (p *PlayWindowItems_758_0)DecodeFrom(r *PacketReader)(err error){
 		return
 	}
 }
-				
-// Protocol=755; State=play; Bound=client; ID=0x14
-// Protocol=754; State=play; Bound=client; ID=0x13
-// Protocol=753; State=play; Bound=client; ID=0x13
-// Protocol=578; State=play; Bound=client; ID=0x15
-// Protocol=498; State=play; Bound=client; ID=0x14
-// Protocol=404; State=play; Bound=client; ID=0x15
-// Protocol=401; State=play; Bound=client; ID=0x15
-// Protocol=340; State=play; Bound=client; ID=0x14
-// Protocol=338; State=play; Bound=client; ID=0x14
-// Protocol=335; State=play; Bound=client; ID=0x14
-// Protocol=316; State=play; Bound=client; ID=0x14
-// Protocol=315; State=play; Bound=client; ID=0x14
-// Protocol=210; State=play; Bound=client; ID=0x14
-// Protocol=110; State=play; Bound=client; ID=0x14
-// Protocol=47; State=play; Bound=client; ID=0x30
+
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x14
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x13
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x13
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x15
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x14
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x15
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x15
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x14
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x14
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x14
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x14
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x14
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x14
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x14
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x30
 type PlayWindowItems_755_1 struct {
 	/* The ID of window which items are being sent for. 0 for player inventory. */
 	WindowID UByte // Unsigned Byte
@@ -15215,25 +15461,25 @@ func (p *PlayWindowItems_755_1)DecodeFrom(r *PacketReader)(err error){
 		}
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x15
-// Protocol=757; State=play; Bound=client; ID=0x15
-// Protocol=756; State=play; Bound=client; ID=0x15
-// Protocol=755; State=play; Bound=client; ID=0x15
-// Protocol=754; State=play; Bound=client; ID=0x14
-// Protocol=753; State=play; Bound=client; ID=0x14
-// Protocol=578; State=play; Bound=client; ID=0x16
-// Protocol=498; State=play; Bound=client; ID=0x15
-// Protocol=404; State=play; Bound=client; ID=0x16
-// Protocol=401; State=play; Bound=client; ID=0x16
-// Protocol=340; State=play; Bound=client; ID=0x15
-// Protocol=338; State=play; Bound=client; ID=0x15
-// Protocol=335; State=play; Bound=client; ID=0x15
-// Protocol=316; State=play; Bound=client; ID=0x15
-// Protocol=315; State=play; Bound=client; ID=0x15
-// Protocol=210; State=play; Bound=client; ID=0x15
-// Protocol=110; State=play; Bound=client; ID=0x15
-// Protocol=47; State=play; Bound=client; ID=0x31
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x15
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x15
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x15
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x15
+// Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x14
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x14
+// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x16
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x15
+// Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x16
+// Protocol=401; ProtocolName=1.13.1; State=play; Bound=client; ID=0x16
+// Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x15
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x15
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x15
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x15
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x15
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x15
+// Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x15
+// Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x31
 type PlayWindowProperty_758_0 struct {
 	WindowID UByte // Unsigned Byte
 	/* The property to be updated, see below */
@@ -15262,11 +15508,11 @@ func (p *PlayWindowProperty_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x42
-// Protocol=757; State=play; Bound=client; ID=0x42
-// Protocol=756; State=play; Bound=client; ID=0x42
-// Protocol=755; State=play; Bound=client; ID=0x42
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x42
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x42
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x42
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x42
 type PlayWorldBorderCenter_758_0 struct {
 	X Double // Double
 	Z Double // Double
@@ -15288,11 +15534,11 @@ func (p *PlayWorldBorderCenter_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x43
-// Protocol=757; State=play; Bound=client; ID=0x43
-// Protocol=756; State=play; Bound=client; ID=0x43
-// Protocol=755; State=play; Bound=client; ID=0x43
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x43
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x43
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x43
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x43
 type PlayWorldBorderLerpSize_758_0 struct {
 	/* Current length of a single side of the world border, in meters. */
 	OldDiameter Double // Double
@@ -15322,11 +15568,11 @@ func (p *PlayWorldBorderLerpSize_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x44
-// Protocol=757; State=play; Bound=client; ID=0x44
-// Protocol=756; State=play; Bound=client; ID=0x44
-// Protocol=755; State=play; Bound=client; ID=0x44
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x44
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x44
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x44
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x44
 type PlayWorldBorderSize_758_0 struct {
 	/* Length of a single side of the world border, in meters. */
 	Diameter Double // Double
@@ -15344,11 +15590,11 @@ func (p *PlayWorldBorderSize_758_0)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x45
-// Protocol=757; State=play; Bound=client; ID=0x45
-// Protocol=756; State=play; Bound=client; ID=0x45
-// Protocol=755; State=play; Bound=client; ID=0x45
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x45
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x45
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x45
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x45
 type PlayWorldBorderWarningDelay_758_0 struct {
 	/* In seconds as set by /worldborder warning time. */
 	WarningTime VarInt // VarInt
@@ -15366,11 +15612,11 @@ func (p *PlayWorldBorderWarningDelay_758_0)DecodeFrom(r *PacketReader)(err error
 		return io.EOF
 	}
 }
-				
-// Protocol=758; State=play; Bound=client; ID=0x46
-// Protocol=757; State=play; Bound=client; ID=0x46
-// Protocol=756; State=play; Bound=client; ID=0x46
-// Protocol=755; State=play; Bound=client; ID=0x46
+
+// Protocol=758; ProtocolName=1.18.2; State=play; Bound=client; ID=0x46
+// Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x46
+// Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x46
+// Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x46
 type PlayWorldBorderWarningReach_758_0 struct {
 	/* In meters. */
 	WarningBlocks VarInt // VarInt
@@ -15388,12 +15634,12 @@ func (p *PlayWorldBorderWarningReach_758_0)DecodeFrom(r *PacketReader)(err error
 		return io.EOF
 	}
 }
-				
-// Protocol=763; State=play; Bound=client; ID=0x25
-// Protocol=762; State=play; Bound=client; ID=0x25
-// Protocol=761; State=play; Bound=client; ID=0x21
-// Protocol=760; State=play; Bound=client; ID=0x22
-// Protocol=759; State=play; Bound=client; ID=0x20
+
+// Protocol=763; ProtocolName=1.20; State=play; Bound=client; ID=0x25
+// Protocol=762; ProtocolName=1.19.4; State=play; Bound=client; ID=0x25
+// Protocol=761; ProtocolName=1.19.3; State=play; Bound=client; ID=0x21
+// Protocol=760; ProtocolName=1.19.2; State=play; Bound=client; ID=0x22
+// Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x20
 type PlayWorldEvent_763_0 struct {
 	/* The event, see below. */
 	Event Int // Int

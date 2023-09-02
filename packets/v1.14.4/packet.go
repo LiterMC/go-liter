@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=15346
 // Protocol: 498
+// Protocol Name: 1.14.4
 
 package packet_1_14_4
 
@@ -55,23 +56,7 @@ type PlayQueryBlockNBTPkt = internal.PlayQueryBlockNBT_758_0
 type PlaySetDifficultyPkt = internal.PlaySetDifficulty_758_0
 
 // ID=0x3
-type PlayChatMessageServerPkt struct {
-	/* The client sends the raw input, not a Chat component */
-	Message String // String (256)
-}
-
-var _ Packet = (*PlayChatMessageServerPkt)(nil)
-
-func (p PlayChatMessageServerPkt)Encode(b *PacketBuilder){
-	b.String(p.Message)
-}
-
-func (p *PlayChatMessageServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Message, ok = r.String(); !ok {
-		return io.EOF
-	}
-}
+type PlayChatMessageServerPkt = internal.PlayChatMessage_498_9
 
 // ID=0x4
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -159,33 +144,7 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayCraftRecipeRequestPkt = internal.PlayCraftRecipeRequest_758_0
 
 // ID=0x19
-type PlayPlayerAbilitiesServerPkt struct {
-	/* Bit mask. 0x08: damage disabled (god mode), 0x04: can fly, 0x02: is flying, 0x01: is Creative */
-	Flags Byte // Byte
-	FlyingSpeed Float // Float
-	WalkingSpeed Float // Float
-}
-
-var _ Packet = (*PlayPlayerAbilitiesServerPkt)(nil)
-
-func (p PlayPlayerAbilitiesServerPkt)Encode(b *PacketBuilder){
-	b.Byte(p.Flags)
-	b.Float(p.FlyingSpeed)
-	b.Float(p.WalkingSpeed)
-}
-
-func (p *PlayPlayerAbilitiesServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Flags, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.FlyingSpeed, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.WalkingSpeed, ok = r.Float(); !ok {
-		return io.EOF
-	}
-}
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_498_10
 
 // ID=0x1a
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -232,7 +191,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_758_2
 
 // ID=0x23
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_754_5
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_756_3
 
 // ID=0x24
 type PlayUpdateCommandBlockPkt = internal.PlayUpdateCommandBlock_758_0
@@ -413,29 +372,7 @@ type PlayBossBarPkt struct {
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_758_0
 
 // ID=0xe
-type PlayChatMessageClientPkt struct {
-	/* Limited to 32767 bytes */
-	JSONData Object // Chat
-	/* 0: chat (chat box), 1: system message (chat box), 2: game info (above hotbar). */
-	Position Byte // Byte
-}
-
-var _ Packet = (*PlayChatMessageClientPkt)(nil)
-
-func (p PlayChatMessageClientPkt)Encode(b *PacketBuilder){
-	b.JSON(p.JSONData)
-	b.Byte(p.Position)
-}
-
-func (p *PlayChatMessageClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if err = r.JSON(&p.JSONData); err != nil {
-		return
-	}
-	if p.Position, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-}
+type PlayChatMessageClientPkt = internal.PlayChatMessage_498_8
 
 // ID=0xf
 type PlayMultiBlockChangePkt struct {
@@ -752,35 +689,7 @@ type PlayOpenSignEditorPkt = internal.PlayOpenSignEditor_762_1
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_758_0
 
 // ID=0x31
-type PlayPlayerAbilitiesClientPkt struct {
-	/* Bit field, see below */
-	Flags Byte // Byte
-	/* 0.05 by default */
-	FlyingSpeed Float // Float
-	/* Modifies the field of view, like a speed potion. A Notchian server will use the same value as the movement speed sent in the Entity Properties packet, which defaults to 0.1 for players. */
-	FieldOfViewModifier Float // Float
-}
-
-var _ Packet = (*PlayPlayerAbilitiesClientPkt)(nil)
-
-func (p PlayPlayerAbilitiesClientPkt)Encode(b *PacketBuilder){
-	b.Byte(p.Flags)
-	b.Float(p.FlyingSpeed)
-	b.Float(p.FieldOfViewModifier)
-}
-
-func (p *PlayPlayerAbilitiesClientPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.Flags, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.FlyingSpeed, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.FieldOfViewModifier, ok = r.Float(); !ok {
-		return io.EOF
-	}
-}
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_498_9
 
 // ID=0x32
 type PlayCombatEventPkt struct {
@@ -913,7 +822,7 @@ type PlayWorldBorderPkt struct {
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x3f
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_754_4
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_756_2
 
 // ID=0x40
 type PlayUpdateViewPositionPkt = internal.PlayUpdateViewPosition_758_0

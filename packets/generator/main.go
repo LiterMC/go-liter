@@ -77,6 +77,8 @@ type (
 	}
 )
 
+var protocolNameMap = make(map[int]string)
+
 var tmpl = template.Must(template.New("").
 	Funcs(template.FuncMap{
 		"add": func(a, b int)(int){ return a + b },
@@ -99,6 +101,7 @@ var tmpl = template.Must(template.New("").
 
 		"gentime": func()(string){ return genTime },
 		"isBasicType": isBasicType,
+		"protocolName": func(v int)(string){ return protocolNameMap[v] },
 
 		"render_packet_encode_method": renderPacketEncodeMethod,
 		"render_packet_decode_method": renderPacketDecodeMethod,
@@ -169,6 +172,7 @@ func main(){
 						return
 					}
 				}
+				protocolNameMap[version] = name
 				loger.Debugf("name=%s; version=%d; doc=%s", name, version, doc)
 				protocols = append(protocols, Protocol{ Name: name, Version: version, Doc: doc, docid: oldid })
 			}

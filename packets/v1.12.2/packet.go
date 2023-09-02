@@ -1,7 +1,8 @@
 
-// Generated at 2023-09-01 20:45:22.208 -06:00
+// Generated at 2023-09-01 20:57:33.569 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=14204
 // Protocol: 340
+// Protocol Name: 1.12.2
 
 package packet_1_12_2
 
@@ -18,7 +19,7 @@ import (
 type LoginLoginStartPkt = internal.LoginLoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ---- login: clientbound ----
 
@@ -46,7 +47,7 @@ type PlayTeleportConfirmPkt = internal.PlayTeleportConfirm_758_0
 type PlayTabCompleteServerPkt = internal.PlayTabComplete_340_4
 
 // ID=0x2
-type PlayChatMessageServerPkt = internal.PlayChatMessage_404_13
+type PlayChatMessageServerPkt = internal.PlayChatMessage_498_9
 
 // ID=0x3
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -97,7 +98,7 @@ type PlaySteerBoatPkt = internal.PlaySteerBoat_401_1
 type PlayCraftRecipeRequestPkt = internal.PlayCraftRecipeRequest_340_1
 
 // ID=0x13
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_404_12
+type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_498_10
 
 // ID=0x14
 type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
@@ -129,7 +130,7 @@ type PlayResourcePackStatusPkt = internal.PlayResourcePackStatus_758_0
 type PlayAdvancementTabPkt = internal.PlayAdvancementTab_758_0
 
 // ID=0x1a
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_404_7
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_756_3
 
 // ID=0x1b
 type PlayCreativeInventoryActionPkt = internal.PlayCreativeInventoryAction_758_0
@@ -226,7 +227,7 @@ type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
 type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_3
 
 // ID=0xf
-type PlayChatMessageClientPkt = internal.PlayChatMessage_404_12
+type PlayChatMessageClientPkt = internal.PlayChatMessage_498_8
 
 // ID=0x10
 type PlayMultiBlockChangePkt struct {
@@ -344,7 +345,7 @@ type PlayOpenSignEditorPkt = internal.PlayOpenSignEditor_762_1
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_340_1
 
 // ID=0x2c
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_404_11
+type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_498_9
 
 // ID=0x2d
 type PlayCombatEventPkt struct {
@@ -449,7 +450,7 @@ type PlayWorldBorderPkt struct {
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x3a
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_404_6
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_756_2
 
 // ID=0x3b
 type PlayDisplayScoreboardPkt = internal.PlayDisplayScoreboard_758_0
