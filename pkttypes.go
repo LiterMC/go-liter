@@ -11,7 +11,9 @@ import (
 type (
 	Bool   = bool
 	Byte   = int8
+	UByte  = uint8
 	Short  = int16
+	UShort = uint16
 	Int    = int32
 	Long   = int64
 	Float  = float32
@@ -20,18 +22,40 @@ type (
 	VarInt  int32
 	VarLong int64
 
-	ByteArray = []byte
-	String    = string
-	Object    = map[string]any
-	Position  struct {
+	EntityMetadata struct {
+		Index UByte
+		Type VarInt
+		Value any
+	}
+	Slot struct {
+		Present bool
+		ItemId VarInt
+		ItemCount Byte
+		NBT NBT
+	}
+	NBT interface {
+		Encodable
+		Decodable
+	}
+
+	String     = string
+	Identifier = String
+	Object     = map[string]any
+	Position   struct {
 		X int
 		Y int
 		Z int
 	}
-	UUID      = uuid.UUID
+	Angle      = uint8
+	UUID       = uuid.UUID
+	ByteArray  = []byte
+
+	CommandNode struct {
+		//
+	}
 
 	Encodable interface {
-		Encode(p *PacketBuilder)(err error)
+		Encode(p *PacketBuilder)
 	}
 	Decodable interface {
 		DecodeFrom(r *PacketReader)(err error)
@@ -56,9 +80,8 @@ func (p Position)AsLong()(n Long){
 	return (((Long)(p.X) & 0x3ffffff) << 38) | (((Long)(p.Z) & 0x3ffffff) << 12) | ((Long)(p.Y) & 0xfff)
 }
 
-func (p Position)Encode(b *PacketBuilder)(err error){
+func (p Position)Encode(b *PacketBuilder){
 	b.Long(p.AsLong())
-	return nil
 }
 
 type PacketBuilder struct{
@@ -157,7 +180,7 @@ func (p *PacketBuilder)Bool(v bool)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)Byte(v int8)(*PacketBuilder){
+func (p *PacketBuilder)Byte(v Byte)(*PacketBuilder){
 	p.grow(1)
 
 	p.buf[p.len] = (byte)(v)
@@ -165,7 +188,15 @@ func (p *PacketBuilder)Byte(v int8)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)Short(v int16)(*PacketBuilder){
+func (p *PacketBuilder)UByte(v UByte)(*PacketBuilder){
+	p.grow(1)
+
+	p.buf[p.len] = (byte)(v)
+	p.len++
+	return p
+}
+
+func (p *PacketBuilder)Short(v Short)(*PacketBuilder){
 	p.grow(2)
 
 	encodeUint16(p.buf[p.len:p.len + 2], (uint16)(v))
@@ -173,7 +204,7 @@ func (p *PacketBuilder)Short(v int16)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)Int(v int32)(*PacketBuilder){
+func (p *PacketBuilder)Int(v Int)(*PacketBuilder){
 	p.grow(4)
 
 	encodeUint32(p.buf[p.len:p.len + 4], (uint32)(v))
@@ -181,7 +212,7 @@ func (p *PacketBuilder)Int(v int32)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)Long(v int64)(*PacketBuilder){
+func (p *PacketBuilder)Long(v Long)(*PacketBuilder){
 	p.grow(8)
 
 	encodeUint64(p.buf[p.len:p.len + 8], (uint64)(v))
@@ -189,7 +220,7 @@ func (p *PacketBuilder)Long(v int64)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)VarInt(v int32)(*PacketBuilder){
+func (p *PacketBuilder)VarInt(v VarInt)(*PacketBuilder){
 	p.grow(5)
 
 	n := encodeVarInt(p.buf[p.len:p.len + 5], v)
@@ -197,7 +228,7 @@ func (p *PacketBuilder)VarInt(v int32)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)VarLong(v int64)(*PacketBuilder){
+func (p *PacketBuilder)VarLong(v VarLong)(*PacketBuilder){
 	p.grow(10)
 
 	n := encodeVarLong(p.buf[p.len:p.len + 10], v)
@@ -205,7 +236,7 @@ func (p *PacketBuilder)VarLong(v int64)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)Float(v float32)(*PacketBuilder){
+func (p *PacketBuilder)Float(v Float)(*PacketBuilder){
 	p.grow(4)
 
 	encodeFloat32(p.buf[p.len:p.len + 4], v)
@@ -213,7 +244,7 @@ func (p *PacketBuilder)Float(v float32)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)Double(v float64)(*PacketBuilder){
+func (p *PacketBuilder)Double(v Double)(*PacketBuilder){
 	p.grow(8)
 
 	encodeFloat64(p.buf[p.len:p.len + 8], v)
@@ -230,9 +261,9 @@ func (p *PacketBuilder)UUID(v UUID)(*PacketBuilder){
 	return p
 }
 
-func (p *PacketBuilder)String(v string)(*PacketBuilder){
+func (p *PacketBuilder)String(v String)(*PacketBuilder){
 	p.
-		VarInt((int32)(len(v))).
+		VarInt((VarInt)(len(v))).
 		ByteArray(([]byte)(v))
 	return p
 }
@@ -243,13 +274,18 @@ func (p *PacketBuilder)JSON(v any)(*PacketBuilder){
 		panic(err)
 	}
 	p.
-		VarInt((int32)(len(buf))).
+		VarInt((VarInt)(len(buf))).
 		ByteArray(buf)
 	return p
 }
 
+func (p *PacketBuilder)Encode(v Encodable)(*PacketBuilder){
+	v.Encode(p)
+	return p
+}
+
 type PacketReader struct{
-	id int32
+	id VarInt
 	buf []byte
 	off int
 }
@@ -278,7 +314,7 @@ func ReadPacket(r io.Reader)(p *PacketReader, err error){
 }
 
 func (p *PacketReader)Id()(int32){
-	return p.id
+	return (int32)(p.id)
 }
 
 func (p *PacketReader)Bytes()([]byte){
@@ -387,14 +423,14 @@ func (p *PacketReader)Uint64()(v uint64, ok bool){
 	return
 }
 
-func (p *PacketReader)VarInt()(v int32, ok bool){
+func (p *PacketReader)VarInt()(v VarInt, ok bool){
 	var n int
 	n, v = decodeVarInt(p.buf[p.off:])
 	p.off += n
 	return v, true
 }
 
-func (p *PacketReader)VarLong()(v int64, ok bool){
+func (p *PacketReader)VarLong()(v VarLong, ok bool){
 	var n int
 	n, v = decodeVarLong(p.buf[p.off:])
 	p.off += n
@@ -427,7 +463,7 @@ func (p *PacketReader)UUID()(v UUID, ok bool){
 }
 
 func (p *PacketReader)String()(v string, ok bool){
-	var size int32
+	var size VarInt
 	if size, ok = p.VarInt(); !ok {
 		return
 	}
@@ -441,7 +477,7 @@ func (p *PacketReader)String()(v string, ok bool){
 
 func (p *PacketReader)JSON(ptr any)(err error){
 	var (
-		size int32
+		size VarInt
 		ok bool
 	)
 	if size, ok = p.VarInt(); !ok {

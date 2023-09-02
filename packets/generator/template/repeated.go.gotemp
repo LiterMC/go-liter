@@ -1,0 +1,21 @@
+
+// Generated at {{ gentime }}
+
+package internal
+
+import (
+	"io"
+	. "github.com/kmcsr/go-liter"
+)
+
+{{- range $_, $rps := .repeats }}
+	{{- range $_, $rp := $rps }}
+		{{- if gt (len $rp.Stats) 1 }}
+			{{- $typname := (join "" $rp.Name "_" $rp.LowestProtocol "_" $rp.I) }}
+				{{ range $_, $s := $rp.Stats }}
+// Protocol={{$s.Protocol}}; State={{$s.State}}; Bound={{$s.Bound}}; ID={{ printf "0x%x" $s.Id }}
+				{{- end}}
+			{{- template "packet_struct" (wrap $typname $rp.Fields) }}
+		{{- end}}
+	{{- end}}
+{{- end}}

@@ -1,12 +1,13 @@
 
-package liter
+package packets
 
 import (
 	"strings"
 	"fmt"
 	"io"
-)
 
+	. "github.com/kmcsr/go-liter"
+)
 
 const (
 	NextPingState  int32 = 1
@@ -30,13 +31,12 @@ func (p HandshakePkt)String()(string){
 	return fmt.Sprintf("<HandshakePkt protocol=%d addr=%s + %q port=%d nextState=%d>", p.Protocol, p.Addr, p.Addition, p.Port, p.NextState)
 }
 
-func (p HandshakePkt)Encode(b *PacketBuilder)(err error){
+func (p HandshakePkt)Encode(b *PacketBuilder){
 	b.
 		VarInt(p.Protocol).
 		String(p.Addr + p.Addition).
 		Short((Short)(p.Port)).
 		VarInt(p.NextState)
-	return
 }
 
 func (p *HandshakePkt)DecodeFrom(r *PacketReader)(err error){
@@ -65,8 +65,30 @@ type StatusRequestPkt struct{}
 var _ Packet = (*StatusRequestPkt)(nil)
 
 func (p StatusRequestPkt)String()(string){ return "<StatusRequestPkt>" }
-func (p StatusRequestPkt)Encode(b *PacketBuilder)(err error){ return }
+func (p StatusRequestPkt)Encode(b *PacketBuilder){}
 func (p *StatusRequestPkt)DecodeFrom(r *PacketReader)(err error){ return }
+
+type StatusResponsePkt struct {
+	Payload Object
+}
+
+var _ Packet = (*StatusResponsePkt)(nil)
+
+func (p StatusResponsePkt)String()(string){
+	return "<StatusResponsePkt>"
+}
+
+func (p StatusResponsePkt)Encode(b *PacketBuilder){
+	b.
+		JSON(p.Payload)
+}
+
+func (p *StatusResponsePkt)DecodeFrom(r *PacketReader)(err error){
+	if err = r.JSON(&p.Payload); err != nil {
+		return
+	}
+	return
+}
 
 type PingRequestPkt struct {
 	Payload int64
@@ -78,10 +100,9 @@ func (p PingRequestPkt)String()(string){
 	return fmt.Sprintf("<PingRequestPkt payload=%d>", p.Payload)
 }
 
-func (p PingRequestPkt)Encode(b *PacketBuilder)(err error){
+func (p PingRequestPkt)Encode(b *PacketBuilder){
 	b.
 		Long(p.Payload)
-	return
 }
 
 func (p *PingRequestPkt)DecodeFrom(r *PacketReader)(err error){
@@ -100,10 +121,9 @@ func (p PingResponsePkt)String()(string){
 	return fmt.Sprintf("<PingResponsePkt payload=%d>", p.Payload)
 }
 
-func (p PingResponsePkt)Encode(b *PacketBuilder)(err error){
+func (p PingResponsePkt)Encode(b *PacketBuilder){
 	b.
 		Long(p.Payload)
-	return
 }
 
 func (p *PingResponsePkt)DecodeFrom(r *PacketReader)(err error){

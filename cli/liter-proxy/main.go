@@ -14,6 +14,7 @@ import (
 	"golang.org/x/net/proxy"
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
+	"github.com/kmcsr/go-liter/packets"
 )
 
 func main(){
@@ -147,21 +148,16 @@ func (s *ProxyServer)handle(c *liter.Conn){
 	s.conns.Add(c)
 	defer s.conns.Del(c)
 
-	loger.Infof("client [%v] connected", c.RemoteAddr())
-	var (
-		p *liter.PacketReader
-		err error
-	)
-	if p, err = c.Recv(); err != nil {
-		loger.Errorf("client [%v] read handshake packet error: %v", c.RemoteAddr(), err)
+	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
+	ploger.Infof("Connected")
+
+	var err error
+	var hp packets.HandshakePkt
+	if err = c.RecvPkt(0x00, &hp); err != nil {
+		ploger.Errorf("Read handshake packet error: %v", err)
 		return
 	}
-	var hp liter.HandshakePkt
-	if err = hp.DecodeFrom(p); err != nil {
-		loger.Errorf("client [%v] read handshake packet error: %v", c.RemoteAddr(), err)
-		return
-	}
-	loger.Debugf("client [%v] handshake packet: %v", c.RemoteAddr(), hp)
+	ploger.Tracef("Handshake packet: %v", hp)
 
 	item, ok := cfg.ProxyMap[hp.Addr]
 	if !ok {
@@ -175,10 +171,10 @@ func (s *ProxyServer)handle(c *liter.Conn){
 		conn, err = s.Dialer.DialContext(s.ctx, "tcp", item.Target)
 	}
 	if err != nil {
-		loger.Errorf("Cannot dial to %q: %v", item.Target, err)
+		ploger.Errorf("Cannot dial to %q: %v", item.Target, err)
 		return
 	}
-	np := liter.NewPacket(p.Id())
+	np := liter.NewPacket(0x00)
 	if item.ForwardAddr != "" {
 		hp.Addr = item.ForwardAddr
 	}
@@ -187,7 +183,7 @@ func (s *ProxyServer)handle(c *liter.Conn){
 	}
 	hp.Encode(np)
 	if _, err = conn.Write(np.Bytes()); err != nil {
-		loger.Errorf("New connection handshake error: %v", err)
+		ploger.Errorf("New connection handshake error: %v", err)
 		return
 	}
 	rc := c.RawConn()

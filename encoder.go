@@ -69,7 +69,7 @@ func decodeFloat64(buf []byte)(float64){
 	return math.Float64frombits(decodeUint64(buf))
 }
 
-func encodeVarInt(buf []byte, v int32)(n int){
+func encodeVarInt[T ~int32](buf []byte, v T)(n int){
 	w := (uint32)(v)
 	for w &^ 0x7f != 0 {
 		buf[n] = (byte)((w & 0x7f) | 0x80)
@@ -81,7 +81,7 @@ func encodeVarInt(buf []byte, v int32)(n int){
 	return
 }
 
-func encodeVarLong(buf []byte, v int64)(n int){
+func encodeVarLong[T ~int64](buf []byte, v T)(n int){
 	w := (uint64)(v)
 	for w &^ 0x7f != 0 {
 		buf[n] = (byte)((w & 0x7f) | 0x80)
@@ -93,7 +93,7 @@ func encodeVarLong(buf []byte, v int64)(n int){
 	return
 }
 
-func decodeVarInt(buf []byte)(n int, v int32){
+func decodeVarInt(buf []byte)(n int, v VarInt){
 	var (
 		i int = 0
 		b byte
@@ -104,7 +104,7 @@ func decodeVarInt(buf []byte)(n int, v int32){
 		n++
 		v0 |= (uint32)(b & 0x7f) << i
 		if b & 0x80 == 0 {
-			return n, (int32)(v0)
+			return n, (VarInt)(v0)
 		}
 		if i += 7; i >= 32 {
 			panic("VarInt is too big")
@@ -112,7 +112,7 @@ func decodeVarInt(buf []byte)(n int, v int32){
 	}
 }
 
-func decodeVarLong(buf []byte)(n int, v int64){
+func decodeVarLong(buf []byte)(n int, v VarLong){
 	var (
 		i int = 0
 		b byte
@@ -123,7 +123,7 @@ func decodeVarLong(buf []byte)(n int, v int64){
 		n++
 		v0 |= (uint64)(b & 0x7f) << i
 		if b & 0x80 == 0 {
-			return n, (int64)(v0)
+			return n, (VarLong)(v0)
 		}
 		if i += 7; i >= 64 {
 			panic(VarLongTooBig)

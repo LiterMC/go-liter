@@ -1,0 +1,10 @@
+
+// Generated at {{ gentime }}
+
+package packets
+
+const (
+{{- range $_, $v := .protocols }}
+	V{{ replace $v.Name "." "_" }} = {{$v.Version}} // {{$v.Doc}}
+{{- end }}
+)

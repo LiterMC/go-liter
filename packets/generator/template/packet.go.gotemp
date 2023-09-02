@@ -1,0 +1,72 @@
+
+// Generated at {{ gentime }}
+// Origin: {{ .protocol.Doc }}
+// Protocol: {{ .protocol.Version }}
+
+package packet_{{ replace .protocol.Name "." "_" }}
+
+import (
+	"io"
+	. "github.com/kmcsr/go-liter"
+	internal "github.com/kmcsr/go-liter/packets/internal"
+)
+
+{{- define "packet_struct" }}
+	{{- $typname := (index . 0) }}
+	{{- $fields := (index . 1) }}
+type {{$typname}} struct {
+	{{- range $_, $field := $fields }}
+		{{- if $field.Note }}
+	/* {{ replace $field.Note "\n" "\n\t * " }} */
+		{{- end}}
+	{{$field.Name}} {{$field.Type}} // {{$field.WikiType}}
+	{{- end}}
+}
+
+var _ Packet = (*{{$typname}})(nil)
+
+func (p {{$typname}})Encode(b *PacketBuilder){
+	{{- render_packet_encode_method $fields -}}
+}
+
+func (p *{{$typname}})DecodeFrom(r *PacketReader)(err error){
+	{{- render_packet_decode_method $fields -}}
+}
+
+{{- end}}
+
+{{- define "_packet_struct" }}
+	{{- $typname := (printf "%sPkt" .Name) }}
+
+// ID={{ printf "0x%x" .Id }}
+	{{- if .RepeatInfo }}
+type {{$typname}} = internal.{{.RepeatInfo.Name}}_{{.RepeatInfo.LowestProtocol}}_{{.RepeatInfo.I}}
+	{{- else if .Matched }}
+		{{- template "packet_struct" (wrap $typname .Fields) }}
+	{{- else}}
+type {{$typname}} struct {
+	/*
+	 * {{ replace .Table "\n" "\n\t * " }}
+	 */
+}
+	{{- end}}
+		{{- end }}
+
+{{- range $state, $bm := .states }}
+
+// ======== BEGIN {{$state}} ========
+// ---- {{$state}}: serverbound ----
+
+	{{- range $_, $pkt := $bm.Server }}
+		{{- template "_packet_struct" $pkt }}
+	{{- end}}
+
+// ---- {{$state}}: clientbound ----
+
+	{{- range $_, $pkt := $bm.Client }}
+		{{- template "_packet_struct" $pkt }}
+	{{- end}}
+
+// ======== END {{$state}} ========
+
+{{- end }}

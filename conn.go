@@ -112,9 +112,9 @@ func (c *Conn)Send(id int32, values ...any)(err error){
 		case Double:
 			p.Double(w)
 		case VarInt:
-			p.VarInt((int32)(w))
+			p.VarInt(w)
 		case VarLong:
-			p.VarLong((int64)(w))
+			p.VarLong(w)
 		case ByteArray:
 			p.ByteArray(w)
 		case String:
@@ -124,9 +124,7 @@ func (c *Conn)Send(id int32, values ...any)(err error){
 		case UUID:
 			p.UUID(w)
 		case Encodable:
-			if err = w.Encode(p); err != nil {
-				return
-			}
+			p.Encode(w)
 		default:
 			panic("Unknown non-encodable type")
 		}
