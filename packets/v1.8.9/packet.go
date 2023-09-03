@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-01 20:57:33.569 -06:00
+// Generated at 2023-09-02 21:26:37.473 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=7368
 // Protocol: 47
 // Protocol Name: 1.8.9
@@ -16,10 +16,10 @@ import (
 // ---- login: serverbound ----
 
 // ID=0x0
-type LoginLoginStartPkt = internal.LoginLoginStart_758_2
+type LoginStartPkt = internal.LoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
 
 // ---- login: clientbound ----
 
@@ -30,7 +30,7 @@ type LoginDisconnectPkt = internal.LoginDisconnect_763_0
 type LoginEncryptionRequestPkt = internal.LoginEncryptionRequest_763_0
 
 // ID=0x2
-type LoginLoginSuccessPkt = internal.LoginLoginSuccess_578_1
+type LoginSuccessPkt = internal.LoginSuccess_578_2
 
 // ID=0x3
 type LoginSetCompressionPkt = internal.LoginSetCompression_763_0
@@ -41,10 +41,10 @@ type LoginSetCompressionPkt = internal.LoginSetCompression_763_0
 // ---- play: serverbound ----
 
 // ID=0x0
-type PlayKeepAliveServerPkt = internal.PlayKeepAlive_338_1
+type PlayKeepAliveServerPkt = internal.PlayKeepAliveServer_338_1
 
 // ID=0x1
-type PlayChatMessageServerPkt = internal.PlayChatMessage_578_7
+type PlayChatMessageServerPkt = internal.PlayChatMessageServer_758_0
 
 // ID=0x2
 type PlayUseEntityPkt struct {
@@ -52,11 +52,11 @@ type PlayUseEntityPkt struct {
 	/* 0: interact, 1: attack, 2: interact at */
 	Type VarInt // VarInt
 	/* Only if Type is interact at */
-	TargetX Float // Optional Float
+	TargetX Optional[Float] // Optional Float
 	/* Only if Type is interact at */
-	TargetY Float // Optional Float
+	TargetY Optional[Float] // Optional Float
 	/* Only if Type is interact at */
-	TargetZ Float // Optional Float
+	TargetZ Optional[Float] // Optional Float
 }
 
 var _ Packet = (*PlayUseEntityPkt)(nil)
@@ -64,90 +64,60 @@ var _ Packet = (*PlayUseEntityPkt)(nil)
 func (p PlayUseEntityPkt)Encode(b *PacketBuilder){
 	b.VarInt(p.Target)
 	b.VarInt(p.Type)
-	b.Float(p.TargetX)
-	b.Float(p.TargetY)
-	b.Float(p.TargetZ)
+	if p.TargetX.Ok = TODO; p.TargetX.Ok {
+		b.Float(p.TargetX.V)
+	}
+	if p.TargetY.Ok = TODO; p.TargetY.Ok {
+		b.Float(p.TargetY.V)
+	}
+	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
+		b.Float(p.TargetZ.V)
+	}
 }
 
-func (p *PlayUseEntityPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayUseEntityPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.Target, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
 	if p.Type, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.TargetX, ok = r.Float(); !ok {
-		return io.EOF
+	if p.TargetX.Ok = TODO; p.TargetX.Ok {
+		if p.TargetX.V, ok = r.Float(); !ok {
+			return io.EOF
+		}
 	}
-	if p.TargetY, ok = r.Float(); !ok {
-		return io.EOF
+	if p.TargetY.Ok = TODO; p.TargetY.Ok {
+		if p.TargetY.V, ok = r.Float(); !ok {
+			return io.EOF
+		}
 	}
-	if p.TargetZ, ok = r.Float(); !ok {
-		return io.EOF
+	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
+		if p.TargetZ.V, ok = r.Float(); !ok {
+			return io.EOF
+		}
 	}
+	return nil
 }
 
 // ID=0x3
-type PlayPlayerPkt = internal.PlayPlayer_404_0
+type PlayerPkt = internal.Player_404_0
 
 // ID=0x4
-type PlayPlayerPositionPkt = internal.PlayPlayerPosition_758_0
+type PlayerPositionPkt = internal.PlayerPosition_758_0
 
 // ID=0x5
-type PlayPlayerLookPkt = internal.PlayPlayerLook_404_0
+type PlayerLookPkt = internal.PlayerLook_404_0
 
 // ID=0x6
-type PlayPlayerPositionAndLookServerPkt struct {
-	/* Absolute position */
-	X Double // Double
-	/* Absolute feet position, normally Head Y - 1.62 */
-	FeetY Double // Double
-	/* Absolute position */
-	Z Double // Double
-	/* Absolute rotation on the X Axis, in degrees */
-	Yaw Float // Float
-	/* Absolute rotation on the Y Axis, in degrees */
-	Pitch Float // Float
-	/* True if the client is on the ground, false otherwise */
-	OnGround Bool // Boolean
-}
-
-var _ Packet = (*PlayPlayerPositionAndLookServerPkt)(nil)
-
-func (p PlayPlayerPositionAndLookServerPkt)Encode(b *PacketBuilder){
-	b.Double(p.X)
-	b.Double(p.FeetY)
-	b.Double(p.Z)
-	b.Float(p.Yaw)
-	b.Float(p.Pitch)
-	b.Bool(p.OnGround)
-}
-
-func (p *PlayPlayerPositionAndLookServerPkt)DecodeFrom(r *PacketReader)(err error){
-	var ok bool
-	if p.X, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.FeetY, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.Z, ok = r.Double(); !ok {
-		return io.EOF
-	}
-	if p.Yaw, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.Pitch, ok = r.Float(); !ok {
-		return io.EOF
-	}
-	if p.OnGround, ok = r.Bool(); !ok {
-		return io.EOF
-	}
-}
+type PlayerPositionAndLookServerPkt = internal.PlayerPositionAndLookServer_404_0
 
 // ID=0x7
-type PlayPlayerDiggingPkt struct {
+type PlayerDiggingPkt struct {
 	/* The action the player is taking against the block (see below) */
 	Status Byte // Byte
 	/* Block position */
@@ -156,29 +126,33 @@ type PlayPlayerDiggingPkt struct {
 	Face Byte // Byte
 }
 
-var _ Packet = (*PlayPlayerDiggingPkt)(nil)
+var _ Packet = (*PlayerDiggingPkt)(nil)
 
-func (p PlayPlayerDiggingPkt)Encode(b *PacketBuilder){
+func (p PlayerDiggingPkt)Encode(b *PacketBuilder){
 	b.Byte(p.Status)
-	b.Encode(p.Location)
+	p.Location.Encode(b)
 	b.Byte(p.Face)
 }
 
-func (p *PlayPlayerDiggingPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayerDiggingPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.Status, ok = r.Byte(); !ok {
 		return io.EOF
 	}
 	if err = p.Location.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.Face, ok = r.Byte(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x8
-type PlayPlayerBlockPlacementPkt struct {
+type PlayerBlockPlacementPkt struct {
 	/* Block position */
 	Location Position // Position
 	/* The face on which the block is placed (see above) */
@@ -190,27 +164,31 @@ type PlayPlayerBlockPlacementPkt struct {
 	CursorPositionZ Byte // Byte
 }
 
-var _ Packet = (*PlayPlayerBlockPlacementPkt)(nil)
+var _ Packet = (*PlayerBlockPlacementPkt)(nil)
 
-func (p PlayPlayerBlockPlacementPkt)Encode(b *PacketBuilder){
-	b.Encode(p.Location)
+func (p PlayerBlockPlacementPkt)Encode(b *PacketBuilder){
+	p.Location.Encode(b)
 	b.Byte(p.Face)
-	b.Encode(p.HeldItem)
+	p.HeldItem.Encode(b)
 	b.Byte(p.CursorPositionX)
 	b.Byte(p.CursorPositionY)
 	b.Byte(p.CursorPositionZ)
 }
 
-func (p *PlayPlayerBlockPlacementPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayerBlockPlacementPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if err = p.Location.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.Face, ok = r.Byte(); !ok {
 		return io.EOF
 	}
+	p.HeldItem = new(Slot)
 	if err = p.HeldItem.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.CursorPositionX, ok = r.Byte(); !ok {
 		return io.EOF
@@ -221,10 +199,11 @@ func (p *PlayPlayerBlockPlacementPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.CursorPositionZ, ok = r.Byte(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x9
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_758_1
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChangeServer_758_0
 
 // ID=0xa
 type PlayAnimationServerPkt struct {
@@ -235,7 +214,7 @@ var _ Packet = (*PlayAnimationServerPkt)(nil)
 func (p PlayAnimationServerPkt)Encode(b *PacketBuilder){
 }
 
-func (p *PlayAnimationServerPkt)DecodeFrom(r *PacketReader)(err error){ return }
+func (p *PlayAnimationServerPkt)DecodeFrom(r *PacketReader)(error){ return nil }
 
 // ID=0xb
 type PlayEntityActionPkt struct {
@@ -255,8 +234,11 @@ func (p PlayEntityActionPkt)Encode(b *PacketBuilder){
 	b.VarInt(p.ActionParameter)
 }
 
-func (p *PlayEntityActionPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayEntityActionPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -266,13 +248,14 @@ func (p *PlayEntityActionPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.ActionParameter, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0xc
 type PlaySteerVehiclePkt = internal.PlaySteerVehicle_758_0
 
 // ID=0xd
-type PlayCloseWindowServerPkt = internal.PlayCloseWindow_758_0
+type PlayCloseWindowServerPkt = internal.PlayCloseWindowServer_758_0
 
 // ID=0xe
 type PlayClickWindowPkt struct {
@@ -298,11 +281,14 @@ func (p PlayClickWindowPkt)Encode(b *PacketBuilder){
 	b.Byte(p.Button)
 	b.Short(p.ActionNumber)
 	b.Byte(p.Mode)
-	b.Encode(p.ClickedItem)
+	p.ClickedItem.Encode(b)
 }
 
-func (p *PlayClickWindowPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayClickWindowPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.WindowID, ok = r.UByte(); !ok {
 		return io.EOF
 	}
@@ -318,13 +304,15 @@ func (p *PlayClickWindowPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.Mode, ok = r.Byte(); !ok {
 		return io.EOF
 	}
+	p.ClickedItem = new(Slot)
 	if err = p.ClickedItem.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
+	return nil
 }
 
 // ID=0xf
-type PlayConfirmTransactionServerPkt = internal.PlayConfirmTransaction_404_0
+type PlayConfirmTransactionServerPkt = internal.PlayConfirmTransactionServer_404_0
 
 // ID=0x10
 type PlayCreativeInventoryActionPkt = internal.PlayCreativeInventoryAction_758_0
@@ -333,10 +321,54 @@ type PlayCreativeInventoryActionPkt = internal.PlayCreativeInventoryAction_758_0
 type PlayEnchantItemPkt = internal.PlayEnchantItem_404_0
 
 // ID=0x12
-type PlayUpdateSignServerPkt = internal.PlayUpdateSign_47_2
+type PlayUpdateSignServerPkt struct {
+	/* Block Coordinates */
+	Location Position // Position
+	/* First line of text in the sign */
+	Line1 Object // Chat
+	/* Second line of text in the sign */
+	Line2 Object // Chat
+	/* Third line of text in the sign */
+	Line3 Object // Chat
+	/* Fourth line of text in the sign */
+	Line4 Object // Chat
+}
+
+var _ Packet = (*PlayUpdateSignServerPkt)(nil)
+
+func (p PlayUpdateSignServerPkt)Encode(b *PacketBuilder){
+	p.Location.Encode(b)
+	b.JSON(p.Line1)
+	b.JSON(p.Line2)
+	b.JSON(p.Line3)
+	b.JSON(p.Line4)
+}
+
+func (p *PlayUpdateSignServerPkt)DecodeFrom(r *PacketReader)(error){
+	var ok bool
+	_ = ok
+	var err error
+	_ = err
+	if err = p.Location.DecodeFrom(r); err != nil {
+		return err
+	}
+	if err = r.JSON(&p.Line1); err != nil {
+		return err
+	}
+	if err = r.JSON(&p.Line2); err != nil {
+		return err
+	}
+	if err = r.JSON(&p.Line3); err != nil {
+		return err
+	}
+	if err = r.JSON(&p.Line4); err != nil {
+		return err
+	}
+	return nil
+}
 
 // ID=0x13
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_578_8
+type PlayerAbilitiesServerPkt = internal.PlayerAbilitiesServer_578_1
 
 // ID=0x14
 type PlayTabCompleteServerPkt struct {
@@ -344,7 +376,7 @@ type PlayTabCompleteServerPkt struct {
 	Text String // String
 	HasPosition Bool // Boolean
 	/* The position of the block being looked at. Only sent if Has Position is true. */
-	LookedAtBlock Position // Optional Position
+	LookedAtBlock Optional[Position] // Optional Position
 }
 
 var _ Packet = (*PlayTabCompleteServerPkt)(nil)
@@ -352,20 +384,28 @@ var _ Packet = (*PlayTabCompleteServerPkt)(nil)
 func (p PlayTabCompleteServerPkt)Encode(b *PacketBuilder){
 	b.String(p.Text)
 	b.Bool(p.HasPosition)
-	b.Encode(p.LookedAtBlock)
+	if p.LookedAtBlock.Ok = TODO; p.LookedAtBlock.Ok {
+		p.LookedAtBlock.V.Encode(b)
+	}
 }
 
-func (p *PlayTabCompleteServerPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayTabCompleteServerPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.Text, ok = r.String(); !ok {
 		return io.EOF
 	}
 	if p.HasPosition, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if err = p.LookedAtBlock.DecodeFrom(r); err != nil {
-		return
+	if p.LookedAtBlock.Ok = TODO; p.LookedAtBlock.Ok {
+		if err = p.LookedAtBlock.V.DecodeFrom(r); err != nil {
+			return err
+		}
 	}
+	return nil
 }
 
 // ID=0x15
@@ -392,8 +432,11 @@ func (p PlayClientSettingsPkt)Encode(b *PacketBuilder){
 	b.UByte(p.DisplayedSkinParts)
 }
 
-func (p *PlayClientSettingsPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayClientSettingsPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.Locale, ok = r.String(); !ok {
 		return io.EOF
 	}
@@ -409,13 +452,14 @@ func (p *PlayClientSettingsPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.DisplayedSkinParts, ok = r.UByte(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x16
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
 
 // ID=0x17
-type PlayPluginMessageServerPkt = internal.PlayPluginMessage_340_1
+type PlayPluginMessageServerPkt = internal.PlayPluginMessageServer_763_0
 
 // ID=0x18
 type PlaySpectatePkt = internal.PlaySpectate_758_0
@@ -458,8 +502,11 @@ func (p PlayJoinGamePkt)Encode(b *PacketBuilder){
 	b.Bool(p.ReducedDebugInfo)
 }
 
-func (p *PlayJoinGamePkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayJoinGamePkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.Int(); !ok {
 		return io.EOF
 	}
@@ -481,10 +528,11 @@ func (p *PlayJoinGamePkt)DecodeFrom(r *PacketReader)(err error){
 	if p.ReducedDebugInfo, ok = r.Bool(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x2
-type PlayChatMessageClientPkt = internal.PlayChatMessage_578_6
+type PlayChatMessageClientPkt = internal.PlayChatMessage_578_4
 
 // ID=0x3
 type PlayTimeUpdatePkt = internal.PlayTimeUpdate_758_0
@@ -504,20 +552,25 @@ var _ Packet = (*PlayEntityEquipmentPkt)(nil)
 func (p PlayEntityEquipmentPkt)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
 	b.Short(p.Slot)
-	b.Encode(p.Item)
+	p.Item.Encode(b)
 }
 
-func (p *PlayEntityEquipmentPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayEntityEquipmentPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
+	p.Item = new(Slot)
 	if err = p.Item.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
+	return nil
 }
 
 // ID=0x5
@@ -527,10 +580,10 @@ type PlaySpawnPositionPkt = internal.PlaySpawnPosition_754_1
 type PlayUpdateHealthPkt = internal.PlayUpdateHealth_758_0
 
 // ID=0x7
-type PlayRespawnPkt = internal.PlayRespawn_404_7
+type PlayRespawnPkt = internal.PlayRespawn_404_8
 
 // ID=0x8
-type PlayPlayerPositionAndLookClientPkt struct {
+type PlayerPositionAndLookClientPkt struct {
 	/* Absolute or relative position, depending on Flags */
 	X Double // Double
 	/* Absolute or relative position, depending on Flags */
@@ -545,9 +598,9 @@ type PlayPlayerPositionAndLookClientPkt struct {
 	Flags Byte // Byte
 }
 
-var _ Packet = (*PlayPlayerPositionAndLookClientPkt)(nil)
+var _ Packet = (*PlayerPositionAndLookClientPkt)(nil)
 
-func (p PlayPlayerPositionAndLookClientPkt)Encode(b *PacketBuilder){
+func (p PlayerPositionAndLookClientPkt)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
@@ -556,8 +609,11 @@ func (p PlayPlayerPositionAndLookClientPkt)Encode(b *PacketBuilder){
 	b.Byte(p.Flags)
 }
 
-func (p *PlayPlayerPositionAndLookClientPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayerPositionAndLookClientPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.X, ok = r.Double(); !ok {
 		return io.EOF
 	}
@@ -576,6 +632,7 @@ func (p *PlayPlayerPositionAndLookClientPkt)DecodeFrom(r *PacketReader)(err erro
 	if p.Flags, ok = r.Byte(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x9
@@ -613,14 +670,17 @@ func (p PlaySpawnPlayerPkt)Encode(b *PacketBuilder){
 	b.Int(p.X)
 	b.Int(p.Y)
 	b.Int(p.Z)
-	b.Encode(p.Yaw)
-	b.Encode(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	b.Short(p.CurrentItem)
-	b.Encode(p.Metadata)
+	p.Metadata.Encode(b)
 }
 
-func (p *PlaySpawnPlayerPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySpawnPlayerPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -637,17 +697,19 @@ func (p *PlaySpawnPlayerPkt)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.CurrentItem, ok = r.Short(); !ok {
 		return io.EOF
 	}
+	p.Metadata = new(EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
+	return nil
 }
 
 // ID=0xd
@@ -670,11 +732,11 @@ type PlaySpawnObjectPkt struct {
 	/* Meaning dependent on the value of the Type field, see Object Data for details. */
 	Data Int // Int
 	/* Only sent if the Data field is nonzero. Same units as Entity Velocity. */
-	VelocityX Short // Optional Short
+	VelocityX Optional[Short] // Optional Short
 	/* Only sent if the Data field is nonzero. Same units as Entity Velocity. */
-	VelocityY Short // Optional Short
+	VelocityY Optional[Short] // Optional Short
 	/* Only sent if the Data field is nonzero. Same units as Entity Velocity. */
-	VelocityZ Short // Optional Short
+	VelocityZ Optional[Short] // Optional Short
 }
 
 var _ Packet = (*PlaySpawnObjectPkt)(nil)
@@ -685,16 +747,25 @@ func (p PlaySpawnObjectPkt)Encode(b *PacketBuilder){
 	b.Int(p.X)
 	b.Int(p.Y)
 	b.Int(p.Z)
-	b.Encode(p.Pitch)
-	b.Encode(p.Yaw)
+	p.Pitch.Encode(b)
+	p.Yaw.Encode(b)
 	b.Int(p.Data)
-	b.Short(p.VelocityX)
-	b.Short(p.VelocityY)
-	b.Short(p.VelocityZ)
+	if p.VelocityX.Ok = TODO; p.VelocityX.Ok {
+		b.Short(p.VelocityX.V)
+	}
+	if p.VelocityY.Ok = TODO; p.VelocityY.Ok {
+		b.Short(p.VelocityY.V)
+	}
+	if p.VelocityZ.Ok = TODO; p.VelocityZ.Ok {
+		b.Short(p.VelocityZ.V)
+	}
 }
 
-func (p *PlaySpawnObjectPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySpawnObjectPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -711,23 +782,30 @@ func (p *PlaySpawnObjectPkt)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.Data, ok = r.Int(); !ok {
 		return io.EOF
 	}
-	if p.VelocityX, ok = r.Short(); !ok {
-		return io.EOF
+	if p.VelocityX.Ok = TODO; p.VelocityX.Ok {
+		if p.VelocityX.V, ok = r.Short(); !ok {
+			return io.EOF
+		}
 	}
-	if p.VelocityY, ok = r.Short(); !ok {
-		return io.EOF
+	if p.VelocityY.Ok = TODO; p.VelocityY.Ok {
+		if p.VelocityY.V, ok = r.Short(); !ok {
+			return io.EOF
+		}
 	}
-	if p.VelocityZ, ok = r.Short(); !ok {
-		return io.EOF
+	if p.VelocityZ.Ok = TODO; p.VelocityZ.Ok {
+		if p.VelocityZ.V, ok = r.Short(); !ok {
+			return io.EOF
+		}
 	}
+	return nil
 }
 
 // ID=0xf
@@ -761,17 +839,20 @@ func (p PlaySpawnMobPkt)Encode(b *PacketBuilder){
 	b.Int(p.X)
 	b.Int(p.Y)
 	b.Int(p.Z)
-	b.Encode(p.Yaw)
-	b.Encode(p.Pitch)
-	b.Encode(p.HeadPitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
+	p.HeadPitch.Encode(b)
 	b.Short(p.VelocityX)
 	b.Short(p.VelocityY)
 	b.Short(p.VelocityZ)
-	b.Encode(p.Metadata)
+	p.Metadata.Encode(b)
 }
 
-func (p *PlaySpawnMobPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySpawnMobPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -788,13 +869,13 @@ func (p *PlaySpawnMobPkt)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if err = p.HeadPitch.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.VelocityX, ok = r.Short(); !ok {
 		return io.EOF
@@ -805,9 +886,11 @@ func (p *PlaySpawnMobPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.VelocityZ, ok = r.Short(); !ok {
 		return io.EOF
 	}
+	p.Metadata = new(EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
+	return nil
 }
 
 // ID=0x10
@@ -826,12 +909,15 @@ var _ Packet = (*PlaySpawnPaintingPkt)(nil)
 func (p PlaySpawnPaintingPkt)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
 	b.String(p.Title)
-	b.Encode(p.Location)
+	p.Location.Encode(b)
 	b.UByte(p.Direction)
 }
 
-func (p *PlaySpawnPaintingPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySpawnPaintingPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -839,11 +925,12 @@ func (p *PlaySpawnPaintingPkt)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 	if err = p.Location.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.Direction, ok = r.UByte(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x11
@@ -870,8 +957,11 @@ func (p PlaySpawnExperienceOrbPkt)Encode(b *PacketBuilder){
 	b.Short(p.Count)
 }
 
-func (p *PlaySpawnExperienceOrbPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySpawnExperienceOrbPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -887,6 +977,7 @@ func (p *PlaySpawnExperienceOrbPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.Count, ok = r.Short(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x12
@@ -920,8 +1011,11 @@ func (p PlayEntityRelativeMovePkt)Encode(b *PacketBuilder){
 	b.Bool(p.OnGround)
 }
 
-func (p *PlayEntityRelativeMovePkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayEntityRelativeMovePkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -937,6 +1031,7 @@ func (p *PlayEntityRelativeMovePkt)DecodeFrom(r *PacketReader)(err error){
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x16
@@ -965,13 +1060,16 @@ func (p PlayEntityLookAndRelativeMovePkt)Encode(b *PacketBuilder){
 	b.Byte(p.DeltaX)
 	b.Byte(p.DeltaY)
 	b.Byte(p.DeltaZ)
-	b.Encode(p.Yaw)
-	b.Encode(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	b.Bool(p.OnGround)
 }
 
-func (p *PlayEntityLookAndRelativeMovePkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayEntityLookAndRelativeMovePkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -985,14 +1083,15 @@ func (p *PlayEntityLookAndRelativeMovePkt)DecodeFrom(r *PacketReader)(err error)
 		return io.EOF
 	}
 	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x18
@@ -1018,13 +1117,16 @@ func (p PlayEntityTeleportPkt)Encode(b *PacketBuilder){
 	b.Int(p.X)
 	b.Int(p.Y)
 	b.Int(p.Z)
-	b.Encode(p.Yaw)
-	b.Encode(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	b.Bool(p.OnGround)
 }
 
-func (p *PlayEntityTeleportPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayEntityTeleportPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -1038,14 +1140,15 @@ func (p *PlayEntityTeleportPkt)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x19
@@ -1072,8 +1175,11 @@ func (p PlayAttachEntityPkt)Encode(b *PacketBuilder){
 	b.Bool(p.Leash)
 }
 
-func (p *PlayAttachEntityPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayAttachEntityPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.Int(); !ok {
 		return io.EOF
 	}
@@ -1083,6 +1189,7 @@ func (p *PlayAttachEntityPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.Leash, ok = r.Bool(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x1c
@@ -1124,7 +1231,7 @@ type PlayChunkDataPkt struct {
 	PrimaryBitMask UShort // Unsigned Short
 	/* Size of Data */
 	Size VarInt // VarInt
-	Data Unknown_chunk // Chunk
+	Data *ChunkSection // Chunk
 }
 
 var _ Packet = (*PlayChunkDataPkt)(nil)
@@ -1133,13 +1240,16 @@ func (p PlayChunkDataPkt)Encode(b *PacketBuilder){
 	b.Int(p.ChunkX)
 	b.Int(p.ChunkZ)
 	b.Bool(p.GroundUpContinuous)
-	b.Encode(p.PrimaryBitMask)
+	p.PrimaryBitMask.Encode(b)
 	b.VarInt(p.Size)
-	b.Encode(p.Data)
+	p.Data.Encode(b)
 }
 
-func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.ChunkX, ok = r.Int(); !ok {
 		return io.EOF
 	}
@@ -1150,14 +1260,16 @@ func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(err error){
 		return io.EOF
 	}
 	if err = p.PrimaryBitMask.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
 	if p.Size, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
+	p.Data = new(ChunkSection)
 	if err = p.Data.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
+	return nil
 }
 
 // ID=0x22
@@ -1232,8 +1344,11 @@ func (p PlaySoundEffectPkt)Encode(b *PacketBuilder){
 	b.UByte(p.Pitch)
 }
 
-func (p *PlaySoundEffectPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySoundEffectPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.SoundName, ok = r.String(); !ok {
 		return io.EOF
 	}
@@ -1252,6 +1367,7 @@ func (p *PlaySoundEffectPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.Pitch, ok = r.UByte(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x2a
@@ -1284,8 +1400,11 @@ func (p PlaySpawnGlobalEntityPkt)Encode(b *PacketBuilder){
 	b.Int(p.Z)
 }
 
-func (p *PlaySpawnGlobalEntityPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySpawnGlobalEntityPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -1301,6 +1420,7 @@ func (p *PlaySpawnGlobalEntityPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.Z, ok = r.Int(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x2d
@@ -1322,7 +1442,50 @@ type PlayWindowPropertyPkt = internal.PlayWindowProperty_758_0
 type PlayConfirmTransactionClientPkt = internal.PlayConfirmTransaction_404_0
 
 // ID=0x33
-type PlayUpdateSignClientPkt = internal.PlayUpdateSign_47_2
+type PlayUpdateSignClientPkt struct {
+	Location Position // Position
+	/* First line of text in the sign */
+	Line1 Object // Chat
+	/* Second line of text in the sign */
+	Line2 Object // Chat
+	/* Third line of text in the sign */
+	Line3 Object // Chat
+	/* Fourth line of text in the sign */
+	Line4 Object // Chat
+}
+
+var _ Packet = (*PlayUpdateSignClientPkt)(nil)
+
+func (p PlayUpdateSignClientPkt)Encode(b *PacketBuilder){
+	p.Location.Encode(b)
+	b.JSON(p.Line1)
+	b.JSON(p.Line2)
+	b.JSON(p.Line3)
+	b.JSON(p.Line4)
+}
+
+func (p *PlayUpdateSignClientPkt)DecodeFrom(r *PacketReader)(error){
+	var ok bool
+	_ = ok
+	var err error
+	_ = err
+	if err = p.Location.DecodeFrom(r); err != nil {
+		return err
+	}
+	if err = r.JSON(&p.Line1); err != nil {
+		return err
+	}
+	if err = r.JSON(&p.Line2); err != nil {
+		return err
+	}
+	if err = r.JSON(&p.Line3); err != nil {
+		return err
+	}
+	if err = r.JSON(&p.Line4); err != nil {
+		return err
+	}
+	return nil
+}
 
 // ID=0x34
 type PlayMapPkt struct {
@@ -1346,7 +1509,42 @@ type PlayMapPkt struct {
 }
 
 // ID=0x35
-type PlayUpdateBlockEntityPkt = internal.PlayUpdateBlockEntity_498_0
+type PlayUpdateBlockEntityPkt struct {
+	Location Position // Position
+	/* The type of update to perform, see below */
+	Action UByte // Unsigned Byte
+	/* If not present then it's a TAG_END (0) */
+	NBTData Optional[NBT] // Optional NBT Tag
+}
+
+var _ Packet = (*PlayUpdateBlockEntityPkt)(nil)
+
+func (p PlayUpdateBlockEntityPkt)Encode(b *PacketBuilder){
+	p.Location.Encode(b)
+	b.UByte(p.Action)
+	if p.NBTData.Ok = TODO; p.NBTData.Ok {
+		p.NBTData.V.Encode(b)
+	}
+}
+
+func (p *PlayUpdateBlockEntityPkt)DecodeFrom(r *PacketReader)(error){
+	var ok bool
+	_ = ok
+	var err error
+	_ = err
+	if err = p.Location.DecodeFrom(r); err != nil {
+		return err
+	}
+	if p.Action, ok = r.UByte(); !ok {
+		return io.EOF
+	}
+	if p.NBTData.Ok = TODO; p.NBTData.Ok {
+		if err = p.NBTData.V.DecodeFrom(r); err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
 // ID=0x36
 type PlayOpenSignEditorPkt = internal.PlayOpenSignEditor_762_1
@@ -1364,7 +1562,7 @@ type PlayStatisticsPkt struct {
 }
 
 // ID=0x38
-type PlayPlayerListItemPkt struct {
+type PlayerListItemPkt struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name        | Field Name             | Field Name           | Field Name           | Field Type | Field Type    | Field Type      | Notes                                                   |
 	 * |-----------|-------|----------|-------------------|------------------------|----------------------|----------------------|------------|---------------|-----------------|---------------------------------------------------------|
@@ -1392,10 +1590,10 @@ type PlayPlayerListItemPkt struct {
 }
 
 // ID=0x39
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_763_0
+type PlayerAbilitiesClientPkt = internal.PlayerAbilities_763_0
 
 // ID=0x3a
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_3
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_4
 
 // ID=0x3b
 type PlayScoreboardObjectivePkt = internal.PlayScoreboardObjective_340_1
@@ -1417,21 +1615,21 @@ type PlayTeamsPkt struct {
 	 * If 4 then players are removed from the team. */
 	Mode Byte // Byte
 	/* Only if Mode = 0 or 2. */
-	TeamDisplayName String // Optional String
+	TeamDisplayName Optional[String] // Optional String
 	/* Only if Mode = 0 or 2. Displayed before the players' name that are part of this team */
-	TeamPrefix String // Optional String
+	TeamPrefix Optional[String] // Optional String
 	/* Only if Mode = 0 or 2. Displayed after the players' name that are part of this team */
-	TeamSuffix String // Optional String
+	TeamSuffix Optional[String] // Optional String
 	/* Only if Mode = 0 or 2. 0 for off, 1 for on, 3 for seeing friendly invisibles */
-	FriendlyFire Byte // Optional Byte
+	FriendlyFire Optional[Byte] // Optional Byte
 	/* Only if Mode = 0 or 2. always, hideForOtherTeams, hideForOwnTeam, never */
-	NameTagVisibility String // Optional String
+	NameTagVisibility Optional[String] // Optional String
 	/* Only if Mode = 0 or 2. Same as Chat colors */
-	Color Byte // Optional Byte
+	Color Optional[Byte] // Optional Byte
 	/* Only if Mode = 0 or 3 or 4. Number of players in the array */
-	PlayerCount VarInt // Optional VarInt
+	PlayerCount Optional[VarInt] // Optional VarInt
 	/* Only if Mode = 0 or 3 or 4. Players to be added/remove from the team. Max 40 characters so may be uuid's later */
-	Players []String // Optional Array of String
+	Players Optional[[]String] // Optional Array of String
 }
 
 var _ Packet = (*PlayTeamsPkt)(nil)
@@ -1439,58 +1637,86 @@ var _ Packet = (*PlayTeamsPkt)(nil)
 func (p PlayTeamsPkt)Encode(b *PacketBuilder){
 	b.String(p.TeamName)
 	b.Byte(p.Mode)
-	b.String(p.TeamDisplayName)
-	b.String(p.TeamPrefix)
-	b.String(p.TeamSuffix)
-	b.Byte(p.FriendlyFire)
-	b.String(p.NameTagVisibility)
-	b.Byte(p.Color)
-	p.PlayerCount = len(p.Players)
-	b.VarInt(p.PlayerCount)
-	for _, v := range p.Players {
-		b.String(v)
+	if p.TeamDisplayName.Ok = TODO; p.TeamDisplayName.Ok {
+		b.String(p.TeamDisplayName.V)
+	}
+	if p.TeamPrefix.Ok = TODO; p.TeamPrefix.Ok {
+		b.String(p.TeamPrefix.V)
+	}
+	if p.TeamSuffix.Ok = TODO; p.TeamSuffix.Ok {
+		b.String(p.TeamSuffix.V)
+	}
+	if p.FriendlyFire.Ok = TODO; p.FriendlyFire.Ok {
+		b.Byte(p.FriendlyFire.V)
+	}
+	if p.NameTagVisibility.Ok = TODO; p.NameTagVisibility.Ok {
+		b.String(p.NameTagVisibility.V)
+	}
+	if p.Color.Ok = TODO; p.Color.Ok {
+		b.Byte(p.Color.V)
+	}
+	if p.PlayerCount.Ok = TODO; p.PlayerCount.Ok {
+		b.VarInt(p.PlayerCount.V)
+	}
+	if p.Players.Ok = TODO; p.Players.Ok {
+		TODO_Encode_Array(p.Players.V)
 	}
 }
 
-func (p *PlayTeamsPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayTeamsPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.TeamName, ok = r.String(); !ok {
 		return io.EOF
 	}
 	if p.Mode, ok = r.Byte(); !ok {
 		return io.EOF
 	}
-	if p.TeamDisplayName, ok = r.String(); !ok {
-		return io.EOF
-	}
-	if p.TeamPrefix, ok = r.String(); !ok {
-		return io.EOF
-	}
-	if p.TeamSuffix, ok = r.String(); !ok {
-		return io.EOF
-	}
-	if p.FriendlyFire, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.NameTagVisibility, ok = r.String(); !ok {
-		return io.EOF
-	}
-	if p.Color, ok = r.Byte(); !ok {
-		return io.EOF
-	}
-	if p.PlayerCount, ok = r.VarInt(); !ok {
-		return io.EOF
-	}
-	p.Players = make([]String, p.PlayerCount)
-	for i, _ := range p.Players {
-		if p.Players[i], ok = r.String(); !ok {
+	if p.TeamDisplayName.Ok = TODO; p.TeamDisplayName.Ok {
+		if p.TeamDisplayName.V, ok = r.String(); !ok {
 			return io.EOF
 		}
 	}
+	if p.TeamPrefix.Ok = TODO; p.TeamPrefix.Ok {
+		if p.TeamPrefix.V, ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
+	if p.TeamSuffix.Ok = TODO; p.TeamSuffix.Ok {
+		if p.TeamSuffix.V, ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
+	if p.FriendlyFire.Ok = TODO; p.FriendlyFire.Ok {
+		if p.FriendlyFire.V, ok = r.Byte(); !ok {
+			return io.EOF
+		}
+	}
+	if p.NameTagVisibility.Ok = TODO; p.NameTagVisibility.Ok {
+		if p.NameTagVisibility.V, ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
+	if p.Color.Ok = TODO; p.Color.Ok {
+		if p.Color.V, ok = r.Byte(); !ok {
+			return io.EOF
+		}
+	}
+	if p.PlayerCount.Ok = TODO; p.PlayerCount.Ok {
+		if p.PlayerCount.V, ok = r.VarInt(); !ok {
+			return io.EOF
+		}
+	}
+	if p.Players.Ok = TODO; p.Players.Ok {
+		TODO_Decode_Array(p.Players.V)
+	}
+	return nil
 }
 
 // ID=0x3f
-type PlayPluginMessageClientPkt = internal.PlayPluginMessage_340_1
+type PlayPluginMessageClientPkt = internal.PlayPluginMessage_763_0
 
 // ID=0x40
 type PlayDisconnectPkt = internal.PlayDisconnect_763_0
@@ -1503,11 +1729,11 @@ type PlayCombatEventPkt struct {
 	/* 0: enter combat, 1: end combat, 2: entity dead */
 	Event VarInt // VarInt
 	/* Only for end combat */
-	Duration VarInt // Optional VarInt
+	Duration Optional[VarInt] // Optional VarInt
 	/* Only for entity dead */
-	PlayerID VarInt // Optional VarInt
+	PlayerID Optional[VarInt] // Optional VarInt
 	/* Only for end combat and entity dead */
-	EntityID Int // Optional Int
+	EntityID Optional[Int] // Optional Int
 	/* Only for entity dead */
 	Message String // String
 }
@@ -1516,29 +1742,45 @@ var _ Packet = (*PlayCombatEventPkt)(nil)
 
 func (p PlayCombatEventPkt)Encode(b *PacketBuilder){
 	b.VarInt(p.Event)
-	b.VarInt(p.Duration)
-	b.VarInt(p.PlayerID)
-	b.Int(p.EntityID)
+	if p.Duration.Ok = TODO; p.Duration.Ok {
+		b.VarInt(p.Duration.V)
+	}
+	if p.PlayerID.Ok = TODO; p.PlayerID.Ok {
+		b.VarInt(p.PlayerID.V)
+	}
+	if p.EntityID.Ok = TODO; p.EntityID.Ok {
+		b.Int(p.EntityID.V)
+	}
 	b.String(p.Message)
 }
 
-func (p *PlayCombatEventPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayCombatEventPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.Event, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.Duration, ok = r.VarInt(); !ok {
-		return io.EOF
+	if p.Duration.Ok = TODO; p.Duration.Ok {
+		if p.Duration.V, ok = r.VarInt(); !ok {
+			return io.EOF
+		}
 	}
-	if p.PlayerID, ok = r.VarInt(); !ok {
-		return io.EOF
+	if p.PlayerID.Ok = TODO; p.PlayerID.Ok {
+		if p.PlayerID.V, ok = r.VarInt(); !ok {
+			return io.EOF
+		}
 	}
-	if p.EntityID, ok = r.Int(); !ok {
-		return io.EOF
+	if p.EntityID.Ok = TODO; p.EntityID.Ok {
+		if p.EntityID.V, ok = r.Int(); !ok {
+			return io.EOF
+		}
 	}
 	if p.Message, ok = r.String(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x43
@@ -1601,15 +1843,19 @@ func (p PlaySetCompressionPkt)Encode(b *PacketBuilder){
 	b.VarInt(p.Threshold)
 }
 
-func (p *PlaySetCompressionPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlaySetCompressionPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.Threshold, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x47
-type PlayPlayerListHeaderAndFooterPkt = internal.PlayPlayerListHeaderAndFooter_758_0
+type PlayerListHeaderAndFooterPkt = internal.PlayerListHeaderAndFooter_758_0
 
 // ID=0x48
 type PlayResourcePackSendPkt = internal.PlayResourcePackSend_754_1
@@ -1624,17 +1870,21 @@ var _ Packet = (*PlayUpdateEntityNBTPkt)(nil)
 
 func (p PlayUpdateEntityNBTPkt)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
-	b.Encode(p.Tag)
+	p.Tag.Encode(b)
 }
 
-func (p *PlayUpdateEntityNBTPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayUpdateEntityNBTPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
 	if err = p.Tag.DecodeFrom(r); err != nil {
-		return
+		return err
 	}
+	return nil
 }
 
 // ======== END play ========

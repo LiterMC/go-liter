@@ -15,9 +15,11 @@ type repeatPacketStat struct {
 
 type repeatPacketInfo struct {
 	I int
+	Matched bool
 	Stats []repeatPacketStat
 	Name string
 	Fields []packetField
+	Table *Table
 
 	firstPkt *packetInfo
 }
@@ -60,15 +62,28 @@ func registerPacketInfo(info *packetInfo, protocol int){
 	lst := repeatPackets[info.Name]
 	repeatPacketMux.RUnlock()
 	i := sort.Search(len(lst), func(i int)(bool){ return lst[i].LowestProtocol() < protocol })
+	ok := false
 	if i < len(lst) {
-		if rp := lst[i]; pktFieldsEqual(rp.Fields, info.Fields) {
+		rp := lst[i]
+		if info.Matched {
+			ok = rp.Matched && pktFieldsEqual(rp.Fields, info.Fields)
+		}else if !rp.Matched {
+			ok = tableEqualIgnoreNote(rp.Table, info.Table)
+		}
+		if ok {
 			rp.addPkt(protocol, info)
 			loger.Tracef("Found repeated packet %s", info.Name)
 			goto DONE
 		}
 	}
 	if i > 0 {
-		if rp := lst[i - 1]; pktFieldsEqual(rp.Fields, info.Fields) {
+		rp := lst[i - 1]
+		if info.Matched {
+			ok = rp.Matched && pktFieldsEqual(rp.Fields, info.Fields)
+		}else if !rp.Matched {
+			ok = tableEqualIgnoreNote(rp.Table, info.Table)
+		}
+		if ok {
 			rp.addPkt(protocol, info)
 			loger.Tracef("Found repeated packet %s", info.Name)
 			goto DONE
@@ -76,9 +91,11 @@ func registerPacketInfo(info *packetInfo, protocol int){
 	}
 	lst = insert(lst, i, &repeatPacketInfo{
 		I: i,
+		Matched: info.Matched,
 		Stats: []repeatPacketStat{repeatPacketStat{protocol, info.State, info.Bound, info.Id}},
 		Name: info.Name,
 		Fields: info.Fields,
+		Table: info.Table,
 		firstPkt: info,
 	})
 	for _, v := range lst[i + 1:] {

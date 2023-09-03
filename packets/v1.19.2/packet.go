@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-01 20:57:33.569 -06:00
+// Generated at 2023-09-02 21:26:37.473 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=17873
 // Protocol: 760
 // Protocol Name: 1.19.2
@@ -16,13 +16,13 @@ import (
 // ---- login: serverbound ----
 
 // ID=0x0
-type LoginLoginStartPkt = internal.LoginLoginStart_760_1
+type LoginStartPkt = internal.LoginStart_760_1
 
 // ID=0x1
 type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_760_1
 
 // ID=0x2
-type LoginLoginPluginResponsePkt = internal.LoginLoginPluginResponse_763_0
+type LoginPluginResponsePkt = internal.LoginPluginResponse_763_0
 
 // ---- login: clientbound ----
 
@@ -33,26 +33,13 @@ type LoginDisconnectPkt = internal.LoginDisconnect_763_0
 type LoginEncryptionRequestPkt = internal.LoginEncryptionRequest_763_0
 
 // ID=0x2
-type LoginLoginSuccessPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name           | Field Name           | Field Type  | Field Type              | Notes                                      |
-	 * |-----------|-------|----------|----------------------|----------------------|-------------|-------------------------|--------------------------------------------|
-	 * | 0x02      | Login | Client   | UUID                 | UUID                 | UUID        | UUID                    |                                            |
-	 * | 0x02      | Login | Client   | Username             | Username             | String (16) | String (16)             |                                            |
-	 * | 0x02      | Login | Client   | Number Of Properties | Number Of Properties | VarInt      | VarInt                  | Number of elements in the following array. |
-	 * | 0x02      | Login | Client   | Property             | Name                 | Array       | String (32767)          |                                            |
-	 * | 0x02      | Login | Client   | Property             | Value                | Array       | String (32767)          |                                            |
-	 * | 0x02      | Login | Client   | Property             | Is Signed            | Array       | Boolean                 |                                            |
-	 * | 0x02      | Login | Client   | Property             | Signature            | Array       | Optional String (32767) | Only if Is Signed is true.                 |
-	 * 
-	 */
-}
+type LoginSuccessPkt = internal.LoginSuccess_763_0
 
 // ID=0x3
 type LoginSetCompressionPkt = internal.LoginSetCompression_763_0
 
 // ID=0x4
-type LoginLoginPluginRequestPkt = internal.LoginLoginPluginRequest_763_0
+type LoginPluginRequestPkt = internal.LoginPluginRequest_763_0
 
 // ======== END login ========
 
@@ -66,7 +53,7 @@ type PlayConfirmTeleportationPkt = internal.PlayConfirmTeleportation_763_0
 type PlayQueryBlockEntityTagPkt = internal.PlayQueryBlockEntityTag_763_0
 
 // ID=0x2
-type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficulty_760_3
+type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficultyServer_763_0
 
 // ID=0x3
 type PlayMessageAcknowledgmentPkt struct {
@@ -83,13 +70,16 @@ var _ Packet = (*PlayMessageAcknowledgmentPkt)(nil)
 func (p PlayMessageAcknowledgmentPkt)Encode(b *PacketBuilder){
 	b.Bool(p.HasData)
 	b.UUID(p.ProfileID)
-	p.LastSignatureLength = len(p.LastSignature)
+	p.LastSignatureLength = (VarInt)(len(p.LastSignature))
 	b.VarInt(p.LastSignatureLength)
 	b.ByteArray(p.LastSignature)
 }
 
-func (p *PlayMessageAcknowledgmentPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayMessageAcknowledgmentPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.HasData, ok = r.Bool(); !ok {
 		return io.EOF
 	}
@@ -103,6 +93,7 @@ func (p *PlayMessageAcknowledgmentPkt)DecodeFrom(r *PacketReader)(err error){
 	if ok = r.ByteArray(p.LastSignature); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x4
@@ -145,7 +136,7 @@ type PlayChatMessagePkt struct {
 }
 
 // ID=0x6
-type PlayChatPreviewServerPkt = internal.PlayChatPreview_760_1
+type PlayChatPreviewServerPkt = internal.PlayChatPreviewServer_760_0
 
 // ID=0x7
 type PlayClientCommandPkt = internal.PlayClientCommand_763_0
@@ -178,10 +169,10 @@ type PlayClickContainerPkt struct {
 }
 
 // ID=0xc
-type PlayCloseContainerServerPkt = internal.PlayCloseContainer_763_0
+type PlayCloseContainerServerPkt = internal.PlayCloseContainerServer_763_0
 
 // ID=0xd
-type PlayPluginMessageServerPkt = internal.PlayPluginMessage_763_0
+type PlayPluginMessageServerPkt = internal.PlayPluginMessageServer_763_0
 
 // ID=0xe
 type PlayEditBookPkt = internal.PlayEditBook_763_0
@@ -196,7 +187,7 @@ type PlayInteractPkt = internal.PlayInteract_763_0
 type PlayJigsawGeneratePkt = internal.PlayJigsawGenerate_763_0
 
 // ID=0x12
-type PlayKeepAliveServerPkt = internal.PlayKeepAlive_763_0
+type PlayKeepAliveServerPkt = internal.PlayKeepAliveServer_763_0
 
 // ID=0x13
 type PlayLockDifficultyPkt = internal.PlayLockDifficulty_763_0
@@ -214,7 +205,7 @@ type PlaySetPlayerRotationPkt = internal.PlaySetPlayerRotation_763_0
 type PlaySetPlayerOnGroundPkt = internal.PlaySetPlayerOnGround_763_0
 
 // ID=0x18
-type PlayMoveVehicleServerPkt = internal.PlayMoveVehicle_763_0
+type PlayMoveVehicleServerPkt = internal.PlayMoveVehicleServer_763_0
 
 // ID=0x19
 type PlayPaddleBoatPkt = internal.PlayPaddleBoat_763_0
@@ -226,16 +217,16 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayPlaceRecipePkt = internal.PlayPlaceRecipe_763_0
 
 // ID=0x1c
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_760_3
+type PlayerAbilitiesServerPkt = internal.PlayerAbilitiesServer_763_0
 
 // ID=0x1d
-type PlayPlayerActionPkt = internal.PlayPlayerAction_763_0
+type PlayerActionPkt = internal.PlayerAction_763_0
 
 // ID=0x1e
-type PlayPlayerCommandPkt = internal.PlayPlayerCommand_763_0
+type PlayerCommandPkt = internal.PlayerCommand_763_0
 
 // ID=0x1f
-type PlayPlayerInputPkt = internal.PlayPlayerInput_763_0
+type PlayerInputPkt = internal.PlayerInput_763_0
 
 // ID=0x20
 type PlayPongPkt = internal.PlayPong_763_0
@@ -250,7 +241,7 @@ type PlaySetSeenRecipePkt = internal.PlaySetSeenRecipe_763_0
 type PlayRenameItemPkt = internal.PlayRenameItem_763_0
 
 // ID=0x24
-type PlayResourcePackServerPkt = internal.PlayResourcePack_760_3
+type PlayResourcePackServerPkt = internal.PlayResourcePackServer_763_0
 
 // ID=0x25
 type PlaySeenAdvancementsPkt = internal.PlaySeenAdvancements_763_0
@@ -262,7 +253,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_763_0
 
 // ID=0x28
-type PlaySetHeldItemServerPkt = internal.PlaySetHeldItem_760_3
+type PlaySetHeldItemServerPkt = internal.PlaySetHeldItemServer_763_0
 
 // ID=0x29
 type PlayProgramCommandBlockPkt = internal.PlayProgramCommandBlock_763_0
@@ -309,17 +300,7 @@ type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_763_0
 type PlayEntityAnimationPkt = internal.PlayEntityAnimation_763_0
 
 // ID=0x4
-type PlayAwardStatisticsPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name | Field Name   | Field Type | Field Type | Notes                                      |
-	 * |-----------|-------|----------|------------|--------------|------------|------------|--------------------------------------------|
-	 * | 0x04      | Play  | Client   | Count      | Count        | VarInt     | VarInt     | Number of elements in the following array. |
-	 * | 0x04      | Play  | Client   | Statistic  | Category ID  | Array      | VarInt     | See below.                                 |
-	 * | 0x04      | Play  | Client   | Statistic  | Statistic ID | Array      | VarInt     | See below.                                 |
-	 * | 0x04      | Play  | Client   | Statistic  | Value        | Array      | VarInt     | The amount to set it to.                   |
-	 * 
-	 */
-}
+type PlayAwardStatisticsPkt = internal.PlayAwardStatistics_761_1
 
 // ID=0x5
 type PlayAcknowledgeBlockChangePkt = internal.PlayAcknowledgeBlockChange_763_0
@@ -337,30 +318,10 @@ type PlayBlockActionPkt = internal.PlayBlockAction_763_0
 type PlayBlockUpdatePkt = internal.PlayBlockUpdate_763_0
 
 // ID=0xa
-type PlayBossBarPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name       | Field Name | Field Type    | Notes                                                                                                                                     |
-	 * |-----------|-------|----------|------------------|------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x0A      | Play  | Client   | UUID             | UUID       | UUID          | Unique ID for this bar.                                                                                                                   |
-	 * | 0x0A      | Play  | Client   | Action           | Action     | VarInt Enum   | Determines the layout of the remaining packet.                                                                                            |
-	 * | 0x0A      | Play  | Client   | Action           | Field Name |               |                                                                                                                                           |
-	 * | 0x0A      | Play  | Client   | 0: add           | Title      | Chat          |                                                                                                                                           |
-	 * | 0x0A      | Play  | Client   | 0: add           | Health     | Float         | From 0 to 1. Values greater than 1 do not crash a Notchian client, and start rendering part of a second health bar at around 1.5.         |
-	 * | 0x0A      | Play  | Client   | 0: add           | Color      | VarInt Enum   | Color ID (see below).                                                                                                                     |
-	 * | 0x0A      | Play  | Client   | 0: add           | Division   | VarInt Enum   | Type of division (see below).                                                                                                             |
-	 * | 0x0A      | Play  | Client   | 0: add           | Flags      | Unsigned Byte | Bit mask. 0x1: should darken sky, 0x2: is dragon bar (used to play end music), 0x04: create fog (previously was also controlled by 0x02). |
-	 * | 0x0A      | Play  | Client   | 1: remove        | no fields  | no fields     | Removes this boss bar.                                                                                                                    |
-	 * | 0x0A      | Play  | Client   | 2: update health | Health     | Float         | as above                                                                                                                                  |
-	 * | 0x0A      | Play  | Client   | 3: update title  | Title      | Chat          |                                                                                                                                           |
-	 * | 0x0A      | Play  | Client   | 4: update style  | Color      | VarInt Enum   | Color ID (see below).                                                                                                                     |
-	 * | 0x0A      | Play  | Client   | 4: update style  | Dividers   | VarInt Enum   | as above                                                                                                                                  |
-	 * | 0x0A      | Play  | Client   | 5: update flags  | Flags      | Unsigned Byte | as above                                                                                                                                  |
-	 * 
-	 */
-}
+type PlayBossBarPkt = internal.PlayBossBar_761_1
 
 // ID=0xb
-type PlayChangeDifficultyClientPkt = internal.PlayChangeDifficulty_760_2
+type PlayChangeDifficultyClientPkt = internal.PlayChangeDifficulty_763_0
 
 // ID=0xc
 type PlayChatPreviewClientPkt = internal.PlayChatPreview_760_0
@@ -369,21 +330,7 @@ type PlayChatPreviewClientPkt = internal.PlayChatPreview_760_0
 type PlayClearTitlesPkt = internal.PlayClearTitles_763_0
 
 // ID=0xe
-type PlayCommandSuggestionsResponsePkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name | Field Name  | Field Type | Field Type     | Notes                                                                                                                                                                                                  |
-	 * |-----------|-------|----------|------------|-------------|------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x0E      | Play  | Client   |            |             |            |                |                                                                                                                                                                                                        |
-	 * | 0x0E      | Play  | Client   | ID         | ID          | VarInt     | VarInt         | Transaction ID.                                                                                                                                                                                        |
-	 * | 0x0E      | Play  | Client   | Start      | Start       | VarInt     | VarInt         | Start of the text to replace.                                                                                                                                                                          |
-	 * | 0x0E      | Play  | Client   | Length     | Length      | VarInt     | VarInt         | Length of the text to replace.                                                                                                                                                                         |
-	 * | 0x0E      | Play  | Client   | Count      | Count       | VarInt     | VarInt         | Number of elements in the following array.                                                                                                                                                             |
-	 * | 0x0E      | Play  | Client   | Matches    | Match       | Array      | String (32767) | One eligible value to insert, note that each command is sent separately instead of in a single string, hence the need for Count.  Note that for instance this doesn't include a leading / on commands. |
-	 * | 0x0E      | Play  | Client   | Matches    | Has tooltip | Array      | Boolean        | True if the following is present.                                                                                                                                                                      |
-	 * | 0x0E      | Play  | Client   | Matches    | Tooltip     | Array      | Optional Chat  | Tooltip to display; only present if previous boolean is true.                                                                                                                                          |
-	 * 
-	 */
-}
+type PlayCommandSuggestionsResponsePkt = internal.PlayCommandSuggestionsResponse_760_2
 
 // ID=0xf
 type PlayCommandsPkt = internal.PlayCommands_763_0
@@ -423,13 +370,16 @@ type PlayHideMessagePkt struct {
 var _ Packet = (*PlayHideMessagePkt)(nil)
 
 func (p PlayHideMessagePkt)Encode(b *PacketBuilder){
-	p.SignatureLength = len(p.Signature)
+	p.SignatureLength = (VarInt)(len(p.Signature))
 	b.VarInt(p.SignatureLength)
 	b.ByteArray(p.Signature)
 }
 
-func (p *PlayHideMessagePkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayHideMessagePkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.SignatureLength, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
@@ -437,6 +387,7 @@ func (p *PlayHideMessagePkt)DecodeFrom(r *PacketReader)(err error){
 	if ok = r.ByteArray(p.Signature); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x19
@@ -522,7 +473,7 @@ type PlayUpdateLightPkt struct {
 }
 
 // ID=0x25
-type PlayLoginPkt = internal.PlayLogin_761_2
+type PlayLoginPkt = internal.PlayLogin_760_3
 
 // ID=0x26
 type PlayMapDataPkt struct {
@@ -606,13 +557,13 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayPlaceGhostRecipePkt = internal.PlayPlaceGhostRecipe_763_0
 
 // ID=0x31
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_760_2
+type PlayerAbilitiesClientPkt = internal.PlayerAbilities_763_0
 
 // ID=0x32
 type PlayMessageHeaderPkt struct {
 	HasPrecedingSignature Bool // Boolean
 	/* Only present if Has Preceding Signature is true. */
-	PrecedingSignature ByteArray // Optional Byte Array
+	PrecedingSignature Optional[ByteArray] // Optional Byte Array
 	Sender UUID // UUID
 }
 
@@ -620,25 +571,31 @@ var _ Packet = (*PlayMessageHeaderPkt)(nil)
 
 func (p PlayMessageHeaderPkt)Encode(b *PacketBuilder){
 	b.Bool(p.HasPrecedingSignature)
-	b.ByteArray(p.PrecedingSignature)
+	if p.PrecedingSignature.Ok = TODO; p.PrecedingSignature.Ok {
+		b.ByteArray(p.PrecedingSignature.V)
+	}
 	b.UUID(p.Sender)
 }
 
-func (p *PlayMessageHeaderPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayMessageHeaderPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.HasPrecedingSignature, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if err = p.PrecedingSignature.DecodeFrom(r); err != nil {
-		return
+	if p.PrecedingSignature.Ok = TODO; p.PrecedingSignature.Ok {
+		TODO_Decode_ByteArray(p.PrecedingSignature.V)
 	}
 	if p.Sender, ok = r.UUID(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x33
-type PlayPlayerChatMessagePkt struct {
+type PlayerChatMessagePkt struct {
 	/*
 	 * | Packet ID | State | Bound To | Sector            | Field Name                  | Field Name                        | Field Type                 | Notes                                                                                                                                                                        |
 	 * |-----------|-------|----------|-------------------|-----------------------------|-----------------------------------|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -681,7 +638,7 @@ type PlayEnterCombatPkt = internal.PlayEnterCombat_763_0
 type PlayCombatDeathPkt = internal.PlayCombatDeath_762_1
 
 // ID=0x37
-type PlayPlayerInfoPkt struct {
+type PlayerInfoPkt struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name        | Field Name             | Field Name           | Field Name           | Field Type | Field Type    | Field Type              | Notes                                                                  |
 	 * |-----------|-------|----------|-------------------|------------------------|----------------------|----------------------|------------|---------------|-------------------------|------------------------------------------------------------------------|
@@ -730,10 +687,10 @@ type PlayRemoveEntitiesPkt = internal.PlayRemoveEntities_763_0
 type PlayRemoveEntityEffectPkt = internal.PlayRemoveEntityEffect_763_0
 
 // ID=0x3d
-type PlayResourcePackClientPkt = internal.PlayResourcePack_760_2
+type PlayResourcePackClientPkt = internal.PlayResourcePack_763_0
 
 // ID=0x3e
-type PlayRespawnPkt = internal.PlayRespawn_761_2
+type PlayRespawnPkt = internal.PlayRespawn_760_3
 
 // ID=0x3f
 type PlaySetHeadRotationPkt = internal.PlaySetHeadRotation_763_0
@@ -742,7 +699,7 @@ type PlaySetHeadRotationPkt = internal.PlaySetHeadRotation_763_0
 type PlayUpdateSectionBlocksPkt = internal.PlayUpdateSectionBlocks_762_1
 
 // ID=0x41
-type PlaySelectAdvancementsTabPkt = internal.PlaySelectAdvancementsTab_760_1
+type PlaySelectAdvancementsTabPkt = internal.PlaySelectAdvancementsTab_763_0
 
 // ID=0x42
 type PlayServerDataPkt = internal.PlayServerData_760_2
@@ -769,7 +726,7 @@ type PlaySetBorderWarningDistancePkt = internal.PlaySetBorderWarningDistance_763
 type PlaySetCameraPkt = internal.PlaySetCamera_763_0
 
 // ID=0x4a
-type PlaySetHeldItemClientPkt = internal.PlaySetHeldItem_760_2
+type PlaySetHeldItemClientPkt = internal.PlaySetHeldItem_763_0
 
 // ID=0x4b
 type PlaySetCenterChunkPkt = internal.PlaySetCenterChunk_763_0

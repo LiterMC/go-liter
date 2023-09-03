@@ -14,7 +14,7 @@ import (
 
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
-	"github.com/kmcsr/go-liter/packets"
+	// "github.com/kmcsr/go-liter/packets"
 )
 
 var _after_load = initBeforeLoad()
@@ -220,7 +220,7 @@ func (s *Server)Serve()(err error){
 					}
 				}
 			}()
-			handler(liter.NewConn(c))
+			handler(liter.WrapConn(c))
 		}(c)
 	}
 }
@@ -253,8 +253,8 @@ func handler(c *liter.Conn){
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
 	ploger.Debugf("Connected", c.RemoteAddr())
 	var err error
-	var hp packets.HandshakePkt
-	if err = c.RecvPkt(0x00, &hp); err != nil {
+	var hp *liter.HandshakePkt
+	if hp, err = c.RecvHandshakePkt(); err != nil {
 		ploger.Errorf("read handshake packet error: %v", err)
 		return
 	}
@@ -277,14 +277,14 @@ func handler(c *liter.Conn){
 
 	ploger.Infof("Connected with address [%s:%d], passing to server '%s'", hp.Addr, hp.Port, svr.Id)
 
-	if hp.NextState == packets.NextPingState && svr.HandlePing {
+	if hp.NextState == liter.NextPingState && svr.HandlePing {
 		ploger.Debugf("Handle ping connection [%v] for server '%s'", svr.Id)
-		var srp packets.StatusRequestPkt
+		var srp liter.StatusRequestPkt
 		if err = c.RecvPkt(0x00, &srp); err != nil {
 			ploger.Errorf("Read status request packet error: %v", err)
 			return
 		}
-		if err = c.Send(0x00, packets.StatusResponsePkt{
+		if err = c.SendPkt(0x00, liter.StatusResponsePkt{
 			Payload: liter.Object{
 				"version": liter.Object{
 					"name": "Idle",
@@ -297,35 +297,33 @@ func handler(c *liter.Conn){
 				"description": liter.Object{
 					"text": svr.Motd,
 				},
-			}
+			},
 		}); err != nil {
 			ploger.Errorf("Send packet error: %v", err)
 			return
 		}
-		var prp packets.PingRequestPkt
+		var prp liter.PingRequestPkt
 		if err = c.RecvPkt(0x01, &prp); err != nil {
 			ploger.Errorf("Read ping request packet error: %v", err)
 			return
 		}
-		if err = c.Send(0x01, (packets.PingResponsePkt)(prp)); err != nil {
+		if err = c.SendPkt(0x01, (liter.PingResponsePkt)(prp)); err != nil {
 			ploger.Errorf("Send ping response packet error: %v", err)
 			return
 		}
 		return
 	}
 
-	var conn net.Conn
-	if conn, err = net.Dial("tcp", svr.Target); err != nil {
+	var conn *liter.Conn
+	if conn, err = liter.Dial(svr.Target); err != nil {
 		ploger.Errorf("Cannot dial to %q: %v", svr.Target, err)
 		return
 	}
-	np := liter.NewPacket(0x00)
-	hp.Encode(np)
-	if _, err = conn.Write(np.Bytes()); err != nil {
+	if err = conn.SendHandshakePkt(hp); err != nil {
 		ploger.Errorf("New connection handshake error: %v", err)
 		return
 	}
 	rc := c.RawConn()
-	go io.Copy(rc, conn)
-	io.Copy(conn, rc)
+	go io.Copy(rc, conn.RawConn())
+	io.Copy(conn.RawConn(), rc)
 }

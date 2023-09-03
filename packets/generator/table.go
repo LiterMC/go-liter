@@ -153,3 +153,22 @@ func (tb *Table)HasHeads(heads []string)(bool){
 	}
 	return true
 }
+
+func tableEqualIgnoreNote(a, b *Table)(bool){
+	if len(a.Heads) != len(b.Heads) || len(a.Rows) != len(b.Rows) {
+		return false
+	}
+	if !a.HasHeads(b.Heads) {
+		return false
+	}
+	for i, row := range a.Rows {
+		row = row[:len(row) - 1] // ignore notes
+		row2 := b.Rows[i][:len(row)]
+		for j, v := range row {
+			if strings.ToLower(v) != strings.ToLower(row2[j]) {
+				return false
+			}
+		}
+	}
+	return true
+}

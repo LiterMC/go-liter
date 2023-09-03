@@ -1,10 +1,50 @@
 
 // Generated at {{ gentime }}
 
-package packets
+package liter
 
+import (
+	"strconv"
+)
+
+{{/* protocols slice is sorted from high to low */ -}}
 const (
+	V_UNSET = -1
+	V_HIGHEST = V{{ replace (index .protocols 0).Name "." "_" }}
 {{- range $_, $v := .protocols }}
 	V{{ replace $v.Name "." "_" }} = {{$v.Version}} // {{$v.Doc}}
 {{- end }}
+	V_LOWEST = V{{ replace (index .protocols (add (len .protocols) -1)).Name "." "_" }}
 )
+
+var avaliableProtocols = []int{
+{{- range $_, $v := .protocols }}
+	V{{ replace $v.Name "." "_" }},
+{{- end }}
+}
+
+func GetProtocolName(p int)(string){
+	switch p {
+	case V_UNSET: return "unset"
+{{- range $_, $v := .protocols }}
+	case V{{ replace $v.Name "." "_" }}: return {{ printf "%q" $v.Name }}
+{{- end }}
+	}
+	return "Unknown_" + strconv.Itoa(p)
+}
+
+func IsProtocolSupport(p int)(bool){
+	return V_LOWEST <= p && p <= V_HIGHEST
+}
+
+func ToNearestProtocol(p int)(int){
+	if !IsProtocolSupport(p) {
+		return p
+	}
+	for _, v := range avaliableProtocols {
+		if p >= v {
+			return v
+		}
+	}
+	panic("unreachable")
+}

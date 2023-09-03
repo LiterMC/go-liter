@@ -30,7 +30,7 @@ func (p {{$typname}})Encode(b *PacketBuilder){
 	{{- render_packet_encode_method $fields -}}
 }
 
-func (p *{{$typname}})DecodeFrom(r *PacketReader)(err error){
+func (p *{{$typname}})DecodeFrom(r *PacketReader)(error){
 	{{- render_packet_decode_method $fields -}}
 }
 
@@ -47,7 +47,7 @@ type {{$typname}} = internal.{{.RepeatInfo.Name}}_{{.RepeatInfo.LowestProtocol}}
 	{{- else}}
 type {{$typname}} struct {
 	/*
-	 * {{ replace .Table "\n" "\n\t * " }}
+	 * {{ replace .Table.String "\n" "\n\t * " }}
 	 */
 }
 	{{- end}}

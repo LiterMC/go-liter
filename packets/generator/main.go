@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -71,7 +72,7 @@ type (
 		Id int
 		Name string
 		Fields []packetField
-		Table string
+		Table *Table
 
 		RepeatInfo *repeatPacketInfo
 	}
@@ -166,6 +167,11 @@ func main(){
 		doc = strings.TrimSpace(doc)
 		if StableVersionMatcher.MatchString(name) && version > 0 {
 			if oldid, ok := strings.CutPrefix(doc, BASE_URL); ok {
+				switch name { // do not support to generate these versions
+				case "1.13.1":
+					loger.Warnf("Skipping %s ...", name)
+					return
+				}
 				if lasti := len(protocols) - 1; lasti >= 0 {
 					if lastp := protocols[lasti]; lastp.Version == version {
 						loger.Warnf("Skipped same protocol version %d between %s and %s", version, lastp.Name, name)
@@ -179,27 +185,16 @@ func main(){
 		}
 	})
 
-	if err = ExecuteTemplateTo("protocols.go", "protocols.go.gotemp", map[string]any{
+	// ensure protocols is sorted from high to low
+	sort.Slice(protocols, func(i, j int)(bool){ return protocols[i].Version > protocols[j].Version })
+
+	// generate protocols values in the root package
+	if err = ExecuteTemplateTo("../protocols.go", "protocols.go.gotemp", map[string]any{
 		"protocols": protocols,
 	}); err != nil {
 		loger.Fatal(err)
 	}
-
-	{
-		files, err := os.ReadDir(".")
-		if err != nil {
-			loger.Fatalf("Cannot read current dir: %v", err)
-		}
-		for _, f := range files {
-			if f.IsDir() && strings.HasPrefix(f.Name(), "v") {
-				if err := os.RemoveAll(f.Name()); err != nil {
-					loger.Warnf("Cannot remove old generated directory %s: %v", f.Name(), err)
-				}else{
-					loger.Infof("Removed %s", f.Name())
-				}
-			}
-		}
-	}
+	// panic("do fixing")
 
 	var wg, syncWg sync.WaitGroup
 	wg.Add(len(protocols))
@@ -294,8 +289,8 @@ func genProtocol(p Protocol, syncWg *sync.WaitGroup)(err error){
 						bm := states[state]
 						pinfo := &packetInfo{
 							State: state,
-							Name: joinWords(addPrefix(cur.PrevAllFiltered("h4").First().Text(), state + " ")),
-							Table: tb.String(),
+							Name: addPrefix(joinWords(cur.PrevAllFiltered("h4").First().Text()), strings.Title(state)),
+							Table: tb,
 						}
 						if boundTo == 1 {
 							pinfo.Bound = "client"
@@ -314,16 +309,24 @@ func genProtocol(p Protocol, syncWg *sync.WaitGroup)(err error){
 									if r[3] == "" {
 										continue
 									}
-									pinfo.Fields = append(pinfo.Fields, packetField{
+									field := packetField{
 										Name: joinWords(strings.ReplaceAll(r[3], "/", " Or ")),
-										Type: wikiTypeAsGoType(r[4]),
 										WikiType: r[4],
 										Note: r[5],
-									})
+									}
+									if r[4] == "(See below)" {
+										if strings.HasSuffix(field.Name, "Tags") {
+											field.Type = "[]Tag"
+										}else{
+											field.Type = "TODO_See_Below"
+										}
+									}else{
+										field.Type = wikiTypeAsGoType(r[4])
+									}
+									pinfo.Fields = append(pinfo.Fields, field)
 								}
 							}
 							pinfo.Matched = true
-							registerPacketInfo(pinfo, p.Version)
 						}else if strings.ToLower(tb.Heads[0]) == strings.ToLower(packetTableHeads[0]) {
 							_, err := fmt.Sscanf(tb.Rows[0][0], "0x%x\n", &pinfo.Id)
 							if err != nil {
@@ -341,6 +344,7 @@ func genProtocol(p Protocol, syncWg *sync.WaitGroup)(err error){
 								other.Name = addSuffix(other.Name, "Client")
 							}
 						}
+						registerPacketInfo(pinfo, p.Version)
 						nameSet[pinfo.Name] = pinfo
 						if boundTo == 1 {
 							bm.Client = append(bm.Client, pinfo)
@@ -374,8 +378,14 @@ func generateValueEncodeCode(w io.Writer, name string, typ string, indent int){
 		fmt.Fprintf(w, "TODO_Encode_Array(%s)\n", name)
 	}else if typ == "ByteArray" {
 		fmt.Fprintf(w, "b.ByteArray(%s)\n", name)
+	}else if cutted, ok := strings.CutPrefix(typ, "Optional["); ok {
+		cutted = cutted[:len(cutted) - 1] // remove ']'
+		fmt.Fprintf(w, "if %s.Ok = TODO; %s.Ok {\n", name, name)
+		generateValueEncodeCode(w, name + ".V", cutted, indent + 1)
+		fmt.Fprint(w, indents)
+		fmt.Fprintln(w, "}")
 	}else{
-		fmt.Fprintf(w, "b.Encode(%s)\n", name)
+		fmt.Fprintf(w, "%s.Encode(b)\n", name)
 	}
 }
 
@@ -389,29 +399,35 @@ func renderPacketEncodeMethod(fields []packetField)(string){
 				next := fields[i + 1]
 				arrName, ok := strings.CutSuffix(field.Name, "Count")
 				if ok {
-					ok = strings.HasPrefix(next.Name, arrName)
+					ok = strings.HasPrefix(next.Name, arrName) || strings.HasSuffix(next.Name, arrName)
+				}
+				if !ok {
+					arrName, ok = strings.CutSuffix(field.Name, "Size")
+					if ok {
+						ok = strings.HasPrefix(next.Name, arrName) || strings.HasSuffix(next.Name, arrName)
+					}
 				}
 				if !ok {
 					arrName, ok = strings.CutSuffix(field.Name, "Length")
 					if ok {
-						ok = strings.HasPrefix(next.Name, arrName)
+						ok = strings.HasPrefix(next.Name, arrName) || strings.HasSuffix(next.Name, arrName)
 					}
 				}
 				if !ok {
 					arrName, ok = strings.CutPrefix(field.Name, "NumberOf")
 					if ok {
-						ok = strings.HasPrefix(next.Name, arrName)
+						ok = strings.HasPrefix(next.Name, arrName) || strings.HasSuffix(next.Name, arrName)
 					}
 				}
 				if ok {
 					if next.Type == "ByteArray" {
-						fmt.Fprintf(&s, "\tp.%s = len(p.%s)\n", field.Name, next.Name)
+						fmt.Fprintf(&s, "\tp.%s = (%s)(len(p.%s))\n", field.Name, field.Type, next.Name)
 						fmt.Fprintf(&s, "\tb.%s(p.%s)\n", field.Type, field.Name)
 						fmt.Fprintf(&s, "\tb.ByteArray(p.%s)\n", next.Name)
 						i++
 						continue
 					}else if elem, ok := strings.CutPrefix(next.Type, "[]"); ok {
-						fmt.Fprintf(&s, "\tp.%s = len(p.%s)\n", field.Name, next.Name)
+						fmt.Fprintf(&s, "\tp.%s = (%s)(len(p.%s))\n", field.Name, field.Type, next.Name)
 						fmt.Fprintf(&s, "\tb.%s(p.%s)\n", field.Type, field.Name)
 						fmt.Fprintf(&s, "\tfor _, v := range p.%s {\n", next.Name)
 						generateValueEncodeCode(&s, "v", elem, 2)
@@ -422,18 +438,8 @@ func renderPacketEncodeMethod(fields []packetField)(string){
 				}
 			}
 			fmt.Fprintf(&s, "\tb.%s(p.%s)\n", field.Type, field.Name)
-		}else if field.Type == "Object" {
-			fmt.Fprintf(&s, "\tb.JSON(p.%s)\n", field.Name)
-		}else if strings.HasPrefix(field.Type, "[]") {
-			fmt.Fprintf(&s, "\tTODO_Encode_Array(p.%s)\n", field.Name)
-		}else if field.Type == "ByteArray" {
-			if i == len(fields) - 1 {
-				fmt.Fprintf(&s, "\tb.ReadAll(p.%s)\n", field.Name)
-			}else{
-				fmt.Fprintf(&s, "\tb.ByteArray(p.%s)\n", field.Name)
-			}
 		}else{
-			fmt.Fprintf(&s, "\tb.Encode(p.%s)\n", field.Name)
+			generateValueEncodeCode(&s, "p." + field.Name, field.Type, 1)
 		}
 	}
 	return s.String()
@@ -441,6 +447,11 @@ func renderPacketEncodeMethod(fields []packetField)(string){
 
 func genRegularDecodeCode(w io.Writer, name, typ string, indent int){
 	indents := strings.Repeat("\t", indent)
+	if cutted, ok := strings.CutPrefix(typ, "*"); ok {
+		fmt.Fprint(w, indents)
+		fmt.Fprintf(w, "p.%s = new(%s)\n", name, cutted)
+		typ = cutted
+	}
 	fmt.Fprint(w, indents)
 	if isBasicType(typ) {
 		fmt.Fprintf(w, "if p.%s, ok = r.%s(); !ok {\n", name, typ)
@@ -451,17 +462,23 @@ func genRegularDecodeCode(w io.Writer, name, typ string, indent int){
 	}else if typ == "Object" {
 		fmt.Fprintf(w, "if err = r.JSON(&p.%s); err != nil {\n", name)
 		fmt.Fprint(w, indents)
-		fmt.Fprint(w, "\treturn\n")
+		fmt.Fprint(w, "\treturn err\n")
 		fmt.Fprint(w, indents)
 		fmt.Fprint(w, "}\n")
 	}else if strings.HasPrefix(typ, "[]") {
-		fmt.Fprintf(w, "TODO_Decode_Array(%s)\n", name)
+		fmt.Fprintf(w, "TODO_Decode_Array(p.%s)\n", name)
 	}else if typ == "ByteArray" {
-		fmt.Fprintf(w, "TODO_Decode_ByteArray(%s)\n", name)
+		fmt.Fprintf(w, "TODO_Decode_ByteArray(p.%s)\n", name)
+	}else if cutted, ok := strings.CutPrefix(typ, "Optional["); ok {
+		cutted = cutted[:len(cutted) - 1] // remove ']'
+		fmt.Fprintf(w, "if p.%s.Ok = TODO; p.%s.Ok {\n", name, name)
+		genRegularDecodeCode(w, name + ".V", cutted, indent + 1)
+		fmt.Fprint(w, indents)
+		fmt.Fprintln(w, "}")
 	}else{
 		fmt.Fprintf(w, "if err = p.%s.DecodeFrom(r); err != nil {\n", name)
 		fmt.Fprint(w, indents)
-		fmt.Fprint(w, "\treturn\n")
+		fmt.Fprint(w, "\treturn err\n")
 		fmt.Fprint(w, indents)
 		fmt.Fprint(w, "}\n")
 	}
@@ -469,18 +486,31 @@ func genRegularDecodeCode(w io.Writer, name, typ string, indent int){
 
 func renderPacketDecodeMethod(fields []packetField)(string){
 	if len(fields) == 0 {
-		return " return "
+		return " return nil "
 	}
 	var s strings.Builder
-	fmt.Fprintf(&s, "\n\tvar ok bool\n")
+	fmt.Fprintln(&s, "\n\tvar ok bool")
+	fmt.Fprintln(&s, "\t_ = ok")
+	fmt.Fprintln(&s, "\tvar err error")
+	fmt.Fprintln(&s, "\t_ = err")
 	for i := 0; i < len(fields); i++ {
 		field := fields[i]
+		if cutted, ok := strings.CutPrefix(field.Type, "*"); ok {
+			fmt.Fprintf(&s, "\tp.%s = new(%s)\n", field.Name, cutted)
+			field.Type = cutted
+		}
 		if isnum := isNumberType(field.Type); isnum || isBasicType(field.Type) {
 			if isnum && i + 1 < len(fields) {
 				next := fields[i + 1]
 				arrName, ok := strings.CutSuffix(field.Name, "Count")
 				if ok {
 					ok = strings.HasPrefix(next.Name, arrName) || strings.HasSuffix(next.Name, arrName)
+				}
+				if !ok {
+					arrName, ok = strings.CutSuffix(field.Name, "Size")
+					if ok {
+						ok = strings.HasPrefix(next.Name, arrName) || strings.HasSuffix(next.Name, arrName)
+					}
 				}
 				if !ok {
 					arrName, ok = strings.CutSuffix(field.Name, "Length")
@@ -498,11 +528,9 @@ func renderPacketDecodeMethod(fields []packetField)(string){
 					if next.Type == "ByteArray" {
 						genRegularDecodeCode(&s, field.Name, field.Type, 1)
 						fmt.Fprintf(&s, "\tp.%s = make(ByteArray, p.%s)\n", next.Name, field.Name)
-						fmt.Fprintf(&s,
-`	if ok = r.ByteArray(p.%s); !ok {
-		return io.EOF
-	}
-`, next.Name)
+						fmt.Fprintf(&s, "\tif ok = r.ByteArray(p.%s); !ok {\n", next.Name)
+						fmt.Fprintln(&s, "\t\treturn io.EOF")
+						fmt.Fprintln(&s, "\t}")
 						i++
 						continue
 					}else if elem, ok := strings.CutPrefix(next.Type, "[]"); ok {
@@ -510,35 +538,24 @@ func renderPacketDecodeMethod(fields []packetField)(string){
 						fmt.Fprintf(&s, "\tp.%s = make(%s, p.%s)\n", next.Name, next.Type, field.Name)
 						fmt.Fprintf(&s, "\tfor i, _ := range p.%s {\n", next.Name)
 						genRegularDecodeCode(&s, next.Name + "[i]", elem, 2)
-						fmt.Fprintf(&s, "\t}\n")
+						fmt.Fprintln(&s, "\t}")
 						i++
 						continue
 					}
 				}
 			}
 			genRegularDecodeCode(&s, field.Name, field.Type, 1)
-		}else if field.Type == "Object" {
-			fmt.Fprintf(&s,
-`	if err = r.JSON(&p.%s); err != nil {
-		return
-	}
-`, field.Name)
-		}else if strings.HasPrefix(field.Type, "[]") {
-			fmt.Fprintf(&s, "\tTODO_Decode_Array(p.%s)\n", field.Name)
-		// }else if field.Type == "ByteArray" {
-		// 	if i == len(fields) - 1 {
-		// 		fmt.Fprintf(&s, "\tb.ReadAll(p.%s)\n", field.Name)
-		// 	}else{
-		// 		fmt.Fprintf(&s, "\tr.ByteArray(p.%s)\n", field.Name)
-		// 	}
+		}else if field.Type == "ByteArray" {
+			if i == len(fields) - 1 {
+				fmt.Fprintf(&s, "\tp.%s = r.ReadAll()\n", field.Name)
+			}else{
+				fmt.Fprintf(&s, "\tTODO_Decode_ByteArray(p.%s)\n", field.Name)
+			}
 		}else{
-			fmt.Fprintf(&s,
-`	if err = p.%s.DecodeFrom(r); err != nil {
-		return
-	}
-`, field.Name)
+			genRegularDecodeCode(&s, field.Name, field.Type, 1)
 		}
 	}
+	fmt.Fprint(&s, "\treturn nil\n")
 	return s.String()
 }
 

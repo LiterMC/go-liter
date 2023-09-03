@@ -13,7 +13,10 @@ func wikiTypeAsGoType(wikiTyp string)(typ string){
 	wikiTyp, _ = split(wikiTyp, ',')
 	wikiTyp, _ = split(wikiTyp, '(')
 	wikiTyp = strings.TrimSpace(wikiTyp)
-	wikiTyp = strings.TrimSuffix(strings.TrimPrefix(wikiTyp, "optional "), " enum")
+	wikiTyp = strings.TrimSuffix(wikiTyp, " enum")
+	if cutted, ok := strings.CutPrefix(wikiTyp, "optional "); ok {
+		return "Optional[" + wikiTypeAsGoType(cutted) + "]"
+	}
 	if cutted, ok := strings.CutPrefix(wikiTyp, "array of "); ok {
 		return "[]" + wikiTypeAsGoType(cutted)
 	}
@@ -36,7 +39,7 @@ func wikiTypeAsGoType(wikiTyp string)(typ string){
 		return "UShort"
 	case "int", "integer":
 		return "Int"
-	case "long":
+	case "long", "instant":
 		return "Long"
 	case "float":
 		return "Float"
@@ -54,10 +57,8 @@ func wikiTypeAsGoType(wikiTyp string)(typ string){
 		return "NBT"
 	case "nbt tag compound":
 		return "*NBTCompound"
-	case "string":
+	case "string", "identifier":
 		return "String"
-	case "identifier":
-		return "Identifier"
 	case "chat", "component":
 		return "Object"
 	case "position":
@@ -72,6 +73,8 @@ func wikiTypeAsGoType(wikiTyp string)(typ string){
 		return "BitSet"
 	case "node":
 		return "*CommandNode"
+	case "chunk", "chunk section":
+		return "*ChunkSection"
 	}
 	if cutted, ok := strings.CutSuffix(wikiTyp, "s"); ok {
 		return "[]" + wikiTypeAsGoType(cutted)

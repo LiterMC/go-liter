@@ -15,7 +15,15 @@ import (
 {{ range $_, $s := $rp.Stats }}
 // Protocol={{$s.Protocol}}; ProtocolName={{ protocolName $s.Protocol }}; State={{$s.State}}; Bound={{$s.Bound}}; ID={{ printf "0x%x" $s.Id }}
 {{- end}}
+{{- if $rp.Matched }}
 			{{- template "packet_struct" (wrap $typname $rp.Fields) }}
+{{- else}}
+type {{$typname}} struct {
+	/*
+	 * {{ replace $rp.Table.String "\n" "\n\t * " }}
+	 */
+}
+{{- end}}
 		{{- end}}
 	{{- end}}
 {{- end}}

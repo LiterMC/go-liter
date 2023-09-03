@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-01 20:57:33.569 -06:00
+// Generated at 2023-09-02 21:26:37.473 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=18067
 // Protocol: 761
 // Protocol Name: 1.19.3
@@ -16,13 +16,13 @@ import (
 // ---- login: serverbound ----
 
 // ID=0x0
-type LoginLoginStartPkt = internal.LoginLoginStart_763_0
+type LoginStartPkt = internal.LoginStart_763_0
 
 // ID=0x1
 type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ID=0x2
-type LoginLoginPluginResponsePkt = internal.LoginLoginPluginResponse_763_0
+type LoginPluginResponsePkt = internal.LoginPluginResponse_763_0
 
 // ---- login: clientbound ----
 
@@ -33,26 +33,13 @@ type LoginDisconnectPkt = internal.LoginDisconnect_763_0
 type LoginEncryptionRequestPkt = internal.LoginEncryptionRequest_763_0
 
 // ID=0x2
-type LoginLoginSuccessPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name           | Field Name           | Field Type  | Field Type              | Notes                                      |
-	 * |-----------|-------|----------|----------------------|----------------------|-------------|-------------------------|--------------------------------------------|
-	 * | 0x02      | Login | Client   | UUID                 | UUID                 | UUID        | UUID                    |                                            |
-	 * | 0x02      | Login | Client   | Username             | Username             | String (16) | String (16)             |                                            |
-	 * | 0x02      | Login | Client   | Number Of Properties | Number Of Properties | VarInt      | VarInt                  | Number of elements in the following array. |
-	 * | 0x02      | Login | Client   | Property             | Name                 | Array       | String (32767)          |                                            |
-	 * | 0x02      | Login | Client   | Property             | Value                | Array       | String (32767)          |                                            |
-	 * | 0x02      | Login | Client   | Property             | Is Signed            | Array       | Boolean                 |                                            |
-	 * | 0x02      | Login | Client   | Property             | Signature            | Array       | Optional String (32767) | Only if Is Signed is true.                 |
-	 * 
-	 */
-}
+type LoginSuccessPkt = internal.LoginSuccess_763_0
 
 // ID=0x3
 type LoginSetCompressionPkt = internal.LoginSetCompression_763_0
 
 // ID=0x4
-type LoginLoginPluginRequestPkt = internal.LoginLoginPluginRequest_763_0
+type LoginPluginRequestPkt = internal.LoginPluginRequest_763_0
 
 // ======== END login ========
 
@@ -66,27 +53,13 @@ type PlayConfirmTeleportationPkt = internal.PlayConfirmTeleportation_763_0
 type PlayQueryBlockEntityTagPkt = internal.PlayQueryBlockEntityTag_763_0
 
 // ID=0x2
-type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficulty_763_1
+type PlayChangeDifficultyServerPkt = internal.PlayChangeDifficultyServer_763_0
 
 // ID=0x3
 type PlayMessageAcknowledgmentPkt = internal.PlayMessageAcknowledgment_763_0
 
 // ID=0x4
-type PlayChatCommandPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name                   | Field Name    | Field Type   | Field Type   | Notes                                                               |
-	 * |-----------|-------|----------|------------------------------|---------------|--------------|--------------|---------------------------------------------------------------------|
-	 * | 0x04      | Play  | Server   | Command                      | Command       | String (256) | String (256) | The command typed by the client.                                    |
-	 * | 0x04      | Play  | Server   | Timestamp                    | Timestamp     | Long         | Long         | The timestamp that the command was executed.                        |
-	 * | 0x04      | Play  | Server   | Salt                         | Salt          | Long         | Long         | The salt for the following argument signatures.                     |
-	 * | 0x04      | Play  | Server   | Array length                 | Array length  | VarInt       | VarInt       | Number of entries in the following array                            |
-	 * | 0x04      | Play  | Server   | Array of argument signatures | Argument name | Array        | String       | The name of the argument that is signed by the following signature. |
-	 * | 0x04      | Play  | Server   | Array of argument signatures | Signature     | Array        | Byte Array   | The signature that verifies the argument. Always 256 bytes.         |
-	 * | 0x04      | Play  | Server   | Message Count                | Message Count | VarInt       | VarInt       |                                                                     |
-	 * | 0x04      | Play  | Server   | Acknowledged                 | Acknowledged  | BitSet (20)  | BitSet (20)  |                                                                     |
-	 * 
-	 */
-}
+type PlayChatCommandPkt = internal.PlayChatCommand_763_0
 
 // ID=0x5
 type PlayChatMessagePkt = internal.PlayChatMessage_763_0
@@ -104,28 +77,13 @@ type PlayCommandSuggestionsRequestPkt = internal.PlayCommandSuggestionsRequest_7
 type PlayClickContainerButtonPkt = internal.PlayClickContainerButton_763_0
 
 // ID=0xa
-type PlayClickContainerPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name          | Field Name          | Field Type    | Field Type    | Notes                                                                                                    |
-	 * |-----------|-------|----------|---------------------|---------------------|---------------|---------------|----------------------------------------------------------------------------------------------------------|
-	 * | 0x0A      | Play  | Server   | Window ID           | Window ID           | Unsigned Byte | Unsigned Byte | The ID of the window which was clicked. 0 for player inventory.                                          |
-	 * | 0x0A      | Play  | Server   | State ID            | State ID            | VarInt        | VarInt        | The last recieved State ID from either a Set Container Slot or a Set Container Content packet            |
-	 * | 0x0A      | Play  | Server   | Slot                | Slot                | Short         | Short         | The clicked slot number, see below.                                                                      |
-	 * | 0x0A      | Play  | Server   | Button              | Button              | Byte          | Byte          | The button used in the click, see below.                                                                 |
-	 * | 0x0A      | Play  | Server   | Mode                | Mode                | VarInt Enum   | VarInt Enum   | Inventory operation mode, see below.                                                                     |
-	 * | 0x0A      | Play  | Server   | Length of the array | Length of the array | VarInt        | VarInt        |                                                                                                          |
-	 * | 0x0A      | Play  | Server   | Array of slots      | Slot number         | Array         | Short         |                                                                                                          |
-	 * | 0x0A      | Play  | Server   | Array of slots      | Slot data           | Array         | Slot          | New data for this slot                                                                                   |
-	 * | 0x0A      | Play  | Server   | Carried item        | Carried item        | Slot          | Slot          | Item carried by the cursor. Has to be empty (item ID = -1) for drop mode, otherwise nothing will happen. |
-	 * 
-	 */
-}
+type PlayClickContainerPkt = internal.PlayClickContainer_761_1
 
 // ID=0xb
-type PlayCloseContainerServerPkt = internal.PlayCloseContainer_763_0
+type PlayCloseContainerServerPkt = internal.PlayCloseContainerServer_763_0
 
 // ID=0xc
-type PlayPluginMessageServerPkt = internal.PlayPluginMessage_763_0
+type PlayPluginMessageServerPkt = internal.PlayPluginMessageServer_763_0
 
 // ID=0xd
 type PlayEditBookPkt = internal.PlayEditBook_763_0
@@ -140,7 +98,7 @@ type PlayInteractPkt = internal.PlayInteract_763_0
 type PlayJigsawGeneratePkt = internal.PlayJigsawGenerate_763_0
 
 // ID=0x11
-type PlayKeepAliveServerPkt = internal.PlayKeepAlive_763_0
+type PlayKeepAliveServerPkt = internal.PlayKeepAliveServer_763_0
 
 // ID=0x12
 type PlayLockDifficultyPkt = internal.PlayLockDifficulty_763_0
@@ -158,7 +116,7 @@ type PlaySetPlayerRotationPkt = internal.PlaySetPlayerRotation_763_0
 type PlaySetPlayerOnGroundPkt = internal.PlaySetPlayerOnGround_763_0
 
 // ID=0x17
-type PlayMoveVehicleServerPkt = internal.PlayMoveVehicle_763_0
+type PlayMoveVehicleServerPkt = internal.PlayMoveVehicleServer_763_0
 
 // ID=0x18
 type PlayPaddleBoatPkt = internal.PlayPaddleBoat_763_0
@@ -170,22 +128,22 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayPlaceRecipePkt = internal.PlayPlaceRecipe_763_0
 
 // ID=0x1b
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_763_1
+type PlayerAbilitiesServerPkt = internal.PlayerAbilitiesServer_763_0
 
 // ID=0x1c
-type PlayPlayerActionPkt = internal.PlayPlayerAction_763_0
+type PlayerActionPkt = internal.PlayerAction_763_0
 
 // ID=0x1d
-type PlayPlayerCommandPkt = internal.PlayPlayerCommand_763_0
+type PlayerCommandPkt = internal.PlayerCommand_763_0
 
 // ID=0x1e
-type PlayPlayerInputPkt = internal.PlayPlayerInput_763_0
+type PlayerInputPkt = internal.PlayerInput_763_0
 
 // ID=0x1f
 type PlayPongPkt = internal.PlayPong_763_0
 
 // ID=0x20
-type PlayPlayerSessionPkt struct {
+type PlayerSessionPkt struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name | Field Name           | Field Type | Notes                                                                                                                                                                            |
 	 * |-----------|-------|----------|------------|----------------------|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -209,7 +167,7 @@ type PlaySetSeenRecipePkt = internal.PlaySetSeenRecipe_763_0
 type PlayRenameItemPkt = internal.PlayRenameItem_763_0
 
 // ID=0x24
-type PlayResourcePackServerPkt = internal.PlayResourcePack_763_1
+type PlayResourcePackServerPkt = internal.PlayResourcePackServer_763_0
 
 // ID=0x25
 type PlaySeenAdvancementsPkt = internal.PlaySeenAdvancements_763_0
@@ -221,7 +179,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_763_0
 
 // ID=0x28
-type PlaySetHeldItemServerPkt = internal.PlaySetHeldItem_763_1
+type PlaySetHeldItemServerPkt = internal.PlaySetHeldItemServer_763_0
 
 // ID=0x29
 type PlayProgramCommandBlockPkt = internal.PlayProgramCommandBlock_763_0
@@ -268,17 +226,7 @@ type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_763_0
 type PlayEntityAnimationPkt = internal.PlayEntityAnimation_763_0
 
 // ID=0x4
-type PlayAwardStatisticsPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name | Field Name   | Field Type | Field Type | Notes                                      |
-	 * |-----------|-------|----------|------------|--------------|------------|------------|--------------------------------------------|
-	 * | 0x04      | Play  | Client   | Count      | Count        | VarInt     | VarInt     | Number of elements in the following array. |
-	 * | 0x04      | Play  | Client   | Statistic  | Category ID  | Array      | VarInt     | See below.                                 |
-	 * | 0x04      | Play  | Client   | Statistic  | Statistic ID | Array      | VarInt     | See below.                                 |
-	 * | 0x04      | Play  | Client   | Statistic  | Value        | Array      | VarInt     | The amount to set it to.                   |
-	 * 
-	 */
-}
+type PlayAwardStatisticsPkt = internal.PlayAwardStatistics_761_1
 
 // ID=0x5
 type PlayAcknowledgeBlockChangePkt = internal.PlayAcknowledgeBlockChange_763_0
@@ -296,27 +244,7 @@ type PlayBlockActionPkt = internal.PlayBlockAction_763_0
 type PlayBlockUpdatePkt = internal.PlayBlockUpdate_763_0
 
 // ID=0xa
-type PlayBossBarPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name       | Field Name | Field Type    | Notes                                                                                                                                     |
-	 * |-----------|-------|----------|------------------|------------|---------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x0A      | Play  | Client   | UUID             | UUID       | UUID          | Unique ID for this bar.                                                                                                                   |
-	 * | 0x0A      | Play  | Client   | Action           | Action     | VarInt Enum   | Determines the layout of the remaining packet.                                                                                            |
-	 * | 0x0A      | Play  | Client   | Action           | Field Name |               |                                                                                                                                           |
-	 * | 0x0A      | Play  | Client   | 0: add           | Title      | Chat          |                                                                                                                                           |
-	 * | 0x0A      | Play  | Client   | 0: add           | Health     | Float         | From 0 to 1. Values greater than 1 do not crash a Notchian client, and start rendering part of a second health bar at around 1.5.         |
-	 * | 0x0A      | Play  | Client   | 0: add           | Color      | VarInt Enum   | Color ID (see below).                                                                                                                     |
-	 * | 0x0A      | Play  | Client   | 0: add           | Division   | VarInt Enum   | Type of division (see below).                                                                                                             |
-	 * | 0x0A      | Play  | Client   | 0: add           | Flags      | Unsigned Byte | Bit mask. 0x1: should darken sky, 0x2: is dragon bar (used to play end music), 0x04: create fog (previously was also controlled by 0x02). |
-	 * | 0x0A      | Play  | Client   | 1: remove        | no fields  | no fields     | Removes this boss bar.                                                                                                                    |
-	 * | 0x0A      | Play  | Client   | 2: update health | Health     | Float         | as above                                                                                                                                  |
-	 * | 0x0A      | Play  | Client   | 3: update title  | Title      | Chat          |                                                                                                                                           |
-	 * | 0x0A      | Play  | Client   | 4: update style  | Color      | VarInt Enum   | Color ID (see below).                                                                                                                     |
-	 * | 0x0A      | Play  | Client   | 4: update style  | Dividers   | VarInt Enum   | as above                                                                                                                                  |
-	 * | 0x0A      | Play  | Client   | 5: update flags  | Flags      | Unsigned Byte | as above                                                                                                                                  |
-	 * 
-	 */
-}
+type PlayBossBarPkt = internal.PlayBossBar_761_1
 
 // ID=0xb
 type PlayChangeDifficultyClientPkt = internal.PlayChangeDifficulty_763_0
@@ -454,7 +382,155 @@ type PlayUpdateLightPkt struct {
 }
 
 // ID=0x24
-type PlayLoginPkt = internal.PlayLogin_761_2
+type PlayLoginPkt struct {
+	/* The player's Entity ID (EID). */
+	EntityID Int // Int
+	IsHardcore Bool // Boolean
+	/* 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. */
+	Gamemode UByte // Unsigned Byte
+	/* -1: Undefined (null), 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. The previous gamemode. Vanilla client uses this for the debug (F3 + N & F3 + F4) gamemode switch. (More information needed) */
+	PreviousGamemode Byte // Byte
+	/* Size of the following array. */
+	DimensionCount VarInt // VarInt
+	/* Identifiers for all dimensions on the server. */
+	DimensionNames []String // Array of Identifier
+	/* Represents certain registries that are sent from the server and are applied on the client. */
+	RegistryCodec *NBTCompound // NBT Tag Compound
+	/* Name of the dimension type being spawned into. */
+	DimensionType String // Identifier
+	/* Name of the dimension being spawned into. */
+	DimensionName String // Identifier
+	/* First 8 bytes of the SHA-256 hash of the world's seed. Used client side for biome noise */
+	HashedSeed Long // Long
+	/* Was once used by the client to draw the player list, but now is ignored. */
+	MaxPlayers VarInt // VarInt
+	/* Render distance (2-32). */
+	ViewDistance VarInt // VarInt
+	/* The distance that the client will process specific things, such as entities. */
+	SimulationDistance VarInt // VarInt
+	/* If true, a Notchian client shows reduced information on the debug screen.  For servers in development, this should almost always be false. */
+	ReducedDebugInfo Bool // Boolean
+	/* Set to false when the doImmediateRespawn gamerule is true. */
+	EnableRespawnScreen Bool // Boolean
+	/* True if the world is a debug mode world; debug mode worlds cannot be modified and have predefined blocks. */
+	IsDebug Bool // Boolean
+	/* True if the world is a superflat world; flat worlds have different void fog and a horizon at y=0 instead of y=63. */
+	IsFlat Bool // Boolean
+	/* If true, then the next two fields are present. */
+	HasDeathLocation Bool // Boolean
+	/* Name of the dimension the player died in. */
+	DeathDimensionName Optional[String] // Optional Identifier
+	/* The location that the player died at. */
+	DeathLocation Optional[Position] // Optional Position
+}
+
+var _ Packet = (*PlayLoginPkt)(nil)
+
+func (p PlayLoginPkt)Encode(b *PacketBuilder){
+	b.Int(p.EntityID)
+	b.Bool(p.IsHardcore)
+	b.UByte(p.Gamemode)
+	b.Byte(p.PreviousGamemode)
+	p.DimensionCount = (VarInt)(len(p.DimensionNames))
+	b.VarInt(p.DimensionCount)
+	for _, v := range p.DimensionNames {
+		b.String(v)
+	}
+	p.RegistryCodec.Encode(b)
+	b.String(p.DimensionType)
+	b.String(p.DimensionName)
+	b.Long(p.HashedSeed)
+	b.VarInt(p.MaxPlayers)
+	b.VarInt(p.ViewDistance)
+	b.VarInt(p.SimulationDistance)
+	b.Bool(p.ReducedDebugInfo)
+	b.Bool(p.EnableRespawnScreen)
+	b.Bool(p.IsDebug)
+	b.Bool(p.IsFlat)
+	b.Bool(p.HasDeathLocation)
+	if p.DeathDimensionName.Ok = TODO; p.DeathDimensionName.Ok {
+		b.String(p.DeathDimensionName.V)
+	}
+	if p.DeathLocation.Ok = TODO; p.DeathLocation.Ok {
+		p.DeathLocation.V.Encode(b)
+	}
+}
+
+func (p *PlayLoginPkt)DecodeFrom(r *PacketReader)(error){
+	var ok bool
+	_ = ok
+	var err error
+	_ = err
+	if p.EntityID, ok = r.Int(); !ok {
+		return io.EOF
+	}
+	if p.IsHardcore, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.Gamemode, ok = r.UByte(); !ok {
+		return io.EOF
+	}
+	if p.PreviousGamemode, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+	if p.DimensionCount, ok = r.VarInt(); !ok {
+		return io.EOF
+	}
+	p.DimensionNames = make([]String, p.DimensionCount)
+	for i, _ := range p.DimensionNames {
+		if p.DimensionNames[i], ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
+	p.RegistryCodec = new(NBTCompound)
+	if err = p.RegistryCodec.DecodeFrom(r); err != nil {
+		return err
+	}
+	if p.DimensionType, ok = r.String(); !ok {
+		return io.EOF
+	}
+	if p.DimensionName, ok = r.String(); !ok {
+		return io.EOF
+	}
+	if p.HashedSeed, ok = r.Long(); !ok {
+		return io.EOF
+	}
+	if p.MaxPlayers, ok = r.VarInt(); !ok {
+		return io.EOF
+	}
+	if p.ViewDistance, ok = r.VarInt(); !ok {
+		return io.EOF
+	}
+	if p.SimulationDistance, ok = r.VarInt(); !ok {
+		return io.EOF
+	}
+	if p.ReducedDebugInfo, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.EnableRespawnScreen, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.IsDebug, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.IsFlat, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.HasDeathLocation, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.DeathDimensionName.Ok = TODO; p.DeathDimensionName.Ok {
+		if p.DeathDimensionName.V, ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
+	if p.DeathLocation.Ok = TODO; p.DeathLocation.Ok {
+		if err = p.DeathLocation.V.DecodeFrom(r); err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
 // ID=0x25
 type PlayMapDataPkt struct {
@@ -536,10 +612,10 @@ type PlayPingPkt = internal.PlayPing_763_0
 type PlayPlaceGhostRecipePkt = internal.PlayPlaceGhostRecipe_763_0
 
 // ID=0x30
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_763_0
+type PlayerAbilitiesClientPkt = internal.PlayerAbilities_763_0
 
 // ID=0x31
-type PlayPlayerChatMessagePkt struct {
+type PlayerChatMessagePkt struct {
 	/*
 	 * | Packet ID | State | Bound To | Sector            | Field Name                  | Field Name                  | Field Type          | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 	 * |-----------|-------|----------|-------------------|-----------------------------|-----------------------------|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -575,7 +651,7 @@ type PlayEnterCombatPkt = internal.PlayEnterCombat_763_0
 type PlayCombatDeathPkt = internal.PlayCombatDeath_762_1
 
 // ID=0x35
-type PlayPlayerInfoRemovePkt struct {
+type PlayerInfoRemovePkt struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name        | Field Name        | Field Type    | Notes                                      |
 	 * |-----------|-------|----------|-------------------|-------------------|---------------|--------------------------------------------|
@@ -586,7 +662,7 @@ type PlayPlayerInfoRemovePkt struct {
 }
 
 // ID=0x36
-type PlayPlayerInfoUpdatePkt struct {
+type PlayerInfoUpdatePkt struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name        | Field Name                         | Field Name                | Field Name                | Field Type | Field Type    | Field Type              | Notes                                                                                                          |
 	 * |-----------|-------|----------|-------------------|------------------------------------|---------------------------|---------------------------|------------|---------------|-------------------------|----------------------------------------------------------------------------------------------------------------|
@@ -636,7 +712,95 @@ type PlayRemoveEntityEffectPkt = internal.PlayRemoveEntityEffect_763_0
 type PlayResourcePackClientPkt = internal.PlayResourcePack_763_0
 
 // ID=0x3d
-type PlayRespawnPkt = internal.PlayRespawn_761_2
+type PlayRespawnPkt struct {
+	/* Valid dimensions are defined per dimension registry sent in Login (play) */
+	DimensionType String // Identifier
+	/* Name of the dimension being spawned into. */
+	DimensionName String // Identifier
+	/* First 8 bytes of the SHA-256 hash of the world's seed. Used client side for biome noise */
+	HashedSeed Long // Long
+	/* 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. */
+	Gamemode UByte // Unsigned Byte
+	/* -1: Undefined (null), 0: Survival, 1: Creative, 2: Adventure, 3: Spectator. The previous gamemode. Vanilla client uses this for the debug (F3 + N & F3 + F4) gamemode switch. (More information needed) */
+	PreviousGamemode Byte // Byte
+	/* True if the world is a debug mode world; debug mode worlds cannot be modified and have predefined blocks. */
+	IsDebug Bool // Boolean
+	/* True if the world is a superflat world; flat worlds have different void fog and a horizon at y=0 instead of y=63. */
+	IsFlat Bool // Boolean
+	/* If false, metadata is reset on the respawned player entity.  Set to true for dimension changes (including the dimension change triggered by sending client status perform respawn to exit the end poem/credits), and false for normal respawns. */
+	CopyMetadata Bool // Boolean
+	/* If true, then the next two fields are present. */
+	HasDeathLocation Bool // Boolean
+	/* Name of the dimension the player died in. */
+	DeathDimensionName Optional[String] // Optional Identifier
+	/* The location that the player died at. */
+	DeathLocation Optional[Position] // Optional Position
+}
+
+var _ Packet = (*PlayRespawnPkt)(nil)
+
+func (p PlayRespawnPkt)Encode(b *PacketBuilder){
+	b.String(p.DimensionType)
+	b.String(p.DimensionName)
+	b.Long(p.HashedSeed)
+	b.UByte(p.Gamemode)
+	b.Byte(p.PreviousGamemode)
+	b.Bool(p.IsDebug)
+	b.Bool(p.IsFlat)
+	b.Bool(p.CopyMetadata)
+	b.Bool(p.HasDeathLocation)
+	if p.DeathDimensionName.Ok = TODO; p.DeathDimensionName.Ok {
+		b.String(p.DeathDimensionName.V)
+	}
+	if p.DeathLocation.Ok = TODO; p.DeathLocation.Ok {
+		p.DeathLocation.V.Encode(b)
+	}
+}
+
+func (p *PlayRespawnPkt)DecodeFrom(r *PacketReader)(error){
+	var ok bool
+	_ = ok
+	var err error
+	_ = err
+	if p.DimensionType, ok = r.String(); !ok {
+		return io.EOF
+	}
+	if p.DimensionName, ok = r.String(); !ok {
+		return io.EOF
+	}
+	if p.HashedSeed, ok = r.Long(); !ok {
+		return io.EOF
+	}
+	if p.Gamemode, ok = r.UByte(); !ok {
+		return io.EOF
+	}
+	if p.PreviousGamemode, ok = r.Byte(); !ok {
+		return io.EOF
+	}
+	if p.IsDebug, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.IsFlat, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.CopyMetadata, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.HasDeathLocation, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if p.DeathDimensionName.Ok = TODO; p.DeathDimensionName.Ok {
+		if p.DeathDimensionName.V, ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
+	if p.DeathLocation.Ok = TODO; p.DeathLocation.Ok {
+		if err = p.DeathLocation.V.DecodeFrom(r); err != nil {
+			return err
+		}
+	}
+	return nil
+}
 
 // ID=0x3e
 type PlaySetHeadRotationPkt = internal.PlaySetHeadRotation_763_0
@@ -650,10 +814,10 @@ type PlaySelectAdvancementsTabPkt = internal.PlaySelectAdvancementsTab_763_0
 // ID=0x41
 type PlayServerDataPkt struct {
 	HasMOTD Bool // Boolean
-	MOTD Object // Optional Chat
+	MOTD Optional[Object] // Optional Chat
 	HasIcon Bool // Boolean
 	/* Icon PNG base64 String */
-	Icon String // Optional String (32767)
+	Icon Optional[String] // Optional String (32767)
 	EnforcesSecureChat Bool // Boolean
 }
 
@@ -661,29 +825,41 @@ var _ Packet = (*PlayServerDataPkt)(nil)
 
 func (p PlayServerDataPkt)Encode(b *PacketBuilder){
 	b.Bool(p.HasMOTD)
-	b.JSON(p.MOTD)
+	if p.MOTD.Ok = TODO; p.MOTD.Ok {
+		b.JSON(p.MOTD.V)
+	}
 	b.Bool(p.HasIcon)
-	b.String(p.Icon)
+	if p.Icon.Ok = TODO; p.Icon.Ok {
+		b.String(p.Icon.V)
+	}
 	b.Bool(p.EnforcesSecureChat)
 }
 
-func (p *PlayServerDataPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayServerDataPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.HasMOTD, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if err = r.JSON(&p.MOTD); err != nil {
-		return
+	if p.MOTD.Ok = TODO; p.MOTD.Ok {
+		if err = r.JSON(&p.MOTD.V); err != nil {
+			return err
+		}
 	}
 	if p.HasIcon, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.Icon, ok = r.String(); !ok {
-		return io.EOF
+	if p.Icon.Ok = TODO; p.Icon.Ok {
+		if p.Icon.V, ok = r.String(); !ok {
+			return io.EOF
+		}
 	}
 	if p.EnforcesSecureChat, ok = r.Bool(); !ok {
 		return io.EOF
 	}
+	return nil
 }
 
 // ID=0x42

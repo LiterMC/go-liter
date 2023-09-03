@@ -1,28 +1,27 @@
 
-package packets
+package liter
 
 import (
 	"strings"
 	"fmt"
 	"io"
-
-	. "github.com/kmcsr/go-liter"
 )
 
 const (
-	NextPingState  int32 = 1
-	NextLoginState int32 = 2
+	NextPingState  = 1
+	NextLoginState = 2
 )
 
+// It's on purpose that `HandshakePkt` didn't implement `Packet` interface
+// To prevent accidently call with `Conn.SendPkt` or `Conn.RecvPkt`
+// If you want to handle it, please use `Conn.SendHandshakePkt` or `Conn.RecvHandshakePkt` instead
 type HandshakePkt struct {
-	Protocol  int32
+	Protocol  int
 	Addr      string
 	Addition  string
 	Port      uint16
-	NextState int32
+	NextState VarInt
 }
-
-var _ Packet = (*HandshakePkt)(nil)
 
 func (p HandshakePkt)String()(string){
 	if len(p.Addition) == 0 {
@@ -31,19 +30,21 @@ func (p HandshakePkt)String()(string){
 	return fmt.Sprintf("<HandshakePkt protocol=%d addr=%s + %q port=%d nextState=%d>", p.Protocol, p.Addr, p.Addition, p.Port, p.NextState)
 }
 
-func (p HandshakePkt)Encode(b *PacketBuilder){
+func (p HandshakePkt)EncodeTo(b *PacketBuilder){
 	b.
-		VarInt(p.Protocol).
+		VarInt((VarInt)(p.Protocol)).
 		String(p.Addr + p.Addition).
 		Short((Short)(p.Port)).
 		VarInt(p.NextState)
 }
 
-func (p *HandshakePkt)DecodeFrom(r *PacketReader)(err error){
+func (p *HandshakePkt)Decode(r *PacketReader)(err error){
 	var ok bool
-	if p.Protocol, ok = r.VarInt(); !ok {
+	var v VarInt
+	if v, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
+	p.Protocol = (int)(v)
 	if p.Addr, ok = r.String(); !ok {
 		return io.EOF
 	}
@@ -59,6 +60,7 @@ func (p *HandshakePkt)DecodeFrom(r *PacketReader)(err error){
 	}
 	return
 }
+
 
 type StatusRequestPkt struct{}
 

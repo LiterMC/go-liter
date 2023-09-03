@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-01 20:57:33.569 -06:00
+// Generated at 2023-09-02 21:26:37.473 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=14889
 // Protocol: 404
 // Protocol Name: 1.13.2
@@ -16,13 +16,13 @@ import (
 // ---- login: serverbound ----
 
 // ID=0x0
-type LoginLoginStartPkt = internal.LoginLoginStart_758_2
+type LoginStartPkt = internal.LoginStart_758_2
 
 // ID=0x1
 type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
 
 // ID=0x2
-type LoginLoginPluginResponsePkt = internal.LoginLoginPluginResponse_763_0
+type LoginPluginResponsePkt = internal.LoginPluginResponse_763_0
 
 // ---- login: clientbound ----
 
@@ -33,13 +33,13 @@ type LoginDisconnectPkt = internal.LoginDisconnect_763_0
 type LoginEncryptionRequestPkt = internal.LoginEncryptionRequest_763_0
 
 // ID=0x2
-type LoginLoginSuccessPkt = internal.LoginLoginSuccess_578_1
+type LoginSuccessPkt = internal.LoginSuccess_578_2
 
 // ID=0x3
 type LoginSetCompressionPkt = internal.LoginSetCompression_763_0
 
 // ID=0x4
-type LoginLoginPluginRequestPkt = internal.LoginLoginPluginRequest_763_0
+type LoginPluginRequestPkt = internal.LoginPluginRequest_763_0
 
 // ======== END login ========
 
@@ -53,7 +53,7 @@ type PlayTeleportConfirmPkt = internal.PlayTeleportConfirm_758_0
 type PlayQueryBlockNBTPkt = internal.PlayQueryBlockNBT_758_0
 
 // ID=0x2
-type PlayChatMessageServerPkt = internal.PlayChatMessage_404_11
+type PlayChatMessageServerPkt = internal.PlayChatMessageServer_758_0
 
 // ID=0x3
 type PlayClientStatusPkt = internal.PlayClientStatus_758_0
@@ -62,25 +62,25 @@ type PlayClientStatusPkt = internal.PlayClientStatus_758_0
 type PlayClientSettingsPkt = internal.PlayClientSettings_754_2
 
 // ID=0x5
-type PlayTabCompleteServerPkt = internal.PlayTabComplete_758_0
+type PlayTabCompleteServerPkt = internal.PlayTabCompleteServer_758_0
 
 // ID=0x6
-type PlayConfirmTransactionServerPkt = internal.PlayConfirmTransaction_404_0
+type PlayConfirmTransactionServerPkt = internal.PlayConfirmTransactionServer_404_0
 
 // ID=0x7
 type PlayEnchantItemPkt = internal.PlayEnchantItem_404_0
 
 // ID=0x8
-type PlayClickWindowPkt = internal.PlayClickWindow_754_0
+type PlayClickWindowPkt = internal.PlayClickWindow_754_4
 
 // ID=0x9
-type PlayCloseWindowServerPkt = internal.PlayCloseWindow_758_0
+type PlayCloseWindowServerPkt = internal.PlayCloseWindowServer_758_0
 
 // ID=0xa
-type PlayPluginMessageServerPkt = internal.PlayPluginMessage_763_0
+type PlayPluginMessageServerPkt = internal.PlayPluginMessageServer_763_0
 
 // ID=0xb
-type PlayEditBookPkt = internal.PlayEditBook_755_3
+type PlayEditBookPkt = internal.PlayEditBook_755_4
 
 // ID=0xc
 type PlayQueryEntityNBTPkt = internal.PlayQueryEntityNBT_758_0
@@ -89,22 +89,22 @@ type PlayQueryEntityNBTPkt = internal.PlayQueryEntityNBT_758_0
 type PlayUseEntityPkt = internal.PlayUseEntity_404_0
 
 // ID=0xe
-type PlayKeepAliveServerPkt = internal.PlayKeepAlive_763_0
+type PlayKeepAliveServerPkt = internal.PlayKeepAliveServer_763_0
 
 // ID=0xf
-type PlayPlayerPkt = internal.PlayPlayer_404_0
+type PlayerPkt = internal.Player_404_0
 
 // ID=0x10
-type PlayPlayerPositionPkt = internal.PlayPlayerPosition_758_0
+type PlayerPositionPkt = internal.PlayerPosition_758_0
 
 // ID=0x11
-type PlayPlayerPositionAndLookServerPkt = internal.PlayPlayerPositionAndLook_404_2
+type PlayerPositionAndLookServerPkt = internal.PlayerPositionAndLookServer_404_0
 
 // ID=0x12
-type PlayPlayerLookPkt = internal.PlayPlayerLook_404_0
+type PlayerLookPkt = internal.PlayerLook_404_0
 
 // ID=0x13
-type PlayVehicleMoveServerPkt = internal.PlayVehicleMove_758_0
+type PlayVehicleMoveServerPkt = internal.PlayVehicleMoveServer_758_0
 
 // ID=0x14
 type PlaySteerBoatPkt = internal.PlaySteerBoat_758_0
@@ -116,10 +116,10 @@ type PlayPickItemPkt = internal.PlayPickItem_763_0
 type PlayCraftRecipeRequestPkt = internal.PlayCraftRecipeRequest_758_0
 
 // ID=0x17
-type PlayPlayerAbilitiesServerPkt = internal.PlayPlayerAbilities_404_12
+type PlayerAbilitiesServerPkt = internal.PlayerAbilitiesServer_578_1
 
 // ID=0x18
-type PlayPlayerDiggingPkt = internal.PlayPlayerDigging_758_0
+type PlayerDiggingPkt = internal.PlayerDigging_758_0
 
 // ID=0x19
 type PlayEntityActionPkt = internal.PlayEntityAction_758_0
@@ -159,7 +159,7 @@ type PlaySelectTradePkt = internal.PlaySelectTrade_763_0
 type PlaySetBeaconEffectPkt = internal.PlaySetBeaconEffect_758_2
 
 // ID=0x21
-type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChange_404_5
+type PlayHeldItemChangeServerPkt = internal.PlayHeldItemChangeServer_758_0
 
 // ID=0x22
 type PlayUpdateCommandBlockPkt = internal.PlayUpdateCommandBlock_758_0
@@ -177,13 +177,13 @@ type PlayUpdateStructureBlockPkt = internal.PlayUpdateStructureBlock_758_0
 type PlayUpdateSignPkt = internal.PlayUpdateSign_762_1
 
 // ID=0x27
-type PlayAnimationServerPkt = internal.PlayAnimation_404_2
+type PlayAnimationServerPkt = internal.PlayAnimationServer_404_0
 
 // ID=0x28
 type PlaySpectatePkt = internal.PlaySpectate_758_0
 
 // ID=0x29
-type PlayPlayerBlockPlacementPkt = internal.PlayPlayerBlockPlacement_404_1
+type PlayerBlockPlacementPkt = internal.PlayerBlockPlacement_404_1
 
 // ID=0x2a
 type PlayUseItemPkt = internal.PlayUseItem_758_1
@@ -212,17 +212,7 @@ type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_498_1
 type PlayAnimationClientPkt = internal.PlayAnimation_404_1
 
 // ID=0x7
-type PlayStatisticsPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name | Field Name   | Field Type | Field Type | Notes                                     |
-	 * |-----------|-------|----------|------------|--------------|------------|------------|-------------------------------------------|
-	 * | 0x07      | Play  | Client   | Count      | Count        | VarInt     | VarInt     | Number of elements in the following array |
-	 * | 0x07      | Play  | Client   | Statistic  | Category ID  | Array      | VarInt     | See below                                 |
-	 * | 0x07      | Play  | Client   | Statistic  | Statistic ID | Array      | VarInt     | See below                                 |
-	 * | 0x07      | Play  | Client   | Value      | Value        | VarInt     | VarInt     | The amount to set it to                   |
-	 * 
-	 */
-}
+type PlayStatisticsPkt = internal.PlayStatistics_498_2
 
 // ID=0x8
 type PlayBlockBreakAnimationPkt = internal.PlayBlockBreakAnimation_758_0
@@ -237,65 +227,19 @@ type PlayBlockActionPkt = internal.PlayBlockAction_758_1
 type PlayBlockChangePkt = internal.PlayBlockChange_758_0
 
 // ID=0xc
-type PlayBossBarPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name       | Field Name | Field Type    | Notes                                                                                                                                    |
-	 * |-----------|-------|----------|------------------|------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x0C      | Play  | Client   | UUID             | UUID       | UUID          | Unique ID for this bar                                                                                                                   |
-	 * | 0x0C      | Play  | Client   | Action           | Action     | VarInt Enum   | Determines the layout of the remaining packet                                                                                            |
-	 * | 0x0C      | Play  | Client   | Action           | Field Name |               |                                                                                                                                          |
-	 * | 0x0C      | Play  | Client   | 0: add           | Title      | Chat          |                                                                                                                                          |
-	 * | 0x0C      | Play  | Client   | 0: add           | Health     | Float         | From 0 to 1. Values greater than 1 do not crash a Notchian client, and start rendering part of a second health bar at around 1.5.        |
-	 * | 0x0C      | Play  | Client   | 0: add           | Color      | VarInt Enum   | Color ID (see below)                                                                                                                     |
-	 * | 0x0C      | Play  | Client   | 0: add           | Division   | VarInt Enum   | Type of division (see below)                                                                                                             |
-	 * | 0x0C      | Play  | Client   | 0: add           | Flags      | Unsigned Byte | Bit mask. 0x1: should darken sky, 0x2: is dragon bar (used to play end music), 0x04: create fog (previously was also controlled by 0x02) |
-	 * | 0x0C      | Play  | Client   | 1: remove        | no fields  | no fields     | Removes this boss bar                                                                                                                    |
-	 * | 0x0C      | Play  | Client   | 2: update health | Health     | Float         | as above                                                                                                                                 |
-	 * | 0x0C      | Play  | Client   | 3: update title  | Title      | Chat          |                                                                                                                                          |
-	 * | 0x0C      | Play  | Client   | 4: update style  | Color      | VarInt Enum   | Color ID (see below)                                                                                                                     |
-	 * | 0x0C      | Play  | Client   | 4: update style  | Dividers   | VarInt Enum   | as above                                                                                                                                 |
-	 * | 0x0C      | Play  | Client   | 5: update flags  | Flags      | Unsigned Byte | as above                                                                                                                                 |
-	 * 
-	 */
-}
+type PlayBossBarPkt = internal.PlayBossBar_754_3
 
 // ID=0xd
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
 
 // ID=0xe
-type PlayChatMessageClientPkt = internal.PlayChatMessage_404_10
+type PlayChatMessageClientPkt = internal.PlayChatMessage_578_4
 
 // ID=0xf
-type PlayMultiBlockChangePkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name   | Field Name          | Field Type | Field Type    | Notes                                                                                                                                                                  |
-	 * |-----------|-------|----------|--------------|---------------------|------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x0F      | Play  | Client   | Chunk X      | Chunk X             | Int        | Int           | Chunk X coordinate                                                                                                                                                     |
-	 * | 0x0F      | Play  | Client   | Chunk Z      | Chunk Z             | Int        | Int           | Chunk Z coordinate                                                                                                                                                     |
-	 * | 0x0F      | Play  | Client   | Record Count | Record Count        | VarInt     | VarInt        | Number of elements in the following array, i.e. the number of blocks affected                                                                                          |
-	 * | 0x0F      | Play  | Client   | Record       | Horizontal Position | Array      | Unsigned Byte | The 4 most significant bits (0xF0) encode the X coordinate, relative to the chunk. The 4 least significant bits (0x0F) encode the Z coordinate, relative to the chunk. |
-	 * | 0x0F      | Play  | Client   | Record       | Y Coordinate        | Array      | Unsigned Byte | Y coordinate of the block                                                                                                                                              |
-	 * | 0x0F      | Play  | Client   | Record       | Block ID            | Array      | VarInt        | The new block state ID for the block as given in the global palette. See that section for more information.                                                            |
-	 * 
-	 */
-}
+type PlayMultiBlockChangePkt = internal.PlayMultiBlockChange_498_2
 
 // ID=0x10
-type PlayTabCompleteClientPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name | Field Name  | Field Type | Field Type     | Notes                                                                                                                                                                                                  |
-	 * |-----------|-------|----------|------------|-------------|------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x10      | Play  | Client   |            |             |            |                |                                                                                                                                                                                                        |
-	 * | 0x10      | Play  | Client   | ID         | ID          | VarInt     | VarInt         | Transaction ID                                                                                                                                                                                         |
-	 * | 0x10      | Play  | Client   | Start      | Start       | VarInt     | VarInt         | Start of the text to replace                                                                                                                                                                           |
-	 * | 0x10      | Play  | Client   | Length     | Length      | VarInt     | VarInt         | Length of the text to replace                                                                                                                                                                          |
-	 * | 0x10      | Play  | Client   | Count      | Count       | VarInt     | VarInt         | Number of elements in the following array                                                                                                                                                              |
-	 * | 0x10      | Play  | Client   | Matches    | Match       | Array      | String (32767) | One eligible value to insert, note that each command is sent separately instead of in a single string, hence the need for Count.  Note that for instance this doesn't include a leading / on commands. |
-	 * | 0x10      | Play  | Client   | Matches    | Has tooltip | Array      | Boolean        | True if the following is present                                                                                                                                                                       |
-	 * | 0x10      | Play  | Client   | Matches    | Tooltip     | Array      | Optional Chat  | Tooltip to display; only present if previous boolean is true                                                                                                                                           |
-	 * 
-	 */
-}
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_498_3
 
 // ID=0x11
 type PlayDeclareCommandsPkt = internal.PlayDeclareCommands_758_0
@@ -375,17 +319,21 @@ func (p PlayChunkDataPkt)Encode(b *PacketBuilder){
 	b.Int(p.ChunkZ)
 	b.Bool(p.FullChunk)
 	b.VarInt(p.PrimaryBitMask)
+	p.Size = (VarInt)(len(p.Data))
 	b.VarInt(p.Size)
 	b.ByteArray(p.Data)
-	p.NumberOfBlockEntities = len(p.BlockEntities)
+	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
-		b.Encode(v)
+		v.Encode(b)
 	}
 }
 
-func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(error){
 	var ok bool
+	_ = ok
+	var err error
+	_ = err
 	if p.ChunkX, ok = r.Int(); !ok {
 		return io.EOF
 	}
@@ -401,8 +349,9 @@ func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(err error){
 	if p.Size, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.Data.DecodeFrom(r); err != nil {
-		return
+	p.Data = make(ByteArray, p.Size)
+	if ok = r.ByteArray(p.Data); !ok {
+		return io.EOF
 	}
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
@@ -410,9 +359,10 @@ func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(err error){
 	p.BlockEntities = make([]NBT, p.NumberOfBlockEntities)
 	for i, _ := range p.BlockEntities {
 		if err = p.BlockEntities[i].DecodeFrom(r); err != nil {
-			return
+			return err
 		}
 	}
+	return nil
 }
 
 // ID=0x23
@@ -471,7 +421,7 @@ type PlayOpenSignEditorPkt = internal.PlayOpenSignEditor_762_1
 type PlayCraftRecipeResponsePkt = internal.PlayCraftRecipeResponse_758_0
 
 // ID=0x2e
-type PlayPlayerAbilitiesClientPkt = internal.PlayPlayerAbilities_404_11
+type PlayerAbilitiesClientPkt = internal.PlayerAbilities_763_0
 
 // ID=0x2f
 type PlayCombatEventPkt struct {
@@ -491,7 +441,7 @@ type PlayCombatEventPkt struct {
 }
 
 // ID=0x30
-type PlayPlayerInfoPkt struct {
+type PlayerInfoPkt struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name        | Field Name             | Field Name           | Field Name           | Field Type | Field Type    | Field Type              | Notes                                                   |
 	 * |-----------|-------|----------|-------------------|------------------------|----------------------|----------------------|------------|---------------|-------------------------|---------------------------------------------------------|
@@ -522,7 +472,7 @@ type PlayPlayerInfoPkt struct {
 type PlayFacePlayerPkt = internal.PlayFacePlayer_757_0
 
 // ID=0x32
-type PlayPlayerPositionAndLookClientPkt = internal.PlayPlayerPositionAndLook_754_1
+type PlayerPositionAndLookClientPkt = internal.PlayerPositionAndLook_754_1
 
 // ID=0x33
 type PlayUseBedPkt = internal.PlayUseBed_404_0
@@ -540,7 +490,7 @@ type PlayRemoveEntityEffectPkt = internal.PlayRemoveEntityEffect_757_1
 type PlayResourcePackSendPkt = internal.PlayResourcePackSend_754_1
 
 // ID=0x38
-type PlayRespawnPkt = internal.PlayRespawn_404_7
+type PlayRespawnPkt = internal.PlayRespawn_404_8
 
 // ID=0x39
 type PlayEntityHeadLookPkt = internal.PlayEntityHeadLook_758_0
@@ -579,7 +529,7 @@ type PlayWorldBorderPkt struct {
 type PlayCameraPkt = internal.PlayCamera_758_0
 
 // ID=0x3d
-type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_404_4
+type PlayHeldItemChangeClientPkt = internal.PlayHeldItemChange_758_0
 
 // ID=0x3e
 type PlayDisplayScoreboardPkt = internal.PlayDisplayScoreboard_758_0
@@ -594,7 +544,7 @@ type PlayAttachEntityPkt = internal.PlayAttachEntity_758_0
 type PlayEntityVelocityPkt = internal.PlayEntityVelocity_758_0
 
 // ID=0x42
-type PlayEntityEquipmentPkt = internal.PlayEntityEquipment_578_0
+type PlayEntityEquipmentPkt = internal.PlayEntityEquipment_578_2
 
 // ID=0x43
 type PlaySetExperiencePkt = internal.PlaySetExperience_760_1
@@ -675,7 +625,7 @@ type PlayStopSoundPkt = internal.PlayStopSound_763_0
 type PlaySoundEffectPkt = internal.PlaySoundEffect_758_2
 
 // ID=0x4e
-type PlayPlayerListHeaderAndFooterPkt = internal.PlayPlayerListHeaderAndFooter_758_0
+type PlayerListHeaderAndFooterPkt = internal.PlayerListHeaderAndFooter_758_0
 
 // ID=0x4f
 type PlayCollectItemPkt = internal.PlayCollectItem_758_0
@@ -733,6 +683,32 @@ type PlayDeclareRecipesPkt struct {
 }
 
 // ID=0x55
-type PlayTagsPkt = internal.PlayTags_404_1
+type PlayTagsPkt struct {
+	/* IDs are block IDs */
+	BlockTags []Tag // (See below)
+	/* IDs are item IDs */
+	ItemTags []Tag // (See below)
+	/* IDs are fluid IDs */
+	FluidTags []Tag // (See below)
+}
+
+var _ Packet = (*PlayTagsPkt)(nil)
+
+func (p PlayTagsPkt)Encode(b *PacketBuilder){
+	TODO_Encode_Array(p.BlockTags)
+	TODO_Encode_Array(p.ItemTags)
+	TODO_Encode_Array(p.FluidTags)
+}
+
+func (p *PlayTagsPkt)DecodeFrom(r *PacketReader)(error){
+	var ok bool
+	_ = ok
+	var err error
+	_ = err
+	TODO_Decode_Array(p.BlockTags)
+	TODO_Decode_Array(p.ItemTags)
+	TODO_Decode_Array(p.FluidTags)
+	return nil
+}
 
 // ======== END play ========

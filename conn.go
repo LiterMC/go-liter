@@ -23,11 +23,13 @@ func (e *PktIdAssertError)Error()(string){
 
 
 type Conn struct{
+	protocol int
 	conn net.Conn
 }
 
-func NewConn(c net.Conn)(*Conn){
+func WrapConn(c net.Conn)(*Conn){
 	return &Conn{
+		protocol: V_UNSET,
 		conn: c,
 	}
 }
@@ -70,11 +72,15 @@ func DialWithContext(ctx context.Context, target string)(c *Conn, err error){
 	if c0, err = net.DialTCP("tcp", nil, addr); err != nil {
 		return
 	}
-	return NewConn(c0), nil
+	return WrapConn(c0), nil
 }
 
 func Dial(target string)(c *Conn, err error){
 	return DialWithContext(context.Background(), target)
+}
+
+func (c *Conn)Protocol()(int){
+	return c.protocol
 }
 
 func (c *Conn)RawConn()(net.Conn){
@@ -93,59 +99,41 @@ func (c *Conn)Close()(err error){
 	return c.conn.Close()
 }
 
-func (c *Conn)Send(id int32, values ...any)(err error){
-	p := NewPacket(id)
-	for _, v := range values {
-		switch w := v.(type) {
-		case Bool:
-			p.Bool(w)
-		case Byte:
-			p.Byte(w)
-		case Short:
-			p.Short(w)
-		case Int:
-			p.Int(w)
-		case Long:
-			p.Long(w)
-		case Float:
-			p.Float(w)
-		case Double:
-			p.Double(w)
-		case VarInt:
-			p.VarInt(w)
-		case VarLong:
-			p.VarLong(w)
-		case ByteArray:
-			p.ByteArray(w)
-		case String:
-			p.String(w)
-		case Object:
-			p.JSON(w)
-		case UUID:
-			p.UUID(w)
-		case Encodable:
-			p.Encode(w)
-		default:
-			panic("Unknown non-encodable type")
-		}
-	}
-	return c.SendPkt(p)
-}
-
-func (c *Conn)SendPkt(p *PacketBuilder)(err error){
+func (c *Conn)Send(p *PacketBuilder)(err error){
 	if _, err = p.WriteTo(c.conn); err != nil {
 		return
 	}
 	return
 }
 
+func (c *Conn)SendPkt(id int32, values ...any)(err error){
+	p := NewPacket(c.protocol, (VarInt)(id))
+	for _, v := range values {
+		p.Encode(v)
+	}
+	return c.Send(p)
+}
+
+func (c *Conn)SendHandshakePkt(pkt *HandshakePkt)(err error){
+	if c.protocol != V_UNSET {
+		panic("The first handshake packet is already has been received or sent")
+	}
+	p := NewPacket(pkt.Protocol, 0x00)
+	pkt.EncodeTo(p)
+	if err = c.Send(p); err != nil {
+		return
+	}
+	c.protocol = pkt.Protocol
+	return
+}
+
 func (c *Conn)Recv()(r *PacketReader, err error){
-	return ReadPacket(c.conn)
+	return ReadPacket(c.protocol, c.conn)
 }
 
 func (c *Conn)RecvPkt(id int32, pkt Decodable)(err error){
 	var r *PacketReader
-	if r, err = ReadPacket(c.conn); err != nil {
+	if r, err = ReadPacket(c.protocol, c.conn); err != nil {
 		return
 	}
 	if r.Id() != id {
@@ -156,3 +144,23 @@ func (c *Conn)RecvPkt(id int32, pkt Decodable)(err error){
 	}
 	return
 }
+
+func (c *Conn)RecvHandshakePkt()(pkt *HandshakePkt, err error){
+	if c.protocol != V_UNSET {
+		panic("The first handshake packet is already has been received or sent")
+	}
+	var r *PacketReader
+	var p HandshakePkt
+	if r, err = c.Recv(); err != nil {
+		return
+	}
+	if r.Id() != 0x00 {
+		return nil, &PktIdAssertError{ Require: 0x00, Got: r.Id() }
+	}
+	if err = p.Decode(r); err != nil {
+		return
+	}
+	c.protocol = p.Protocol
+	return &p, nil
+}
+

@@ -14,7 +14,7 @@ import (
 	"golang.org/x/net/proxy"
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
-	"github.com/kmcsr/go-liter/packets"
+	// "github.com/kmcsr/go-liter/packets"
 )
 
 func main(){
@@ -126,7 +126,7 @@ func (s *ProxyServer)Serve()(err error){
 			loger.Errorf("Error when accept connection: %v", err)
 			return
 		}
-		go s.handle(liter.NewConn(c))
+		go s.handle(liter.WrapConn(c))
 	}
 }
 
@@ -152,8 +152,8 @@ func (s *ProxyServer)handle(c *liter.Conn){
 	ploger.Infof("Connected")
 
 	var err error
-	var hp packets.HandshakePkt
-	if err = c.RecvPkt(0x00, &hp); err != nil {
+	var hp *liter.HandshakePkt
+	if hp, err = c.RecvHandshakePkt(); err != nil {
 		ploger.Errorf("Read handshake packet error: %v", err)
 		return
 	}
@@ -164,29 +164,35 @@ func (s *ProxyServer)handle(c *liter.Conn){
 		return
 	}
 
-	var conn net.Conn
-	if s.Dialer == nil {
-		conn, err = proxy.Dial(s.ctx, "tcp", item.Target)
-	}else{
-		conn, err = s.Dialer.DialContext(s.ctx, "tcp", item.Target)
-	}
-	if err != nil {
-		ploger.Errorf("Cannot dial to %q: %v", item.Target, err)
-		return
-	}
-	np := liter.NewPacket(0x00)
 	if item.ForwardAddr != "" {
 		hp.Addr = item.ForwardAddr
 	}
 	if item.ForwardPort != 0 {
 		hp.Port = item.ForwardPort
 	}
-	hp.Encode(np)
-	if _, err = conn.Write(np.Bytes()); err != nil {
+
+	var addr *net.TCPAddr
+	if addr, err = liter.ResloveAddrWithContext(s.ctx, item.Target); err != nil {
+		ploger.Errorf("Cannot resolve addr of %q: %v", item.Target, err)
+		return
+	}
+	var rawconn net.Conn
+	if s.Dialer == nil {
+		rawconn, err = proxy.Dial(s.ctx, "tcp", addr.String())
+	}else{
+		rawconn, err = s.Dialer.DialContext(s.ctx, "tcp", addr.String())
+	}
+	if err != nil {
+		ploger.Errorf("Cannot dial to %q: %v", item.Target, err)
+		return
+	}
+
+	conn := liter.WrapConn(rawconn)
+	if err = conn.SendHandshakePkt(hp); err != nil {
 		ploger.Errorf("New connection handshake error: %v", err)
 		return
 	}
 	rc := c.RawConn()
-	go io.Copy(rc, conn)
-	io.Copy(conn, rc)
+	go io.Copy(rc, conn.RawConn())
+	io.Copy(conn.RawConn(), rc)
 }

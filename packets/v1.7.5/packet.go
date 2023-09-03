@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-01 20:57:33.569 -06:00
+// Generated at 2023-09-02 21:26:37.473 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=5486
 // Protocol: 4
 // Protocol Name: 1.7.5
@@ -16,7 +16,7 @@ import (
 // ---- login: serverbound ----
 
 // ID=0x0
-type LoginLoginStartPkt struct {
+type LoginStartPkt struct {
 	/*
 	 * | Packet ID | Field Name | Field Type | Notes |
 	 * |-----------|------------|------------|-------|
@@ -65,7 +65,7 @@ type LoginEncryptionRequestPkt struct {
 }
 
 // ID=0x2
-type LoginLoginSuccessPkt struct {
+type LoginSuccessPkt struct {
 	/*
 	 * | Packet ID | Field Name | Field Type | Notes |
 	 * |-----------|------------|------------|-------|
@@ -112,7 +112,7 @@ type PlayUseEntityPkt struct {
 }
 
 // ID=0x3
-type PlayPlayerPkt struct {
+type PlayerPkt struct {
 	/*
 	 * | Packet ID | Field Name | Field Type | Notes                                                |
 	 * |-----------|------------|------------|------------------------------------------------------|
@@ -122,7 +122,7 @@ type PlayPlayerPkt struct {
 }
 
 // ID=0x4
-type PlayPlayerPositionPkt struct {
+type PlayerPositionPkt struct {
 	/*
 	 * | Packet ID | Field Name | Field Type | Notes                                                                                                                          |
 	 * |-----------|------------|------------|--------------------------------------------------------------------------------------------------------------------------------|
@@ -136,7 +136,7 @@ type PlayPlayerPositionPkt struct {
 }
 
 // ID=0x5
-type PlayPlayerLookPkt struct {
+type PlayerLookPkt struct {
 	/*
 	 * | Packet ID | Field Name | Field Type | Notes                                                |
 	 * |-----------|------------|------------|------------------------------------------------------|
@@ -148,7 +148,7 @@ type PlayPlayerLookPkt struct {
 }
 
 // ID=0x6
-type PlayPlayerPositionAndLookServerPkt struct {
+type PlayerPositionAndLookServerPkt struct {
 	/*
 	 * | Packet ID | Field Name | Field Type | Notes                                                                                                                             |
 	 * |-----------|------------|------------|-----------------------------------------------------------------------------------------------------------------------------------|
@@ -164,7 +164,7 @@ type PlayPlayerPositionAndLookServerPkt struct {
 }
 
 // ID=0x7
-type PlayPlayerDiggingPkt struct {
+type PlayerDiggingPkt struct {
 	/*
 	 * | Packet ID | Field Name | Field Type    | Notes                                                         |
 	 * |-----------|------------|---------------|---------------------------------------------------------------|
@@ -178,7 +178,7 @@ type PlayPlayerDiggingPkt struct {
 }
 
 // ID=0x8
-type PlayPlayerBlockPlacementPkt struct {
+type PlayerBlockPlacementPkt struct {
 	/*
 	 * | Packet ID | Field Name        | Field Type    | Notes                                                  |
 	 * |-----------|-------------------|---------------|--------------------------------------------------------|
@@ -316,7 +316,7 @@ type PlayUpdateSignServerPkt struct {
 }
 
 // ID=0x13
-type PlayPlayerAbilitiesServerPkt struct {
+type PlayerAbilitiesServerPkt struct {
 	/*
 	 * | Packet ID | Field Name    | Field Type | Notes                                 |
 	 * |-----------|---------------|------------|---------------------------------------|
@@ -472,7 +472,7 @@ type PlayRespawnPkt struct {
 }
 
 // ID=0x8
-type PlayPlayerPositionAndLookClientPkt struct {
+type PlayerPositionAndLookClientPkt struct {
 	/*
 	 * | Packet ID | Field Name | Field Type | Notes                                                |
 	 * |-----------|------------|------------|------------------------------------------------------|
@@ -1118,7 +1118,7 @@ type PlayStatisticsPkt struct {
 }
 
 // ID=0x38
-type PlayPlayerListItemPkt struct {
+type PlayerListItemPkt struct {
 	/*
 	 * | Packet ID | Field Name  | Field Type | Notes                                                   |
 	 * |-----------|-------------|------------|---------------------------------------------------------|
@@ -1130,7 +1130,7 @@ type PlayPlayerListItemPkt struct {
 }
 
 // ID=0x39
-type PlayPlayerAbilitiesClientPkt struct {
+type PlayerAbilitiesClientPkt struct {
 	/*
 	 * | Packet ID | Field Name    | Field Type | Notes                                 |
 	 * |-----------|---------------|------------|---------------------------------------|
