@@ -23,7 +23,7 @@ func (p *EmptyCmdPropParser)Decode(r *PacketReader)(value any, err error){ retur
 func init(){
 	vanillaParsers := []CmdPropParser{
 		NewEmptyCmdPropParser(0,  "brigadier:bool"),
-		NewEmptyCmdPropParser(1,  "brigadier:float"),
+		NewEmptyCmdPropParser(1,  "brigadier:float"), // TODO
 		NewEmptyCmdPropParser(2,  "brigadier:double"),
 		NewEmptyCmdPropParser(3,  "brigadier:integer"),
 		NewEmptyCmdPropParser(4,  "brigadier:long"),

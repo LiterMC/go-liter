@@ -1,5 +1,5 @@
 
-package liter
+package slot
 
 type Slot struct {
 	Present bool

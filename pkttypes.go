@@ -13,6 +13,7 @@ type (
 	Byte   = int8
 	UByte  = uint8
 	Short  = int16
+	UShort = uint16
 	Int    = int32
 	Long   = int64
 	Float  = float32
@@ -20,11 +21,6 @@ type (
 
 	VarInt  int32
 	VarLong int64
-
-	NBT interface {
-		Encodable
-		Decodable
-	}
 
 	String     = string
 	Identifier = String
@@ -135,6 +131,14 @@ func (p *PacketBuilder)Id()(VarInt){
 	return p.id
 }
 
+func (p *PacketBuilder)Len()(int){
+	return p.len
+}
+
+func (p *PacketBuilder)Data()([]byte){
+	return p.buf[:p.len]
+}
+
 func (p *PacketBuilder)Bytes()(buf []byte){
 	bf := make([]byte, 5 + p.len)
 	n := encodeVarInt(bf[:5], (int32)(p.id))
@@ -230,6 +234,14 @@ func (p *PacketBuilder)Short(v Short)(*PacketBuilder){
 	return p
 }
 
+func (p *PacketBuilder)UShort(v UShort)(*PacketBuilder){
+	p.grow(2)
+
+	encodeUint16(p.buf[p.len:p.len + 2], (uint16)(v))
+	p.len += 2
+	return p
+}
+
 func (p *PacketBuilder)Int(v Int)(*PacketBuilder){
 	p.grow(4)
 
@@ -315,6 +327,8 @@ func (p *PacketBuilder)Encode(v any){
 		p.UByte(w)
 	case Short:
 		p.Short(w)
+	case UShort:
+		p.UShort(w)
 	case Int:
 		p.Int(w)
 	case Long:
@@ -373,6 +387,13 @@ func ReadPacket(protocol int, r io.Reader)(p *PacketReader, err error){
 	}
 	p.id = (int32)(id)
 	return
+}
+
+func ReadPacketBytes(protocol int, buf []byte)(p *PacketReader){
+	return &PacketReader{
+		protocol: protocol,
+		buf: buf,
+	}
 }
 
 func (p *PacketReader)Protocol()(int){
@@ -445,6 +466,16 @@ func (p *PacketReader)Short()(v Short, ok bool){
 		return 0, false
 	}
 	v = (Short)(decodeUint16(p.buf[p.off:e]))
+	p.off = e
+	return v, true
+}
+
+func (p *PacketReader)UShort()(v UShort, ok bool){
+	e := p.off + 2
+	if e > len(p.buf) {
+		return 0, false
+	}
+	v = (UShort)(decodeUint16(p.buf[p.off:e]))
 	p.off = e
 	return v, true
 }
