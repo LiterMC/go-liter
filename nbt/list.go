@@ -4,6 +4,7 @@ package nbt
 import (
 	"fmt"
 	"io"
+	"strconv"
 	"strings"
 )
 
@@ -22,7 +23,7 @@ func (n *NBTList)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): %d ", len(n.Data))
 	if len(n.Data) == 1 {
@@ -100,7 +101,7 @@ func (n *NBTByteArray)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): [%d byte", len(n.Data))
 	if len(n.Data) != 1 {
@@ -147,7 +148,7 @@ func (n *NBTIntArray)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): %d ", len(n.Data))
 	if len(n.Data) == 1 {
@@ -206,7 +207,7 @@ func (n *NBTLongArray)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): %d ", len(n.Data))
 	if len(n.Data) == 1 {

@@ -168,7 +168,7 @@ Tag_Compound(None): 1 entry
     Tag_Int("SpawnX"): -32
     Tag_Int("clearWeatherTime"): 0
     Tag_Byte("thundering"): 0
-    Tag_Byte("SpawnAngle"): 0
+    Tag_Float("SpawnAngle"): 0
     Tag_Int("version"): 19133
     Tag_Double("BorderSafeZone"): 5
     Tag_Long("LastPlayed"): 1681095687948L

@@ -2,8 +2,8 @@
 package nbt
 
 import (
-	"fmt"
 	"io"
+	"strconv"
 	"strings"
 )
 
@@ -22,9 +22,10 @@ func (n *NBTString)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
-	fmt.Fprintf(&s, "): %q", n.Data)
+	s.WriteString("): ")
+	s.WriteString(strconv.QuoteToASCII(n.Data))
 	return s.String()
 }
 

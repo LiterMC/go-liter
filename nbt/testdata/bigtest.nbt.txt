@@ -1,0 +1,45 @@
+Tag_Compound("Level"): 11 entries
+{
+  Tag_Long("longTest"): 9223372036854775807L
+  Tag_Short("shortTest"): 32767
+  Tag_String("stringTest"): "HELLO WORLD THIS IS A TEST STRING \u00c5\u00c4\u00d6!"
+  Tag_Float("floatTest"): 0.49823147
+  Tag_Int("intTest"): 2147483647
+  Tag_Compound("nested compound test"): 2 entries
+  {
+    Tag_Compound("ham"): 2 entries
+    {
+      Tag_String("name"): "Hampus"
+      Tag_Float("value"): 0.75
+    }
+    Tag_Compound("egg"): 2 entries
+    {
+      Tag_String("name"): "Eggbert"
+      Tag_Float("value"): 0.5
+    }
+  }
+  Tag_List("listTest (long)"): 5 entries
+  {
+    Tag_Long(None): 11L
+    Tag_Long(None): 12L
+    Tag_Long(None): 13L
+    Tag_Long(None): 14L
+    Tag_Long(None): 15L
+  }
+  Tag_List("listTest (compound)"): 2 entries
+  {
+    Tag_Compound(None): 2 entries
+    {
+      Tag_String("name"): "Compound tag #0"
+      Tag_Long("created-on"): 1264099775885L
+    }
+    Tag_Compound(None): 2 entries
+    {
+      Tag_String("name"): "Compound tag #1"
+      Tag_Long("created-on"): 1264099775885L
+    }
+  }
+  Tag_Byte("byteTest"): 127
+  Tag_ByteArray("byteArrayTest (the first 1000 values of (n*n*255+n*7)%100, starting with n=0 (0, 62, 34, 16, 8, ...))"): [1000 bytes]
+  Tag_Double("doubleTest"): 0.4931287132182315
+}

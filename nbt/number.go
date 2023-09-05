@@ -23,7 +23,7 @@ func (n *NBTByte)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): %d", n.Data)
 	return s.String()
@@ -56,7 +56,7 @@ func (n *NBTShort)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): %d", n.Data)
 	return s.String()
@@ -89,7 +89,7 @@ func (n *NBTInt)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): %d", n.Data)
 	return s.String()
@@ -122,7 +122,7 @@ func (n *NBTLong)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): %dL", n.Data)
 	return s.String()
@@ -151,11 +151,11 @@ func (n *NBTFloat)SetName(name string){ n.name = name }
 
 func (n *NBTFloat)String()(string){
 	var s strings.Builder
-	s.WriteString("Tag_Byte(")
+	s.WriteString("Tag_Float(")
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	s.WriteString("): ")
 	s.WriteString(strconv.FormatFloat((float64)(n.Data), 'f', -1, 32))
@@ -189,7 +189,7 @@ func (n *NBTDouble)String()(string){
 	if len(n.name) == 0 {
 		s.WriteString("None")
 	}else{
-		fmt.Fprintf(&s, "%q", n.name)
+		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	s.WriteString("): ")
 	s.WriteString(strconv.FormatFloat(n.Data, 'f', -1, 64))

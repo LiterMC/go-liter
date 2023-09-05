@@ -13,9 +13,9 @@ func TestReadNBT(t *testing.T){
 		file string
 	}
 	datas := []T{
-		// {"testdata/level.dat.1"},
-		// {"testdata/servers.dat.1"},
-		{"testdata/r.0.0.mca.1"},
+		{"testdata/level.dat.1"},
+		{"testdata/servers.dat.1"},
+		{"testdata/bigtest.nbt"},
 	}
 	for _, d := range datas {
 		resname := d.file + ".txt"
@@ -28,10 +28,10 @@ func TestReadNBT(t *testing.T){
 			t.Errorf("Couldn't parse nbt file %q: %v", d.file, err)
 			continue
 		}
-		os.WriteFile(resname, ([]byte)(nbt.String()), 0644)
-		// expect, err := os.ReadFile(resname)
-		// if (string)(expect) != nbt.String() {
-		// 	t.Errorf("Couldn't parse nbt file %q correctly", d.file)
-		// }
+		// os.WriteFile(resname, ([]byte)(nbt.String()), 0644)
+		expect, err := os.ReadFile(resname)
+		if (string)(expect) != nbt.String() {
+			t.Errorf("Couldn't parse nbt file %q correctly", d.file)
+		}
 	}
 }
