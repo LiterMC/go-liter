@@ -2,6 +2,9 @@
 package nbt
 
 import (
+	"bytes"
+	"compress/gzip"
+	"compress/zlib"
 	"fmt"
 	"io"
 
@@ -36,6 +39,7 @@ type NBT interface {
 	Name()(string)
 	SetName(name string)
 
+	fmt.Stringer
 	liter.Encodable
 	liter.Decodable
 }
@@ -73,6 +77,35 @@ var NBTNewer = map[Byte]func()(NBT){
 	NbtLongArray: func()(NBT){ return new(NBTLongArray) },
 }
 
+type Decompressor = func(in []byte)(out []byte, ok bool)
+
+var dataDecompressors = []Decompressor{
+	func(in []byte)(out []byte, ok bool){ // gzip
+		r, err := gzip.NewReader(bytes.NewReader(in))
+		if err != nil {
+			return nil, false
+		}
+		defer r.Close()
+		out, err = io.ReadAll(r)
+		if err != nil {
+			return nil, false
+		}
+		return out, true
+	},
+	func(in []byte)(out []byte, ok bool){ // zlib
+		r, err := zlib.NewReader(bytes.NewReader(in))
+		if err != nil {
+			return nil, false
+		}
+		defer r.Close()
+		out, err = io.ReadAll(r)
+		if err != nil {
+			return nil, false
+		}
+		return out, true
+	},
+}
+
 func WriteNBT(b *PacketBuilder, n NBT){
 	b.Byte(n.Type())
 	writeNBTString(b, n.Name())
@@ -98,5 +131,21 @@ func ReadNBT(r *PacketReader)(n NBT, err error){
 		return nil, io.EOF
 	}
 	n.SetName(name)
+	n.DecodeFrom(r)
 	return
+}
+
+func ParseFromBytes(buf []byte)(nbt NBT, err error){
+	var data []byte
+	var ok bool
+	for _, dc := range dataDecompressors {
+		if data, ok = dc(buf); ok {
+			break
+		}
+	}
+	if !ok {
+		data = buf
+	}
+	r := liter.ReadPacketFromBytes(liter.V_UNSET, data)
+	return ReadNBT(r)
 }

@@ -1,7 +1,11 @@
 
 package nbt
 
-import "io"
+import (
+	"fmt"
+	"io"
+	"strings"
+)
 
 type NBTString struct {
 	name string
@@ -11,6 +15,18 @@ type NBTString struct {
 func (n *NBTString)Type()(Byte){ return NbtString }
 func (n *NBTString)Name()(string){ return n.name }
 func (n *NBTString)SetName(name string){ n.name = name }
+
+func (n *NBTString)String()(string){
+	var s strings.Builder
+	s.WriteString("Tag_String(")
+	if len(n.name) == 0 {
+		s.WriteString("None")
+	}else{
+		fmt.Fprintf(&s, "%q", n.name)
+	}
+	fmt.Fprintf(&s, "): %q", n.Data)
+	return s.String()
+}
 
 func (n *NBTString)Encode(b *PacketBuilder){
 	writeNBTString(b, n.Data)

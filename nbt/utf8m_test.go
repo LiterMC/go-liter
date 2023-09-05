@@ -3,6 +3,10 @@ package nbt_test
 
 import (
 	"testing"
+	"math/rand"
+	"sync"
+	"time"
+	"unsafe"
 
 	. "github.com/kmcsr/go-liter/nbt"
 )
@@ -21,18 +25,42 @@ var testDatas = []string{
 }
 
 func TestUtf8m(t *testing.T){
-	for i, data := range testDatas {
+	for i, data := range genDatas(100) {
 		res := DecodeUtf8m(EncodeUtf8m(data))
 		if res != data {
-			t.Errorf("Cannot encode data[%d] correctly", i)
+			t.Fatalf("Cannot encode data[%d] correctly", i)
 		}
 	}
 }
 
-func BenchmarkEncodeUtf8m(b *testing.B){
-	data := testDatas[0]
-	b.ResetTimer()
-	for i := 0; i <= b.N; i++ {
-		_ = DecodeUtf8m(EncodeUtf8m(data))
+func genData(n int)(string){
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	buf := make([]rune, r.Intn(n - 1) + 1)
+	r.Read(unsafe.Slice((*byte)(unsafe.Pointer(unsafe.SliceData(buf))),
+		len(buf) * int(unsafe.Sizeof((rune)(0))) ))
+	return (string)(buf)
+}
+
+func genDatas(n int)(data []string){
+	data = make([]string, n)
+	for i, _ := range data {
+		data[i] = genData(1024)
 	}
+	return
+}
+
+func BenchmarkEncodeUtf8m(b *testing.B){
+	b.Logf("b.N: %d", b.N)
+	data := genDatas(b.N)
+	var wg sync.WaitGroup
+	wg.Add(b.N)
+	b.Logf("Start")
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		go func(data string){
+			defer wg.Done()
+			_ = DecodeUtf8m(EncodeUtf8m(data))
+		}(data[i])
+	}
+	wg.Wait()
 }

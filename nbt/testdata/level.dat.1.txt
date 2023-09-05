@@ -1,0 +1,195 @@
+Tag_Compound(None): 1 entry
+{
+  Tag_Compound("Data"): 41 entries
+  {
+    Tag_Int("WanderingTraderSpawnChance"): 75
+    Tag_Double("BorderCenterZ"): 0
+    Tag_Byte("Difficulty"): 1
+    Tag_Long("BorderSizeLerpTime"): 0L
+    Tag_Byte("raining"): 0
+    Tag_Long("Time"): 679953L
+    Tag_Int("GameType"): 0
+    Tag_List("ServerBrands"): 1 entry
+    {
+      Tag_String(None): "vanilla"
+    }
+    Tag_Double("BorderCenterX"): 0
+    Tag_Double("BorderDamagePerBlock"): 0.2
+    Tag_Double("BorderWarningBlocks"): 5
+    Tag_Compound("WorldGenSettings"): 4 entries
+    {
+      Tag_Byte("bonus_chest"): 0
+      Tag_Long("seed"): 6830591618185185234L
+      Tag_Byte("generate_features"): 1
+      Tag_Compound("dimensions"): 3 entries
+      {
+        Tag_Compound("minecraft:overworld"): 2 entries
+        {
+          Tag_Compound("generator"): 3 entries
+          {
+            Tag_String("settings"): "minecraft:overworld"
+            Tag_Compound("biome_source"): 2 entries
+            {
+              Tag_String("preset"): "minecraft:overworld"
+              Tag_String("type"): "minecraft:multi_noise"
+            }
+            Tag_String("type"): "minecraft:noise"
+          }
+          Tag_String("type"): "minecraft:overworld"
+        }
+        Tag_Compound("minecraft:the_nether"): 2 entries
+        {
+          Tag_Compound("generator"): 3 entries
+          {
+            Tag_String("settings"): "minecraft:nether"
+            Tag_Compound("biome_source"): 2 entries
+            {
+              Tag_String("preset"): "minecraft:nether"
+              Tag_String("type"): "minecraft:multi_noise"
+            }
+            Tag_String("type"): "minecraft:noise"
+          }
+          Tag_String("type"): "minecraft:the_nether"
+        }
+        Tag_Compound("minecraft:the_end"): 2 entries
+        {
+          Tag_Compound("generator"): 3 entries
+          {
+            Tag_String("settings"): "minecraft:end"
+            Tag_Compound("biome_source"): 1 entry
+            {
+              Tag_String("type"): "minecraft:the_end"
+            }
+            Tag_String("type"): "minecraft:noise"
+          }
+          Tag_String("type"): "minecraft:the_end"
+        }
+      }
+    }
+    Tag_Compound("DragonFight"): 4 entries
+    {
+      Tag_Byte("NeedsStateScanning"): 1
+      Tag_List("Gateways"): 20 entries
+      {
+        Tag_Int(None): 13
+        Tag_Int(None): 9
+        Tag_Int(None): 17
+        Tag_Int(None): 2
+        Tag_Int(None): 4
+        Tag_Int(None): 15
+        Tag_Int(None): 3
+        Tag_Int(None): 18
+        Tag_Int(None): 16
+        Tag_Int(None): 0
+        Tag_Int(None): 10
+        Tag_Int(None): 8
+        Tag_Int(None): 5
+        Tag_Int(None): 19
+        Tag_Int(None): 6
+        Tag_Int(None): 11
+        Tag_Int(None): 12
+        Tag_Int(None): 14
+        Tag_Int(None): 1
+        Tag_Int(None): 7
+      }
+      Tag_Byte("DragonKilled"): 1
+      Tag_Byte("PreviouslyKilled"): 1
+    }
+    Tag_Double("BorderSizeLerpTarget"): 59999968
+    Tag_Compound("Version"): 4 entries
+    {
+      Tag_Byte("Snapshot"): 0
+      Tag_String("Series"): "main"
+      Tag_Int("Id"): 3337
+      Tag_String("Name"): "1.19.4"
+    }
+    Tag_Long("DayTime"): 679953L
+    Tag_Byte("initialized"): 1
+    Tag_Byte("WasModded"): 0
+    Tag_Byte("allowCommands"): 0
+    Tag_Int("WanderingTraderSpawnDelay"): 19200
+    Tag_Compound("CustomBossEvents"): 0 entries
+    {
+    }
+    Tag_Compound("GameRules"): 45 entries
+    {
+      Tag_String("doWardenSpawning"): "true"
+      Tag_String("globalSoundEvents"): "true"
+      Tag_String("tntExplosionDropDecay"): "false"
+      Tag_String("doFireTick"): "true"
+      Tag_String("maxCommandChainLength"): "65536"
+      Tag_String("doVinesSpread"): "true"
+      Tag_String("fireDamage"): "true"
+      Tag_String("reducedDebugInfo"): "false"
+      Tag_String("waterSourceConversion"): "true"
+      Tag_String("disableElytraMovementCheck"): "false"
+      Tag_String("lavaSourceConversion"): "false"
+      Tag_String("announceAdvancements"): "true"
+      Tag_String("drowningDamage"): "true"
+      Tag_String("commandBlockOutput"): "true"
+      Tag_String("forgiveDeadPlayers"): "true"
+      Tag_String("doMobSpawning"): "true"
+      Tag_String("maxEntityCramming"): "24"
+      Tag_String("disableRaids"): "false"
+      Tag_String("doWeatherCycle"): "true"
+      Tag_String("mobExplosionDropDecay"): "true"
+      Tag_String("doDaylightCycle"): "true"
+      Tag_String("showDeathMessages"): "true"
+      Tag_String("doTileDrops"): "true"
+      Tag_String("universalAnger"): "false"
+      Tag_String("playersSleepingPercentage"): "100"
+      Tag_String("snowAccumulationHeight"): "1"
+      Tag_String("doInsomnia"): "true"
+      Tag_String("blockExplosionDropDecay"): "true"
+      Tag_String("doImmediateRespawn"): "false"
+      Tag_String("naturalRegeneration"): "true"
+      Tag_String("doMobLoot"): "true"
+      Tag_String("fallDamage"): "true"
+      Tag_String("keepInventory"): "false"
+      Tag_String("doEntityDrops"): "true"
+      Tag_String("doLimitedCrafting"): "false"
+      Tag_String("mobGriefing"): "true"
+      Tag_String("randomTickSpeed"): "3"
+      Tag_String("spawnRadius"): "10"
+      Tag_String("commandModificationBlockLimit"): "32768"
+      Tag_String("doTraderSpawning"): "true"
+      Tag_String("freezeDamage"): "true"
+      Tag_String("logAdminCommands"): "true"
+      Tag_String("spectatorsGenerateChunks"): "true"
+      Tag_String("sendCommandFeedback"): "true"
+      Tag_String("doPatrolSpawning"): "true"
+    }
+    Tag_Int("SpawnY"): 81
+    Tag_Int("rainTime"): 20780
+    Tag_Int("thunderTime"): 88479
+    Tag_Int("SpawnZ"): 0
+    Tag_Byte("hardcore"): 0
+    Tag_Byte("DifficultyLocked"): 0
+    Tag_Int("SpawnX"): -32
+    Tag_Int("clearWeatherTime"): 0
+    Tag_Byte("thundering"): 0
+    Tag_Byte("SpawnAngle"): 0
+    Tag_Int("version"): 19133
+    Tag_Double("BorderSafeZone"): 5
+    Tag_Long("LastPlayed"): 1681095687948L
+    Tag_Double("BorderWarningTime"): 15
+    Tag_List("ScheduledEvents"): 0 entries
+    {
+    }
+    Tag_String("LevelName"): "world"
+    Tag_Double("BorderSize"): 59999968
+    Tag_Int("DataVersion"): 3337
+    Tag_Compound("DataPacks"): 2 entries
+    {
+      Tag_List("Disabled"): 2 entries
+      {
+        Tag_String(None): "bundle"
+        Tag_String(None): "update_1_20"
+      }
+      Tag_List("Enabled"): 1 entry
+      {
+        Tag_String(None): "vanilla"
+      }
+    }
+  }
+}
