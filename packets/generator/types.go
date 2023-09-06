@@ -8,7 +8,7 @@ import (
 func wikiTypeAsGoType(wikiTyp string)(typ string){
 	wikiTyp = strings.ToLower(wikiTyp)
 	if wikiTyp == "array of (byte, byte, byte)" {
-		return "[][3]byte"
+		return "[][3]Byte"
 	}
 	wikiTyp, _ = split(wikiTyp, ',')
 	wikiTyp, _ = split(wikiTyp, '(')
@@ -50,13 +50,13 @@ func wikiTypeAsGoType(wikiTyp string)(typ string){
 	case "varlong":
 		return "VarLong"
 	case "metadata", "entity metadata":
-		return "*EntityMetadata"
+		return "*data.EntityMetadata"
 	case "slot":
-		return "*Slot"
+		return "*data.Slot"
 	case "nbt", "nbt tag":
-		return "NBT"
+		return "nbt.NBT"
 	case "nbt tag compound":
-		return "*NBTCompound"
+		return "*nbt.NBTCompound"
 	case "string", "identifier":
 		return "String"
 	case "chat", "component":

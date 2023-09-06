@@ -6,6 +6,7 @@ package internal
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	data "github.com/kmcsr/go-liter/data"
 )
 
 {{- range $_, $rps := .repeats }}

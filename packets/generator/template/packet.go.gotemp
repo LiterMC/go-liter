@@ -9,6 +9,7 @@ package packet_{{ replace .protocol.Name "." "_" }}
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
 

@@ -465,6 +465,12 @@ func genRegularDecodeCode(w io.Writer, name, typ string, indent int){
 		fmt.Fprint(w, "\treturn err\n")
 		fmt.Fprint(w, indents)
 		fmt.Fprint(w, "}\n")
+	}else if typ == "nbt.NBT" {
+		fmt.Fprintf(w, "if p.%s, err = nbt.ReadNBT(r); err != nil {\n", name)
+		fmt.Fprint(w, indents)
+		fmt.Fprint(w, "\treturn err\n")
+		fmt.Fprint(w, indents)
+		fmt.Fprint(w, "}\n")
 	}else if strings.HasPrefix(typ, "[]") {
 		fmt.Fprintf(w, "TODO_Decode_Array(p.%s)\n", name)
 	}else if typ == "ByteArray" {

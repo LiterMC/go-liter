@@ -6,7 +6,12 @@ package internal
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	"github.com/kmcsr/go-liter/nbt"
+	"github.com/kmcsr/go-liter/slot"
 )
+
+type NBT = nbt.NBT
+type Slot = slot.Slot
 
 func assert(cond bool, msg any){
 	if !cond {
@@ -456,8 +461,9 @@ var _ Packet = (*LoginStart_763_0)(nil)
 
 func (p LoginStart_763_0)Encode(b *PacketBuilder){
 	b.String(p.Name)
+	p.HasPlayerUUID = p.PlayerUUID.Ok
 	b.Bool(p.HasPlayerUUID)
-	if p.PlayerUUID.Ok = p.HasPlayerUUID; p.PlayerUUID.Ok {
+	if p.PlayerUUID.Ok {
 		b.UUID(p.PlayerUUID.V)
 	}
 }
@@ -810,8 +816,8 @@ var _ Packet = (*PlayAdvancementTab_758_0)(nil)
 
 func (p PlayAdvancementTab_758_0)Encode(b *PacketBuilder){
 	b.VarInt(p.Action)
-	if p.TabID.Ok = p.Action == 0; p.TabID.Ok {
-		b.String(p.TabID.V)
+	if p.Action == 0 {
+		b.String(p.TabID.Assert())
 	}
 }
 
@@ -1790,8 +1796,9 @@ func (p PlayChatMessage_763_0)Encode(b *PacketBuilder){
 	b.String(p.Message)
 	b.Long(p.Timestamp)
 	b.Long(p.Salt)
+	p.HasSignature = p.Signature.Ok
 	b.Bool(p.HasSignature)
-	if p.Signature.Ok = p.HasSignature; p.Signature.Ok {
+	if p.Signature.Ok {
 		assert(len(p.Signature.V) == 256, "len(PlayChatMessage.Signature) != 256")
 		b.ByteArray(p.Signature.V)
 	}
@@ -2206,8 +2213,8 @@ func (p PlayChunkData_754_1)Encode(b *PacketBuilder){
 	b.Bool(p.FullChunk)
 	b.VarInt(p.PrimaryBitMask)
 	p.Heightmaps.Encode(b)
-	if p.BiomesLength.Ok = p.FullChunk; p.BiomesLength.Ok {
-		p.BiomesLength.V = (VarInt)(len(p.Biomes.Assert()))
+	if p.FullChunk {
+		p.BiomesLength.Set((VarInt)(len(p.Biomes.Assert())))
 		b.VarInt(p.BiomesLength.V)
 		for _, v := range p.Biomes.V {
 			b.VarInt(v)
@@ -2380,14 +2387,17 @@ func (p PlayChunkData_316_6)Encode(b *PacketBuilder){
 	b.Int(p.ChunkZ)
 	b.Bool(p.GroundUpContinuous)
 	b.VarInt(p.PrimaryBitMask)
-	b.VarInt(p.Size)
-	assert(len(p.Data) == p.PrimaryBitMask.Bits())
+	b2 := NewPacket(b.Protocol(), 0)
 	for _, v := range p.Data {
-		v.Encode(b)
+		v.Encode(b2)
 	}
-	if p.Biomes.Ok = p.GroundUpContinuous; p.Biomes.Ok {
-		b.ByteArray(p.Biomes.V)
+	if p.GroundUpContinuous {
+		assert(len(p.Biomes.Assert()) == 256, "len(PlayChunkData.Biomes) != 256")
+		b2.ByteArray(p.Biomes.V)
 	}
+	p.Size = (VarInt)(b2.Len())
+	b.VarInt(p.Size)
+	b.ByteArray(b2.Data())
 	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
@@ -2415,15 +2425,23 @@ func (p *PlayChunkData_316_6)DecodeFrom(r *PacketReader)(error){
 	if p.Size, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
+	buf := make([]byte, p.Size)
+	if ok = r.ByteArray(buf); !ok {
+		return io.EOF
+	}
+	r2 := ReadPacketBytes(r.Protocol(), buf)
 	p.Data = make([]*ChunkSection, p.Size)
 	for i, _ := range p.Data {
 		p.Data[i] = new(ChunkSection)
-		if err = p.Data[i].DecodeFrom(r); err != nil {
+		if err = p.Data[i].DecodeFrom(r2); err != nil {
 			return err
 		}
 	}
-	if p.Biomes.Ok = TODO; p.Biomes.Ok {
-		TODO_Decode_ByteArray(p.Biomes.V)
+	if p.Biomes.Ok = p.GroundUpContinuous; p.Biomes.Ok {
+		p.Biomes.V = make(ByteArray, 256)
+		if ok = r2.ByteArray(p.Biomes.V); !ok {
+			return io.EOF
+		}
 	}
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
@@ -4210,10 +4228,14 @@ func (p PlayEditBook_763_0)Encode(b *PacketBuilder){
 	p.Count = (VarInt)(len(p.Entries))
 	b.VarInt(p.Count)
 	for _, v := range p.Entries {
-		TODO_Encode_Array(v)
+		b.VarInt((VarInt)(len(v)))
+		for _, e := range v {
+			b.String(e)
+		}
 	}
+	p.HasTitle = p.Title.Ok
 	b.Bool(p.HasTitle)
-	if p.Title.Ok = TODO; p.Title.Ok {
+	if p.Title.Ok {
 		b.String(p.Title.V)
 	}
 }
@@ -4231,12 +4253,22 @@ func (p *PlayEditBook_763_0)DecodeFrom(r *PacketReader)(error){
 	}
 	p.Entries = make([][]String, p.Count)
 	for i, _ := range p.Entries {
-		TODO_Decode_Array(p.Entries[i])
+		var v VarInt
+		if v, ok = r.VarInt(); !ok {
+			return io.EOF
+		}
+		l := make([]String, v)
+		p.Entries[i] = l
+		for j, _ := range l {
+			if l[j], ok = r.String(); !ok {
+				return io.EOF
+			}
+		}
 	}
 	if p.HasTitle, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.Title.Ok = TODO; p.Title.Ok {
+	if p.Title.Ok = p.HasTitle; p.Title.Ok {
 		if p.Title.V, ok = r.String(); !ok {
 			return io.EOF
 		}
@@ -4891,7 +4923,7 @@ var _ Packet = (*PlayEntityHeadLook_758_0)(nil)
 
 func (p PlayEntityHeadLook_758_0)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
-	p.HeadYaw.Encode(b)
+	b.UByte(p.HeadYaw)
 }
 
 func (p *PlayEntityHeadLook_758_0)DecodeFrom(r *PacketReader)(error){
@@ -4902,8 +4934,8 @@ func (p *PlayEntityHeadLook_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.HeadYaw.DecodeFrom(r); err != nil {
-		return err
+	if p.HeadYaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	return nil
 }
@@ -4930,8 +4962,8 @@ var _ Packet = (*PlayEntityLook_404_0)(nil)
 
 func (p PlayEntityLook_404_0)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	b.Bool(p.OnGround)
 }
 
@@ -4943,11 +4975,11 @@ func (p *PlayEntityLook_404_0)DecodeFrom(r *PacketReader)(error){
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -4985,8 +5017,8 @@ func (p PlayEntityLookAndRelativeMove_404_0)Encode(b *PacketBuilder){
 	b.Short(p.DeltaX)
 	b.Short(p.DeltaY)
 	b.Short(p.DeltaZ)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	b.Bool(p.OnGround)
 }
 
@@ -5007,11 +5039,11 @@ func (p *PlayEntityLookAndRelativeMove_404_0)DecodeFrom(r *PacketReader)(error){
 	if p.DeltaZ, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -5170,8 +5202,8 @@ func (p PlayEntityPositionAndRotation_758_0)Encode(b *PacketBuilder){
 	b.Short(p.DeltaX)
 	b.Short(p.DeltaY)
 	b.Short(p.DeltaZ)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	b.Bool(p.OnGround)
 }
 
@@ -5192,11 +5224,11 @@ func (p *PlayEntityPositionAndRotation_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.DeltaZ, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -5358,8 +5390,8 @@ var _ Packet = (*PlayEntityRotation_758_0)(nil)
 
 func (p PlayEntityRotation_758_0)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	b.Bool(p.OnGround)
 }
 
@@ -5371,11 +5403,11 @@ func (p *PlayEntityRotation_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -5410,14 +5442,13 @@ var _ Packet = (*PlayEntitySoundEffect_763_0)(nil)
 
 func (p PlayEntitySoundEffect_763_0)Encode(b *PacketBuilder){
 	b.VarInt(p.SoundID)
-	if p.SoundName.Ok = TODO; p.SoundName.Ok {
-		b.String(p.SoundName.V)
-	}
-	if p.HasFixedRange.Ok = TODO; p.HasFixedRange.Ok {
+	if p.SoundID == 0 {
+		b.String(p.SoundName.Assert())
+		p.HasFixedRange.Set(p.Range.Ok)
 		b.Bool(p.HasFixedRange.V)
-	}
-	if p.Range.Ok = TODO; p.Range.Ok {
-		b.Float(p.Range.V)
+		if p.Range.Ok {
+			b.Float(p.Range.V)
+		}
 	}
 	b.VarInt(p.SoundCategory)
 	b.VarInt(p.EntityID)
@@ -5434,17 +5465,17 @@ func (p *PlayEntitySoundEffect_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.SoundID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.SoundName.Ok = TODO; p.SoundName.Ok {
+	if p.SoundName.Ok = p.SoundID == 0; p.SoundName.Ok {
 		if p.SoundName.V, ok = r.String(); !ok {
 			return io.EOF
 		}
 	}
-	if p.HasFixedRange.Ok = TODO; p.HasFixedRange.Ok {
+	if p.HasFixedRange.Ok = p.SoundID == 0; p.HasFixedRange.Ok {
 		if p.HasFixedRange.V, ok = r.Bool(); !ok {
 			return io.EOF
 		}
 	}
-	if p.Range.Ok = TODO; p.Range.Ok {
+	if p.Range.Ok = p.SoundID == 0 && p.HasFixedRange.V; p.Range.Ok {
 		if p.Range.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
@@ -5601,8 +5632,8 @@ func (p PlayEntityTeleport_758_0)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	b.Bool(p.OnGround)
 }
 
@@ -5623,11 +5654,11 @@ func (p *PlayEntityTeleport_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -5704,7 +5735,7 @@ type PlayExplosion_763_0 struct {
 	/* Number of elements in the following array. */
 	RecordCount VarInt // VarInt
 	/* Each record is 3 signed bytes long; the 3 bytes are the XYZ (respectively) signed offsets of affected blocks. */
-	Records [][3]byte // Array of (Byte, Byte, Byte)
+	Records [][3]Byte // Array of (Byte, Byte, Byte)
 	/* X velocity of the player being pushed by the explosion. */
 	PlayerMotionX Float // Float
 	/* Y velocity of the player being pushed by the explosion. */
@@ -5723,7 +5754,7 @@ func (p PlayExplosion_763_0)Encode(b *PacketBuilder){
 	p.RecordCount = (VarInt)(len(p.Records))
 	b.VarInt(p.RecordCount)
 	for _, v := range p.Records {
-		v.Encode(b)
+		b.Byte(v[0]).Byte(v[1]).Byte(v[2])
 	}
 	b.Float(p.PlayerMotionX)
 	b.Float(p.PlayerMotionY)
@@ -5750,10 +5781,16 @@ func (p *PlayExplosion_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.RecordCount, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.Records = make([][3]byte, p.RecordCount)
+	p.Records = make([][3]Byte, p.RecordCount)
 	for i, _ := range p.Records {
-		if err = p.Records[i].DecodeFrom(r); err != nil {
-			return err
+		if p.Records[i][0], ok = r.Byte(); !ok {
+			return io.EOF
+		}
+		if p.Records[i][1], ok = r.Byte(); !ok {
+			return io.EOF
+		}
+		if p.Records[i][2], ok = r.Byte(); !ok {
+			return io.EOF
 		}
 	}
 	if p.PlayerMotionX, ok = r.Float(); !ok {
@@ -5782,7 +5819,7 @@ type PlayExplosion_760_1 struct {
 	/* Number of elements in the following array. */
 	RecordCount VarInt // VarInt
 	/* Each record is 3 signed bytes long; the 3 bytes are the XYZ (respectively) signed offsets of affected blocks. */
-	Records [][3]byte // Array of (Byte, Byte, Byte)
+	Records [][3]Byte // Array of (Byte, Byte, Byte)
 	/* X velocity of the player being pushed by the explosion. */
 	PlayerMotionX Float // Float
 	/* Y velocity of the player being pushed by the explosion. */
@@ -5801,7 +5838,7 @@ func (p PlayExplosion_760_1)Encode(b *PacketBuilder){
 	p.RecordCount = (VarInt)(len(p.Records))
 	b.VarInt(p.RecordCount)
 	for _, v := range p.Records {
-		v.Encode(b)
+		b.Byte(v[0]).Byte(v[1]).Byte(v[2])
 	}
 	b.Float(p.PlayerMotionX)
 	b.Float(p.PlayerMotionY)
@@ -5828,10 +5865,16 @@ func (p *PlayExplosion_760_1)DecodeFrom(r *PacketReader)(error){
 	if p.RecordCount, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.Records = make([][3]byte, p.RecordCount)
+	p.Records = make([][3]Byte, p.RecordCount)
 	for i, _ := range p.Records {
-		if err = p.Records[i].DecodeFrom(r); err != nil {
-			return err
+		if p.Records[i][0], ok = r.Byte(); !ok {
+			return io.EOF
+		}
+		if p.Records[i][1], ok = r.Byte(); !ok {
+			return io.EOF
+		}
+		if p.Records[i][2], ok = r.Byte(); !ok {
+			return io.EOF
 		}
 	}
 	if p.PlayerMotionX, ok = r.Float(); !ok {
@@ -5858,7 +5901,7 @@ type PlayExplosion_754_2 struct {
 	/* Number of elements in the following array */
 	RecordCount Int // Int
 	/* Each record is 3 signed bytes long; the 3 bytes are the XYZ (respectively) signed offsets of affected blocks. */
-	Records [][3]byte // Array of (Byte, Byte, Byte)
+	Records [][3]Byte // Array of (Byte, Byte, Byte)
 	/* X velocity of the player being pushed by the explosion */
 	PlayerMotionX Float // Float
 	/* Y velocity of the player being pushed by the explosion */
@@ -5877,7 +5920,7 @@ func (p PlayExplosion_754_2)Encode(b *PacketBuilder){
 	p.RecordCount = (Int)(len(p.Records))
 	b.Int(p.RecordCount)
 	for _, v := range p.Records {
-		v.Encode(b)
+		b.Byte(v[0]).Byte(v[1]).Byte(v[2])
 	}
 	b.Float(p.PlayerMotionX)
 	b.Float(p.PlayerMotionY)
@@ -5904,10 +5947,16 @@ func (p *PlayExplosion_754_2)DecodeFrom(r *PacketReader)(error){
 	if p.RecordCount, ok = r.Int(); !ok {
 		return io.EOF
 	}
-	p.Records = make([][3]byte, p.RecordCount)
+	p.Records = make([][3]Byte, p.RecordCount)
 	for i, _ := range p.Records {
-		if err = p.Records[i].DecodeFrom(r); err != nil {
-			return err
+		if p.Records[i][0], ok = r.Byte(); !ok {
+			return io.EOF
+		}
+		if p.Records[i][1], ok = r.Byte(); !ok {
+			return io.EOF
+		}
+		if p.Records[i][2], ok = r.Byte(); !ok {
+			return io.EOF
 		}
 	}
 	if p.PlayerMotionX, ok = r.Float(); !ok {
@@ -5941,7 +5990,7 @@ type PlayExplosion_498_3 struct {
 	/* Number of elements in the following array */
 	RecordCount Int // Int
 	/* Each record is 3 signed bytes long, each bytes are the XYZ (respectively) offsets of affected blocks. */
-	Records [][3]byte // Array of (Byte, Byte, Byte)
+	Records [][3]Byte // Array of (Byte, Byte, Byte)
 	/* X velocity of the player being pushed by the explosion */
 	PlayerMotionX Float // Float
 	/* Y velocity of the player being pushed by the explosion */
@@ -5960,7 +6009,7 @@ func (p PlayExplosion_498_3)Encode(b *PacketBuilder){
 	p.RecordCount = (Int)(len(p.Records))
 	b.Int(p.RecordCount)
 	for _, v := range p.Records {
-		v.Encode(b)
+		b.Byte(v[0]).Byte(v[1]).Byte(v[2])
 	}
 	b.Float(p.PlayerMotionX)
 	b.Float(p.PlayerMotionY)
@@ -5987,10 +6036,16 @@ func (p *PlayExplosion_498_3)DecodeFrom(r *PacketReader)(error){
 	if p.RecordCount, ok = r.Int(); !ok {
 		return io.EOF
 	}
-	p.Records = make([][3]byte, p.RecordCount)
+	p.Records = make([][3]Byte, p.RecordCount)
 	for i, _ := range p.Records {
-		if err = p.Records[i].DecodeFrom(r); err != nil {
-			return err
+		if p.Records[i][0], ok = r.Byte(); !ok {
+			return io.EOF
+		}
+		if p.Records[i][1], ok = r.Byte(); !ok {
+			return io.EOF
+		}
+		if p.Records[i][2], ok = r.Byte(); !ok {
+			return io.EOF
 		}
 	}
 	if p.PlayerMotionX, ok = r.Float(); !ok {
@@ -6038,11 +6093,9 @@ func (p PlayFacePlayer_757_0)Encode(b *PacketBuilder){
 	b.Double(p.TargetY)
 	b.Double(p.TargetZ)
 	b.Bool(p.IsEntity)
-	if p.EntityID.Ok = TODO; p.EntityID.Ok {
-		b.VarInt(p.EntityID.V)
-	}
-	if p.EntityFeetOrEyes.Ok = TODO; p.EntityFeetOrEyes.Ok {
-		b.VarInt(p.EntityFeetOrEyes.V)
+	if p.IsEntity {
+		b.VarInt(p.EntityID.Assert())
+		b.VarInt(p.EntityFeetOrEyes.Assert())
 	}
 }
 
@@ -6066,12 +6119,12 @@ func (p *PlayFacePlayer_757_0)DecodeFrom(r *PacketReader)(error){
 	if p.IsEntity, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.EntityID.Ok = TODO; p.EntityID.Ok {
+	if p.EntityID.Ok = p.IsEntity; p.EntityID.Ok {
 		if p.EntityID.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
 	}
-	if p.EntityFeetOrEyes.Ok = TODO; p.EntityFeetOrEyes.Ok {
+	if p.EntityFeetOrEyes.Ok = p.IsEntity; p.EntityFeetOrEyes.Ok {
 		if p.EntityFeetOrEyes.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -6091,8 +6144,11 @@ type PlayFeatureFlags_763_0 struct {
 var _ Packet = (*PlayFeatureFlags_763_0)(nil)
 
 func (p PlayFeatureFlags_763_0)Encode(b *PacketBuilder){
+	p.TotalFeatures = (VarInt)(len(p.FeatureFlags))
 	b.VarInt(p.TotalFeatures)
-	TODO_Encode_Array(p.FeatureFlags)
+	for _, v := range p.FeatureFlags {
+		b.String(v)
+	}
 }
 
 func (p *PlayFeatureFlags_763_0)DecodeFrom(r *PacketReader)(error){
@@ -6103,7 +6159,12 @@ func (p *PlayFeatureFlags_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.TotalFeatures, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	TODO_Decode_Array(p.FeatureFlags)
+	p.FeatureFlags = make([]String, p.TotalFeatures)
+	for i, _ := range p.FeatureFlags {
+		if p.FeatureFlags[i], ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
 	return nil
 }
 
@@ -6368,17 +6429,17 @@ var _ Packet = (*PlayInteract_763_0)(nil)
 func (p PlayInteract_763_0)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
 	b.VarInt(p.Type)
-	if p.TargetX.Ok = TODO; p.TargetX.Ok {
-		b.Float(p.TargetX.V)
+	if p.Type == 2 {
+		b.Float(p.TargetX.Assert())
 	}
-	if p.TargetY.Ok = TODO; p.TargetY.Ok {
-		b.Float(p.TargetY.V)
+	if p.Type == 2 {
+		b.Float(p.TargetY.Assert())
 	}
-	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
-		b.Float(p.TargetZ.V)
+	if p.Type == 2 {
+		b.Float(p.TargetZ.Assert())
 	}
-	if p.Hand.Ok = TODO; p.Hand.Ok {
-		b.VarInt(p.Hand.V)
+	if p.Type == 0 || p.Type == 2 {
+		b.VarInt(p.Hand.Assert())
 	}
 	b.Bool(p.Sneaking)
 }
@@ -6394,22 +6455,22 @@ func (p *PlayInteract_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Type, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.TargetX.Ok = TODO; p.TargetX.Ok {
+	if p.TargetX.Ok = p.Type == 2; p.TargetX.Ok {
 		if p.TargetX.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.TargetY.Ok = TODO; p.TargetY.Ok {
+	if p.TargetY.Ok = p.Type == 2; p.TargetY.Ok {
 		if p.TargetY.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
+	if p.TargetZ.Ok = p.Type == 2; p.TargetZ.Ok {
 		if p.TargetZ.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.Hand.Ok = TODO; p.Hand.Ok {
+	if p.Hand.Ok = p.Type == 0 || p.Type == 2; p.Hand.Ok {
 		if p.Hand.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -6448,17 +6509,17 @@ var _ Packet = (*PlayInteractEntity_758_0)(nil)
 func (p PlayInteractEntity_758_0)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
 	b.VarInt(p.Type)
-	if p.TargetX.Ok = TODO; p.TargetX.Ok {
-		b.Float(p.TargetX.V)
+	if p.Type == 2 {
+		b.Float(p.TargetX.Assert())
 	}
-	if p.TargetY.Ok = TODO; p.TargetY.Ok {
-		b.Float(p.TargetY.V)
+	if p.Type == 2 {
+		b.Float(p.TargetY.Assert())
 	}
-	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
-		b.Float(p.TargetZ.V)
+	if p.Type == 2 {
+		b.Float(p.TargetZ.Assert())
 	}
-	if p.Hand.Ok = TODO; p.Hand.Ok {
-		b.VarInt(p.Hand.V)
+	if p.Type == 0 || p.Type == 2 {
+		b.VarInt(p.Hand.Assert())
 	}
 	b.Bool(p.Sneaking)
 }
@@ -6474,22 +6535,22 @@ func (p *PlayInteractEntity_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.Type, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.TargetX.Ok = TODO; p.TargetX.Ok {
+	if p.TargetX.Ok = p.Type == 2; p.TargetX.Ok {
 		if p.TargetX.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.TargetY.Ok = TODO; p.TargetY.Ok {
+	if p.TargetY.Ok = p.Type == 2; p.TargetY.Ok {
 		if p.TargetY.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
+	if p.TargetZ.Ok = p.Type == 2; p.TargetZ.Ok {
 		if p.TargetZ.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.Hand.Ok = TODO; p.Hand.Ok {
+	if p.Hand.Ok = p.Type == 0 || p.Type == 2; p.Hand.Ok {
 		if p.Hand.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -6522,17 +6583,17 @@ var _ Packet = (*PlayInteractEntity_578_1)(nil)
 func (p PlayInteractEntity_578_1)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
 	b.VarInt(p.Type)
-	if p.TargetX.Ok = TODO; p.TargetX.Ok {
-		b.Float(p.TargetX.V)
+	if p.Type == 2 {
+		b.Float(p.TargetX.Assert())
 	}
-	if p.TargetY.Ok = TODO; p.TargetY.Ok {
-		b.Float(p.TargetY.V)
+	if p.Type == 2 {
+		b.Float(p.TargetY.Assert())
 	}
-	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
-		b.Float(p.TargetZ.V)
+	if p.Type == 2 {
+		b.Float(p.TargetZ.Assert())
 	}
-	if p.Hand.Ok = TODO; p.Hand.Ok {
-		b.VarInt(p.Hand.V)
+	if p.Type == 0 || p.Type == 2 {
+		b.VarInt(p.Hand.Assert())
 	}
 }
 
@@ -6547,22 +6608,22 @@ func (p *PlayInteractEntity_578_1)DecodeFrom(r *PacketReader)(error){
 	if p.Type, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.TargetX.Ok = TODO; p.TargetX.Ok {
+	if p.TargetX.Ok = p.Type == 2; p.TargetX.Ok {
 		if p.TargetX.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.TargetY.Ok = TODO; p.TargetY.Ok {
+	if p.TargetY.Ok = p.Type == 2; p.TargetY.Ok {
 		if p.TargetY.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
+	if p.TargetZ.Ok = p.Type == 2; p.TargetZ.Ok {
 		if p.TargetZ.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.Hand.Ok = TODO; p.Hand.Ok {
+	if p.Hand.Ok = p.Type == 0 || p.Type == 2; p.Hand.Ok {
 		if p.Hand.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -6654,7 +6715,9 @@ func (p PlayJoinGame_758_0)Encode(b *PacketBuilder){
 	b.UByte(p.Gamemode)
 	b.Byte(p.PreviousGamemode)
 	b.VarInt(p.WorldCount)
-	TODO_Encode_Array(p.DimensionNames)
+	for _, v := range p.DimensionNames {
+		b.String(v)
+	}
 	p.DimensionCodec.Encode(b)
 	p.Dimension.Encode(b)
 	b.String(p.DimensionName)
@@ -6688,7 +6751,12 @@ func (p *PlayJoinGame_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.WorldCount, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	TODO_Decode_Array(p.DimensionNames)
+	p.DimensionNames = make([]String, p.WorldCount)
+	for i, _ := range p.DimensionNames {
+		if p.DimensionNames[i], ok = r.String(); !ok {
+			return io.EOF
+		}
+	}
 	p.DimensionCodec = new(NBTCompound)
 	if err = p.DimensionCodec.DecodeFrom(r); err != nil {
 		return err
@@ -12506,8 +12574,8 @@ func (p PlaySpawnLivingEntity_757_1)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	p.HeadPitch.Encode(b)
 	b.Short(p.VelocityX)
 	b.Short(p.VelocityY)
@@ -12537,11 +12605,11 @@ func (p *PlaySpawnLivingEntity_757_1)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if err = p.HeadPitch.DecodeFrom(r); err != nil {
 		return err
@@ -12594,8 +12662,8 @@ func (p PlaySpawnMob_498_0)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	p.HeadPitch.Encode(b)
 	b.Short(p.VelocityX)
 	b.Short(p.VelocityY)
@@ -12626,11 +12694,11 @@ func (p *PlaySpawnMob_498_0)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if err = p.HeadPitch.DecodeFrom(r); err != nil {
 		return err
@@ -12682,8 +12750,8 @@ func (p PlaySpawnMob_210_1)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	p.HeadPitch.Encode(b)
 	b.Short(p.VelocityX)
 	b.Short(p.VelocityY)
@@ -12714,11 +12782,11 @@ func (p *PlaySpawnMob_210_1)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if err = p.HeadPitch.DecodeFrom(r); err != nil {
 		return err
@@ -12963,8 +13031,8 @@ func (p PlaySpawnPlayer_763_0)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 }
 
 func (p *PlaySpawnPlayer_763_0)DecodeFrom(r *PacketReader)(error){
@@ -12987,11 +13055,11 @@ func (p *PlaySpawnPlayer_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	return nil
 }
@@ -13026,8 +13094,8 @@ func (p PlaySpawnPlayer_498_1)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	p.Metadata.Encode(b)
 }
 
@@ -13051,11 +13119,11 @@ func (p *PlaySpawnPlayer_498_1)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	p.Metadata = new(EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
@@ -14094,8 +14162,8 @@ func (p PlayTeleportEntity_763_0)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	b.Bool(p.OnGround)
 }
 
@@ -14116,11 +14184,11 @@ func (p *PlayTeleportEntity_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -14419,7 +14487,7 @@ type PlayUnlockRecipes_758_0 struct {
 	/* Number of elements in the following array, only present if mode is 0 (init). */
 	ArraySize2 Optional[VarInt] // Optional VarInt
 	/* Only present if mode is 0 (init) */
-	RecipeIDs Optional[[]String] // Optional Array of Identifier
+	RecipeIDs2 Optional[[]String] // Optional Array of Identifier
 }
 
 var _ Packet = (*PlayUnlockRecipes_758_0)(nil)
@@ -14439,8 +14507,8 @@ func (p PlayUnlockRecipes_758_0)Encode(b *PacketBuilder){
 	if p.ArraySize2.Ok = TODO; p.ArraySize2.Ok {
 		b.VarInt(p.ArraySize2.V)
 	}
-	if p.RecipeIDs.Ok = TODO; p.RecipeIDs.Ok {
-		TODO_Encode_Array(p.RecipeIDs.V)
+	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
+		TODO_Encode_Array(p.RecipeIDs2.V)
 	}
 }
 
@@ -14485,8 +14553,8 @@ func (p *PlayUnlockRecipes_758_0)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	if p.RecipeIDs.Ok = TODO; p.RecipeIDs.Ok {
-		TODO_Decode_Array(p.RecipeIDs.V)
+	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
+		TODO_Decode_Array(p.RecipeIDs2.V)
 	}
 	return nil
 }
@@ -14510,7 +14578,7 @@ type PlayUnlockRecipes_578_2 struct {
 	RecipeIDs []String // Array of Identifier
 	/* Number of elements in the following array, only present if mode is 0 (init) */
 	ArraySize2 Optional[VarInt] // Optional VarInt
-	RecipeIDs Optional[[]String] // Optional Array of Identifier, only present if mode is 0 (init)
+	RecipeIDs2 Optional[[]String] // Optional Array of Identifier, only present if mode is 0 (init)
 }
 
 var _ Packet = (*PlayUnlockRecipes_578_2)(nil)
@@ -14581,7 +14649,7 @@ type PlayUnlockRecipes_340_3 struct {
 	RecipeIDs []VarInt // Array of VarInt
 	/* Number of elements in the following array, only present if mode is 0 (init) */
 	ArraySize2 Optional[VarInt] // Optional VarInt
-	RecipeIDs Optional[[]VarInt] // Optional Array of VarInt, only present if mode is 0 (init)
+	RecipeIDs2 Optional[[]VarInt] // Optional Array of VarInt, only present if mode is 0 (init)
 }
 
 var _ Packet = (*PlayUnlockRecipes_340_3)(nil)
@@ -14595,8 +14663,8 @@ func (p PlayUnlockRecipes_340_3)Encode(b *PacketBuilder){
 	if p.ArraySize2.Ok = TODO; p.ArraySize2.Ok {
 		b.VarInt(p.ArraySize2.V)
 	}
-	if p.RecipeIDs.Ok = TODO; p.RecipeIDs.Ok {
-		TODO_Encode_Array(p.RecipeIDs.V)
+	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
+		TODO_Encode_Array(p.RecipeIDs2.V)
 	}
 }
 
@@ -14623,8 +14691,8 @@ func (p *PlayUnlockRecipes_340_3)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	if p.RecipeIDs.Ok = TODO; p.RecipeIDs.Ok {
-		TODO_Decode_Array(p.RecipeIDs.V)
+	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
+		TODO_Decode_Array(p.RecipeIDs2.V)
 	}
 	return nil
 }
@@ -14870,8 +14938,8 @@ func (p PlayUpdateEntityPositionAndRotation_763_0)Encode(b *PacketBuilder){
 	b.Short(p.DeltaX)
 	b.Short(p.DeltaY)
 	b.Short(p.DeltaZ)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	b.Bool(p.OnGround)
 }
 
@@ -14892,11 +14960,11 @@ func (p *PlayUpdateEntityPositionAndRotation_763_0)DecodeFrom(r *PacketReader)(e
 	if p.DeltaZ, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -14922,8 +14990,8 @@ var _ Packet = (*PlayUpdateEntityRotation_763_0)(nil)
 
 func (p PlayUpdateEntityRotation_763_0)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
-	p.Yaw.Encode(b)
-	p.Pitch.Encode(b)
+	b.UByte(p.Yaw)
+	b.UByte(p.Pitch)
 	b.Bool(p.OnGround)
 }
 
@@ -14935,11 +15003,11 @@ func (p *PlayUpdateEntityRotation_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.Yaw.DecodeFrom(r); err != nil {
-		return err
+	if p.Yaw, ok = r.UByte(); !ok {
+		return io.EOF
 	}
-	if err = p.Pitch.DecodeFrom(r); err != nil {
-		return err
+	if p.Pitch, ok = r.UByte(); !ok {
+		return io.EOF
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -15247,7 +15315,7 @@ type PlayUpdateRecipeBook_763_0 struct {
 	/* Number of elements in the following array, only present if mode is 0 (init). */
 	ArraySize2 Optional[VarInt] // Optional VarInt
 	/* Only present if mode is 0 (init) */
-	RecipeIDs Optional[[]String] // Optional Array of Identifier
+	RecipeIDs2 Optional[[]String] // Optional Array of Identifier
 }
 
 var _ Packet = (*PlayUpdateRecipeBook_763_0)(nil)
@@ -15267,8 +15335,8 @@ func (p PlayUpdateRecipeBook_763_0)Encode(b *PacketBuilder){
 	if p.ArraySize2.Ok = TODO; p.ArraySize2.Ok {
 		b.VarInt(p.ArraySize2.V)
 	}
-	if p.RecipeIDs.Ok = TODO; p.RecipeIDs.Ok {
-		TODO_Encode_Array(p.RecipeIDs.V)
+	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
+		TODO_Encode_Array(p.RecipeIDs2.V)
 	}
 }
 
@@ -15313,8 +15381,8 @@ func (p *PlayUpdateRecipeBook_763_0)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	if p.RecipeIDs.Ok = TODO; p.RecipeIDs.Ok {
-		TODO_Decode_Array(p.RecipeIDs.V)
+	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
+		TODO_Decode_Array(p.RecipeIDs2.V)
 	}
 	return nil
 }
