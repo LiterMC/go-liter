@@ -7351,11 +7351,11 @@ func (p PlayLookAt_763_0)Encode(b *PacketBuilder){
 	b.Double(p.TargetY)
 	b.Double(p.TargetZ)
 	b.Bool(p.IsEntity)
-	if p.EntityID.Ok = TODO; p.EntityID.Ok {
-		b.VarInt(p.EntityID.V)
+	if p.IsEntity {
+		b.VarInt(p.EntityID.Assert())
 	}
-	if p.EntityFeetOrEyes.Ok = TODO; p.EntityFeetOrEyes.Ok {
-		b.VarInt(p.EntityFeetOrEyes.V)
+	if p.IsEntity {
+		b.VarInt(p.EntityFeetOrEyes.Assert())
 	}
 }
 
@@ -7379,12 +7379,12 @@ func (p *PlayLookAt_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.IsEntity, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.EntityID.Ok = TODO; p.EntityID.Ok {
+	if p.EntityID.Ok = p.IsEntity; p.EntityID.Ok {
 		if p.EntityID.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
 	}
-	if p.EntityFeetOrEyes.Ok = TODO; p.EntityFeetOrEyes.Ok {
+	if p.EntityFeetOrEyes.Ok = p.IsEntity; p.EntityFeetOrEyes.Ok {
 		if p.EntityFeetOrEyes.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -7673,8 +7673,11 @@ var _ Packet = (*PlayMultiBlockChange_758_0)(nil)
 
 func (p PlayMultiBlockChange_758_0)Encode(b *PacketBuilder){
 	b.Long(p.ChunkSectionPosition)
+	p.BlocksArraySize = (VarInt)(len(p.Blocks))
 	b.VarInt(p.BlocksArraySize)
-	TODO_Encode_Array(p.Blocks)
+	for _, v := range p.Blocks {
+		b.VarLong(v)
+	}
 }
 
 func (p *PlayMultiBlockChange_758_0)DecodeFrom(r *PacketReader)(error){
@@ -7688,7 +7691,12 @@ func (p *PlayMultiBlockChange_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.BlocksArraySize, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	TODO_Decode_Array(p.Blocks)
+	p.Blocks = make([]VarLong, p.BlocksArraySize)
+	for i, _ := range p.Blocks {
+		if p.Blocks[i], ok = r.VarLong(); !ok {
+			return io.EOF
+		}
+	}
 	return nil
 }
 
@@ -8163,8 +8171,8 @@ func (p PlayOpenWindow_404_1)Encode(b *PacketBuilder){
 	b.String(p.WindowType)
 	b.JSON(p.WindowTitle)
 	b.UByte(p.NumberOfSlots)
-	if p.EntityID.Ok = TODO; p.EntityID.Ok {
-		b.Int(p.EntityID.V)
+	if p.WindowType == "EntityHorse" {
+		b.Int(p.EntityID.Assert())
 	}
 }
 
@@ -8185,7 +8193,7 @@ func (p *PlayOpenWindow_404_1)DecodeFrom(r *PacketReader)(error){
 	if p.NumberOfSlots, ok = r.UByte(); !ok {
 		return io.EOF
 	}
-	if p.EntityID.Ok = TODO; p.EntityID.Ok {
+	if p.EntityID.Ok = p.WindowType == "EntityHorse"; p.EntityID.Ok {
 		if p.EntityID.V, ok = r.Int(); !ok {
 			return io.EOF
 		}
@@ -8529,7 +8537,11 @@ func (p PlayParticle_340_3)Encode(b *PacketBuilder){
 	b.Float(p.OffsetZ)
 	b.Float(p.ParticleData)
 	b.Int(p.ParticleCount)
-	TODO_Encode_Array(p.Data)
+	dataLeng := TODO
+	assert(len(p.Data) == dataLeng, "len(p.Data) != dataLeng")
+	for _, v := range p.Data {
+		b.VarInt(v)
+	}
 }
 
 func (p *PlayParticle_340_3)DecodeFrom(r *PacketReader)(error){
@@ -8567,7 +8579,13 @@ func (p *PlayParticle_340_3)DecodeFrom(r *PacketReader)(error){
 	if p.ParticleCount, ok = r.Int(); !ok {
 		return io.EOF
 	}
-	TODO_Decode_Array(p.Data)
+	dataLeng := TODO
+	p.Data = make([]VarInt, dataLeng)
+	for i, _ := range p.Data {
+		if p.Data[i], ok = r.VarInt(); !ok {
+			return io.EOF
+		}
+	}
 	return nil
 }
 
@@ -9423,8 +9441,9 @@ func (p PlayResourcePack_763_0)Encode(b *PacketBuilder){
 	b.String(p.URL)
 	b.String(p.Hash)
 	b.Bool(p.Forced)
+	p.HasPromptMessage = p.PromptMessage.Ok
 	b.Bool(p.HasPromptMessage)
-	if p.PromptMessage.Ok = TODO; p.PromptMessage.Ok {
+	if p.PromptMessage.Ok {
 		b.JSON(p.PromptMessage.V)
 	}
 }
@@ -9446,7 +9465,7 @@ func (p *PlayResourcePack_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.HasPromptMessage, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.PromptMessage.Ok = TODO; p.PromptMessage.Ok {
+	if p.PromptMessage.Ok = p.HasPromptMessage; p.PromptMessage.Ok {
 		if err = r.JSON(&p.PromptMessage.V); err != nil {
 			return err
 		}
@@ -9477,8 +9496,9 @@ func (p PlayResourcePackSend_758_0)Encode(b *PacketBuilder){
 	b.String(p.URL)
 	b.String(p.Hash)
 	b.Bool(p.Forced)
+	p.HasPromptMessage = p.PromptMessage.Ok
 	b.Bool(p.HasPromptMessage)
-	if p.PromptMessage.Ok = TODO; p.PromptMessage.Ok {
+	if p.PromptMessage.Ok {
 		b.JSON(p.PromptMessage.V)
 	}
 }
@@ -9500,7 +9520,7 @@ func (p *PlayResourcePackSend_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.HasPromptMessage, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.PromptMessage.Ok = TODO; p.PromptMessage.Ok {
+	if p.PromptMessage.Ok = p.HasPromptMessage; p.PromptMessage.Ok {
 		if err = r.JSON(&p.PromptMessage.V); err != nil {
 			return err
 		}
@@ -9937,11 +9957,9 @@ var _ Packet = (*PlayScoreboardObjective_758_0)(nil)
 func (p PlayScoreboardObjective_758_0)Encode(b *PacketBuilder){
 	b.String(p.ObjectiveName)
 	b.Byte(p.Mode)
-	if p.ObjectiveValue.Ok = TODO; p.ObjectiveValue.Ok {
-		b.JSON(p.ObjectiveValue.V)
-	}
-	if p.Type.Ok = TODO; p.Type.Ok {
-		b.VarInt(p.Type.V)
+	if p.Mode == 0 || p.Mode == 2 {
+		b.JSON(p.ObjectiveValue.Assert())
+		b.VarInt(p.Type.Assert())
 	}
 }
 
@@ -9956,12 +9974,12 @@ func (p *PlayScoreboardObjective_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.Mode, ok = r.Byte(); !ok {
 		return io.EOF
 	}
-	if p.ObjectiveValue.Ok = TODO; p.ObjectiveValue.Ok {
+	if p.ObjectiveValue.Ok = p.Mode == 0 || p.Mode == 2; p.ObjectiveValue.Ok {
 		if err = r.JSON(&p.ObjectiveValue.V); err != nil {
 			return err
 		}
 	}
-	if p.Type.Ok = TODO; p.Type.Ok {
+	if p.Type.Ok = p.Mode == 0 || p.Mode == 2; p.Type.Ok {
 		if p.Type.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -9993,11 +10011,9 @@ var _ Packet = (*PlayScoreboardObjective_340_1)(nil)
 func (p PlayScoreboardObjective_340_1)Encode(b *PacketBuilder){
 	b.String(p.ObjectiveName)
 	b.Byte(p.Mode)
-	if p.ObjectiveValue.Ok = TODO; p.ObjectiveValue.Ok {
-		b.String(p.ObjectiveValue.V)
-	}
-	if p.Type.Ok = TODO; p.Type.Ok {
-		b.String(p.Type.V)
+	if p.Mode == 0 || p.Mode == 2 {
+		b.String(p.ObjectiveValue.Assert())
+		b.String(p.Type.Assert())
 	}
 }
 
@@ -10012,12 +10028,12 @@ func (p *PlayScoreboardObjective_340_1)DecodeFrom(r *PacketReader)(error){
 	if p.Mode, ok = r.Byte(); !ok {
 		return io.EOF
 	}
-	if p.ObjectiveValue.Ok = TODO; p.ObjectiveValue.Ok {
+	if p.ObjectiveValue.Ok = p.Mode == 0 || p.Mode == 2; p.ObjectiveValue.Ok {
 		if p.ObjectiveValue.V, ok = r.String(); !ok {
 			return io.EOF
 		}
 	}
-	if p.Type.Ok = TODO; p.Type.Ok {
+	if p.Type.Ok = p.Mode == 0 || p.Mode == 2; p.Type.Ok {
 		if p.Type.V, ok = r.String(); !ok {
 			return io.EOF
 		}
@@ -10085,8 +10101,8 @@ var _ Packet = (*PlaySeenAdvancements_763_0)(nil)
 
 func (p PlaySeenAdvancements_763_0)Encode(b *PacketBuilder){
 	b.VarInt(p.Action)
-	if p.TabID.Ok = TODO; p.TabID.Ok {
-		b.String(p.TabID.V)
+	if p.Action == 0 {
+		b.String(p.TabID.Assert())
 	}
 }
 
@@ -10098,7 +10114,7 @@ func (p *PlaySeenAdvancements_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Action, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.TabID.Ok = TODO; p.TabID.Ok {
+	if p.TabID.Ok = p.Action; p.TabID.Ok {
 		if p.TabID.V, ok = r.String(); !ok {
 			return io.EOF
 		}
@@ -10229,8 +10245,9 @@ var _ Packet = (*PlayServerData_763_0)(nil)
 
 func (p PlayServerData_763_0)Encode(b *PacketBuilder){
 	b.JSON(p.MOTD)
+	p.HasIcon = p.Icon.Ok
 	b.Bool(p.HasIcon)
-	if p.Icon.Ok = TODO; p.Icon.Ok {
+	if p.Icon.Ok {
 		b.String(p.Icon.V)
 	}
 	b.Bool(p.EnforcesSecureChat)
@@ -10247,7 +10264,7 @@ func (p *PlayServerData_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.HasIcon, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.Icon.Ok = TODO; p.Icon.Ok {
+	if p.Icon.Ok = p.HasIcon; p.Icon.Ok {
 		if p.Icon.V, ok = r.String(); !ok {
 			return io.EOF
 		}
@@ -10273,12 +10290,14 @@ type PlayServerData_760_2 struct {
 var _ Packet = (*PlayServerData_760_2)(nil)
 
 func (p PlayServerData_760_2)Encode(b *PacketBuilder){
+	p.HasMOTD = p.MOTD.Ok
 	b.Bool(p.HasMOTD)
-	if p.MOTD.Ok = TODO; p.MOTD.Ok {
+	if p.MOTD.Ok {
 		b.JSON(p.MOTD.V)
 	}
+	p.HasIcon = p.Icon.Ok
 	b.Bool(p.HasIcon)
-	if p.Icon.Ok = TODO; p.Icon.Ok {
+	if p.Icon.Ok {
 		b.String(p.Icon.V)
 	}
 	b.Bool(p.PreviewsChat)
@@ -10293,7 +10312,7 @@ func (p *PlayServerData_760_2)DecodeFrom(r *PacketReader)(error){
 	if p.HasMOTD, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.MOTD.Ok = TODO; p.MOTD.Ok {
+	if p.MOTD.Ok = p.HasMOTD; p.MOTD.Ok {
 		if err = r.JSON(&p.MOTD.V); err != nil {
 			return err
 		}
@@ -10301,7 +10320,7 @@ func (p *PlayServerData_760_2)DecodeFrom(r *PacketReader)(error){
 	if p.HasIcon, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.Icon.Ok = TODO; p.Icon.Ok {
+	if p.Icon.Ok = p.HasIcon; p.Icon.Ok {
 		if p.Icon.V, ok = r.String(); !ok {
 			return io.EOF
 		}
@@ -12036,14 +12055,13 @@ var _ Packet = (*PlaySoundEffect_763_0)(nil)
 
 func (p PlaySoundEffect_763_0)Encode(b *PacketBuilder){
 	b.VarInt(p.SoundID)
-	if p.SoundName.Ok = TODO; p.SoundName.Ok {
-		b.String(p.SoundName.V)
-	}
-	if p.HasFixedRange.Ok = TODO; p.HasFixedRange.Ok {
+	if p.SoundID == 0 {
+		b.String(p.SoundName.Assert())
+		p.HasFixedRange.Set(p.Range.Ok)
 		b.Bool(p.HasFixedRange.V)
-	}
-	if p.Range.Ok = TODO; p.Range.Ok {
-		b.Float(p.Range.V)
+		if p.Range.Ok {
+			b.Float(p.Range.V)
+		}
 	}
 	b.VarInt(p.SoundCategory)
 	b.Int(p.EffectPositionX)
@@ -12062,17 +12080,17 @@ func (p *PlaySoundEffect_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.SoundID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.SoundName.Ok = TODO; p.SoundName.Ok {
+	if p.SoundName.Ok = p.SoundID == 0; p.SoundName.Ok {
 		if p.SoundName.V, ok = r.String(); !ok {
 			return io.EOF
 		}
 	}
-	if p.HasFixedRange.Ok = TODO; p.HasFixedRange.Ok {
+	if p.HasFixedRange.Ok = p.SoundID == 0; p.HasFixedRange.Ok {
 		if p.HasFixedRange.V, ok = r.Bool(); !ok {
 			return io.EOF
 		}
 	}
-	if p.Range.Ok = TODO; p.Range.Ok {
+	if p.Range.Ok = p.SoundID == 0 && p.HasFixedRange.V; p.Range.Ok {
 		if p.Range.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
@@ -13453,11 +13471,11 @@ var _ Packet = (*PlayStopSound_763_0)(nil)
 
 func (p PlayStopSound_763_0)Encode(b *PacketBuilder){
 	b.Byte(p.Flags)
-	if p.Source.Ok = TODO; p.Source.Ok {
-		b.VarInt(p.Source.V)
+	if p.Flags & 0x1 != 0 {
+		b.VarInt(p.Source.Assert())
 	}
-	if p.Sound.Ok = TODO; p.Sound.Ok {
-		b.String(p.Sound.V)
+	if p.Flags & 0x2 != 0 {
+		b.String(p.Sound.Assert())
 	}
 }
 
@@ -13469,12 +13487,12 @@ func (p *PlayStopSound_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Flags, ok = r.Byte(); !ok {
 		return io.EOF
 	}
-	if p.Source.Ok = TODO; p.Source.Ok {
+	if p.Source.Ok = p.Flags & 0x1 != 0; p.Source.Ok {
 		if p.Source.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
 	}
-	if p.Sound.Ok = TODO; p.Sound.Ok {
+	if p.Sound.Ok = p.Flags & 0x2 != 0; p.Sound.Ok {
 		if p.Sound.V, ok = r.String(); !ok {
 			return io.EOF
 		}
@@ -13836,8 +13854,9 @@ var _ Packet = (*PlayTabCompleteServer_340_1)(nil)
 func (p PlayTabCompleteServer_340_1)Encode(b *PacketBuilder){
 	b.String(p.Text)
 	b.Bool(p.AssumeCommand)
+	p.HasPosition = p.LookedAtBlock.Ok
 	b.Bool(p.HasPosition)
-	if p.LookedAtBlock.Ok = TODO; p.LookedAtBlock.Ok {
+	if p.LookedAtBlock.Ok {
 		p.LookedAtBlock.V.Encode(b)
 	}
 }
@@ -13856,7 +13875,7 @@ func (p *PlayTabCompleteServer_340_1)DecodeFrom(r *PacketReader)(error){
 	if p.HasPosition, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if p.LookedAtBlock.Ok = TODO; p.LookedAtBlock.Ok {
+	if p.LookedAtBlock.Ok = p.HasPosition; p.LookedAtBlock.Ok {
 		if err = p.LookedAtBlock.V.DecodeFrom(r); err != nil {
 			return err
 		}
@@ -15247,11 +15266,9 @@ var _ Packet = (*PlayUpdateObjectives_763_0)(nil)
 func (p PlayUpdateObjectives_763_0)Encode(b *PacketBuilder){
 	b.String(p.ObjectiveName)
 	b.Byte(p.Mode)
-	if p.ObjectiveValue.Ok = TODO; p.ObjectiveValue.Ok {
-		b.JSON(p.ObjectiveValue.V)
-	}
-	if p.Type.Ok = TODO; p.Type.Ok {
-		b.VarInt(p.Type.V)
+	if p.Mode == 0 || p.Mode == 2 {
+		b.JSON(p.ObjectiveValue.Assert())
+		b.VarInt(p.Type.Assert())
 	}
 }
 
@@ -15266,12 +15283,12 @@ func (p *PlayUpdateObjectives_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Mode, ok = r.Byte(); !ok {
 		return io.EOF
 	}
-	if p.ObjectiveValue.Ok = TODO; p.ObjectiveValue.Ok {
+	if p.ObjectiveValue.Ok = p.Mode == 0 || p.Mode == 2; p.ObjectiveValue.Ok {
 		if err = r.JSON(&p.ObjectiveValue.V); err != nil {
 			return err
 		}
 	}
-	if p.Type.Ok = TODO; p.Type.Ok {
+	if p.Type.Ok = p.Mode == 0 || p.Mode == 2; p.Type.Ok {
 		if p.Type.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -15418,8 +15435,8 @@ func (p PlayUpdateScore_763_0)Encode(b *PacketBuilder){
 	b.String(p.EntityName)
 	b.VarInt(p.Action)
 	b.String(p.ObjectiveName)
-	if p.Value.Ok = TODO; p.Value.Ok {
-		b.VarInt(p.Value.V)
+	if p.Action != 1 {
+		b.VarInt(p.Value.Assert())
 	}
 }
 
@@ -15437,7 +15454,7 @@ func (p *PlayUpdateScore_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.ObjectiveName, ok = r.String(); !ok {
 		return io.EOF
 	}
-	if p.Value.Ok = TODO; p.Value.Ok {
+	if p.Value.Ok = p.Action != 1; p.Value.Ok {
 		if p.Value.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -15474,8 +15491,8 @@ func (p PlayUpdateScore_757_1)Encode(b *PacketBuilder){
 	b.String(p.EntityName)
 	b.Byte(p.Action)
 	b.String(p.ObjectiveName)
-	if p.Value.Ok = TODO; p.Value.Ok {
-		b.VarInt(p.Value.V)
+	if p.Action != 1 {
+		b.VarInt(p.Value.Assert())
 	}
 }
 
@@ -15493,7 +15510,7 @@ func (p *PlayUpdateScore_757_1)DecodeFrom(r *PacketReader)(error){
 	if p.ObjectiveName, ok = r.String(); !ok {
 		return io.EOF
 	}
-	if p.Value.Ok = TODO; p.Value.Ok {
+	if p.Value.Ok = p.Action != 1; p.Value.Ok {
 		if p.Value.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -15522,8 +15539,8 @@ func (p PlayUpdateScore_315_2)Encode(b *PacketBuilder){
 	b.String(p.ScoreName)
 	b.Byte(p.Action)
 	b.String(p.ObjectiveName)
-	if p.Value.Ok = TODO; p.Value.Ok {
-		b.VarInt(p.Value.V)
+	if p.Action != 1 {
+		b.VarInt(p.Value.Assert())
 	}
 }
 
@@ -15541,7 +15558,7 @@ func (p *PlayUpdateScore_315_2)DecodeFrom(r *PacketReader)(error){
 	if p.ObjectiveName, ok = r.String(); !ok {
 		return io.EOF
 	}
-	if p.Value.Ok = TODO; p.Value.Ok {
+	if p.Value.Ok = p.Action != 1; p.Value.Ok {
 		if p.Value.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
@@ -16008,17 +16025,13 @@ var _ Packet = (*PlayUseEntity_404_0)(nil)
 func (p PlayUseEntity_404_0)Encode(b *PacketBuilder){
 	b.VarInt(p.Target)
 	b.VarInt(p.Type)
-	if p.TargetX.Ok = TODO; p.TargetX.Ok {
-		b.Float(p.TargetX.V)
+	if p.Type == 2 {
+		b.Float(p.TargetX.Assert())
+		b.Float(p.TargetY.Assert())
+		b.Float(p.TargetZ.Assert())
 	}
-	if p.TargetY.Ok = TODO; p.TargetY.Ok {
-		b.Float(p.TargetY.V)
-	}
-	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
-		b.Float(p.TargetZ.V)
-	}
-	if p.Hand.Ok = TODO; p.Hand.Ok {
-		b.VarInt(p.Hand.V)
+	if p.Type == 0 || p.Type == 2 {
+		b.VarInt(p.Hand.Assert())
 	}
 }
 
@@ -16033,22 +16046,22 @@ func (p *PlayUseEntity_404_0)DecodeFrom(r *PacketReader)(error){
 	if p.Type, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.TargetX.Ok = TODO; p.TargetX.Ok {
+	if p.TargetX.Ok = p.Type == 2; p.TargetX.Ok {
 		if p.TargetX.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.TargetY.Ok = TODO; p.TargetY.Ok {
+	if p.TargetY.Ok = p.Type == 2; p.TargetY.Ok {
 		if p.TargetY.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.TargetZ.Ok = TODO; p.TargetZ.Ok {
+	if p.TargetZ.Ok = p.Type == 2; p.TargetZ.Ok {
 		if p.TargetZ.V, ok = r.Float(); !ok {
 			return io.EOF
 		}
 	}
-	if p.Hand.Ok = TODO; p.Hand.Ok {
+	if p.Hand.Ok = p.Type == 0 || p.Type == 2; p.Hand.Ok {
 		if p.Hand.V, ok = r.VarInt(); !ok {
 			return io.EOF
 		}
