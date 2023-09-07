@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=18242
 // Protocol: 762
 // Protocol Name: 1.19.4
@@ -9,8 +9,16 @@ package packet_1_19_4
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -381,7 +389,7 @@ type PlayLoginPkt struct {
 	/* Identifiers for all dimensions on the server. */
 	DimensionNames []String // Array of Identifier
 	/* Represents certain registries that are sent from the server and are applied on the client. */
-	RegistryCodec *NBTCompound // NBT Tag Compound
+	RegistryCodec *nbt.NBTCompound // NBT Tag Compound
 	/* Name of the dimension type being spawned into. */
 	DimensionType String // Identifier
 	/* Name of the dimension being spawned into. */
@@ -468,7 +476,7 @@ func (p *PlayLoginPkt)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	p.RegistryCodec = new(NBTCompound)
+	p.RegistryCodec = new(nbt.NBTCompound)
 	if err = p.RegistryCodec.DecodeFrom(r); err != nil {
 		return err
 	}

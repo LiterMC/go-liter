@@ -370,10 +370,15 @@ func genProtocol(p Protocol, syncWg *sync.WaitGroup)(err error){
 func generateValueEncodeCode(w io.Writer, name string, typ string, indent int){
 	indents := strings.Repeat("\t", indent)
 	fmt.Fprint(w, indents)
+	if typ == "Angle" {
+		typ = "UByte"
+	}
 	if isBasicType(typ) {
 		fmt.Fprintf(w, "b.%s(%s)\n", typ, name)
 	}else if typ == "Object" {
 		fmt.Fprintf(w, "b.JSON(%s)\n", name)
+	}else if typ == "nbt.NBT" {
+		fmt.Fprintf(w, "nbt.WriteNBT(b, %s)\n", name)
 	}else if strings.HasPrefix(typ, "[]") {
 		fmt.Fprintf(w, "TODO_Encode_Array(%s)\n", name)
 	}else if typ == "ByteArray" {
@@ -453,6 +458,9 @@ func genRegularDecodeCode(w io.Writer, name, typ string, indent int){
 		typ = cutted
 	}
 	fmt.Fprint(w, indents)
+	if typ == "Angle" {
+		typ = "UByte"
+	}
 	if isBasicType(typ) {
 		fmt.Fprintf(w, "if p.%s, ok = r.%s(); !ok {\n", name, typ)
 		fmt.Fprint(w, indents)

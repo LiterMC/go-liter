@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=15346
 // Protocol: 498
 // Protocol Name: 1.14.4
@@ -9,8 +9,16 @@ package packet_1_14_4
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -19,7 +27,7 @@ import (
 type LoginStartPkt = internal.LoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ID=0x2
 type LoginPluginResponsePkt = internal.LoginPluginResponse_763_0
@@ -329,7 +337,7 @@ type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_498_1
 type PlayEntityAnimationPkt = internal.PlayEntityAnimation_763_0
 
 // ID=0x7
-type PlayStatisticsPkt = internal.PlayStatistics_498_2
+type PlayStatisticsPkt = internal.PlayStatistics_498_3
 
 // ID=0x8
 type PlayBlockBreakAnimationPkt = internal.PlayBlockBreakAnimation_758_0
@@ -356,7 +364,7 @@ type PlayChatMessageClientPkt = internal.PlayChatMessage_578_4
 type PlayMultiBlockChangePkt = internal.PlayMultiBlockChange_498_2
 
 // ID=0x10
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_498_3
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_498_4
 
 // ID=0x11
 type PlayDeclareCommandsPkt = internal.PlayDeclareCommands_758_0
@@ -417,7 +425,7 @@ type PlayChunkDataPkt struct {
 	/* Bitmask with bits set to 1 for every 16×16×16 chunk section whose data is included in Data. The least significant bit represents the chunk section at the bottom of the chunk column (from y=0 to y=15). */
 	PrimaryBitMask VarInt // VarInt
 	/* Compound containing one long array named MOTION_BLOCKING, which is a heightmap for the highest solid block at each position in the chunk (as a compacted long array with 256 entries at 9 bits per entry totaling 36 longs). The Notchian server also adds a WORLD_SURFACE long array, the purpose of which is unknown, but it's not required for the chunk to be accepted. */
-	Heightmaps NBT // NBT
+	Heightmaps nbt.NBT // NBT
 	/* Size of Data in bytes */
 	Size VarInt // VarInt
 	/* See data structure in Chunk Format */
@@ -425,7 +433,7 @@ type PlayChunkDataPkt struct {
 	/* Number of elements in the following array */
 	NumberOfBlockEntities VarInt // VarInt
 	/* All block entities in the chunk.  Use the x, y, and z tags in the NBT to determine their positions. */
-	BlockEntities []NBT // Array of NBT Tag
+	BlockEntities []nbt.NBT // Array of NBT Tag
 }
 
 var _ Packet = (*PlayChunkDataPkt)(nil)
@@ -435,14 +443,14 @@ func (p PlayChunkDataPkt)Encode(b *PacketBuilder){
 	b.Int(p.ChunkZ)
 	b.Bool(p.FullChunk)
 	b.VarInt(p.PrimaryBitMask)
-	p.Heightmaps.Encode(b)
+	WriteNBT(b, p.Heightmaps)
 	p.Size = (VarInt)(len(p.Data))
 	b.VarInt(p.Size)
 	b.ByteArray(p.Data)
 	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
-		v.Encode(b)
+		WriteNBT(b, v)
 	}
 }
 
@@ -463,7 +471,7 @@ func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(error){
 	if p.PrimaryBitMask, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.Heightmaps.DecodeFrom(r); err != nil {
+	if p.Heightmaps, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	if p.Size, ok = r.VarInt(); !ok {
@@ -476,9 +484,9 @@ func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(error){
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.BlockEntities = make([]NBT, p.NumberOfBlockEntities)
+	p.BlockEntities = make([]nbt.NBT, p.NumberOfBlockEntities)
 	for i, _ := range p.BlockEntities {
-		if err = p.BlockEntities[i].DecodeFrom(r); err != nil {
+		if p.BlockEntities[i], err = nbt.ReadNBT(r); err != nil {
 			return err
 		}
 	}
@@ -758,31 +766,7 @@ type PlayEntityHeadLookPkt = internal.PlayEntityHeadLook_758_0
 type PlaySelectAdvancementTabPkt = internal.PlaySelectAdvancementTab_758_0
 
 // ID=0x3d
-type PlayWorldBorderPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name            | Field Name               | Field Type  | Notes                                                                                                                                                                                                                                        |
-	 * |-----------|-------|----------|-----------------------|--------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x3D      | Play  | Client   | Action                | Action                   | VarInt Enum | Determines the format of the rest of the packet                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | Action                | Field Name               |             |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 0: set size           | Diameter                 | Double      | Length of a single side of the world border, in meters                                                                                                                                                                                       |
-	 * | 0x3D      | Play  | Client   | 1: lerp size          | Old Diameter             | Double      | Current length of a single side of the world border, in meters                                                                                                                                                                               |
-	 * | 0x3D      | Play  | Client   | 1: lerp size          | New Diameter             | Double      | Target length of a single side of the world border, in meters                                                                                                                                                                                |
-	 * | 0x3D      | Play  | Client   | 1: lerp size          | Speed                    | VarLong     | Number of real-time milliseconds until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0. |
-	 * | 0x3D      | Play  | Client   | 2: set center         | X                        | Double      |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 2: set center         | Z                        | Double      |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | X                        | Double      |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Z                        | Double      |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Old Diameter             | Double      | Current length of a single side of the world border, in meters                                                                                                                                                                               |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | New Diameter             | Double      | Target length of a single side of the world border, in meters                                                                                                                                                                                |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Speed                    | VarLong     | Number of real-time milliseconds until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0. |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Portal Teleport Boundary | VarInt      | Resulting coordinates from a portal teleport are limited to ±value. Usually 29999984.                                                                                                                                                       |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Warning Time             | VarInt      | In seconds as set by /worldborder warning time                                                                                                                                                                                               |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Warning Blocks           | VarInt      | In meters                                                                                                                                                                                                                                    |
-	 * | 0x3D      | Play  | Client   | 4: set warning time   | Warning Time             | VarInt      | In seconds as set by /worldborder warning time                                                                                                                                                                                               |
-	 * | 0x3D      | Play  | Client   | 5: set warning blocks | Warning Blocks           | VarInt      | In meters                                                                                                                                                                                                                                    |
-	 * 
-	 */
-}
+type PlayWorldBorderPkt = internal.PlayWorldBorder_753_1
 
 // ID=0x3e
 type PlayCameraPkt = internal.PlayCamera_758_0
@@ -865,23 +849,7 @@ type PlaySpawnPositionPkt = internal.PlaySpawnPosition_754_1
 type PlayTimeUpdatePkt = internal.PlayTimeUpdate_758_0
 
 // ID=0x4f
-type PlayTitlePkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name               | Field Name      | Field Type  | Notes                                                                                                                                                                            |
-	 * |-----------|-------|----------|--------------------------|-----------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x4F      | Play  | Client   | Action                   | Action          | VarInt Enum |                                                                                                                                                                                  |
-	 * | 0x4F      | Play  | Client   | Action                   | Field Name      |             |                                                                                                                                                                                  |
-	 * | 0x4F      | Play  | Client   | 0: set title             | Title Text      | Chat        |                                                                                                                                                                                  |
-	 * | 0x4F      | Play  | Client   | 1: set subtitle          | Subtitle Text   | Chat        |                                                                                                                                                                                  |
-	 * | 0x4F      | Play  | Client   | 2: set action bar        | Action bar text | Chat        | Displays a message above the hotbar (the same as position 2 in Chat Message (clientbound), except that it correctly renders formatted chat. See MC-119145 for more information.) |
-	 * | 0x4F      | Play  | Client   | 3: set times and display | Fade In         | Int         | Ticks to spend fading in                                                                                                                                                         |
-	 * | 0x4F      | Play  | Client   | 3: set times and display | Stay            | Int         | Ticks to keep the title displayed                                                                                                                                                |
-	 * | 0x4F      | Play  | Client   | 3: set times and display | Fade Out        | Int         | Ticks to spend out, not when to start fading out                                                                                                                                 |
-	 * | 0x4F      | Play  | Client   | 4: hide                  | no fields       | no fields   |                                                                                                                                                                                  |
-	 * | 0x4F      | Play  | Client   | 5: reset                 | no fields       | no fields   |                                                                                                                                                                                  |
-	 * 
-	 */
-}
+type PlayTitlePkt = internal.PlayTitle_754_0
 
 // ID=0x50
 type PlayEntitySoundEffectPkt = internal.PlayEntitySoundEffect_760_1
@@ -905,22 +873,7 @@ type PlayCollectItemPkt = internal.PlayCollectItem_758_0
 type PlayEntityTeleportPkt = internal.PlayEntityTeleport_758_0
 
 // ID=0x57
-type PlayAdvancementsPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name          | Field Name    | Field Type          | Field Type           | Notes                                                      |
-	 * |-----------|-------|----------|---------------------|---------------|---------------------|----------------------|------------------------------------------------------------|
-	 * | 0x57      | Play  | Client   | Reset/Clear         | Reset/Clear   | Boolean             | Boolean              | Whether to reset/clear the current advancements            |
-	 * | 0x57      | Play  | Client   | Mapping size        | Mapping size  | VarInt              | VarInt               | Size of the following array                                |
-	 * | 0x57      | Play  | Client   | Advancement mapping | Key           | Array               | Identifier           | The identifier of the advancement                          |
-	 * | 0x57      | Play  | Client   | Advancement mapping | Value         | Array               | Advancement          | See below                                                  |
-	 * | 0x57      | Play  | Client   | List size           | List size     | VarInt              | VarInt               | Size of the following array                                |
-	 * | 0x57      | Play  | Client   | Identifiers         | Identifiers   | Array of Identifier | Array of Identifier  | The identifiers of the advancements that should be removed |
-	 * | 0x57      | Play  | Client   | Progress size       | Progress size | VarInt              | VarInt               | Size of the following array                                |
-	 * | 0x57      | Play  | Client   | Progress mapping    | Key           | Array               | Identifier           | The identifier of the advancement                          |
-	 * | 0x57      | Play  | Client   | Progress mapping    | Value         | Array               | Advancement progress | See below                                                  |
-	 * 
-	 */
-}
+type PlayAdvancementsPkt = internal.PlayAdvancements_754_2
 
 // ID=0x58
 type PlayEntityPropertiesPkt struct {

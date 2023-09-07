@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=16067
 // Protocol: 578
 // Protocol Name: 1.15.2
@@ -9,8 +9,16 @@ package packet_1_15_2
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -19,7 +27,7 @@ import (
 type LoginStartPkt = internal.LoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ID=0x2
 type LoginPluginResponsePkt = internal.LoginPluginResponse_763_0
@@ -266,7 +274,17 @@ type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_763_0
 type PlayEntityAnimationPkt = internal.PlayEntityAnimation_763_0
 
 // ID=0x7
-type PlayStatisticsPkt = internal.PlayStatistics_758_0
+type PlayStatisticsPkt struct {
+	/*
+	 * | Packet ID | State | Bound To | Field Name | Field Name   | Field Type | Field Type | Notes                                     |
+	 * |-----------|-------|----------|------------|--------------|------------|------------|-------------------------------------------|
+	 * | 0x07      | Play  | Client   | Count      | Count        | VarInt     | VarInt     | Number of elements in the following array |
+	 * | 0x07      | Play  | Client   | Statistic  | Category ID  | Array      | VarInt     | See below                                 |
+	 * | 0x07      | Play  | Client   | Statistic  | Statistic ID | Array      | VarInt     | See below                                 |
+	 * | 0x07      | Play  | Client   | Statistic  | Value        | Array      | VarInt     | The amount to set it to                   |
+	 * 
+	 */
+}
 
 // ID=0x8
 type PlayAcknowledgePlayerDiggingPkt = internal.PlayAcknowledgePlayerDigging_758_0
@@ -284,7 +302,27 @@ type PlayBlockActionPkt = internal.PlayBlockAction_758_1
 type PlayBlockChangePkt = internal.PlayBlockChange_758_0
 
 // ID=0xd
-type PlayBossBarPkt = internal.PlayBossBar_758_2
+type PlayBossBarPkt struct {
+	/*
+	 * | Packet ID | State | Bound To | Field Name       | Field Name | Field Type    | Notes                                                                                                                                    |
+	 * |-----------|-------|----------|------------------|------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------|
+	 * | 0x0D      | Play  | Client   | UUID             | UUID       | UUID          | Unique ID for this bar                                                                                                                   |
+	 * | 0x0D      | Play  | Client   | Action           | Action     | VarInt Enum   | Determines the layout of the remaining packet                                                                                            |
+	 * | 0x0D      | Play  | Client   | Action           | Field Name |               |                                                                                                                                          |
+	 * | 0x0D      | Play  | Client   | 0: add           | Title      | Chat          |                                                                                                                                          |
+	 * | 0x0D      | Play  | Client   | 0: add           | Health     | Float         | From 0 to 1. Values greater than 1 do not crash a Notchian client, and start rendering part of a second health bar at around 1.5.        |
+	 * | 0x0D      | Play  | Client   | 0: add           | Color      | VarInt Enum   | Color ID (see below)                                                                                                                     |
+	 * | 0x0D      | Play  | Client   | 0: add           | Division   | VarInt Enum   | Type of division (see below)                                                                                                             |
+	 * | 0x0D      | Play  | Client   | 0: add           | Flags      | Unsigned Byte | Bit mask. 0x1: should darken sky, 0x2: is dragon bar (used to play end music), 0x04: create fog (previously was also controlled by 0x02) |
+	 * | 0x0D      | Play  | Client   | 1: remove        | no fields  | no fields     | Removes this boss bar                                                                                                                    |
+	 * | 0x0D      | Play  | Client   | 2: update health | Health     | Float         | as above                                                                                                                                 |
+	 * | 0x0D      | Play  | Client   | 3: update title  | Title      | Chat          |                                                                                                                                          |
+	 * | 0x0D      | Play  | Client   | 4: update style  | Color      | VarInt Enum   | Color ID (see below)                                                                                                                     |
+	 * | 0x0D      | Play  | Client   | 4: update style  | Dividers   | VarInt Enum   | as above                                                                                                                                 |
+	 * | 0x0D      | Play  | Client   | 5: update flags  | Flags      | Unsigned Byte | as above                                                                                                                                 |
+	 * 
+	 */
+}
 
 // ID=0xe
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_758_0
@@ -308,7 +346,21 @@ type PlayMultiBlockChangePkt struct {
 }
 
 // ID=0x11
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_758_0
+type PlayTabCompleteClientPkt struct {
+	/*
+	 * | Packet ID | State | Bound To | Field Name | Field Name  | Field Type | Field Type     | Notes                                                                                                                                                                                                  |
+	 * |-----------|-------|----------|------------|-------------|------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+	 * | 0x11      | Play  | Client   |            |             |            |                |                                                                                                                                                                                                        |
+	 * | 0x11      | Play  | Client   | ID         | ID          | VarInt     | VarInt         | Transaction ID                                                                                                                                                                                         |
+	 * | 0x11      | Play  | Client   | Start      | Start       | VarInt     | VarInt         | Start of the text to replace                                                                                                                                                                           |
+	 * | 0x11      | Play  | Client   | Length     | Length      | VarInt     | VarInt         | Length of the text to replace                                                                                                                                                                          |
+	 * | 0x11      | Play  | Client   | Count      | Count       | VarInt     | VarInt         | Number of elements in the following array                                                                                                                                                              |
+	 * | 0x11      | Play  | Client   | Matches    | Match       | Array      | String (32767) | One eligible value to insert, note that each command is sent separately instead of in a single string, hence the need for Count.  Note that for instance this doesn't include a leading / on commands. |
+	 * | 0x11      | Play  | Client   | Matches    | Has tooltip | Array      | Boolean        | True if the following is present                                                                                                                                                                       |
+	 * | 0x11      | Play  | Client   | Matches    | Tooltip     | Array      | Optional Chat  | Tooltip to display; only present if previous boolean is true                                                                                                                                           |
+	 * 
+	 */
+}
 
 // ID=0x12
 type PlayDeclareCommandsPkt = internal.PlayDeclareCommands_758_0
@@ -369,7 +421,7 @@ type PlayChunkDataPkt struct {
 	/* Bitmask with bits set to 1 for every 16×16×16 chunk section whose data is included in Data. The least significant bit represents the chunk section at the bottom of the chunk column (from y=0 to y=15). */
 	PrimaryBitMask VarInt // VarInt
 	/* Compound containing one long array named MOTION_BLOCKING, which is a heightmap for the highest solid block at each position in the chunk (as a compacted long array with 256 entries at 9 bits per entry totaling 36 longs). The Notchian server also adds a WORLD_SURFACE long array, the purpose of which is unknown, but it's not required for the chunk to be accepted. */
-	Heightmaps NBT // NBT
+	Heightmaps nbt.NBT // NBT
 	/* 1024 biome IDs, ordered by x then z then y, in 4×4×4 blocks.  Not present if full chunk is false. */
 	Biomes Optional[[]Int] // Optional array of Integer
 	/* Size of Data in bytes */
@@ -379,7 +431,7 @@ type PlayChunkDataPkt struct {
 	/* Number of elements in the following array */
 	NumberOfBlockEntities VarInt // VarInt
 	/* All block entities in the chunk.  Use the x, y, and z tags in the NBT to determine their positions. */
-	BlockEntities []NBT // Array of NBT Tag
+	BlockEntities []nbt.NBT // Array of NBT Tag
 }
 
 var _ Packet = (*PlayChunkDataPkt)(nil)
@@ -389,7 +441,7 @@ func (p PlayChunkDataPkt)Encode(b *PacketBuilder){
 	b.Int(p.ChunkZ)
 	b.Bool(p.FullChunk)
 	b.VarInt(p.PrimaryBitMask)
-	p.Heightmaps.Encode(b)
+	WriteNBT(b, p.Heightmaps)
 	if p.Biomes.Ok = TODO; p.Biomes.Ok {
 		TODO_Encode_Array(p.Biomes.V)
 	}
@@ -399,7 +451,7 @@ func (p PlayChunkDataPkt)Encode(b *PacketBuilder){
 	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
-		v.Encode(b)
+		WriteNBT(b, v)
 	}
 }
 
@@ -420,7 +472,7 @@ func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(error){
 	if p.PrimaryBitMask, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.Heightmaps.DecodeFrom(r); err != nil {
+	if p.Heightmaps, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	if p.Biomes.Ok = TODO; p.Biomes.Ok {
@@ -436,9 +488,9 @@ func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(error){
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.BlockEntities = make([]NBT, p.NumberOfBlockEntities)
+	p.BlockEntities = make([]nbt.NBT, p.NumberOfBlockEntities)
 	for i, _ := range p.BlockEntities {
-		if err = p.BlockEntities[i].DecodeFrom(r); err != nil {
+		if p.BlockEntities[i], err = nbt.ReadNBT(r); err != nil {
 			return err
 		}
 	}
@@ -568,7 +620,32 @@ type PlayMapDataPkt struct {
 }
 
 // ID=0x28
-type PlayTradeListPkt = internal.PlayTradeList_758_0
+type PlayTradeListPkt struct {
+	/*
+	 * | Packet ID | State | Bound To | Field Name          | Field Name                   | Field Type | Field Type    | Notes                                                                                                                                                                              |
+	 * |-----------|-------|----------|---------------------|------------------------------|------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+	 * | 0x28      | Play  | Client   |                     |                              |            |               |                                                                                                                                                                                    |
+	 * | 0x28      | Play  | Client   | Window ID           | Window ID                    | VarInt     | VarInt        | The ID of the window that is open; this is an int rather than a byte.                                                                                                              |
+	 * | 0x28      | Play  | Client   | Size                | Size                         | Byte       | Byte          | The number of trades in the following array                                                                                                                                        |
+	 * | 0x28      | Play  | Client   | Trades              | Input item 1                 | Array      | Slot          | The first item the villager is buying                                                                                                                                              |
+	 * | 0x28      | Play  | Client   | Trades              | Output item                  | Array      | Slot          | The item the villager is selling                                                                                                                                                   |
+	 * | 0x28      | Play  | Client   | Trades              | Has second item              | Array      | Boolean       | Whether there is a second item                                                                                                                                                     |
+	 * | 0x28      | Play  | Client   | Trades              | Input item 2                 | Array      | Optional Slot | The second item the villager is buying; only present if they have a second item.                                                                                                   |
+	 * | 0x28      | Play  | Client   | Trades              | Trade disabled               | Array      | Boolean       | True if the trade is disabled; false if the trade is enabled.                                                                                                                      |
+	 * | 0x28      | Play  | Client   | Trades              | Number of trade uses         | Array      | Integer       | Number of times the trade has been used so far                                                                                                                                     |
+	 * | 0x28      | Play  | Client   | Trades              | Maximum number of trade uses | Array      | Integer       | Number of times this trade can be used                                                                                                                                             |
+	 * | 0x28      | Play  | Client   | Trades              | XP                           | Array      | Integer       |                                                                                                                                                                                    |
+	 * | 0x28      | Play  | Client   | Trades              | Special Price                | Array      | Integer       |                                                                                                                                                                                    |
+	 * | 0x28      | Play  | Client   | Trades              | Price Multiplier             | Array      | Float         |                                                                                                                                                                                    |
+	 * | 0x28      | Play  | Client   | Trades              | Demand                       | Array      | Integer       |                                                                                                                                                                                    |
+	 * | 0x28      | Play  | Client   | Villager level      | Villager level               | VarInt     | VarInt        | Appears on the trade GUI; meaning comes from the translation key merchant.level. + level.
+	 * 1: Novice, 2: Apprentice, 3: Journeyman, 4: Expert, 5: Master                            |
+	 * | 0x28      | Play  | Client   | Experience          | Experience                   | VarInt     | VarInt        | Total experience for this villager (always 0 for the wandering trader)                                                                                                             |
+	 * | 0x28      | Play  | Client   | Is regular villager | Is regular villager          | Boolean    | Boolean       | True if this is a regular villager; false for the wandering trader.  When false, hides the villager level and some other GUI elements.                                             |
+	 * | 0x28      | Play  | Client   | Can restock         | Can restock                  | Boolean    | Boolean       | True for regular villagers and false for the wandering trader.  If true, the "Villagers restock up to two times per day." message is displayed when hovering over disabled trades. |
+	 * 
+	 */
+}
 
 // ID=0x29
 type PlayEntityPositionPkt = internal.PlayEntityPosition_758_0

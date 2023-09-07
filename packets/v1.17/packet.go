@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=16866
 // Protocol: 755
 // Protocol Name: 1.17
@@ -9,8 +9,16 @@ package packet_1_17
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -19,7 +27,7 @@ import (
 type LoginStartPkt = internal.LoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ID=0x2
 type LoginPluginResponsePkt = internal.LoginPluginResponse_763_0

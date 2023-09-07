@@ -9,9 +9,16 @@ package packet_{{ replace .protocol.Name "." "_" }}
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
 	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 {{- define "packet_struct" }}
 	{{- $typname := (index . 0) }}

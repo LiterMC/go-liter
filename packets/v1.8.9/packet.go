@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=7368
 // Protocol: 47
 // Protocol Name: 1.8.9
@@ -9,8 +9,16 @@ package packet_1_8_9
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -19,7 +27,7 @@ import (
 type LoginStartPkt = internal.LoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ---- login: clientbound ----
 
@@ -157,7 +165,7 @@ type PlayerBlockPlacementPkt struct {
 	Location Position // Position
 	/* The face on which the block is placed (see above) */
 	Face Byte // Byte
-	HeldItem *Slot // Slot
+	HeldItem *data.Slot // Slot
 	/* The position of the crosshair on the block */
 	CursorPositionX Byte // Byte
 	CursorPositionY Byte // Byte
@@ -186,7 +194,7 @@ func (p *PlayerBlockPlacementPkt)DecodeFrom(r *PacketReader)(error){
 	if p.Face, ok = r.Byte(); !ok {
 		return io.EOF
 	}
-	p.HeldItem = new(Slot)
+	p.HeldItem = new(data.Slot)
 	if err = p.HeldItem.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -270,7 +278,7 @@ type PlayClickWindowPkt struct {
 	/* Inventory operation mode, see below */
 	Mode Byte // Byte Enum
 	/* The clicked slot. Has to be empty (item ID = -1) for drop mode. */
-	ClickedItem *Slot // Slot
+	ClickedItem *data.Slot // Slot
 }
 
 var _ Packet = (*PlayClickWindowPkt)(nil)
@@ -304,7 +312,7 @@ func (p *PlayClickWindowPkt)DecodeFrom(r *PacketReader)(error){
 	if p.Mode, ok = r.Byte(); !ok {
 		return io.EOF
 	}
-	p.ClickedItem = new(Slot)
+	p.ClickedItem = new(data.Slot)
 	if err = p.ClickedItem.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -544,7 +552,7 @@ type PlayEntityEquipmentPkt struct {
 	/* Equipment slot. 0: held, 1–4: armor slot (1: boots, 2: leggings, 3: chestplate, 4: helmet) */
 	Slot Short // Short
 	/* Item in slot format */
-	Item *Slot // Slot
+	Item *data.Slot // Slot
 }
 
 var _ Packet = (*PlayEntityEquipmentPkt)(nil)
@@ -566,7 +574,7 @@ func (p *PlayEntityEquipmentPkt)DecodeFrom(r *PacketReader)(error){
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.Item = new(Slot)
+	p.Item = new(data.Slot)
 	if err = p.Item.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -659,7 +667,7 @@ type PlaySpawnPlayerPkt struct {
 	Pitch Angle // Angle
 	/* The item the player is currently holding. Note that this should be 0 for “no item”, unlike -1 used in other packets. */
 	CurrentItem Short // Short
-	Metadata *EntityMetadata // Metadata
+	Metadata *data.EntityMetadata // Metadata
 }
 
 var _ Packet = (*PlaySpawnPlayerPkt)(nil)
@@ -705,7 +713,7 @@ func (p *PlaySpawnPlayerPkt)DecodeFrom(r *PacketReader)(error){
 	if p.CurrentItem, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.Metadata = new(EntityMetadata)
+	p.Metadata = new(data.EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -828,7 +836,7 @@ type PlaySpawnMobPkt struct {
 	VelocityY Short // Short
 	/* Same units as Entity Velocity */
 	VelocityZ Short // Short
-	Metadata *EntityMetadata // Metadata
+	Metadata *data.EntityMetadata // Metadata
 }
 
 var _ Packet = (*PlaySpawnMobPkt)(nil)
@@ -886,7 +894,7 @@ func (p *PlaySpawnMobPkt)DecodeFrom(r *PacketReader)(error){
 	if p.VelocityZ, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.Metadata = new(EntityMetadata)
+	p.Metadata = new(data.EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -1514,7 +1522,7 @@ type PlayUpdateBlockEntityPkt struct {
 	/* The type of update to perform, see below */
 	Action UByte // Unsigned Byte
 	/* If not present then it's a TAG_END (0) */
-	NBTData Optional[NBT] // Optional NBT Tag
+	NBTData Optional[nbt.NBT] // Optional NBT Tag
 }
 
 var _ Packet = (*PlayUpdateBlockEntityPkt)(nil)
@@ -1523,7 +1531,7 @@ func (p PlayUpdateBlockEntityPkt)Encode(b *PacketBuilder){
 	p.Location.Encode(b)
 	b.UByte(p.Action)
 	if p.NBTData.Ok = TODO; p.NBTData.Ok {
-		p.NBTData.V.Encode(b)
+		WriteNBT(b, p.NBTData.V)
 	}
 }
 
@@ -1539,7 +1547,7 @@ func (p *PlayUpdateBlockEntityPkt)DecodeFrom(r *PacketReader)(error){
 		return io.EOF
 	}
 	if p.NBTData.Ok = TODO; p.NBTData.Ok {
-		if err = p.NBTData.V.DecodeFrom(r); err != nil {
+		if p.NBTData.V, err = nbt.ReadNBT(r); err != nil {
 			return err
 		}
 	}
@@ -1593,7 +1601,7 @@ type PlayerListItemPkt struct {
 type PlayerAbilitiesClientPkt = internal.PlayerAbilities_763_0
 
 // ID=0x3a
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_4
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_5
 
 // ID=0x3b
 type PlayScoreboardObjectivePkt = internal.PlayScoreboardObjective_340_1
@@ -1863,14 +1871,14 @@ type PlayResourcePackSendPkt = internal.PlayResourcePackSend_754_1
 // ID=0x49
 type PlayUpdateEntityNBTPkt struct {
 	EntityID VarInt // VarInt
-	Tag NBT // NBT Tag
+	Tag nbt.NBT // NBT Tag
 }
 
 var _ Packet = (*PlayUpdateEntityNBTPkt)(nil)
 
 func (p PlayUpdateEntityNBTPkt)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
-	p.Tag.Encode(b)
+	WriteNBT(b, p.Tag)
 }
 
 func (p *PlayUpdateEntityNBTPkt)DecodeFrom(r *PacketReader)(error){
@@ -1881,7 +1889,7 @@ func (p *PlayUpdateEntityNBTPkt)DecodeFrom(r *PacketReader)(error){
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.Tag.DecodeFrom(r); err != nil {
+	if p.Tag, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	return nil

@@ -6,8 +6,15 @@ package internal
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
 	data "github.com/kmcsr/go-liter/data"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 {{- range $_, $rps := .repeats }}
 	{{- range $_, $rp := $rps }}

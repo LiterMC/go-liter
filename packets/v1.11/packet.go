@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=8405
 // Protocol: 315
 // Protocol Name: 1.11
@@ -9,8 +9,16 @@ package packet_1_11
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -154,7 +162,7 @@ type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_498_1
 type PlayAnimationClientPkt = internal.PlayAnimation_404_1
 
 // ID=0x7
-type PlayStatisticsPkt = internal.PlayStatistics_315_4
+type PlayStatisticsPkt = internal.PlayStatistics_315_5
 
 // ID=0x8
 type PlayBlockBreakAnimationPkt = internal.PlayBlockBreakAnimation_758_0
@@ -169,13 +177,13 @@ type PlayBlockActionPkt = internal.PlayBlockAction_758_1
 type PlayBlockChangePkt = internal.PlayBlockChange_758_0
 
 // ID=0xc
-type PlayBossBarPkt = internal.PlayBossBar_754_3
+type PlayBossBarPkt = internal.PlayBossBar_404_5
 
 // ID=0xd
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
 
 // ID=0xe
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_4
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_5
 
 // ID=0xf
 type PlayChatMessageClientPkt = internal.PlayChatMessage_578_4
@@ -292,7 +300,7 @@ type PlayRespawnPkt = internal.PlayRespawn_404_8
 type PlayEntityHeadLookPkt = internal.PlayEntityHeadLook_758_0
 
 // ID=0x35
-type PlayWorldBorderPkt = internal.PlayWorldBorder_316_7
+type PlayWorldBorderPkt = internal.PlayWorldBorder_316_6
 
 // ID=0x36
 type PlayCameraPkt = internal.PlayCamera_758_0
@@ -340,7 +348,7 @@ type PlaySpawnPositionPkt = internal.PlaySpawnPosition_754_1
 type PlayTimeUpdatePkt = internal.PlayTimeUpdate_758_0
 
 // ID=0x45
-type PlayTitlePkt = internal.PlayTitle_316_6
+type PlayTitlePkt = internal.PlayTitle_316_5
 
 // ID=0x46
 type PlaySoundEffectPkt = internal.PlaySoundEffect_758_2

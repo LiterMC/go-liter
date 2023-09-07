@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=14204
 // Protocol: 340
 // Protocol Name: 1.12.2
@@ -9,8 +9,16 @@ package packet_1_12_2
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -19,7 +27,7 @@ import (
 type LoginStartPkt = internal.LoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ---- login: clientbound ----
 
@@ -163,7 +171,7 @@ type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_498_1
 type PlayAnimationClientPkt = internal.PlayAnimation_404_1
 
 // ID=0x7
-type PlayStatisticsPkt = internal.PlayStatistics_340_3
+type PlayStatisticsPkt = internal.PlayStatistics_340_4
 
 // ID=0x8
 type PlayBlockBreakAnimationPkt = internal.PlayBlockBreakAnimation_758_0
@@ -184,7 +192,7 @@ type PlayBossBarPkt = internal.PlayBossBar_754_3
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
 
 // ID=0xe
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_4
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_340_5
 
 // ID=0xf
 type PlayChatMessageClientPkt = internal.PlayChatMessage_578_4
@@ -310,7 +318,7 @@ type PlayEntityHeadLookPkt = internal.PlayEntityHeadLook_758_0
 type PlaySelectAdvancementTabPkt = internal.PlaySelectAdvancementTab_758_0
 
 // ID=0x38
-type PlayWorldBorderPkt = internal.PlayWorldBorder_340_5
+type PlayWorldBorderPkt = internal.PlayWorldBorder_340_4
 
 // ID=0x39
 type PlayCameraPkt = internal.PlayCamera_758_0
@@ -358,7 +366,7 @@ type PlaySpawnPositionPkt = internal.PlaySpawnPosition_754_1
 type PlayTimeUpdatePkt = internal.PlayTimeUpdate_758_0
 
 // ID=0x48
-type PlayTitlePkt = internal.PlayTitle_340_4
+type PlayTitlePkt = internal.PlayTitle_340_3
 
 // ID=0x49
 type PlaySoundEffectPkt = internal.PlaySoundEffect_758_2
@@ -373,7 +381,7 @@ type PlayCollectItemPkt = internal.PlayCollectItem_758_0
 type PlayEntityTeleportPkt = internal.PlayEntityTeleport_758_0
 
 // ID=0x4d
-type PlayAdvancementsPkt = internal.PlayAdvancements_340_6
+type PlayAdvancementsPkt = internal.PlayAdvancements_340_5
 
 // ID=0x4e
 type PlayEntityPropertiesPkt = internal.PlayEntityProperties_340_6

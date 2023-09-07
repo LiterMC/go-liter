@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=14889
 // Protocol: 404
 // Protocol Name: 1.13.2
@@ -9,8 +9,16 @@ package packet_1_13_2
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -212,7 +220,7 @@ type PlaySpawnPlayerPkt = internal.PlaySpawnPlayer_498_1
 type PlayAnimationClientPkt = internal.PlayAnimation_404_1
 
 // ID=0x7
-type PlayStatisticsPkt = internal.PlayStatistics_498_2
+type PlayStatisticsPkt = internal.PlayStatistics_498_3
 
 // ID=0x8
 type PlayBlockBreakAnimationPkt = internal.PlayBlockBreakAnimation_758_0
@@ -227,7 +235,7 @@ type PlayBlockActionPkt = internal.PlayBlockAction_758_1
 type PlayBlockChangePkt = internal.PlayBlockChange_758_0
 
 // ID=0xc
-type PlayBossBarPkt = internal.PlayBossBar_754_3
+type PlayBossBarPkt = internal.PlayBossBar_404_5
 
 // ID=0xd
 type PlayServerDifficultyPkt = internal.PlayServerDifficulty_404_1
@@ -239,7 +247,7 @@ type PlayChatMessageClientPkt = internal.PlayChatMessage_578_4
 type PlayMultiBlockChangePkt = internal.PlayMultiBlockChange_498_2
 
 // ID=0x10
-type PlayTabCompleteClientPkt = internal.PlayTabComplete_498_3
+type PlayTabCompleteClientPkt = internal.PlayTabComplete_498_4
 
 // ID=0x11
 type PlayDeclareCommandsPkt = internal.PlayDeclareCommands_758_0
@@ -309,7 +317,7 @@ type PlayChunkDataPkt struct {
 	/* Number of elements in the following array */
 	NumberOfBlockEntities VarInt // VarInt
 	/* All block entities in the chunk.  Use the x, y, and z tags in the NBT to determine their positions. */
-	BlockEntities []NBT // Array of NBT Tag
+	BlockEntities []nbt.NBT // Array of NBT Tag
 }
 
 var _ Packet = (*PlayChunkDataPkt)(nil)
@@ -325,7 +333,7 @@ func (p PlayChunkDataPkt)Encode(b *PacketBuilder){
 	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
-		v.Encode(b)
+		WriteNBT(b, v)
 	}
 }
 
@@ -356,9 +364,9 @@ func (p *PlayChunkDataPkt)DecodeFrom(r *PacketReader)(error){
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.BlockEntities = make([]NBT, p.NumberOfBlockEntities)
+	p.BlockEntities = make([]nbt.NBT, p.NumberOfBlockEntities)
 	for i, _ := range p.BlockEntities {
-		if err = p.BlockEntities[i].DecodeFrom(r); err != nil {
+		if p.BlockEntities[i], err = nbt.ReadNBT(r); err != nil {
 			return err
 		}
 	}

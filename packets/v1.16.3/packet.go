@@ -1,5 +1,5 @@
 
-// Generated at 2023-09-02 21:26:37.473 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 // Origin: https://wiki.vg/index.php?title=Protocol&oldid=16091
 // Protocol: 753
 // Protocol Name: 1.16.3
@@ -9,8 +9,16 @@ package packet_1_16_3
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 	internal "github.com/kmcsr/go-liter/packets/internal"
 )
+
+func assert(cond bool, msg any){
+	if !cond {
+		panic(msg)
+	}
+}
 
 // ======== BEGIN login ========
 // ---- login: serverbound ----
@@ -19,7 +27,7 @@ import (
 type LoginStartPkt = internal.LoginStart_758_2
 
 // ID=0x1
-type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_758_2
+type LoginEncryptionResponsePkt = internal.LoginEncryptionResponse_763_0
 
 // ID=0x2
 type LoginPluginResponsePkt = internal.LoginPluginResponse_763_0
@@ -507,31 +515,7 @@ type PlayMultiBlockChangePkt = internal.PlayMultiBlockChange_758_0
 type PlaySelectAdvancementTabPkt = internal.PlaySelectAdvancementTab_758_0
 
 // ID=0x3d
-type PlayWorldBorderPkt struct {
-	/*
-	 * | Packet ID | State | Bound To | Field Name            | Field Name               | Field Type  | Notes                                                                                                                                                                                                                                        |
-	 * |-----------|-------|----------|-----------------------|--------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x3D      | Play  | Client   | Action                | Action                   | VarInt Enum | Determines the format of the rest of the packet                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | Action                | Field Name               |             |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 0: set size           | Diameter                 | Double      | Length of a single side of the world border, in meters                                                                                                                                                                                       |
-	 * | 0x3D      | Play  | Client   | 1: lerp size          | Old Diameter             | Double      | Current length of a single side of the world border, in meters                                                                                                                                                                               |
-	 * | 0x3D      | Play  | Client   | 1: lerp size          | New Diameter             | Double      | Target length of a single side of the world border, in meters                                                                                                                                                                                |
-	 * | 0x3D      | Play  | Client   | 1: lerp size          | Speed                    | VarLong     | Number of real-time milliseconds until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0. |
-	 * | 0x3D      | Play  | Client   | 2: set center         | X                        | Double      |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 2: set center         | Z                        | Double      |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | X                        | Double      |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Z                        | Double      |                                                                                                                                                                                                                                              |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Old Diameter             | Double      | Current length of a single side of the world border, in meters                                                                                                                                                                               |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | New Diameter             | Double      | Target length of a single side of the world border, in meters                                                                                                                                                                                |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Speed                    | VarLong     | Number of real-time milliseconds until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0. |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Portal Teleport Boundary | VarInt      | Resulting coordinates from a portal teleport are limited to ±value. Usually 29999984.                                                                                                                                                       |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Warning Time             | VarInt      | In seconds as set by /worldborder warning time                                                                                                                                                                                               |
-	 * | 0x3D      | Play  | Client   | 3: initialize         | Warning Blocks           | VarInt      | In meters                                                                                                                                                                                                                                    |
-	 * | 0x3D      | Play  | Client   | 4: set warning time   | Warning Time             | VarInt      | In seconds as set by /worldborder warning time                                                                                                                                                                                               |
-	 * | 0x3D      | Play  | Client   | 5: set warning blocks | Warning Blocks           | VarInt      | In meters                                                                                                                                                                                                                                    |
-	 * 
-	 */
-}
+type PlayWorldBorderPkt = internal.PlayWorldBorder_753_1
 
 // ID=0x3e
 type PlayCameraPkt = internal.PlayCamera_758_0

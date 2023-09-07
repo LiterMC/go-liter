@@ -1,17 +1,14 @@
 
-// Generated at 2023-09-02 21:18:16.844 -06:00
+// Generated at 2023-09-05 22:06:22.506 -06:00
 
 package internal
 
 import (
 	"io"
 	. "github.com/kmcsr/go-liter"
-	"github.com/kmcsr/go-liter/nbt"
-	"github.com/kmcsr/go-liter/slot"
+	nbt "github.com/kmcsr/go-liter/nbt"
+	data "github.com/kmcsr/go-liter/data"
 )
-
-type NBT = nbt.NBT
-type Slot = slot.Slot
 
 func assert(cond bool, msg any){
 	if !cond {
@@ -86,7 +83,7 @@ func (p *LoginDisconnect_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=47; ProtocolName=1.8.9; State=login; Bound=client; ID=0x1
 type LoginEncryptionRequest_763_0 struct {
 	/* Appears to be empty */
-	ServerID String // String
+	ServerID String // String (20)
 	/* Length of Public Key */
 	PublicKeyLength VarInt // VarInt
 	PublicKey ByteArray // Byte Array
@@ -136,10 +133,12 @@ func (p *LoginEncryptionRequest_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=763; ProtocolName=1.20; State=login; Bound=server; ID=0x1
 // Protocol=762; ProtocolName=1.19.4; State=login; Bound=server; ID=0x1
 // Protocol=761; ProtocolName=1.19.3; State=login; Bound=server; ID=0x1
-// Protocol=758; ProtocolName=1.18.2; State=login; Bound=server; ID=0x1
+// Protocol=755; ProtocolName=1.17; State=login; Bound=server; ID=0x1
+// Protocol=753; ProtocolName=1.16.3; State=login; Bound=server; ID=0x1
+// Protocol=578; ProtocolName=1.15.2; State=login; Bound=server; ID=0x1
 // Protocol=498; ProtocolName=1.14.4; State=login; Bound=server; ID=0x1
-// Protocol=338; ProtocolName=1.12.1; State=login; Bound=server; ID=0x1
-// Protocol=210; ProtocolName=1.10.2; State=login; Bound=server; ID=0x1
+// Protocol=340; ProtocolName=1.12.2; State=login; Bound=server; ID=0x1
+// Protocol=47; ProtocolName=1.8.9; State=login; Bound=server; ID=0x1
 type LoginEncryptionResponse_763_0 struct {
 	/* Length of Shared Secret */
 	SharedSecretLength VarInt // VarInt
@@ -254,31 +253,31 @@ func (p *LoginEncryptionResponse_760_1)DecodeFrom(r *PacketReader)(error){
 	return nil
 }
 
+// Protocol=758; ProtocolName=1.18.2; State=login; Bound=server; ID=0x1
 // Protocol=757; ProtocolName=1.18.1; State=login; Bound=server; ID=0x1
 // Protocol=756; ProtocolName=1.17.1; State=login; Bound=server; ID=0x1
-// Protocol=755; ProtocolName=1.17; State=login; Bound=server; ID=0x1
 // Protocol=754; ProtocolName=1.16.5; State=login; Bound=server; ID=0x1
-// Protocol=753; ProtocolName=1.16.3; State=login; Bound=server; ID=0x1
-// Protocol=578; ProtocolName=1.15.2; State=login; Bound=server; ID=0x1
 // Protocol=404; ProtocolName=1.13.2; State=login; Bound=server; ID=0x1
-// Protocol=340; ProtocolName=1.12.2; State=login; Bound=server; ID=0x1
+// Protocol=338; ProtocolName=1.12.1; State=login; Bound=server; ID=0x1
 // Protocol=335; ProtocolName=1.12; State=login; Bound=server; ID=0x1
 // Protocol=316; ProtocolName=1.11.2; State=login; Bound=server; ID=0x1
 // Protocol=315; ProtocolName=1.11; State=login; Bound=server; ID=0x1
+// Protocol=210; ProtocolName=1.10.2; State=login; Bound=server; ID=0x1
 // Protocol=110; ProtocolName=1.9.4; State=login; Bound=server; ID=0x1
-// Protocol=47; ProtocolName=1.8.9; State=login; Bound=server; ID=0x1
-type LoginEncryptionResponse_757_2 struct {
-	/* Length of Shared Secret */
+type LoginEncryptionResponse_758_2 struct {
+	/* Length of Shared Secret. */
 	SharedSecretLength VarInt // VarInt
+	/* Shared Secret value, encrypted with the server's public key. */
 	SharedSecret ByteArray // Byte Array
-	/* Length of Verify Token */
+	/* Length of Verify Token. */
 	VerifyTokenLength VarInt // VarInt
+	/* Verify Token value, encrypted with the same public key as the shared secret. */
 	VerifyToken ByteArray // Byte Array
 }
 
-var _ Packet = (*LoginEncryptionResponse_757_2)(nil)
+var _ Packet = (*LoginEncryptionResponse_758_2)(nil)
 
-func (p LoginEncryptionResponse_757_2)Encode(b *PacketBuilder){
+func (p LoginEncryptionResponse_758_2)Encode(b *PacketBuilder){
 	p.SharedSecretLength = (VarInt)(len(p.SharedSecret))
 	b.VarInt(p.SharedSecretLength)
 	b.ByteArray(p.SharedSecret)
@@ -287,7 +286,7 @@ func (p LoginEncryptionResponse_757_2)Encode(b *PacketBuilder){
 	b.ByteArray(p.VerifyToken)
 }
 
-func (p *LoginEncryptionResponse_757_2)DecodeFrom(r *PacketReader)(error){
+func (p *LoginEncryptionResponse_758_2)DecodeFrom(r *PacketReader)(error){
 	var ok bool
 	_ = ok
 	var err error
@@ -581,8 +580,8 @@ func (p *LoginStart_760_1)DecodeFrom(r *PacketReader)(error){
 // Protocol=110; ProtocolName=1.9.4; State=login; Bound=server; ID=0x0
 // Protocol=47; ProtocolName=1.8.9; State=login; Bound=server; ID=0x0
 type LoginStart_758_2 struct {
-	/* Seems to be Player's Username */
-	Name String // String
+	/* Player's Username */
+	Name String // String (16)
 }
 
 var _ Packet = (*LoginStart_758_2)(nil)
@@ -667,8 +666,8 @@ func (p *LoginSuccess_758_1)DecodeFrom(r *PacketReader)(error){
 // Protocol=47; ProtocolName=1.8.9; State=login; Bound=client; ID=0x2
 type LoginSuccess_578_2 struct {
 	/* Unlike in other packets, this field contains the UUID as a string with hyphens. */
-	UUID String // String
-	Username String // String
+	UUID String // String (36)
+	Username String // String (16)
 }
 
 var _ Packet = (*LoginSuccess_578_2)(nil)
@@ -1096,7 +1095,7 @@ type PlayBlockAction_763_0 struct {
 	ActionID UByte // Unsigned Byte
 	/* Varies depending on block — see Block Actions. */
 	ActionParameter UByte // Unsigned Byte
-	/* The block type ID for the block. This value is unused by the Notchian client, as it will infer the type of block based on the given position. */
+	/* The block type ID for the block.  This must match the block at the given coordinates. */
 	BlockType VarInt // VarInt
 }
 
@@ -1334,7 +1333,7 @@ type PlayBlockEntityData_763_0 struct {
 	/* The type of the block entity */
 	Type VarInt // VarInt
 	/* Data to set.  May be a TAG_END (0), in which case the block entity at the given location is removed (though this is not required since the client will remove the block entity automatically on chunk unload or block removal). */
-	NBTData NBT // NBT Tag
+	NBTData nbt.NBT // NBT Tag
 }
 
 var _ Packet = (*PlayBlockEntityData_763_0)(nil)
@@ -1342,7 +1341,7 @@ var _ Packet = (*PlayBlockEntityData_763_0)(nil)
 func (p PlayBlockEntityData_763_0)Encode(b *PacketBuilder){
 	p.Location.Encode(b)
 	b.VarInt(p.Type)
-	p.NBTData.Encode(b)
+	nbt.WriteNBT(b, p.NBTData)
 }
 
 func (p *PlayBlockEntityData_763_0)DecodeFrom(r *PacketReader)(error){
@@ -1356,7 +1355,7 @@ func (p *PlayBlockEntityData_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Type, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.NBTData.DecodeFrom(r); err != nil {
+	if p.NBTData, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	return nil
@@ -1372,7 +1371,7 @@ type PlayBlockEntityData_756_1 struct {
 	/* The type of update to perform, see below */
 	Action UByte // Unsigned Byte
 	/* Data to set.  May be a TAG_END (0), in which case the block entity at the given location is removed (though this is not required since the client will remove the block entity automatically on chunk unload or block removal) */
-	NBTData NBT // NBT Tag
+	NBTData nbt.NBT // NBT Tag
 }
 
 var _ Packet = (*PlayBlockEntityData_756_1)(nil)
@@ -1380,7 +1379,7 @@ var _ Packet = (*PlayBlockEntityData_756_1)(nil)
 func (p PlayBlockEntityData_756_1)Encode(b *PacketBuilder){
 	p.Location.Encode(b)
 	b.UByte(p.Action)
-	p.NBTData.Encode(b)
+	nbt.WriteNBT(b, p.NBTData)
 }
 
 func (p *PlayBlockEntityData_756_1)DecodeFrom(r *PacketReader)(error){
@@ -1394,7 +1393,7 @@ func (p *PlayBlockEntityData_756_1)DecodeFrom(r *PacketReader)(error){
 	if p.Action, ok = r.UByte(); !ok {
 		return io.EOF
 	}
-	if err = p.NBTData.DecodeFrom(r); err != nil {
+	if p.NBTData, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	return nil
@@ -1512,11 +1511,6 @@ type PlayBossBar_758_2 struct {
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0xc
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0xc
 // Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0xc
-// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0xc
-// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0xc
-// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0xc
-// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0xc
-// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0xc
 type PlayBossBar_754_3 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name       | Field Name | Field Type    | Notes                                                                                                                             |
@@ -1540,25 +1534,30 @@ type PlayBossBar_754_3 struct {
 }
 
 // Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0xc
+// Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0xc
+// Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0xc
+// Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0xc
+// Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0xc
+// Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0xc
 // Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0xc
 type PlayBossBar_404_5 struct {
 	/*
-	 * | Packet ID | State | Bound To | Field Name       | Field Name | Field Type    | Notes                                                                                                                             |
-	 * |-----------|-------|----------|------------------|------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------|
-	 * | 0x0C      | Play  | Client   | UUID             | UUID       | UUID          | Unique ID for this bar                                                                                                            |
-	 * | 0x0C      | Play  | Client   | Action           | Action     | VarInt Enum   | Determines the layout of the remaining packet                                                                                     |
-	 * | 0x0C      | Play  | Client   | Action           | Field Name |               |                                                                                                                                   |
-	 * | 0x0C      | Play  | Client   | 0: add           | Title      | Chat          |                                                                                                                                   |
-	 * | 0x0C      | Play  | Client   | 0: add           | Health     | Float         | From 0 to 1. Values greater than 1 do not crash a Notchian client, and start rendering part of a second health bar at around 1.5. |
-	 * | 0x0C      | Play  | Client   | 0: add           | Color      | VarInt Enum   | Color ID (see below)                                                                                                              |
-	 * | 0x0C      | Play  | Client   | 0: add           | Division   | VarInt Enum   | Type of division (see below)                                                                                                      |
-	 * | 0x0C      | Play  | Client   | 0: add           | Flags      | Unsigned Byte | Bit mask. 0x1: should darken sky, 0x2: is dragon bar (used to play end music)                                                     |
-	 * | 0x0C      | Play  | Client   | 1: remove        | no fields  | no fields     | Removes this boss bar                                                                                                             |
-	 * | 0x0C      | Play  | Client   | 2: update health | Health     | Float         | as above                                                                                                                          |
-	 * | 0x0C      | Play  | Client   | 3: update title  | Title      | Chat          |                                                                                                                                   |
-	 * | 0x0C      | Play  | Client   | 4: update style  | Color      | VarInt Enum   | Color ID (see below)                                                                                                              |
-	 * | 0x0C      | Play  | Client   | 4: update style  | Dividers   | VarInt Enum   | as above                                                                                                                          |
-	 * | 0x0C      | Play  | Client   | 5: update flags  | Flags      | Unsigned Byte | as above                                                                                                                          |
+	 * | Packet ID | State | Bound To | Field Name       | Field Name | Field Type    | Notes                                                                                                                                    |
+	 * |-----------|-------|----------|------------------|------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------|
+	 * | 0x0C      | Play  | Client   | UUID             | UUID       | UUID          | Unique ID for this bar                                                                                                                   |
+	 * | 0x0C      | Play  | Client   | Action           | Action     | VarInt Enum   | Determines the layout of the remaining packet                                                                                            |
+	 * | 0x0C      | Play  | Client   | Action           | Field Name |               |                                                                                                                                          |
+	 * | 0x0C      | Play  | Client   | 0: add           | Title      | Chat          |                                                                                                                                          |
+	 * | 0x0C      | Play  | Client   | 0: add           | Health     | Float         | From 0 to 1. Values greater than 1 do not crash a Notchian client, and start rendering part of a second health bar at around 1.5.        |
+	 * | 0x0C      | Play  | Client   | 0: add           | Color      | VarInt Enum   | Color ID (see below)                                                                                                                     |
+	 * | 0x0C      | Play  | Client   | 0: add           | Division   | VarInt Enum   | Type of division (see below)                                                                                                             |
+	 * | 0x0C      | Play  | Client   | 0: add           | Flags      | Unsigned Byte | Bit mask. 0x1: should darken sky, 0x2: is dragon bar (used to play end music), 0x04: create fog (previously was also controlled by 0x02) |
+	 * | 0x0C      | Play  | Client   | 1: remove        | no fields  | no fields     | Removes this boss bar                                                                                                                    |
+	 * | 0x0C      | Play  | Client   | 2: update health | Health     | Float         | as above                                                                                                                                 |
+	 * | 0x0C      | Play  | Client   | 3: update title  | Title      | Chat          |                                                                                                                                          |
+	 * | 0x0C      | Play  | Client   | 4: update style  | Color      | VarInt Enum   | Color ID (see below)                                                                                                                     |
+	 * | 0x0C      | Play  | Client   | 4: update style  | Dividers   | VarInt Enum   | as above                                                                                                                                 |
+	 * | 0x0C      | Play  | Client   | 5: update flags  | Flags      | Unsigned Byte | as above                                                                                                                                 |
 	 * 
 	 */
 }
@@ -1843,7 +1842,7 @@ func (p *PlayChatMessage_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0xe
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0xe
 type PlayChatMessage_758_3 struct {
-	/* Limited to 262144 bytes. */
+	/* Limited to 32767 bytes */
 	JSONData Object // Chat
 	/* 0: chat (chat box), 1: system message (chat box), 2: game info (above hotbar). */
 	Position Byte // Byte
@@ -1890,7 +1889,7 @@ func (p *PlayChatMessage_758_3)DecodeFrom(r *PacketReader)(error){
 type PlayChatMessage_578_4 struct {
 	/* Limited to 32767 bytes */
 	JSONData Object // Chat
-	/* 0: chat (chat box), 1: system message (chat box), 2: above hotbar */
+	/* 0: chat (chat box), 1: system message (chat box), 2: game info (above hotbar). */
 	Position Byte // Byte
 }
 
@@ -1934,7 +1933,7 @@ func (p *PlayChatMessage_578_4)DecodeFrom(r *PacketReader)(error){
 // Protocol=47; ProtocolName=1.8.9; State=play; Bound=server; ID=0x1
 type PlayChatMessageServer_758_0 struct {
 	/* The client sends the raw input, not a Chat component */
-	Message String // String
+	Message String // String (256)
 }
 
 var _ Packet = (*PlayChatMessageServer_758_0)(nil)
@@ -2085,11 +2084,11 @@ type PlayChunkData_756_0 struct {
 	BitMaskLength VarInt // VarInt
 	/* BitSet with bits (world height in blocks / 16) set to 1 for every 16×16×16 chunk section whose data is included in Data. The least significant bit represents the chunk section at the bottom of the chunk column (from the lowest y to 15 blocks above). */
 	PrimaryBitMask []Long // Array of Long
-	/* Compound containing one long array named MOTION_BLOCKING, which is a heightmap for the highest solid block at each position in the chunk (as a compacted long array with 256 entries at 9 bits per entry totaling 37 longs). The Notchian server also adds a WORLD_SURFACE long array, the purpose of which is unknown, but it's not required for the chunk to be accepted. */
-	Heightmaps NBT // NBT
-	/* Size of the following array */
+	/* Compound containing one long array named MOTION_BLOCKING, which is a heightmap for the highest solid block at each position in the chunk (as a compacted long array with 256 entries at 9 bits per entry totaling 36 longs). The Notchian server also adds a WORLD_SURFACE long array, the purpose of which is unknown, but it's not required for the chunk to be accepted. */
+	Heightmaps nbt.NBT // NBT
+	/* Size of the following array; should always be 1024. */
 	BiomesLength VarInt // VarInt
-	/* Biome IDs, ordered by x then z then y, in 4×4×4 blocks.  See Chunk Format § Biomes. */
+	/* 1024 biome IDs, ordered by x then z then y, in 4×4×4 blocks.  See Chunk Format § Biomes. */
 	Biomes []VarInt // Array of VarInt
 	/* Size of Data in bytes */
 	Size VarInt // VarInt
@@ -2098,7 +2097,7 @@ type PlayChunkData_756_0 struct {
 	/* Number of elements in the following array */
 	NumberOfBlockEntities VarInt // VarInt
 	/* All block entities in the chunk.  Use the x, y, and z tags in the NBT to determine their positions. */
-	BlockEntities []NBT // Array of NBT Tag
+	BlockEntities []nbt.NBT // Array of NBT Tag
 }
 
 var _ Packet = (*PlayChunkData_756_0)(nil)
@@ -2111,7 +2110,7 @@ func (p PlayChunkData_756_0)Encode(b *PacketBuilder){
 	for _, v := range p.PrimaryBitMask {
 		b.Long(v)
 	}
-	p.Heightmaps.Encode(b)
+	nbt.WriteNBT(b, p.Heightmaps)
 	p.BiomesLength = (VarInt)(len(p.Biomes))
 	b.VarInt(p.BiomesLength)
 	for _, v := range p.Biomes {
@@ -2123,7 +2122,7 @@ func (p PlayChunkData_756_0)Encode(b *PacketBuilder){
 	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
-		v.Encode(b)
+		nbt.WriteNBT(b, v)
 	}
 }
 
@@ -2147,7 +2146,7 @@ func (p *PlayChunkData_756_0)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	if err = p.Heightmaps.DecodeFrom(r); err != nil {
+	if p.Heightmaps, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	if p.BiomesLength, ok = r.VarInt(); !ok {
@@ -2169,9 +2168,9 @@ func (p *PlayChunkData_756_0)DecodeFrom(r *PacketReader)(error){
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.BlockEntities = make([]NBT, p.NumberOfBlockEntities)
+	p.BlockEntities = make([]nbt.NBT, p.NumberOfBlockEntities)
 	for i, _ := range p.BlockEntities {
-		if err = p.BlockEntities[i].DecodeFrom(r); err != nil {
+		if p.BlockEntities[i], err = nbt.ReadNBT(r); err != nil {
 			return err
 		}
 	}
@@ -2190,7 +2189,7 @@ type PlayChunkData_754_1 struct {
 	/* Bitmask with bits set to 1 for every 16×16×16 chunk section whose data is included in Data. The least significant bit represents the chunk section at the bottom of the chunk column (from y=0 to y=15). */
 	PrimaryBitMask VarInt // VarInt
 	/* Compound containing one long array named MOTION_BLOCKING, which is a heightmap for the highest solid block at each position in the chunk (as a compacted long array with 256 entries at 9 bits per entry totaling 36 longs). The Notchian server also adds a WORLD_SURFACE long array, the purpose of which is unknown, but it's not required for the chunk to be accepted. */
-	Heightmaps NBT // NBT
+	Heightmaps nbt.NBT // NBT
 	/* Size of the following array.  Not present if full chunk is false. */
 	BiomesLength Optional[VarInt] // Optional VarInt
 	/* 1024 biome IDs, ordered by x then z then y, in 4×4×4 blocks.Possibly something else.  Not present if full chunk is false. */
@@ -2202,7 +2201,7 @@ type PlayChunkData_754_1 struct {
 	/* Number of elements in the following array */
 	NumberOfBlockEntities VarInt // VarInt
 	/* All block entities in the chunk.  Use the x, y, and z tags in the NBT to determine their positions. */
-	BlockEntities []NBT // Array of NBT Tag
+	BlockEntities []nbt.NBT // Array of NBT Tag
 }
 
 var _ Packet = (*PlayChunkData_754_1)(nil)
@@ -2212,7 +2211,7 @@ func (p PlayChunkData_754_1)Encode(b *PacketBuilder){
 	b.Int(p.ChunkZ)
 	b.Bool(p.FullChunk)
 	b.VarInt(p.PrimaryBitMask)
-	p.Heightmaps.Encode(b)
+	nbt.WriteNBT(b, p.Heightmaps)
 	if p.FullChunk {
 		p.BiomesLength.Set((VarInt)(len(p.Biomes.Assert())))
 		b.VarInt(p.BiomesLength.V)
@@ -2226,7 +2225,7 @@ func (p PlayChunkData_754_1)Encode(b *PacketBuilder){
 	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
-		v.Encode(b)
+		nbt.WriteNBT(b, v)
 	}
 }
 
@@ -2247,7 +2246,7 @@ func (p *PlayChunkData_754_1)DecodeFrom(r *PacketReader)(error){
 	if p.PrimaryBitMask, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.Heightmaps.DecodeFrom(r); err != nil {
+	if p.Heightmaps, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	if p.BiomesLength.Ok = p.FullChunk; p.BiomesLength.Ok {
@@ -2271,9 +2270,9 @@ func (p *PlayChunkData_754_1)DecodeFrom(r *PacketReader)(error){
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.BlockEntities = make([]NBT, p.NumberOfBlockEntities)
+	p.BlockEntities = make([]nbt.NBT, p.NumberOfBlockEntities)
 	for i, _ := range p.BlockEntities {
-		if err = p.BlockEntities[i].DecodeFrom(r); err != nil {
+		if p.BlockEntities[i], err = nbt.ReadNBT(r); err != nil {
 			return err
 		}
 	}
@@ -2299,7 +2298,7 @@ type PlayChunkData_340_5 struct {
 	/* Number of elements in the following array */
 	NumberOfBlockEntities VarInt // VarInt
 	/* All block entities in the chunk.  Use the x, y, and z tags in the NBT to determine their positions. */
-	BlockEntities []NBT // Array of NBT Tag
+	BlockEntities []nbt.NBT // Array of NBT Tag
 }
 
 var _ Packet = (*PlayChunkData_340_5)(nil)
@@ -2315,7 +2314,7 @@ func (p PlayChunkData_340_5)Encode(b *PacketBuilder){
 	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
-		v.Encode(b)
+		nbt.WriteNBT(b, v)
 	}
 }
 
@@ -2346,9 +2345,9 @@ func (p *PlayChunkData_340_5)DecodeFrom(r *PacketReader)(error){
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.BlockEntities = make([]NBT, p.NumberOfBlockEntities)
+	p.BlockEntities = make([]nbt.NBT, p.NumberOfBlockEntities)
 	for i, _ := range p.BlockEntities {
-		if err = p.BlockEntities[i].DecodeFrom(r); err != nil {
+		if p.BlockEntities[i], err = nbt.ReadNBT(r); err != nil {
 			return err
 		}
 	}
@@ -2377,7 +2376,7 @@ type PlayChunkData_316_6 struct {
 	/* Length of the following array */
 	NumberOfBlockEntities VarInt // VarInt
 	/* All block entities in the chunk.  Use the x, y, and z tags in the NBT to determine their positions. */
-	BlockEntities []NBT // Array of NBT Tag
+	BlockEntities []nbt.NBT // Array of NBT Tag
 }
 
 var _ Packet = (*PlayChunkData_316_6)(nil)
@@ -2401,7 +2400,7 @@ func (p PlayChunkData_316_6)Encode(b *PacketBuilder){
 	p.NumberOfBlockEntities = (VarInt)(len(p.BlockEntities))
 	b.VarInt(p.NumberOfBlockEntities)
 	for _, v := range p.BlockEntities {
-		v.Encode(b)
+		nbt.WriteNBT(b, v)
 	}
 }
 
@@ -2429,7 +2428,7 @@ func (p *PlayChunkData_316_6)DecodeFrom(r *PacketReader)(error){
 	if ok = r.ByteArray(buf); !ok {
 		return io.EOF
 	}
-	r2 := ReadPacketBytes(r.Protocol(), buf)
+	r2 := ReadPacketFromBytes(r.Protocol(), buf)
 	p.Data = make([]*ChunkSection, p.Size)
 	for i, _ := range p.Data {
 		p.Data[i] = new(ChunkSection)
@@ -2446,9 +2445,9 @@ func (p *PlayChunkData_316_6)DecodeFrom(r *PacketReader)(error){
 	if p.NumberOfBlockEntities, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.BlockEntities = make([]NBT, p.NumberOfBlockEntities)
+	p.BlockEntities = make([]nbt.NBT, p.NumberOfBlockEntities)
 	for i, _ := range p.BlockEntities {
-		if err = p.BlockEntities[i].DecodeFrom(r); err != nil {
+		if p.BlockEntities[i], err = nbt.ReadNBT(r); err != nil {
 			return err
 		}
 	}
@@ -2611,7 +2610,7 @@ type PlayClickWindow_754_4 struct {
 	/* Inventory operation mode, see below */
 	Mode VarInt // VarInt Enum
 	/* The clicked slot. Has to be empty (item ID = -1) for drop mode. */
-	ClickedItem *Slot // Slot
+	ClickedItem *data.Slot // Slot
 }
 
 var _ Packet = (*PlayClickWindow_754_4)(nil)
@@ -2645,7 +2644,7 @@ func (p *PlayClickWindow_754_4)DecodeFrom(r *PacketReader)(error){
 	if p.Mode, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.ClickedItem = new(Slot)
+	p.ClickedItem = new(data.Slot)
 	if err = p.ClickedItem.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -2661,9 +2660,9 @@ func (p *PlayClickWindow_754_4)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x8
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x8
 type PlayClickWindowButton_758_0 struct {
-	/* The ID of the window sent by Open Window. */
+	/* The ID of the window sent by Open Window */
 	WindowID Byte // Byte
-	/* Meaning depends on window type; see below. */
+	/* Meaning depends on window type; see below */
 	ButtonID Byte // Byte
 }
 
@@ -3721,7 +3720,7 @@ type PlayCraftingBookData_340_0 struct {
 type PlayCreativeInventoryAction_758_0 struct {
 	/* Inventory slot */
 	Slot Short // Short
-	ClickedItem *Slot // Slot
+	ClickedItem *data.Slot // Slot
 }
 
 var _ Packet = (*PlayCreativeInventoryAction_758_0)(nil)
@@ -3739,7 +3738,7 @@ func (p *PlayCreativeInventoryAction_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.ClickedItem = new(Slot)
+	p.ClickedItem = new(data.Slot)
 	if err = p.ClickedItem.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -3841,7 +3840,7 @@ type PlayDamageEvent_763_0 struct {
 type PlayDeathCombatEvent_758_0 struct {
 	/* Entity ID of the player that died (should match the client's entity ID). */
 	PlayerID VarInt // VarInt
-	/* The killer entity's ID, or -1 if there is no obvious killer. */
+	/* The killing entity's ID, or -1 if there is no obvious killer. */
 	EntityID Int // Int
 	/* The death message. */
 	Message Object // Chat
@@ -4214,11 +4213,11 @@ type PlayEditBook_763_0 struct {
 	/* Number of elements in the following array */
 	Count VarInt // VarInt
 	/* Text from each page. */
-	Entries [][]String // Array of Strings
+	Entries [][]String // Array of Strings (8192 chars)
 	/* If true, the next field is present. */
 	HasTitle Bool // Boolean
 	/* Title of book. */
-	Title Optional[String] // Optional String
+	Title Optional[String] // Optional String (128 chars)
 }
 
 var _ Packet = (*PlayEditBook_763_0)(nil)
@@ -4283,7 +4282,7 @@ func (p *PlayEditBook_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0xc
 // Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0xb
 type PlayEditBook_755_4 struct {
-	NewBook *Slot // Slot
+	NewBook *data.Slot // Slot
 	/* True if the player is signing the book; false if the player is saving a draft. */
 	IsSigning Bool // Boolean
 	/* 0: Main hand, 1: Off hand */
@@ -4303,7 +4302,7 @@ func (p *PlayEditBook_755_4)DecodeFrom(r *PacketReader)(error){
 	_ = ok
 	var err error
 	_ = err
-	p.NewBook = new(Slot)
+	p.NewBook = new(data.Slot)
 	if err = p.NewBook.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -4597,9 +4596,9 @@ func (p *PlayEntityAction_758_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x6
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x6
 type PlayEntityAnimation_763_0 struct {
-	/* Player ID. */
+	/* Player ID */
 	EntityID VarInt // VarInt
-	/* Animation ID (see below). */
+	/* Animation ID (see below) */
 	Animation UByte // Unsigned Byte
 }
 
@@ -4640,9 +4639,9 @@ type PlayEntityEffect_763_0 struct {
 	/* Bit field, see below. */
 	Flags Byte // Byte
 	/* Used in DARKNESS effect */
-	HasFactorData Bool // boolean
+	HasFactorData Bool // Boolean
 	/* See below */
-	FactorCodec NBT // NBT Tag
+	FactorCodec nbt.NBT // NBT Tag
 }
 
 var _ Packet = (*PlayEntityEffect_763_0)(nil)
@@ -4654,7 +4653,7 @@ func (p PlayEntityEffect_763_0)Encode(b *PacketBuilder){
 	b.VarInt(p.Duration)
 	b.Byte(p.Flags)
 	b.Bool(p.HasFactorData)
-	p.FactorCodec.Encode(b)
+	nbt.WriteNBT(b, p.FactorCodec)
 }
 
 func (p *PlayEntityEffect_763_0)DecodeFrom(r *PacketReader)(error){
@@ -4680,7 +4679,7 @@ func (p *PlayEntityEffect_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.HasFactorData, ok = r.Bool(); !ok {
 		return io.EOF
 	}
-	if err = p.FactorCodec.DecodeFrom(r); err != nil {
+	if p.FactorCodec, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	return nil
@@ -4755,7 +4754,6 @@ type PlayEntityEffect_110_3 struct {
 	Amplifier Byte // Byte
 	/* Seconds */
 	Duration VarInt // VarInt
-	/* False: show particles, true: hide particles */
 	HideParticles Bool // Boolean
 }
 
@@ -4835,7 +4833,7 @@ type PlayEntityEquipment_578_2 struct {
 	EntityID VarInt // VarInt
 	/* Equipment slot. 0: main hand, 1: off hand, 2–5: armor slot (2: boots, 3: leggings, 4: chestplate, 5: helmet) */
 	Slot VarInt // VarInt Enum
-	Item *Slot // Slot
+	Item *data.Slot // Slot
 }
 
 var _ Packet = (*PlayEntityEquipment_578_2)(nil)
@@ -4857,7 +4855,7 @@ func (p *PlayEntityEquipment_578_2)DecodeFrom(r *PacketReader)(error){
 	if p.Slot, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.Item = new(Slot)
+	p.Item = new(data.Slot)
 	if err = p.Item.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -5070,7 +5068,7 @@ func (p *PlayEntityLookAndRelativeMove_404_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x1c
 type PlayEntityMetadata_758_0 struct {
 	EntityID VarInt // VarInt
-	Metadata *EntityMetadata // Entity Metadata
+	Metadata *data.EntityMetadata // Entity Metadata
 }
 
 var _ Packet = (*PlayEntityMetadata_758_0)(nil)
@@ -5088,7 +5086,7 @@ func (p *PlayEntityMetadata_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.Metadata = new(EntityMetadata)
+	p.Metadata = new(data.EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -5130,11 +5128,11 @@ func (p *PlayEntityMovement_754_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x28
 type PlayEntityPosition_758_0 struct {
 	EntityID VarInt // VarInt
-	/* Change in X position as (currentX * 32 - prevX * 32) * 128. */
+	/* Change in X position as (currentX * 32 - prevX * 32) * 128 */
 	DeltaX Short // Short
-	/* Change in Y position as (currentY * 32 - prevY * 32) * 128. */
+	/* Change in Y position as (currentY * 32 - prevY * 32) * 128 */
 	DeltaY Short // Short
-	/* Change in Z position as (currentZ * 32 - prevZ * 32) * 128. */
+	/* Change in Z position as (currentZ * 32 - prevZ * 32) * 128 */
 	DeltaZ Short // Short
 	OnGround Bool // Boolean
 }
@@ -5182,15 +5180,15 @@ func (p *PlayEntityPosition_758_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x29
 type PlayEntityPositionAndRotation_758_0 struct {
 	EntityID VarInt // VarInt
-	/* Change in X position as (currentX * 32 - prevX * 32) * 128. */
+	/* Change in X position as (currentX * 32 - prevX * 32) * 128 */
 	DeltaX Short // Short
-	/* Change in Y position as (currentY * 32 - prevY * 32) * 128. */
+	/* Change in Y position as (currentY * 32 - prevY * 32) * 128 */
 	DeltaY Short // Short
-	/* Change in Z position as (currentZ * 32 - prevZ * 32) * 128. */
+	/* Change in Z position as (currentZ * 32 - prevZ * 32) * 128 */
 	DeltaZ Short // Short
-	/* New angle, not a delta. */
+	/* New angle, not a delta */
 	Yaw Angle // Angle
-	/* New angle, not a delta. */
+	/* New angle, not a delta */
 	Pitch Angle // Angle
 	OnGround Bool // Boolean
 }
@@ -5379,9 +5377,9 @@ func (p *PlayEntityRelativeMove_404_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2a
 type PlayEntityRotation_758_0 struct {
 	EntityID VarInt // VarInt
-	/* New angle, not a delta. */
+	/* New angle, not a delta */
 	Yaw Angle // Angle
-	/* New angle, not a delta. */
+	/* New angle, not a delta */
 	Pitch Angle // Angle
 	OnGround Bool // Boolean
 }
@@ -5509,14 +5507,14 @@ func (p *PlayEntitySoundEffect_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x51
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x50
 type PlayEntitySoundEffect_760_1 struct {
-	/* ID of hardcoded sound event (events). */
+	/* ID of hardcoded sound event (events as of 1.14.4) */
 	SoundID VarInt // VarInt
-	/* The category that this sound will be played from (current categories). */
+	/* The category that this sound will be played from (current categories) */
 	SoundCategory VarInt // VarInt Enum
 	EntityID VarInt // VarInt
-	/* 1.0 is 100%, capped between 0.0 and 1.0 by Notchian clients. */
+	/* 1.0 is 100%, capped between 0.0 and 1.0 by Notchian clients */
 	Volume Float // Float
-	/* Float between 0.5 and 2.0 by Notchian clients. */
+	/* Float between 0.5 and 2.0 by Notchian clients */
 	Pitch Float // Float
 }
 
@@ -6176,7 +6174,7 @@ func (p *PlayFeatureFlags_763_0)DecodeFrom(r *PacketReader)(error){
 type PlayGameEvent_763_0 struct {
 	/* See below. */
 	Event UByte // Unsigned Byte
-	/* Depends on Reason. */
+	/* Depends on Event. */
 	Value Float // Float
 }
 
@@ -6208,9 +6206,9 @@ func (p *PlayGameEvent_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0xf
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0xf
 type PlayGenerateStructure_758_0 struct {
-	/* Block entity location. */
+	/* Block entity location */
 	Location Position // Position
-	/* Value of the levels slider/max depth to generate. */
+	/* Value of the levels slider/max depth to generate */
 	Levels VarInt // VarInt
 	KeepJigsaws Bool // Boolean
 }
@@ -6488,17 +6486,17 @@ func (p *PlayInteract_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0xe
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0xe
 type PlayInteractEntity_758_0 struct {
-	/* The ID of the entity to interact. */
+	/* The ID of the entity to interact */
 	EntityID VarInt // VarInt
-	/* 0: interact, 1: attack, 2: interact at. */
+	/* 0: interact, 1: attack, 2: interact at */
 	Type VarInt // VarInt Enum
-	/* Only if Type is interact at. */
+	/* Only if Type is interact at */
 	TargetX Optional[Float] // Optional Float
-	/* Only if Type is interact at. */
+	/* Only if Type is interact at */
 	TargetY Optional[Float] // Optional Float
-	/* Only if Type is interact at. */
+	/* Only if Type is interact at */
 	TargetZ Optional[Float] // Optional Float
-	/* Only if Type is interact or interact at; 0: main hand, 1: off hand. */
+	/* Only if Type is interact or interact at; 0: main hand, 1: off hand */
 	Hand Optional[VarInt] // Optional VarInt Enum
 	/* If the client is sneaking. */
 	Sneaking Bool // Boolean
@@ -6684,9 +6682,9 @@ type PlayJoinGame_758_0 struct {
 	/* Identifiers for all dimensions on the server. */
 	DimensionNames []String // Array of Identifier
 	/* The full extent of these is still unknown, but the tag represents a dimension and biome registry. See below for the vanilla default. */
-	DimensionCodec *NBTCompound // NBT Tag Compound
+	DimensionCodec *nbt.NBTCompound // NBT Tag Compound
 	/* Valid dimensions are defined per dimension registry sent before this. The structure of this tag is a dimension type (see below). */
-	Dimension *NBTCompound // NBT Tag Compound
+	Dimension *nbt.NBTCompound // NBT Tag Compound
 	/* Name of the dimension being spawned into. */
 	DimensionName String // Identifier
 	/* First 8 bytes of the SHA-256 hash of the world's seed. Used client side for biome noise */
@@ -6757,11 +6755,11 @@ func (p *PlayJoinGame_758_0)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	p.DimensionCodec = new(NBTCompound)
+	p.DimensionCodec = new(nbt.NBTCompound)
 	if err = p.DimensionCodec.DecodeFrom(r); err != nil {
 		return err
 	}
-	p.Dimension = new(NBTCompound)
+	p.Dimension = new(nbt.NBTCompound)
 	if err = p.Dimension.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -6812,9 +6810,9 @@ type PlayJoinGame_756_1 struct {
 	/* Identifiers for all worlds on the server */
 	WorldNames []String // Array of Identifier
 	/* The full extent of these is still unknown, but the tag represents a dimension and biome registry. See below for the vanilla default. */
-	DimensionCodec *NBTCompound // NBT Tag Compound
+	DimensionCodec *nbt.NBTCompound // NBT Tag Compound
 	/* Valid dimensions are defined per dimension registry sent before this */
-	Dimension *NBTCompound // NBT Tag Compound
+	Dimension *nbt.NBTCompound // NBT Tag Compound
 	/* Name of the world being spawned into */
 	WorldName String // Identifier
 	/* First 8 bytes of the SHA-256 hash of the world's seed. */
@@ -6883,11 +6881,11 @@ func (p *PlayJoinGame_756_1)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	p.DimensionCodec = new(NBTCompound)
+	p.DimensionCodec = new(nbt.NBTCompound)
 	if err = p.DimensionCodec.DecodeFrom(r); err != nil {
 		return err
 	}
-	p.Dimension = new(NBTCompound)
+	p.Dimension = new(nbt.NBTCompound)
 	if err = p.Dimension.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -7194,7 +7192,7 @@ type PlayLogin_760_3 struct {
 	/* Identifiers for all dimensions on the server. */
 	DimensionNames []String // Array of Identifier
 	/* Represents certain registries that are sent from the server and are applied on the client. */
-	RegistryCodec *NBTCompound // NBT Tag Compound
+	RegistryCodec *nbt.NBTCompound // NBT Tag Compound
 	/* Name of the dimension type being spawned into. */
 	DimensionType String // Identifier
 	/* Name of the dimension being spawned into. */
@@ -7277,7 +7275,7 @@ func (p *PlayLogin_760_3)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	p.RegistryCodec = new(NBTCompound)
+	p.RegistryCodec = new(nbt.NBTCompound)
 	if err = p.RegistryCodec.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -7330,7 +7328,7 @@ func (p *PlayLogin_760_3)DecodeFrom(r *PacketReader)(error){
 // Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x35
 type PlayLookAt_763_0 struct {
 	/* Values are feet=0, eyes=1.  If set to eyes, aims using the head position; otherwise aims using the feet position. */
-	FeetOrEyes VarInt // VarInt enum
+	FeetOrEyes VarInt // VarInt Enum
 	/* x coordinate of the point to face towards. */
 	TargetX Double // Double
 	/* y coordinate of the point to face towards. */
@@ -7342,7 +7340,7 @@ type PlayLookAt_763_0 struct {
 	/* Only if is entity is true — the entity to face towards. */
 	EntityID Optional[VarInt] // Optional VarInt
 	/* Whether to look at the entity's eyes or feet.  Same values and meanings as before, just for the entity's head/feet. */
-	EntityFeetOrEyes Optional[VarInt] // Optional VarInt enum
+	EntityFeetOrEyes Optional[VarInt] // Optional VarInt Enum
 }
 
 var _ Packet = (*PlayLookAt_763_0)(nil)
@@ -7663,11 +7661,11 @@ func (p *PlayMoveVehicleServer_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x3b
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x3b
 type PlayMultiBlockChange_758_0 struct {
-	/* Chunk section coordinate (encoded chunk x and z with each 22 bits, and section y with 20 bits, from left to right). */
+	/* Chunk section coordinate (encoded chunk x and z with each 22 bits, and section y with 20 bits, from left to right) */
 	ChunkSectionPosition Long // Long
-	/* Number of elements in the following array. */
+	/* Number of elements in the following array */
 	BlocksArraySize VarInt // VarInt
-	/* Each entry is composed of the block state id, shifted left by 12, and the relative block position in the chunk section (4 bits for x, z, and y, from left to right). */
+	/* Each entry is composed of the block id, shifted right by 12, and the relative block position in the chunk section (4 bits for x, z, and y, from left to right). */
 	Blocks []VarLong // Array of VarLong
 }
 
@@ -7744,14 +7742,14 @@ type PlayNBTQueryResponse_758_0 struct {
 	/* Can be compared to the one sent in the original query packet. */
 	TransactionID VarInt // VarInt
 	/* The NBT of the block or entity.  May be a TAG_END (0) in which case no NBT is present. */
-	NBT NBT // NBT Tag
+	NBT nbt.NBT // NBT Tag
 }
 
 var _ Packet = (*PlayNBTQueryResponse_758_0)(nil)
 
 func (p PlayNBTQueryResponse_758_0)Encode(b *PacketBuilder){
 	b.VarInt(p.TransactionID)
-	p.NBT.Encode(b)
+	nbt.WriteNBT(b, p.NBT)
 }
 
 func (p *PlayNBTQueryResponse_758_0)DecodeFrom(r *PacketReader)(error){
@@ -7762,7 +7760,7 @@ func (p *PlayNBTQueryResponse_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.TransactionID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.NBT.DecodeFrom(r); err != nil {
+	if p.NBT, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	return nil
@@ -7886,7 +7884,7 @@ func (p *PlayNamedSoundEffect_758_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x2e
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x2d
 type PlayOpenBook_763_0 struct {
-	/* 0: Main hand, 1: Off hand . */
+	/* 0: Main hand, 1: Off hand */
 	Hand VarInt // VarInt enum
 }
 
@@ -7915,7 +7913,7 @@ func (p *PlayOpenBook_763_0)DecodeFrom(r *PacketReader)(error){
 type PlayOpenHorseScreen_763_0 struct {
 	WindowID UByte // Unsigned Byte
 	SlotCount VarInt // VarInt
-	EntityID Int // Integer
+	EntityID Int // Int
 }
 
 var _ Packet = (*PlayOpenHorseScreen_763_0)(nil)
@@ -8105,9 +8103,9 @@ func (p *PlayOpenSignEditor_762_1)DecodeFrom(r *PacketReader)(error){
 type PlayOpenWindow_758_0 struct {
 	/* A unique id number for the window to be displayed. Notchian server implementation is a counter, starting at 1. */
 	WindowID VarInt // VarInt
-	/* The window type to use for display. Contained in the minecraft:menu registry; see Inventory for the different values. */
+	/* The window type to use for display. Contained in the minecraft:menu regisry; see Inventory for the different values. */
 	WindowType VarInt // VarInt
-	/* The title of the window. */
+	/* The title of the window */
 	WindowTitle Object // Chat
 }
 
@@ -8322,23 +8320,23 @@ func (p *PlayParticle_763_0)DecodeFrom(r *PacketReader)(error){
 type PlayParticle_758_1 struct {
 	/* The particle ID listed in the particle data type. */
 	ParticleID Int // Int
-	/* If true, particle distance increases from 256 to 65536. */
+	/* If true, particle distance increases from 256 to 65536 */
 	LongDistance Bool // Boolean
-	/* X position of the particle. */
+	/* X position of the particle */
 	X Double // Double
-	/* Y position of the particle. */
+	/* Y position of the particle */
 	Y Double // Double
-	/* Z position of the particle. */
+	/* Z position of the particle */
 	Z Double // Double
-	/* This is added to the X position after being multiplied by random.nextGaussian(). */
+	/* This is added to the X position after being multiplied by random.nextGaussian() */
 	OffsetX Float // Float
-	/* This is added to the Y position after being multiplied by random.nextGaussian(). */
+	/* This is added to the Y position after being multiplied by random.nextGaussian() */
 	OffsetY Float // Float
-	/* This is added to the Z position after being multiplied by random.nextGaussian(). */
+	/* This is added to the Z position after being multiplied by random.nextGaussian() */
 	OffsetZ Float // Float
-	/* The data of each particle. */
+	/* The data of each particle */
 	ParticleData Float // Float
-	/* The number of particles to create. */
+	/* The number of particles to create */
 	ParticleCount Int // Int
 	/* The variable data listed in the particle data type. */
 	Data any // Varies
@@ -8588,7 +8586,7 @@ func (p *PlayParticle_340_3)DecodeFrom(r *PacketReader)(error){
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x17
 // Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x15
 type PlayPickItem_763_0 struct {
-	/* See Inventory. */
+	/* See Inventory */
 	SlotToUse VarInt // VarInt
 }
 
@@ -8852,7 +8850,6 @@ func (p *PlayPluginMessageServer_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=756; ProtocolName=1.17.1; State=play; Bound=server; ID=0x1d
 // Protocol=755; ProtocolName=1.17; State=play; Bound=server; ID=0x1d
 type PlayPong_763_0 struct {
-	/* id is the same as the ping packet */
 	ID Int // Int
 }
 
@@ -8882,7 +8879,7 @@ type PlayProgramCommandBlock_763_0 struct {
 	Location Position // Position
 	Command String // String (32767)
 	/* One of SEQUENCE (0), AUTO (1), or REDSTONE (2). */
-	Mode VarInt // VarInt enum
+	Mode VarInt // VarInt Enum
 	/* 0x01: Track Output (if false, the output of the previous command will not be stored within the command block); 0x02: Is conditional; 0x04: Automatic. */
 	Flags Byte // Byte
 }
@@ -8923,7 +8920,7 @@ func (p *PlayProgramCommandBlock_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x29
 type PlayProgramCommandBlockMinecart_763_0 struct {
 	EntityID VarInt // VarInt
-	Command String // String
+	Command String // String (32767)
 	/* If false, the output of the previous command will not be stored within the command block. */
 	TrackOutput Bool // Boolean
 }
@@ -8965,7 +8962,7 @@ type PlayProgramJigsawBlock_763_0 struct {
 	Target String // Identifier
 	Pool String // Identifier
 	/* "Turns into" on the GUI, final_state in NBT. */
-	FinalState String // String
+	FinalState String // String (32767)
 	/* rollable if the attached piece can be rotated, else aligned. */
 	JointType String // String
 }
@@ -9016,10 +9013,10 @@ type PlayProgramStructureBlock_763_0 struct {
 	/* Block entity location. */
 	Location Position // Position
 	/* An additional action to perform beyond simply saving the given data; see below. */
-	Action VarInt // VarInt enum
+	Action VarInt // VarInt Enum
 	/* One of SAVE (0), LOAD (1), CORNER (2), DATA (3). */
-	Mode VarInt // VarInt enum
-	Name String // String
+	Mode VarInt // VarInt Enum
+	Name String // String (32767)
 	/* Between -32 and 32. */
 	OffsetX Byte // Byte
 	/* Between -32 and 32. */
@@ -9033,10 +9030,10 @@ type PlayProgramStructureBlock_763_0 struct {
 	/* Between 0 and 32. */
 	SizeZ Byte // Byte
 	/* One of NONE (0), LEFT_RIGHT (1), FRONT_BACK (2). */
-	Mirror VarInt // VarInt enum
+	Mirror VarInt // VarInt Enum
 	/* One of NONE (0), CLOCKWISE_90 (1), CLOCKWISE_180 (2), COUNTERCLOCKWISE_90 (3). */
-	Rotation VarInt // VarInt enum
-	Metadata String // String
+	Rotation VarInt // VarInt Enum
+	Metadata String // String (128)
 	/* Between 0 and 1. */
 	Integrity Float // Float
 	Seed VarLong // VarLong
@@ -9410,7 +9407,7 @@ func (p *PlayRenameItem_763_0)DecodeFrom(r *PacketReader)(error){
 type PlayResourcePack_763_0 struct {
 	/* The URL to the resource pack. */
 	URL String // String (32767)
-	/* A 40 character hexadecimal and lowercase SHA-1 hash of the resource pack file. (must be lower case in order to work)If it's not a 40 character hexadecimal string, the client will not use it for hash verification and likely waste bandwidth — but it will still treat it as a unique id */
+	/* A 40 character hexadecimal and lowercase SHA-1 hash of the resource pack file.If it's not a 40 character hexadecimal string, the client will not use it for hash verification and likely waste bandwidth — but it will still treat it as a unique id */
 	Hash String // String (40)
 	/* The notchian client will be forced to use the resource pack from the server. If they decline they will be kicked from the server. */
 	Forced Bool // Boolean
@@ -9734,7 +9731,7 @@ func (p *PlayRespawn_760_3)DecodeFrom(r *PacketReader)(error){
 // Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x3d
 type PlayRespawn_758_4 struct {
 	/* Valid dimensions are defined per dimension registry sent in Join Game */
-	Dimension *NBTCompound // NBT Tag Compound
+	Dimension *nbt.NBTCompound // NBT Tag Compound
 	/* Name of the dimension being spawned into. */
 	DimensionName String // Identifier
 	/* First 8 bytes of the SHA-256 hash of the world's seed. Used client side for biome noise */
@@ -9769,7 +9766,7 @@ func (p *PlayRespawn_758_4)DecodeFrom(r *PacketReader)(error){
 	_ = ok
 	var err error
 	_ = err
-	p.Dimension = new(NBTCompound)
+	p.Dimension = new(nbt.NBTCompound)
 	if err = p.Dimension.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -9803,7 +9800,7 @@ func (p *PlayRespawn_758_4)DecodeFrom(r *PacketReader)(error){
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x39
 type PlayRespawn_756_5 struct {
 	/* Valid dimensions are defined per dimension registry sent in Join Game */
-	Dimension *NBTCompound // NBT Tag Compound
+	Dimension *nbt.NBTCompound // NBT Tag Compound
 	/* Name of the world being spawned into */
 	WorldName String // Identifier
 	/* First 8 bytes of the SHA-256 hash of the world's seed. */
@@ -9838,7 +9835,7 @@ func (p *PlayRespawn_756_5)DecodeFrom(r *PacketReader)(error){
 	_ = ok
 	var err error
 	_ = err
-	p.Dimension = new(NBTCompound)
+	p.Dimension = new(nbt.NBTCompound)
 	if err = p.Dimension.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -10079,7 +10076,7 @@ func (p *PlaySculkVibrationSignal_758_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=759; ProtocolName=1.19; State=play; Bound=server; ID=0x24
 type PlaySeenAdvancements_763_0 struct {
 	/* 0: Opened tab, 1: Closed screen. */
-	Action VarInt // VarInt enum
+	Action VarInt // VarInt Enum
 	/* Only present if action is Opened tab. */
 	TabID Optional[String] // Optional identifier
 }
@@ -10158,7 +10155,7 @@ type PlaySelectAdvancementsTab_763_0 struct {
 	/* Indicates if the next field is present. */
 	HasId Bool // Boolean
 	/* See below. */
-	OptionalIdentifier String // String (32767)
+	OptionalIdentifier String // Identifier
 }
 
 var _ Packet = (*PlaySelectAdvancementsTab_763_0)(nil)
@@ -10197,7 +10194,7 @@ func (p *PlaySelectAdvancementsTab_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x21
 // Protocol=404; ProtocolName=1.13.2; State=play; Bound=server; ID=0x1f
 type PlaySelectTrade_763_0 struct {
-	/* The selected slot in the players current (trading) inventory. (Was a full Integer for the plugin message). */
+	/* The selected slot int the players current (trading) inventory. (Was a full Integer for the plugin message) */
 	SelectedSlot VarInt // VarInt
 }
 
@@ -10327,7 +10324,7 @@ func (p *PlayServerData_760_2)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0xe
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0xd
 type PlayServerDifficulty_758_0 struct {
-	/* 0: peaceful, 1: easy, 2: normal, 3: hard. */
+	/* 0: peaceful, 1: easy, 2: normal, 3: hard */
 	Difficulty UByte // Unsigned Byte
 	DifficultyLocked Bool // Boolean
 }
@@ -10752,9 +10749,9 @@ type PlaySetContainerContent_763_0 struct {
 	StateID VarInt // VarInt
 	/* Number of elements in the following array. */
 	Count VarInt // VarInt
-	SlotData []*Slot // Array of Slot
+	SlotData []*data.Slot // Array of Slot
 	/* Item held by player. */
-	CarriedItem *Slot // Slot
+	CarriedItem *data.Slot // Slot
 }
 
 var _ Packet = (*PlaySetContainerContent_763_0)(nil)
@@ -10784,14 +10781,14 @@ func (p *PlaySetContainerContent_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Count, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.SlotData = make([]*Slot, p.Count)
+	p.SlotData = make([]*data.Slot, p.Count)
 	for i, _ := range p.SlotData {
-		p.SlotData[i] = new(Slot)
+		p.SlotData[i] = new(data.Slot)
 		if err = p.SlotData[i].DecodeFrom(r); err != nil {
 			return err
 		}
 	}
-	p.CarriedItem = new(Slot)
+	p.CarriedItem = new(data.Slot)
 	if err = p.CarriedItem.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -10848,7 +10845,7 @@ type PlaySetContainerSlot_763_0 struct {
 	StateID VarInt // VarInt
 	/* The slot that should be updated. */
 	Slot Short // Short
-	SlotData *Slot // Slot
+	SlotData *data.Slot // Slot
 }
 
 var _ Packet = (*PlaySetContainerSlot_763_0)(nil)
@@ -10874,7 +10871,7 @@ func (p *PlaySetContainerSlot_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.SlotData = new(Slot)
+	p.SlotData = new(data.Slot)
 	if err = p.SlotData.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -10938,7 +10935,7 @@ func (p *PlaySetCooldown_763_0)DecodeFrom(r *PacketReader)(error){
 type PlaySetCreativeModeSlot_763_0 struct {
 	/* Inventory slot. */
 	Slot Short // Short
-	ClickedItem *Slot // Slot
+	ClickedItem *data.Slot // Slot
 }
 
 var _ Packet = (*PlaySetCreativeModeSlot_763_0)(nil)
@@ -10956,7 +10953,7 @@ func (p *PlaySetCreativeModeSlot_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.ClickedItem = new(Slot)
+	p.ClickedItem = new(data.Slot)
 	if err = p.ClickedItem.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -11005,7 +11002,7 @@ func (p *PlaySetDefaultSpawnPosition_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x2
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x2
 type PlaySetDifficulty_758_0 struct {
-	/* 0: peaceful, 1: easy, 2: normal, 3: hard . */
+	/* 0: peaceful, 1: easy, 2: normal, 3: hard */
 	NewDifficulty Byte // Byte
 }
 
@@ -11083,7 +11080,7 @@ func (p *PlaySetDisplayedRecipe_758_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=759; ProtocolName=1.19; State=play; Bound=client; ID=0x4d
 type PlaySetEntityMetadata_763_0 struct {
 	EntityID VarInt // VarInt
-	Metadata *EntityMetadata // Entity Metadata
+	Metadata *data.EntityMetadata // Entity Metadata
 }
 
 var _ Packet = (*PlaySetEntityMetadata_763_0)(nil)
@@ -11101,7 +11098,7 @@ func (p *PlaySetEntityMetadata_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.Metadata = new(EntityMetadata)
+	p.Metadata = new(data.EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -11614,7 +11611,7 @@ func (p *PlaySetPlayerRotation_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1e
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1f
 type PlaySetRecipeBookState_758_0 struct {
-	/* 0: crafting, 1: furnace, 2: blast furnace, 3: smoker. */
+	/* 0: crafting, 1: furnace, 2: blast furnace, 3: smoker */
 	BookID VarInt // VarInt enum
 	BookOpen Bool // Boolean
 	FilterActive Bool // Boolean
@@ -11735,7 +11732,7 @@ type PlaySetSlot_758_0 struct {
 	StateID VarInt // VarInt
 	/* The slot that should be updated. */
 	Slot Short // Short
-	SlotData *Slot // Slot
+	SlotData *data.Slot // Slot
 }
 
 var _ Packet = (*PlaySetSlot_758_0)(nil)
@@ -11761,7 +11758,7 @@ func (p *PlaySetSlot_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.SlotData = new(Slot)
+	p.SlotData = new(data.Slot)
 	if err = p.SlotData.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -11787,7 +11784,7 @@ type PlaySetSlot_755_1 struct {
 	WindowID Byte // Byte
 	/* The slot that should be updated */
 	Slot Short // Short
-	SlotData *Slot // Slot
+	SlotData *data.Slot // Slot
 }
 
 var _ Packet = (*PlaySetSlot_755_1)(nil)
@@ -11809,7 +11806,7 @@ func (p *PlaySetSlot_755_1)DecodeFrom(r *PacketReader)(error){
 	if p.Slot, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.SlotData = new(Slot)
+	p.SlotData = new(data.Slot)
 	if err = p.SlotData.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -12262,10 +12259,11 @@ type PlaySpawnEntity_763_0 struct {
 	Pitch Angle // Angle
 	/* To get the real yaw, you must divide this by (256.0F / 360.0F) */
 	Yaw Angle // Angle
+	/* Only used by living entities, where the head of the entity may differ from the general body rotation. */
 	HeadYaw Angle // Angle
 	/* Meaning dependent on the value of the Type field, see Object Data for details. */
 	Data VarInt // VarInt
-	/* Same units as Set Entity Motion. */
+	/* Same units as Set Entity Velocity. */
 	VelocityX Short // Short
 	VelocityY Short // Short
 	VelocityZ Short // Short
@@ -12344,17 +12342,15 @@ func (p *PlaySpawnEntity_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x0
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x0
 type PlaySpawnEntity_758_1 struct {
-	/* Entity ID. */
+	/* EID of the entity */
 	EntityID VarInt // VarInt
 	ObjectUUID UUID // UUID
-	/* The type of entity (same as in Spawn Living Entity). */
+	/* The type of entity (same as in Spawn Living Entity) */
 	Type VarInt // VarInt
 	X Double // Double
 	Y Double // Double
 	Z Double // Double
-	/* To get the real pitch, you must divide this by (256.0F / 360.0F) */
 	Pitch Angle // Angle
-	/* To get the real yaw, you must divide this by (256.0F / 360.0F) */
 	Yaw Angle // Angle
 	/* Meaning dependent on the value of the Type field, see Object Data for details. */
 	Data Int // Int
@@ -12549,7 +12545,7 @@ func (p *PlaySpawnGlobalEntity_498_0)DecodeFrom(r *PacketReader)(error){
 type PlaySpawnLivingEntity_757_1 struct {
 	EntityID VarInt // VarInt
 	EntityUUID UUID // UUID
-	/* The type of mob. See Entity_metadata#Mobs. */
+	/* The type of mob. See Entities#Mobs */
 	Type VarInt // VarInt
 	X Double // Double
 	Y Double // Double
@@ -12557,11 +12553,11 @@ type PlaySpawnLivingEntity_757_1 struct {
 	Yaw Angle // Angle
 	Pitch Angle // Angle
 	HeadPitch Angle // Angle
-	/* Same units as Entity Velocity. */
+	/* Same units as Entity Velocity */
 	VelocityX Short // Short
-	/* Same units as Entity Velocity. */
+	/* Same units as Entity Velocity */
 	VelocityY Short // Short
-	/* Same units as Entity Velocity. */
+	/* Same units as Entity Velocity */
 	VelocityZ Short // Short
 }
 
@@ -12574,8 +12570,8 @@ func (p PlaySpawnLivingEntity_757_1)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	b.UByte(p.Yaw)
-	b.UByte(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	p.HeadPitch.Encode(b)
 	b.Short(p.VelocityX)
 	b.Short(p.VelocityY)
@@ -12605,11 +12601,11 @@ func (p *PlaySpawnLivingEntity_757_1)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if p.Yaw, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Yaw.DecodeFrom(r); err != nil {
+		return err
 	}
-	if p.Pitch, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Pitch.DecodeFrom(r); err != nil {
+		return err
 	}
 	if err = p.HeadPitch.DecodeFrom(r); err != nil {
 		return err
@@ -12650,7 +12646,7 @@ type PlaySpawnMob_498_0 struct {
 	VelocityY Short // Short
 	/* Same units as Entity Velocity */
 	VelocityZ Short // Short
-	Metadata *EntityMetadata // Entity Metadata
+	Metadata *data.EntityMetadata // Entity Metadata
 }
 
 var _ Packet = (*PlaySpawnMob_498_0)(nil)
@@ -12662,8 +12658,8 @@ func (p PlaySpawnMob_498_0)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	b.UByte(p.Yaw)
-	b.UByte(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	p.HeadPitch.Encode(b)
 	b.Short(p.VelocityX)
 	b.Short(p.VelocityY)
@@ -12694,11 +12690,11 @@ func (p *PlaySpawnMob_498_0)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if p.Yaw, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Yaw.DecodeFrom(r); err != nil {
+		return err
 	}
-	if p.Pitch, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Pitch.DecodeFrom(r); err != nil {
+		return err
 	}
 	if err = p.HeadPitch.DecodeFrom(r); err != nil {
 		return err
@@ -12712,7 +12708,7 @@ func (p *PlaySpawnMob_498_0)DecodeFrom(r *PacketReader)(error){
 	if p.VelocityZ, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.Metadata = new(EntityMetadata)
+	p.Metadata = new(data.EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -12738,7 +12734,7 @@ type PlaySpawnMob_210_1 struct {
 	VelocityY Short // Short
 	/* Same units as Entity Velocity */
 	VelocityZ Short // Short
-	Metadata *EntityMetadata // Entity Metadata
+	Metadata *data.EntityMetadata // Entity Metadata
 }
 
 var _ Packet = (*PlaySpawnMob_210_1)(nil)
@@ -12750,8 +12746,8 @@ func (p PlaySpawnMob_210_1)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	b.UByte(p.Yaw)
-	b.UByte(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	p.HeadPitch.Encode(b)
 	b.Short(p.VelocityX)
 	b.Short(p.VelocityY)
@@ -12782,11 +12778,11 @@ func (p *PlaySpawnMob_210_1)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if p.Yaw, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Yaw.DecodeFrom(r); err != nil {
+		return err
 	}
-	if p.Pitch, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Pitch.DecodeFrom(r); err != nil {
+		return err
 	}
 	if err = p.HeadPitch.DecodeFrom(r); err != nil {
 		return err
@@ -12800,7 +12796,7 @@ func (p *PlaySpawnMob_210_1)DecodeFrom(r *PacketReader)(error){
 	if p.VelocityZ, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.Metadata = new(EntityMetadata)
+	p.Metadata = new(data.EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -13012,9 +13008,9 @@ func (p *PlaySpawnPainting_340_1)DecodeFrom(r *PacketReader)(error){
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x4
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x5
 type PlaySpawnPlayer_763_0 struct {
-	/* A unique integer ID mostly used in the protocol to identify the player. */
+	/* Player's EID */
 	EntityID VarInt // VarInt
-	/* See below for notes on offline mode and NPCs. */
+	/* See below for notes on offline mode and NPCs */
 	PlayerUUID UUID // UUID
 	X Double // Double
 	Y Double // Double
@@ -13031,8 +13027,8 @@ func (p PlaySpawnPlayer_763_0)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	b.UByte(p.Yaw)
-	b.UByte(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 }
 
 func (p *PlaySpawnPlayer_763_0)DecodeFrom(r *PacketReader)(error){
@@ -13055,11 +13051,11 @@ func (p *PlaySpawnPlayer_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if p.Yaw, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Yaw.DecodeFrom(r); err != nil {
+		return err
 	}
-	if p.Pitch, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Pitch.DecodeFrom(r); err != nil {
+		return err
 	}
 	return nil
 }
@@ -13083,7 +13079,7 @@ type PlaySpawnPlayer_498_1 struct {
 	Z Double // Double
 	Yaw Angle // Angle
 	Pitch Angle // Angle
-	Metadata *EntityMetadata // Entity Metadata
+	Metadata *data.EntityMetadata // Entity Metadata
 }
 
 var _ Packet = (*PlaySpawnPlayer_498_1)(nil)
@@ -13094,8 +13090,8 @@ func (p PlaySpawnPlayer_498_1)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	b.UByte(p.Yaw)
-	b.UByte(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	p.Metadata.Encode(b)
 }
 
@@ -13119,13 +13115,13 @@ func (p *PlaySpawnPlayer_498_1)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if p.Yaw, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Yaw.DecodeFrom(r); err != nil {
+		return err
 	}
-	if p.Pitch, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Pitch.DecodeFrom(r); err != nil {
+		return err
 	}
-	p.Metadata = new(EntityMetadata)
+	p.Metadata = new(data.EntityMetadata)
 	if err = p.Metadata.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -13242,7 +13238,6 @@ func (p *PlaySpectate_758_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x7
 // Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x7
 // Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x7
-// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x7
 type PlayStatistics_758_0 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name | Field Name   | Field Type | Field Type | Notes                                      |
@@ -13271,7 +13266,7 @@ type PlayStatistics_754_1 struct {
 
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x7
 // Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x7
-type PlayStatistics_498_2 struct {
+type PlayStatistics_498_3 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name | Field Name   | Field Type | Field Type | Notes                                     |
 	 * |-----------|-------|----------|------------|--------------|------------|------------|-------------------------------------------|
@@ -13287,7 +13282,7 @@ type PlayStatistics_498_2 struct {
 // Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x7
 // Protocol=335; ProtocolName=1.12; State=play; Bound=client; ID=0x7
 // Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x7
-type PlayStatistics_340_3 struct {
+type PlayStatistics_340_4 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name | Field Name | Field Type | Field Type     | Notes                                                             |
 	 * |-----------|-------|----------|------------|------------|------------|----------------|-------------------------------------------------------------------|
@@ -13301,13 +13296,13 @@ type PlayStatistics_340_3 struct {
 // Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x7
 // Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x7
 // Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x7
-type PlayStatistics_315_4 struct {
+type PlayStatistics_315_5 struct {
 	/*
-	 * | Packet ID | State | Bound To | Field Name | Field Name | Field Type | Field Type | Notes                                                     |
-	 * |-----------|-------|----------|------------|------------|------------|------------|-----------------------------------------------------------|
-	 * | 0x07      | Play  | Client   | Count      | Count      | VarInt     | VarInt     | Number of elements in the following array                 |
-	 * | 0x07      | Play  | Client   | Statistic  | Name       | Array      | String     | https://gist.github.com/thinkofdeath/a1842c21a0cf2e1fb5e0 |
-	 * | 0x07      | Play  | Client   | Statistic  | Value      | Array      | VarInt     | The amount to set it to                                   |
+	 * | Packet ID | State | Bound To | Field Name | Field Name | Field Type | Field Type | Notes                                                    |
+	 * |-----------|-------|----------|------------|------------|------------|------------|----------------------------------------------------------|
+	 * | 0x07      | Play  | Client   | Count      | Count      | VarInt     | VarInt     | Number of elements in the following array                |
+	 * | 0x07      | Play  | Client   | Statistic  | Name       | Array      | String     | https://gist.github.com/thinkofname/a1842c21a0cf2e1fb5e0 |
+	 * | 0x07      | Play  | Client   | Statistic  | Value      | Array      | VarInt     | The amount to set it to                                  |
 	 * 
 	 */
 }
@@ -13448,9 +13443,9 @@ func (p *PlaySteerVehicle_758_0)DecodeFrom(r *PacketReader)(error){
 type PlayStopSound_763_0 struct {
 	/* Controls which fields are present. */
 	Flags Byte // Byte
-	/* Only if flags is 3 or 1 (bit mask 0x1). See below. If not present, then sounds from all sources are cleared. */
+	/* Only if flags is 3 or 1 (bit mask 0x1).  See below.  If not present, then sounds from all sources are cleared. */
 	Source Optional[VarInt] // Optional VarInt enum
-	/* Only if flags is 2 or 3 (bit mask 0x2).  A sound effect name, see Custom Sound Effect. If not present, then all sounds are cleared. */
+	/* Only if flags is 2 or 3 (bit mask 0x2).  A sound effect name, see Named Sound Effect.  If not present, then all sounds are cleared. */
 	Sound Optional[String] // Optional Identifier
 }
 
@@ -13590,7 +13585,7 @@ type PlaySynchronizePlayerPosition_761_1 struct {
 	Pitch Float // Float
 	/* Bit field, see below. */
 	Flags Byte // Byte
-	/* Client should confirm this packet with Accept Teleportation containing the same Teleport ID. */
+	/* Client should confirm this packet with Confirm Teleportation containing the same Teleport ID. */
 	TeleportID VarInt // VarInt
 	/* True if the player should dismount their vehicle. */
 	DismountVehicle Bool // Boolean
@@ -13706,7 +13701,6 @@ func (p *PlaySystemChatMessage_760_1)DecodeFrom(r *PacketReader)(error){
 // Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x11
 // Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x11
 // Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x11
-// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x11
 type PlayTabComplete_758_0 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name | Field Name  | Field Type | Field Type     | Notes                                                                                                                                                                                                  |
@@ -13725,7 +13719,7 @@ type PlayTabComplete_758_0 struct {
 
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x10
 // Protocol=404; ProtocolName=1.13.2; State=play; Bound=client; ID=0x10
-type PlayTabComplete_498_3 struct {
+type PlayTabComplete_498_4 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name | Field Name  | Field Type | Field Type     | Notes                                                                                                                                                                                                  |
 	 * |-----------|-------|----------|------------|-------------|------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -13749,16 +13743,16 @@ type PlayTabComplete_498_3 struct {
 // Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0xe
 // Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0xe
 // Protocol=47; ProtocolName=1.8.9; State=play; Bound=client; ID=0x3a
-type PlayTabComplete_340_4 struct {
+type PlayTabComplete_340_5 struct {
 	/* Number of elements in the following array */
 	Count VarInt // VarInt
 	/* One eligible command, note that each command is sent separately instead of in a single string, hence the need for Count */
 	Matches []String // Array of String (32767)
 }
 
-var _ Packet = (*PlayTabComplete_340_4)(nil)
+var _ Packet = (*PlayTabComplete_340_5)(nil)
 
-func (p PlayTabComplete_340_4)Encode(b *PacketBuilder){
+func (p PlayTabComplete_340_5)Encode(b *PacketBuilder){
 	p.Count = (VarInt)(len(p.Matches))
 	b.VarInt(p.Count)
 	for _, v := range p.Matches {
@@ -13766,7 +13760,7 @@ func (p PlayTabComplete_340_4)Encode(b *PacketBuilder){
 	}
 }
 
-func (p *PlayTabComplete_340_4)DecodeFrom(r *PacketReader)(error){
+func (p *PlayTabComplete_340_5)DecodeFrom(r *PacketReader)(error){
 	var ok bool
 	_ = ok
 	var err error
@@ -13879,14 +13873,14 @@ type PlayTagQueryResponse_763_0 struct {
 	/* Can be compared to the one sent in the original query packet. */
 	TransactionID VarInt // VarInt
 	/* The NBT of the block or entity.  May be a TAG_END (0) in which case no NBT is present. */
-	NBT NBT // NBT Tag
+	NBT nbt.NBT // NBT Tag
 }
 
 var _ Packet = (*PlayTagQueryResponse_763_0)(nil)
 
 func (p PlayTagQueryResponse_763_0)Encode(b *PacketBuilder){
 	b.VarInt(p.TransactionID)
-	p.NBT.Encode(b)
+	nbt.WriteNBT(b, p.NBT)
 }
 
 func (p *PlayTagQueryResponse_763_0)DecodeFrom(r *PacketReader)(error){
@@ -13897,7 +13891,7 @@ func (p *PlayTagQueryResponse_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.TransactionID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if err = p.NBT.DecodeFrom(r); err != nil {
+	if p.NBT, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	return nil
@@ -14162,8 +14156,8 @@ func (p PlayTeleportEntity_763_0)Encode(b *PacketBuilder){
 	b.Double(p.X)
 	b.Double(p.Y)
 	b.Double(p.Z)
-	b.UByte(p.Yaw)
-	b.UByte(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	b.Bool(p.OnGround)
 }
 
@@ -14184,11 +14178,11 @@ func (p *PlayTeleportEntity_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.Z, ok = r.Double(); !ok {
 		return io.EOF
 	}
-	if p.Yaw, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Yaw.DecodeFrom(r); err != nil {
+		return err
 	}
-	if p.Pitch, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Pitch.DecodeFrom(r); err != nil {
+		return err
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -14270,6 +14264,7 @@ func (p *PlayTimeUpdate_758_0)DecodeFrom(r *PacketReader)(error){
 
 // Protocol=754; ProtocolName=1.16.5; State=play; Bound=client; ID=0x4f
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x4f
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x4f
 type PlayTitle_754_0 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name               | Field Name      | Field Type  | Notes                                                                                                                                                                            |
@@ -14290,7 +14285,7 @@ type PlayTitle_754_0 struct {
 
 // Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x48
 // Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x48
-type PlayTitle_340_4 struct {
+type PlayTitle_340_3 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name               | Field Name      | Field Type  | Notes                                                                                                                                                                            |
 	 * |-----------|-------|----------|--------------------------|-----------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -14310,7 +14305,7 @@ type PlayTitle_340_4 struct {
 
 // Protocol=316; ProtocolName=1.11.2; State=play; Bound=client; ID=0x45
 // Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x45
-type PlayTitle_316_6 struct {
+type PlayTitle_316_5 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name               | Field Name      | Field Type  | Notes                                                             |
 	 * |-----------|-------|----------|--------------------------|-----------------|-------------|-------------------------------------------------------------------|
@@ -14330,7 +14325,7 @@ type PlayTitle_316_6 struct {
 
 // Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x45
 // Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x45
-type PlayTitle_210_7 struct {
+type PlayTitle_210_6 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name               | Field Name    | Field Type  | Notes                                            |
 	 * |-----------|-------|----------|--------------------------|---------------|-------------|--------------------------------------------------|
@@ -14351,7 +14346,6 @@ type PlayTitle_210_7 struct {
 // Protocol=757; ProtocolName=1.18.1; State=play; Bound=client; ID=0x28
 // Protocol=756; ProtocolName=1.17.1; State=play; Bound=client; ID=0x28
 // Protocol=755; ProtocolName=1.17; State=play; Bound=client; ID=0x28
-// Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x28
 type PlayTradeList_758_0 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name          | Field Name                   | Field Type | Field Type    | Notes                                                                                                                                                                             |
@@ -14366,10 +14360,10 @@ type PlayTradeList_758_0 struct {
 	 * | 0x28      | Play  | Client   | Trades              | Trade disabled               | Array      | Boolean       | True if the trade is disabled; false if the trade is enabled.                                                                                                                     |
 	 * | 0x28      | Play  | Client   | Trades              | Number of trade uses         | Array      | Integer       | Number of times the trade has been used so far. If equal to the maximum number of trades, the client will display a red X.                                                        |
 	 * | 0x28      | Play  | Client   | Trades              | Maximum number of trade uses | Array      | Integer       | Number of times this trade can be used before it's exhausted.                                                                                                                     |
-	 * | 0x28      | Play  | Client   | Trades              | XP                           | Array      | Integer       | Amount of XP the villager will earn each time the trade is used.                                                                                                                  |
+	 * | 0x28      | Play  | Client   | Trades              | XP                           | Array      | Integer       | Amount of XP both the player and the villager will earn each time the trade is used.                                                                                              |
 	 * | 0x28      | Play  | Client   | Trades              | Special Price                | Array      | Integer       | Can be zero or negative. The number is added to the price when an item is discounted due to player reputation or other effects.                                                   |
 	 * | 0x28      | Play  | Client   | Trades              | Price Multiplier             | Array      | Float         | Can be low (0.05) or high (0.2). Determines how much demand, player reputation, and temporary effects will adjust the price.                                                      |
-	 * | 0x28      | Play  | Client   | Trades              | Demand                       | Array      | Integer       | If positive, causes the price to increase. Negative values seem to be treated the same as zero.                                                                                   |
+	 * | 0x28      | Play  | Client   | Trades              | Demand                       | Array      | Integer       | Can be zero or a positive number. Causes the price to increase when a trade is used repeatedly.                                                                                   |
 	 * | 0x28      | Play  | Client   | Villager level      | Villager level               | VarInt     | VarInt        | Appears on the trade GUI; meaning comes from the translation key merchant.level. + level.
 	 * 1: Novice, 2: Apprentice, 3: Journeyman, 4: Expert, 5: Master.                          |
 	 * | 0x28      | Play  | Client   | Experience          | Experience                   | VarInt     | VarInt        | Total experience for this villager (always 0 for the wandering trader).                                                                                                           |
@@ -14508,7 +14502,7 @@ func (p PlayUnlockRecipes_758_0)Encode(b *PacketBuilder){
 		b.VarInt(p.ArraySize2.V)
 	}
 	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
-		TODO_Encode_Array(p.RecipeIDs2.V)
+		TODO_Encode_Array(p.RecipeIDs.V)
 	}
 }
 
@@ -14554,7 +14548,7 @@ func (p *PlayUnlockRecipes_758_0)DecodeFrom(r *PacketReader)(error){
 		}
 	}
 	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
-		TODO_Decode_Array(p.RecipeIDs2.V)
+		TODO_Decode_Array(p.RecipeIDs.V)
 	}
 	return nil
 }
@@ -14594,7 +14588,7 @@ func (p PlayUnlockRecipes_578_2)Encode(b *PacketBuilder){
 	if p.ArraySize2.Ok = TODO; p.ArraySize2.Ok {
 		b.VarInt(p.ArraySize2.V)
 	}
-	if p.RecipeIDs.Ok = TODO; p.RecipeIDs.Ok {
+	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
 		TODO_Encode_Array(p.RecipeIDs.V)
 	}
 }
@@ -14628,7 +14622,7 @@ func (p *PlayUnlockRecipes_578_2)DecodeFrom(r *PacketReader)(error){
 			return io.EOF
 		}
 	}
-	if p.RecipeIDs.Ok = TODO; p.RecipeIDs.Ok {
+	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
 		TODO_Decode_Array(p.RecipeIDs.V)
 	}
 	return nil
@@ -14664,7 +14658,7 @@ func (p PlayUnlockRecipes_340_3)Encode(b *PacketBuilder){
 		b.VarInt(p.ArraySize2.V)
 	}
 	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
-		TODO_Encode_Array(p.RecipeIDs2.V)
+		TODO_Encode_Array(p.RecipeIDs.V)
 	}
 }
 
@@ -14692,7 +14686,7 @@ func (p *PlayUnlockRecipes_340_3)DecodeFrom(r *PacketReader)(error){
 		}
 	}
 	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
-		TODO_Decode_Array(p.RecipeIDs2.V)
+		TODO_Decode_Array(p.RecipeIDs.V)
 	}
 	return nil
 }
@@ -14746,7 +14740,7 @@ type PlayUpdateBlockEntity_498_0 struct {
 	/* The type of update to perform, see below */
 	Action UByte // Unsigned Byte
 	/* Data to set.  May be a TAG_END (0), in which case the block entity at the given location is removed (though this is not required since the client will remove the block entity automatically on chunk unload or block removal) */
-	NBTData NBT // NBT Tag
+	NBTData nbt.NBT // NBT Tag
 }
 
 var _ Packet = (*PlayUpdateBlockEntity_498_0)(nil)
@@ -14754,7 +14748,7 @@ var _ Packet = (*PlayUpdateBlockEntity_498_0)(nil)
 func (p PlayUpdateBlockEntity_498_0)Encode(b *PacketBuilder){
 	p.Location.Encode(b)
 	b.UByte(p.Action)
-	p.NBTData.Encode(b)
+	nbt.WriteNBT(b, p.NBTData)
 }
 
 func (p *PlayUpdateBlockEntity_498_0)DecodeFrom(r *PacketReader)(error){
@@ -14768,7 +14762,7 @@ func (p *PlayUpdateBlockEntity_498_0)DecodeFrom(r *PacketReader)(error){
 	if p.Action, ok = r.UByte(); !ok {
 		return io.EOF
 	}
-	if err = p.NBTData.DecodeFrom(r); err != nil {
+	if p.NBTData, err = nbt.ReadNBT(r); err != nil {
 		return err
 	}
 	return nil
@@ -14938,8 +14932,8 @@ func (p PlayUpdateEntityPositionAndRotation_763_0)Encode(b *PacketBuilder){
 	b.Short(p.DeltaX)
 	b.Short(p.DeltaY)
 	b.Short(p.DeltaZ)
-	b.UByte(p.Yaw)
-	b.UByte(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	b.Bool(p.OnGround)
 }
 
@@ -14960,11 +14954,11 @@ func (p *PlayUpdateEntityPositionAndRotation_763_0)DecodeFrom(r *PacketReader)(e
 	if p.DeltaZ, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	if p.Yaw, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Yaw.DecodeFrom(r); err != nil {
+		return err
 	}
-	if p.Pitch, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Pitch.DecodeFrom(r); err != nil {
+		return err
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -14990,8 +14984,8 @@ var _ Packet = (*PlayUpdateEntityRotation_763_0)(nil)
 
 func (p PlayUpdateEntityRotation_763_0)Encode(b *PacketBuilder){
 	b.VarInt(p.EntityID)
-	b.UByte(p.Yaw)
-	b.UByte(p.Pitch)
+	p.Yaw.Encode(b)
+	p.Pitch.Encode(b)
 	b.Bool(p.OnGround)
 }
 
@@ -15003,11 +14997,11 @@ func (p *PlayUpdateEntityRotation_763_0)DecodeFrom(r *PacketReader)(error){
 	if p.EntityID, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	if p.Yaw, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Yaw.DecodeFrom(r); err != nil {
+		return err
 	}
-	if p.Pitch, ok = r.UByte(); !ok {
-		return io.EOF
+	if err = p.Pitch.DecodeFrom(r); err != nil {
+		return err
 	}
 	if p.OnGround, ok = r.Bool(); !ok {
 		return io.EOF
@@ -15078,9 +15072,9 @@ type PlayUpdateJigsawBlock_758_0 struct {
 	Name String // Identifier
 	Target String // Identifier
 	Pool String // Identifier
-	/* "Turns into" on the GUI, final_state in NBT. */
+	/* "Turns into" on the GUI, final_state in NBT */
 	FinalState String // String
-	/* rollable if the attached piece can be rotated, else aligned. */
+	/* rollable if the attached piece can be rotated, else aligned */
 	JointType String // String
 }
 
@@ -15245,7 +15239,7 @@ type PlayUpdateObjectives_763_0 struct {
 	/* Only if mode is 0 or 2. The text to be displayed for the score. */
 	ObjectiveValue Optional[Object] // Optional Chat
 	/* Only if mode is 0 or 2. 0 = "integer", 1 = "hearts". */
-	Type Optional[VarInt] // Optional VarInt enum
+	Type Optional[VarInt] // Optional VarInt Enum
 }
 
 var _ Packet = (*PlayUpdateObjectives_763_0)(nil)
@@ -15336,7 +15330,7 @@ func (p PlayUpdateRecipeBook_763_0)Encode(b *PacketBuilder){
 		b.VarInt(p.ArraySize2.V)
 	}
 	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
-		TODO_Encode_Array(p.RecipeIDs2.V)
+		TODO_Encode_Array(p.RecipeIDs.V)
 	}
 }
 
@@ -15382,7 +15376,7 @@ func (p *PlayUpdateRecipeBook_763_0)DecodeFrom(r *PacketReader)(error){
 		}
 	}
 	if p.RecipeIDs2.Ok = TODO; p.RecipeIDs2.Ok {
-		TODO_Decode_Array(p.RecipeIDs2.V)
+		TODO_Decode_Array(p.RecipeIDs.V)
 	}
 	return nil
 }
@@ -15893,7 +15887,7 @@ func (p *PlayUpdateTime_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x42
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x41
 type PlayUpdateViewDistance_758_0 struct {
-	/* Render distance (2-32). */
+	/* Render distance (2-32) */
 	ViewDistance VarInt // VarInt
 }
 
@@ -15923,9 +15917,9 @@ func (p *PlayUpdateViewDistance_758_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=client; ID=0x41
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x40
 type PlayUpdateViewPosition_758_0 struct {
-	/* Chunk X coordinate of the player's position. */
+	/* Chunk X coordinate of the player's position */
 	ChunkX VarInt // VarInt
-	/* Chunk Z coordinate of the player's position. */
+	/* Chunk Z coordinate of the player's position */
 	ChunkZ VarInt // VarInt
 }
 
@@ -16410,9 +16404,9 @@ type PlayWindowItems_758_0 struct {
 	StateID VarInt // VarInt
 	/* Number of elements in the following array. */
 	Count VarInt // VarInt
-	SlotData []*Slot // Array of Slot
+	SlotData []*data.Slot // Array of Slot
 	/* Item held by player. */
-	CarriedItem *Slot // Slot
+	CarriedItem *data.Slot // Slot
 }
 
 var _ Packet = (*PlayWindowItems_758_0)(nil)
@@ -16442,14 +16436,14 @@ func (p *PlayWindowItems_758_0)DecodeFrom(r *PacketReader)(error){
 	if p.Count, ok = r.VarInt(); !ok {
 		return io.EOF
 	}
-	p.SlotData = make([]*Slot, p.Count)
+	p.SlotData = make([]*data.Slot, p.Count)
 	for i, _ := range p.SlotData {
-		p.SlotData[i] = new(Slot)
+		p.SlotData[i] = new(data.Slot)
 		if err = p.SlotData[i].DecodeFrom(r); err != nil {
 			return err
 		}
 	}
-	p.CarriedItem = new(Slot)
+	p.CarriedItem = new(data.Slot)
 	if err = p.CarriedItem.DecodeFrom(r); err != nil {
 		return err
 	}
@@ -16475,7 +16469,7 @@ type PlayWindowItems_755_1 struct {
 	WindowID UByte // Unsigned Byte
 	/* Number of elements in the following array */
 	Count Short // Short
-	SlotData []*Slot // Array of Slot
+	SlotData []*data.Slot // Array of Slot
 }
 
 var _ Packet = (*PlayWindowItems_755_1)(nil)
@@ -16500,9 +16494,9 @@ func (p *PlayWindowItems_755_1)DecodeFrom(r *PacketReader)(error){
 	if p.Count, ok = r.Short(); !ok {
 		return io.EOF
 	}
-	p.SlotData = make([]*Slot, p.Count)
+	p.SlotData = make([]*data.Slot, p.Count)
 	for i, _ := range p.SlotData {
-		p.SlotData[i] = new(Slot)
+		p.SlotData[i] = new(data.Slot)
 		if err = p.SlotData[i].DecodeFrom(r); err != nil {
 			return err
 		}
@@ -16560,9 +16554,37 @@ func (p *PlayWindowProperty_758_0)DecodeFrom(r *PacketReader)(error){
 	return nil
 }
 
+// Protocol=753; ProtocolName=1.16.3; State=play; Bound=client; ID=0x3d
+// Protocol=498; ProtocolName=1.14.4; State=play; Bound=client; ID=0x3d
+type PlayWorldBorder_753_1 struct {
+	/*
+	 * | Packet ID | State | Bound To | Field Name            | Field Name               | Field Type  | Notes                                                                                                                                                                                                                                        |
+	 * |-----------|-------|----------|-----------------------|--------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+	 * | 0x3D      | Play  | Client   | Action                | Action                   | VarInt Enum | Determines the format of the rest of the packet                                                                                                                                                                                              |
+	 * | 0x3D      | Play  | Client   | Action                | Field Name               |             |                                                                                                                                                                                                                                              |
+	 * | 0x3D      | Play  | Client   | 0: set size           | Diameter                 | Double      | Length of a single side of the world border, in meters                                                                                                                                                                                       |
+	 * | 0x3D      | Play  | Client   | 1: lerp size          | Old Diameter             | Double      | Current length of a single side of the world border, in meters                                                                                                                                                                               |
+	 * | 0x3D      | Play  | Client   | 1: lerp size          | New Diameter             | Double      | Target length of a single side of the world border, in meters                                                                                                                                                                                |
+	 * | 0x3D      | Play  | Client   | 1: lerp size          | Speed                    | VarLong     | Number of real-time milliseconds until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0. |
+	 * | 0x3D      | Play  | Client   | 2: set center         | X                        | Double      |                                                                                                                                                                                                                                              |
+	 * | 0x3D      | Play  | Client   | 2: set center         | Z                        | Double      |                                                                                                                                                                                                                                              |
+	 * | 0x3D      | Play  | Client   | 3: initialize         | X                        | Double      |                                                                                                                                                                                                                                              |
+	 * | 0x3D      | Play  | Client   | 3: initialize         | Z                        | Double      |                                                                                                                                                                                                                                              |
+	 * | 0x3D      | Play  | Client   | 3: initialize         | Old Diameter             | Double      | Current length of a single side of the world border, in meters                                                                                                                                                                               |
+	 * | 0x3D      | Play  | Client   | 3: initialize         | New Diameter             | Double      | Target length of a single side of the world border, in meters                                                                                                                                                                                |
+	 * | 0x3D      | Play  | Client   | 3: initialize         | Speed                    | VarLong     | Number of real-time milliseconds until New Diameter is reached. It appears that Notchian server does not sync world border speed to game ticks, so it gets out of sync with server lag. If the world border is not moving, this is set to 0. |
+	 * | 0x3D      | Play  | Client   | 3: initialize         | Portal Teleport Boundary | VarInt      | Resulting coordinates from a portal teleport are limited to ±value. Usually 29999984.                                                                                                                                                       |
+	 * | 0x3D      | Play  | Client   | 3: initialize         | Warning Time             | VarInt      | In seconds as set by /worldborder warning time                                                                                                                                                                                               |
+	 * | 0x3D      | Play  | Client   | 3: initialize         | Warning Blocks           | VarInt      | In meters                                                                                                                                                                                                                                    |
+	 * | 0x3D      | Play  | Client   | 4: set warning time   | Warning Time             | VarInt      | In seconds as set by /worldborder warning time                                                                                                                                                                                               |
+	 * | 0x3D      | Play  | Client   | 5: set warning blocks | Warning Blocks           | VarInt      | In meters                                                                                                                                                                                                                                    |
+	 * 
+	 */
+}
+
 // Protocol=340; ProtocolName=1.12.2; State=play; Bound=client; ID=0x38
 // Protocol=338; ProtocolName=1.12.1; State=play; Bound=client; ID=0x38
-type PlayWorldBorder_340_5 struct {
+type PlayWorldBorder_340_4 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name            | Field Name               | Field Type  | Notes                                                                                                                                                                                                                                        |
 	 * |-----------|-------|----------|-----------------------|--------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -16592,7 +16614,7 @@ type PlayWorldBorder_340_5 struct {
 // Protocol=315; ProtocolName=1.11; State=play; Bound=client; ID=0x35
 // Protocol=210; ProtocolName=1.10.2; State=play; Bound=client; ID=0x35
 // Protocol=110; ProtocolName=1.9.4; State=play; Bound=client; ID=0x35
-type PlayWorldBorder_316_7 struct {
+type PlayWorldBorder_316_6 struct {
 	/*
 	 * | Packet ID | State | Bound To | Field Name            | Field Name               | Field Type  | Notes                                                                                                                                                                                                                                        |
 	 * |-----------|-------|----------|-----------------------|--------------------------|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -16907,7 +16929,7 @@ func (p *PlayerAbilities_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=754; ProtocolName=1.16.5; State=play; Bound=server; ID=0x1a
 // Protocol=753; ProtocolName=1.16.3; State=play; Bound=server; ID=0x1a
 type PlayerAbilitiesServer_763_0 struct {
-	/* Bit mask. 0x02: is flying. */
+	/* Bit mask. 0x02: is flying */
 	Flags Byte // Byte
 }
 
@@ -17024,17 +17046,17 @@ func (p *PlayerAction_763_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x2c
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x2c
 type PlayerBlockPlacement_758_0 struct {
-	/* The hand from which the block is placed; 0: main hand, 1: off hand. */
+	/* The hand from which the block is placed; 0: main hand, 1: off hand */
 	Hand VarInt // VarInt Enum
-	/* Block position. */
+	/* Block position */
 	Location Position // Position
-	/* The face on which the block is placed (as documented at Player Digging). */
+	/* The face on which the block is placed (as documented at Player Digging) */
 	Face VarInt // VarInt Enum
-	/* The position of the crosshair on the block, from 0 to 1 increasing from west to east. */
+	/* The position of the crosshair on the block, from 0 to 1 increasing from west to east */
 	CursorPositionX Float // Float
-	/* The position of the crosshair on the block, from 0 to 1 increasing from bottom to top. */
+	/* The position of the crosshair on the block, from 0 to 1 increasing from bottom to top */
 	CursorPositionY Float // Float
-	/* The position of the crosshair on the block, from 0 to 1 increasing from north to south. */
+	/* The position of the crosshair on the block, from 0 to 1 increasing from north to south */
 	CursorPositionZ Float // Float
 	/* True when the player's head is inside of a block. */
 	InsideBlock Bool // Boolean
@@ -17639,7 +17661,7 @@ func (p *PlayerLook_404_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x14
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x14
 type PlayerMovement_758_0 struct {
-	/* True if the client is on the ground, false otherwise. */
+	/* True if the client is on the ground, false otherwise */
 	OnGround Bool // Boolean
 }
 
@@ -17925,17 +17947,17 @@ func (p *PlayerPositionAndLookServer_404_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x12
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x12
 type PlayerPositionAndRotation_758_0 struct {
-	/* Absolute position. */
+	/* Absolute position */
 	X Double // Double
-	/* Absolute feet position, normally Head Y - 1.62. */
+	/* Absolute feet position, normally Head Y - 1.62 */
 	FeetY Double // Double
-	/* Absolute position. */
+	/* Absolute position */
 	Z Double // Double
-	/* Absolute rotation on the X Axis, in degrees. */
+	/* Absolute rotation on the X Axis, in degrees */
 	Yaw Float // Float
-	/* Absolute rotation on the Y Axis, in degrees. */
+	/* Absolute rotation on the Y Axis, in degrees */
 	Pitch Float // Float
-	/* True if the client is on the ground, false otherwise. */
+	/* True if the client is on the ground, false otherwise */
 	OnGround Bool // Boolean
 }
 
@@ -17985,11 +18007,11 @@ func (p *PlayerPositionAndRotation_758_0)DecodeFrom(r *PacketReader)(error){
 // Protocol=578; ProtocolName=1.15.2; State=play; Bound=server; ID=0x13
 // Protocol=498; ProtocolName=1.14.4; State=play; Bound=server; ID=0x13
 type PlayerRotation_758_0 struct {
-	/* Absolute rotation on the X Axis, in degrees. */
+	/* Absolute rotation on the X Axis, in degrees */
 	Yaw Float // Float
-	/* Absolute rotation on the Y Axis, in degrees. */
+	/* Absolute rotation on the Y Axis, in degrees */
 	Pitch Float // Float
-	/* True if the client is on the ground, false otherwise. */
+	/* True if the client is on the ground, False otherwise */
 	OnGround Bool // Boolean
 }
 
