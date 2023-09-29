@@ -20,9 +20,10 @@ import (
 	// "github.com/kmcsr/go-liter/packets"
 )
 
+var manager = script.NewManager()
+
 func main(){
 	scriptpath := filepath.Join(configDir, "plugins")
-	manager := script.NewManager()
 	manager.SetLogger(loger)
 	var err error
 
@@ -107,6 +108,8 @@ WAIT:
 			cfg = ncfg
 			goto WAIT
 		}
+		loger.Infof("Unloading plugins...")
+		manager.UnloadAll()
 		timeoutCtx, _ := context.WithTimeout(context.Background(), 16 * time.Second)
 		loger.Warn("Closing server...")
 		server.Shutdown(timeoutCtx)
@@ -164,6 +167,8 @@ func (s *ProxyServer)handle(c *liter.Conn){
 	s.conns.Add(c)
 	defer s.conns.Del(c)
 
+	wc := manager.WrapConn(c)
+
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
 	ploger.Infof("Connected")
 
@@ -180,11 +185,44 @@ func (s *ProxyServer)handle(c *liter.Conn){
 		return
 	}
 
+	var outHp *liter.HandshakePkt
+	*outHp = *hp
 	if item.ForwardAddr != "" {
-		hp.Addr = item.ForwardAddr
+		outHp.Addr = item.ForwardAddr
 	}
 	if item.ForwardPort != 0 {
-		hp.Port = item.ForwardPort
+		outHp.Port = item.ForwardPort
+	}
+
+	noforward := <-manager.Emit(script.NewEvent("handshake", Map{
+		"client": wc,
+		"handshake": hp,
+		"target": &item, // to allow changes to the target
+	}))
+	if wc.Closed() {
+		return
+	}
+	if noforward {
+		for !wc.Closed() {
+			var r *script.WrappedPacketReader
+			if r, err = wc.Recv(); err != nil {
+				if !wc.Closed() {
+					wc.Emit(&script.Event{
+						Name: "error",
+						Data: Map{
+							"conn": wc,
+							"error": err.Error(),
+						},
+					})
+				}
+				return
+			}
+			<-wc.Emit(script.NewEvent("packet", Map{
+				"conn": wc,
+				"packet": r,
+			}))
+		}
+		return
 	}
 
 	var addr *net.TCPAddr
@@ -204,12 +242,77 @@ func (s *ProxyServer)handle(c *liter.Conn){
 	}
 
 	conn := liter.WrapConn(rawconn)
-	if err = conn.SendHandshakePkt(hp); err != nil {
+	if err = conn.SendHandshakePkt(outHp); err != nil {
 		ploger.Errorf("New connection handshake error: %v", err)
 		return
 	}
-	
-	rc := c.RawConn()
-	go io.Copy(rc, conn.RawConn())
-	io.Copy(conn.RawConn(), rc)
+
+	wconn := manager.WrapConn(conn)
+
+	if !<-manager.Emit(script.NewEvent("serve", Map{
+		"client": wc,
+		"server": wconn,
+		"handshake": hp,
+	})) {
+		rc, cr := c.RawConn(), conn.RawConn()
+		go io.Copy(rc, cr)
+		io.Copy(cr, rc)
+		return
+	}
+
+	done := make(chan struct{}, 2)
+	go func(){
+		defer func(){
+			done <- struct{}{}
+		}()
+		parseAndForward(wconn, wc)
+	}()
+	go func(){
+		defer func(){
+			done <- struct{}{}
+		}()
+		parseAndForward(wc, wconn)
+	}()
+	<-done
+	<-done
+}
+
+func parseAndForward(dst, src *script.WrappedConn)(err error){
+	var pkt liter.PacketBuilder
+	for !src.Closed() {
+		var r *script.WrappedPacketReader
+		if r, err = src.Recv(); err != nil {
+			if !src.Closed() {
+				src.Emit(&script.Event{
+					Name: "error",
+					Data: Map{
+						"src": src,
+						"dst": dst,
+						"error": err.Error(),
+					},
+				})
+			}
+			return
+		}
+		if !<-src.Emit(script.NewEvent("packet", Map{
+			"src": src,
+			"dest": dst,
+			"packet": r,
+		})) {
+			if err = dst.Send(pkt.Reset(r.Protocol(), r.Id()).ByteArray(r.Bytes())); err != nil {
+				if !dst.Closed() {
+					dst.Emit(&script.Event{
+						Name: "error",
+						Data: Map{
+							"src": src,
+							"dst": dst,
+							"error": err.Error(),
+						},
+					})
+				}
+			}
+			return
+		}
+	}
+	return
 }

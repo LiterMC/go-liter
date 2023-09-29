@@ -152,24 +152,8 @@ func (p *PacketBuilder)Bytes()(buf []byte){
 
 func (p *PacketBuilder)WriteTo(w io.Writer)(n int64, err error){
 	var n0 int
-	var buf [5]byte
-	n0 = encodeVarInt(buf[:], (int32)(p.len))
-	n0, err = w.Write(buf[:n0])
-	n += (int64)(n0)
-	if err != nil {
-		return
-	}
-	n0 = encodeVarInt(buf[:], (int32)(p.id))
-	n0, err = w.Write(buf[:n0])
-	n += (int64)(n0)
-	if err != nil {
-		return
-	}
-	n0, err = w.Write(p.buf[:p.len])
-	n += (int64)(n0)
-	if err != nil {
-		return
-	}
+	n0, err = w.Write(p.Bytes())
+	n = (int64)(n0)
 	return
 }
 
@@ -359,7 +343,7 @@ func (p *PacketBuilder)Encode(v any){
 
 type PacketReader struct {
 	protocol int
-	id int32
+	id VarInt
 	buf []byte
 	off int
 }
@@ -385,7 +369,7 @@ func ReadPacket(protocol int, r io.Reader)(p *PacketReader, err error){
 	if !ok {
 		return nil, io.EOF
 	}
-	p.id = (int32)(id)
+	p.id = (VarInt)(id)
 	return
 }
 
@@ -400,7 +384,7 @@ func (p *PacketReader)Protocol()(int){
 	return p.protocol
 }
 
-func (p *PacketReader)Id()(int32){
+func (p *PacketReader)Id()(VarInt){
 	return p.id
 }
 

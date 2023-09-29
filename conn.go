@@ -136,8 +136,8 @@ func (c *Conn)RecvPkt(id int32, pkt Decodable)(err error){
 	if r, err = ReadPacket(c.protocol, c.conn); err != nil {
 		return
 	}
-	if r.Id() != id {
-		return &PktIdAssertError{ Require: id, Got: r.Id() }
+	if r.Id() != (VarInt)(id) {
+		return &PktIdAssertError{ Require: id, Got: (int32)(r.Id()) }
 	}
 	if err = pkt.DecodeFrom(r); err != nil {
 		return
@@ -155,7 +155,7 @@ func (c *Conn)RecvHandshakePkt()(pkt *HandshakePkt, err error){
 		return
 	}
 	if r.Id() != 0x00 {
-		return nil, &PktIdAssertError{ Require: 0x00, Got: r.Id() }
+		return nil, &PktIdAssertError{ Require: 0x00, Got: (int32)(r.Id()) }
 	}
 	if err = p.Decode(r); err != nil {
 		return

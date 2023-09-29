@@ -17,6 +17,7 @@ import (
 	"github.com/dop251/goja_nodejs/require"
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-logger/logrus"
+	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-liter/script/console"
 )
 
@@ -34,7 +35,7 @@ type Manager struct {
 	logger logger.Logger
 
 	loop *eventloop.EventLoop
-	scriptMux sync.Mutex
+	scriptMux sync.RWMutex
 	scripts   map[string]*Script
 }
 
@@ -199,7 +200,9 @@ func (m *Manager)Unload(id string)(script *Script){
 	if script = m.scripts[id]; script == nil {
 		return
 	}
-	script.Emit("unload")
+	<-script.Emit(&Event{
+		Name: "unload",
+	})
 	script.loop = nil
 	delete(m.scripts, id)
 	return
@@ -216,10 +219,12 @@ func (m *Manager)UnloadAll()(scripts []*Script){
 	}
 
 	scripts = make([]*Script, 0, len(m.scripts))
-	dones := make([]<-chan struct{}, 0, len(m.scripts))
+	dones := make([]<-chan bool, 0, len(m.scripts))
 	for _, s := range m.scripts {
 		scripts = append(scripts, s)
-		dones = append(dones, s.EmitAsync("unload"))
+		dones = append(dones, s.Emit(&Event{
+			Name: "unload",
+		}))
 	}
 	for _, ch := range dones {
 		<-ch
@@ -257,5 +262,36 @@ func (m *Manager)LoadFromDir(path string)(scripts []*Script, err error){
 	if len(errs) > 0 {
 		err = errors.Join(errs...)
 	}
+	return
+}
+
+func (m *Manager)Emit(event *Event)(done <-chan bool){
+	if event.Cancelled() {
+		panic("liter: script: Trying to emit a cancelled event")
+	}
+
+	exit := make(chan bool, 1)
+	go func(){
+		defer close(exit)
+		m.scriptMux.RLock()
+		defer m.scriptMux.RUnlock()
+
+		for _, s := range m.scripts {
+			if <-s.Emit(event) {
+				exit <- true
+				return
+			}
+		}
+	}()
+	return exit
+}
+
+func (m *Manager)WrapConn(conn *liter.Conn)(wrapped *WrappedConn){
+	done := make(chan struct{}, 0)
+	m.loop.RunOnLoop(func(vm *goja.Runtime){
+		defer close(done)
+		wrapped = WrapConn(conn, vm, m.loop)
+	})
+	<-done
 	return
 }

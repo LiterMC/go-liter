@@ -5,6 +5,8 @@ import (
 	"sync"
 )
 
+type Map = map[string]any
+
 type Set[T comparable] struct {
 	mux  sync.RWMutex
 	cond *sync.Cond
