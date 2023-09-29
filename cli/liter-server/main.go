@@ -7,6 +7,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"strconv"
 	"sync"
 	"syscall"
@@ -14,6 +15,7 @@ import (
 
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
+	"github.com/kmcsr/go-liter/script"
 	// "github.com/kmcsr/go-liter/packets"
 )
 
@@ -111,13 +113,20 @@ func initBeforeLoad()(_ bool){
 }
 
 func main(){
+	scriptpath := filepath.Join(configDir, "plugins")
 	var (
 		err error
 		server = NewServer(nil)
 		cfg = getConfig()
+		manager = script.NewManager()
 	)
+	manager.SetLogger(loger)
 
-	RESTART:
+RESTART:
+	if _, err = manager.LoadFromDir(scriptpath); err != nil {
+		loger.Errorf("Cannot load scripts: %v", err)
+	}
+
 	laddr := &net.TCPAddr{
 		Port: (int)(cfg.ServerPort),
 	}
@@ -145,13 +154,18 @@ func main(){
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
-	WAIT:
+WAIT:
 	select {
 	case s := <-sigs:
 		loger.Infof("Got signal %s", s.String())
 		if s == syscall.SIGHUP {
 			reloadConfigs()
 			ncfg := getConfig()
+			loger.Info("Reloading plugins ...")
+			manager.UnloadAll()
+			if _, err = manager.LoadFromDir(scriptpath); err != nil {
+				loger.Errorf("Cannot load scripts: %v", err)
+			}
 			if cfg.ServerIP != ncfg.ServerIP || cfg.ServerPort != ncfg.ServerPort {
 				loger.Info("Server address changed, restarting server...")
 				timeoutCtx, cancel := context.WithTimeout(context.Background(), 16 * time.Second)

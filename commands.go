@@ -12,7 +12,7 @@ var (
 	ErrParserInstanceNotExists = errors.New("liter.CommandNode: command parser instance not exists")
 )
 
-type CmdPropParser interface {
+type CmdPropEncoder interface {
 	Id()(VarInt)
 	String()(String)
 	Encode(b *PacketBuilder, value any)(err error)
@@ -21,11 +21,11 @@ type CmdPropParser interface {
 
 var (
 	cmdMux sync.RWMutex
-	cmdIDMap = make(map[VarInt]CmdPropParser, 50)
-	cmdSIDMap = make(map[string]CmdPropParser, 50)
+	cmdIDMap = make(map[VarInt]CmdPropEncoder, 50)
+	cmdSIDMap = make(map[string]CmdPropEncoder, 50)
 )
 
-func RegisterCmdParser(p CmdPropParser)(ok bool){
+func RegisterCmdEncoder(p CmdPropEncoder)(ok bool){
 	id := p.Id()
 	sid := p.String()
 
@@ -42,15 +42,18 @@ func RegisterCmdParser(p CmdPropParser)(ok bool){
 	return true
 }
 
-func UnregisterCmdParser(p CmdPropParser)(ok bool){
+func UnregisterCmdEncoder(p CmdPropEncoder)(ok bool){
 	id := p.Id()
 	sid := p.String()
 
 	cmdMux.Lock()
 	defer cmdMux.Unlock()
 	old1, ok1 := cmdIDMap[id]
+	if !ok1 {
+		return false
+	}
 	old2, ok2 := cmdSIDMap[sid]
-	if ok1 != ok2 || p != old1 || p != old2 { // return false if instances not match
+	if !ok2 || p != old1 || p != old2 { // return false if instances not match
 		return false
 	}
 	delete(cmdIDMap, id)
@@ -129,7 +132,7 @@ func (c *CommandNode)GetParserStrId()(String, error){
 	return c.ParserStrId.V, nil
 }
 
-func (c *CommandNode)GetParser()(CmdPropParser, error){
+func (c *CommandNode)GetParser()(CmdPropEncoder, error){
 	if c.ParserId.Ok {
 		cmdMux.RLock()
 		p, ok := cmdIDMap[c.ParserId.V]
@@ -213,7 +216,7 @@ func (c *CommandNode)DecodeFrom(r *PacketReader)(err error){
 		c.Name.Set(v)
 	}
 	if t == CmdTypeArg {
-		var p CmdPropParser
+		var p CmdPropEncoder
 		if protocol < V1_19 {
 			var v String
 			if v, ok = r.String(); !ok {

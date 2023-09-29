@@ -51,6 +51,10 @@ func ProxyStorage(s Storage, vm *goja.Runtime)(goja.Proxy){
 			return s.GetItem(property)
 		},
 		Set: func(_ *goja.Object, property string, value goja.Value, receiver goja.Value)(success bool){
+			switch property {
+			case "length", "keys", "getItem", "setItem", "removeItem", "clear":
+				return false
+			}
 			s.SetItem(property, value)
 			return true
 		},

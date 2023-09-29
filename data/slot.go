@@ -4,29 +4,29 @@ package data
 import (
 	"io"
 
-	"github.com/kmcsr/go-liter"
+	. "github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-liter/nbt"
 )
 
 type Slot struct {
 	Present bool
 	ItemId int
-	ItemCount liter.Byte
+	ItemCount Byte
 	NBT nbt.NBT
 }
 
-var _ liter.Packet = (*Slot)(nil)
+var _ Packet = (*Slot)(nil)
 
-func (c Slot)Encode(b *liter.PacketBuilder){
-	if b.Protocol() >= liter.V1_13_2 {
+func (c Slot)Encode(b *PacketBuilder){
+	if b.Protocol() >= V1_13_2 {
 		b.Bool(c.Present)
 		if c.Present {
-			b.VarInt((liter.VarInt)(c.ItemId))
+			b.VarInt((VarInt)(c.ItemId))
 			b.Byte(c.ItemCount)
 			nbt.WriteNBT(b, c.NBT)
 		}
 	}else{
-		b.Short((liter.Short)(c.ItemId))
+		b.Short((Short)(c.ItemId))
 		if c.ItemId >= 0 {
 			b.Byte(c.ItemCount)
 			nbt.WriteNBT(b, c.NBT)
@@ -34,14 +34,14 @@ func (c Slot)Encode(b *liter.PacketBuilder){
 	}
 }
 
-func (c *Slot)DecodeFrom(r *liter.PacketReader)(err error){
+func (c *Slot)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
-	if r.Protocol() >= liter.V1_13_2 {
+	if r.Protocol() >= V1_13_2 {
 		if c.Present, ok = r.Bool(); !ok {
 			return io.EOF
 		}
 		if c.Present {
-			var id liter.VarInt
+			var id VarInt
 			if id, ok = r.VarInt(); !ok {
 				return io.EOF
 			}
@@ -54,7 +54,7 @@ func (c *Slot)DecodeFrom(r *liter.PacketReader)(err error){
 			}
 		}
 	}else{
-		var id liter.Short
+		var id Short
 		if id, ok = r.Short(); !ok {
 			return io.EOF
 		}

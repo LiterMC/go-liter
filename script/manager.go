@@ -25,8 +25,8 @@ var (
 )
 
 var (
-	ErrFileNameInvalid = errors.New("The script's filename is invalid")
-	ErrScriptLoaded    = errors.New("The script is already loaded")
+	ErrFileNameInvalid = errors.New("The plugin's filename is invalid")
+	ErrPluginLoaded    = errors.New("The plugin is already loaded")
 	ErrScriptInvalid   = errors.New("Invalid script")
 )
 
@@ -68,6 +68,7 @@ func disableRequire(path string)([]byte, error){
 	return nil, errRequireDisabled
 }
 
+// List will return all active plugins
 func (m *Manager)List()(scripts []*Script){
 	m.scriptMux.Lock()
 	defer m.scriptMux.Unlock()
@@ -79,10 +80,15 @@ func (m *Manager)List()(scripts []*Script){
 	return
 }
 
+// Load will call LoadWithContext with context.Background()
 func (m *Manager)Load(path string)(script *Script, err error){
 	return m.LoadWithContext(context.Background(), path)
 }
 
+// LoadWithContext will load a script plugin use the given filepath.
+// Script's filename must match `^([a-z_][0-9a-z_]{0,31})(?:@(\d+(?:\.\d+)*)(?:-.+)?)?\..+$`
+// The first capture group will be the script's ID. The second capture group is the script's version
+// If the script's ID is already loaded, then an error will be returned
 func (m *Manager)LoadWithContext(ctx context.Context, path string)(script *Script, err error){
 	name := filepath.Base(path)
 	matches := fileNameRe.FindStringSubmatch(name)
@@ -95,7 +101,7 @@ func (m *Manager)LoadWithContext(ctx context.Context, path string)(script *Scrip
 	m.scriptMux.Lock()
 	if _, ok := m.scripts[id]; ok {
 		m.scriptMux.Unlock()
-		return nil, ErrScriptLoaded
+		return nil, ErrPluginLoaded
 	}
 	m.scripts[id] = nil // reserve the slot
 	m.scriptMux.Unlock()
@@ -134,11 +140,14 @@ func (m *Manager)LoadWithContext(ctx context.Context, path string)(script *Scrip
 		return
 	}
 
-	script = newScript(id, version, path, prog)
+	script = newScript(id, version, path, prog, m.loop)
 
 	errCh := make(chan error, 1)
 	m.loop.RunOnLoop(func(vm *goja.Runtime){
 		defer close(errCh)
+		if ctx.Err() != nil {
+			return
+		}
 		var err error
 		var res goja.Value
 		if res, err = vm.RunProgram(prog); err != nil {
@@ -148,6 +157,9 @@ func (m *Manager)LoadWithContext(ctx context.Context, path string)(script *Scrip
 		cb, ok := goja.AssertFunction(res)
 		if !ok {
 			errCh <- ErrScriptInvalid
+			return
+		}
+		if ctx.Err() != nil {
 			return
 		}
 		script.init(vm)
@@ -178,18 +190,48 @@ func setPrefixLogger(base logger.Logger, prefix string)(logger.Logger){
 	return logger.NewPrefixLogger(base, "[" + prefix + "]")
 }
 
+// Unload will unload plugin by ID and return the unloaded plugin instance
+// During unloading, the unload event will be emitted
 func (m *Manager)Unload(id string)(script *Script){
 	m.scriptMux.Lock()
 	defer m.scriptMux.Unlock()
+
 	if script = m.scripts[id]; script == nil {
 		return
 	}
+	script.Emit("unload")
+	script.loop = nil
 	delete(m.scripts, id)
 	return
 }
 
-// LoadFromDir will load all scripts under the path which have the ext `.js`
+// UnloadAll will unload all plugins and return them
+// During unloading, the unload event will be emitted
+func (m *Manager)UnloadAll()(scripts []*Script){
+	m.scriptMux.Lock()
+	defer m.scriptMux.Unlock()
+
+	if len(m.scripts) == 0 {
+		return
+	}
+
+	scripts = make([]*Script, 0, len(m.scripts))
+	dones := make([]<-chan struct{}, 0, len(m.scripts))
+	for _, s := range m.scripts {
+		scripts = append(scripts, s)
+		dones = append(dones, s.EmitAsync("unload"))
+	}
+	for _, ch := range dones {
+		<-ch
+	}
+	return
+}
+
+// LoadFromDir will load all plugins under the path which have the ext `.js`,
+// and return all successfully loaded plugins with a possible error
 // If the target path is not exists, LoadFromDir will do nothing and return no error
+// If there are errors during load any plugin, the errors will be wrapped use `errors.Join`,
+// and other plugins will continue to be load.
 func (m *Manager)LoadFromDir(path string)(scripts []*Script, err error){
 	entries, err := os.ReadDir(path)
 	if err != nil {

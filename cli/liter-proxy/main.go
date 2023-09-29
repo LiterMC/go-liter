@@ -3,24 +3,33 @@ package main
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net"
 	"net/url"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"syscall"
 	"time"
 
 	"golang.org/x/net/proxy"
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
+	"github.com/kmcsr/go-liter/script"
 	// "github.com/kmcsr/go-liter/packets"
 )
 
 func main(){
+	scriptpath := filepath.Join(configDir, "plugins")
+	manager := script.NewManager()
+	manager.SetLogger(loger)
 	var err error
 
-	RESTART:
+RESTART:
+	if _, err := manager.LoadFromDir(scriptpath); err != nil {
+		loger.Errorf("Cannot load scripts: %v", err)
+	}
 
 	laddr := &net.TCPAddr{
 		Port: (int)(cfg.ServerPort),
@@ -59,20 +68,25 @@ func main(){
 			exitch <- struct{}{}
 		}()
 		if err := server.Serve(); err != nil {
-			loger.Errorf("Error on serve: %v", err)
+			loger.Errorf("Error when serving: %v", err)
 		}
 	}()
 
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
-	WAIT:
+WAIT:
 	select {
 	case s := <-sigs:
 		loger.Infof("Got signal %s", s.String())
 		if s == syscall.SIGHUP {
 			loger.Infof("Reloading config...")
 			ncfg := readConfig()
+			loger.Infof("Reloading plugins...")
+			manager.UnloadAll()
+			if _, err := manager.LoadFromDir(scriptpath); err != nil {
+				loger.Errorf("Cannot load scripts: %v", err)
+			}
 			if cfg.ServerIP != ncfg.ServerIP || cfg.ServerPort != ncfg.ServerPort {
 				loger.Info("Server address changed, restarting server...")
 				timeoutCtx, cancel := context.WithTimeout(context.Background(), 16 * time.Second)
@@ -123,7 +137,9 @@ func (s *ProxyServer)Serve()(err error){
 	var c net.Conn
 	for {
 		if c, err = s.Listener.Accept(); err != nil {
-			loger.Errorf("Error when accept connection: %v", err)
+			if errors.Is(err, net.ErrClosed) {
+				return nil
+			}
 			return
 		}
 		go s.handle(liter.WrapConn(c))
@@ -192,6 +208,7 @@ func (s *ProxyServer)handle(c *liter.Conn){
 		ploger.Errorf("New connection handshake error: %v", err)
 		return
 	}
+	
 	rc := c.RawConn()
 	go io.Copy(rc, conn.RawConn())
 	io.Copy(conn.RawConn(), rc)

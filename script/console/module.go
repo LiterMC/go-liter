@@ -31,6 +31,10 @@ func NewConsole(runtime *goja.Runtime, loger logger.Logger)(c *Console){
 	return
 }
 
+func (c *Console)Logger()(logger.Logger){
+	return c.logger
+}
+
 func (c *Console)SetLogger(loger logger.Logger){
 	c.logger = loger
 }

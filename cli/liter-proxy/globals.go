@@ -25,7 +25,8 @@ func initLogger()(loger logger.Logger){
 	return
 }
 
-var configDir = getConfigDir()
+var configDir = "."
+// var configDir = getConfigDir()
 
 func getConfigDir()(dir string){
 	if runtime.GOOS == "windows" {
