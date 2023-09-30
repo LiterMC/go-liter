@@ -19,6 +19,12 @@
 `$.storage` 实现了 [Storage API](https://developer.mozilla.org/zh-CN/docs/Web/API/Storage) 目前仅在运行时有效, 暂不推荐使用.  
 脚本可以使用 `$.on`, `$.emit` 等方法收发事件
 
+### 日志
+
+所有脚本日志都应该通过 `console` 对象输出.  
+`trace`, `debug`, `info`/`log`, `warn`, `error` 6个方法代表了日志的5个级别, 级别过低的日志在没有明确配置的情况下不会被记录.
+
+日志输出时会自动加上脚本ID作为前缀.
 
 ### 事件系统
 
