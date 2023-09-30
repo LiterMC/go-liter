@@ -22,7 +22,7 @@ import (
 )
 
 var (
-	fileNameRe = regexp.MustCompile(`^([a-z_][0-9a-z_]{0,31})(?:@(\d+(?:\.\d+)*)(?:-.+)?)?\..+$`)
+	fileNameRe = regexp.MustCompile(`^([a-z_][0-9a-z_]{0,31})(?:@(\d+(?:\.\d+)*))?(?:-.+)?\..+$`)
 )
 
 var (

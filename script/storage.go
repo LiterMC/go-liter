@@ -26,6 +26,21 @@ func ProxyStorage(s Storage, vm *goja.Runtime)(goja.Proxy){
 		IsExtensible: func(_ *goja.Object)(success bool){
 			return true
 		},
+		GetOwnPropertyDescriptor: func(_ *goja.Object, prop string)(goja.PropertyDescriptor){
+			switch prop {
+			case "length", "keys", "getItem", "setItem", "removeItem", "clear":
+				return goja.PropertyDescriptor{
+					Writable: goja.FLAG_FALSE,
+					Configurable: goja.FLAG_FALSE,
+					Enumerable: goja.FLAG_FALSE,
+				}
+			}
+			return goja.PropertyDescriptor{
+				Writable: goja.FLAG_TRUE,
+				Configurable: goja.FLAG_TRUE,
+				Enumerable: goja.FLAG_TRUE,
+			}
+		},
 		Has: func(_ *goja.Object, property string)(available bool){
 			switch property {
 			case "length", "keys", "getItem", "setItem", "removeItem", "clear":
