@@ -165,8 +165,8 @@ func (c *Conn)RecvHandshakePkt()(pkt *HandshakePkt, err error){
 
 func readHandshakePacket(r io.Reader)(p *HandshakePkt, err error){
 	var (
-		n int
-		size int32 = 0
+		n int = 0
+		size int32
 	)
 	{ // read varint
 		var (
@@ -178,13 +178,13 @@ func readHandshakePacket(r io.Reader)(p *HandshakePkt, err error){
 			if _, err = r.Read(b[:]); err != nil {
 				return
 			}
-			if size == 0 && b[0] == 0xfe {
+			if n == 0 && b[0] == 0xfe {
 				return nil, ErrOldHandshake
 			}
-			size++
+			n++
 			v0 |= (uint32)(b[0] & 0x7f) << i
 			if b[0] & 0x80 == 0 {
-				n = (int)(v0)
+				size = (int32)(v0)
 				break
 			}
 			if i += 7; i >= 32 {
