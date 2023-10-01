@@ -1,5 +1,5 @@
 [Unit]
-Description=A reverse proxy minecraft server
+Description=A reverse proxy for minecraft server
 After=network.target nss-lookup.target
 
 [Service]
