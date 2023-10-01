@@ -260,7 +260,7 @@ func (directionMeta)Decode(r *PacketReader)(value any, err error){
 	return (Direction)(v), nil
 }
 
-func (uuidMeta)Type()(VarInt){ panic("unreachable") }
+// func (uuidMeta)Type()(VarInt){ panic("unreachable") }
 
 func init(){
 	vanillaEncoders := []EntityPropEncoder{
