@@ -359,17 +359,16 @@ func ReadPacket(protocol int, r io.Reader)(p *PacketReader, err error){
 	p = &PacketReader{
 		protocol: protocol,
 		buf: make([]byte, (int32)(n) + size),
-		off: (int)(n),
+		off: n,
 	}
 	encodeVarInt(p.buf[:n], size)
 	if _, err = io.ReadFull(r, p.buf[p.off:]); err != nil {
 		return nil, err
 	}
-	id, ok := p.VarInt()
-	if !ok {
+	var ok bool
+	if p.id, ok = p.VarInt(); !ok {
 		return nil, io.EOF
 	}
-	p.id = (VarInt)(id)
 	return
 }
 

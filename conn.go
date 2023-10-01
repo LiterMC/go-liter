@@ -3,12 +3,18 @@ package liter
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"io"
 	"net"
 	"strings"
 )
 
 const DefaultPort = 25565
+
+var (
+	ErrOldHandshake = errors.New("Old client(<=1.6) handshake received") // The handshake packet <= 1.6 which first byte is 0xFE
+)
 
 type PktIdAssertError struct {
 	Require int32
@@ -149,18 +155,62 @@ func (c *Conn)RecvHandshakePkt()(pkt *HandshakePkt, err error){
 	if c.protocol != V_UNSET {
 		panic("The first handshake packet is already has been received or sent")
 	}
-	var r *PacketReader
-	var p HandshakePkt
-	if r, err = c.Recv(); err != nil {
+
+	if pkt, err = readHandshakePacket(c.conn); err != nil {
 		return
 	}
-	if r.Id() != 0x00 {
-		return nil, &PktIdAssertError{ Require: 0x00, Got: (int32)(r.Id()) }
-	}
-	if err = p.Decode(r); err != nil {
-		return
-	}
-	c.protocol = p.Protocol
-	return &p, nil
+	c.protocol = pkt.Protocol
+	return
 }
 
+func readHandshakePacket(r io.Reader)(p *HandshakePkt, err error){
+	var (
+		n int
+		size int32 = 0
+	)
+	{ // read varint
+		var (
+			i int = 0
+			b [1]byte
+			v0 uint32
+		)
+		for {
+			if _, err = r.Read(b[:]); err != nil {
+				return
+			}
+			if size == 0 && b[0] == 0xfe {
+				return nil, ErrOldHandshake
+			}
+			size++
+			v0 |= (uint32)(b[0] & 0x7f) << i
+			if b[0] & 0x80 == 0 {
+				n = (int)(v0)
+				break
+			}
+			if i += 7; i >= 32 {
+				return nil, VarIntTooBig
+			}
+		}
+	}
+	pr := &PacketReader{
+		protocol: V_UNSET, // we don't know the protocol before handshake
+		buf: make([]byte, (int32)(n) + size),
+		off: n,
+	}
+	encodeVarInt(pr.buf[:n], size)
+	if _, err = io.ReadFull(r, pr.buf[pr.off:]); err != nil {
+		return nil, err
+	}
+	var ok bool
+	if pr.id, ok = pr.VarInt(); !ok {
+		return nil, io.EOF
+	}
+	if pr.id != 0x00 {
+		return nil, &PktIdAssertError{ Require: 0x00, Got: (int32)(pr.id) }
+	}
+	p = new(HandshakePkt)
+	if err = p.Decode(pr); err != nil {
+		return
+	}
+	return
+}

@@ -94,7 +94,12 @@ func readConfig()(cfg Config){
 			cfg.ServerIP   = ""
 			cfg.ServerPort = 25565
 			cfg.Servers = []*ServerIns{
-				{ Id: "main", Target: "127.0.0.1:25665", ServerNames: []string{ "minecraft.example.com", "anotherdomain.example.com" } },
+				{
+					Id: "main",
+					Target: "127.0.0.1:25665",
+					ServerNames: []string{ "minecraft.example.com", "anotherdomain.example.com" },
+					MotdFailed: "Server is closed",
+				},
 			}
 			if data, err = yaml.Marshal(cfg); err != nil {
 				loger.Fatalf("Cannot encode config data: %v", err)

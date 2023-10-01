@@ -25,7 +25,7 @@ jobs:
         name: Build
         run: |
           mkdir output
-          bash ./cmds/liter-server/build.sh
+          bash ./cmds/liter-server/build.sh -ldflags="-X 'main.version=${GITHUB_REF#refs/*/}'"
           cp ./cmds/liter-server/litermc.service ./output/litermc.service
       -
         name: Create Release

@@ -114,6 +114,8 @@ func initBeforeLoad()(_ bool){
 }
 
 func main(){
+	loger.Infof("Liter Server %s", version)
+
 	scriptpath := filepath.Join(configDir, "plugins")
 	var (
 		err error
@@ -296,45 +298,16 @@ func handler(c *liter.Conn){
 	ploger.Infof("Connected with address [%s:%d], passing to server '%s'", hp.Addr, hp.Port, svr.Id)
 
 	if hp.NextState == liter.NextPingState && svr.HandlePing {
-		ploger.Debugf("Handle ping connection [%v] for server '%s'", svr.Id)
-		var srp liter.StatusRequestPkt
-		if err = c.RecvPkt(0x00, &srp); err != nil {
-			ploger.Errorf("Read status request packet error: %v", err)
-			return
-		}
-		if err = c.SendPkt(0x00, liter.StatusResponsePkt{
-			Payload: liter.Object{
-				"version": liter.Object{
-					"name": "Idle",
-					"protocol": 0,
-				},
-				"players": liter.Object{
-					"max": 1,
-					"online": 0,
-				},
-				"description": liter.Object{
-					"text": svr.Motd,
-				},
-			},
-		}); err != nil {
-			ploger.Errorf("Send packet error: %v", err)
-			return
-		}
-		var prp liter.PingRequestPkt
-		if err = c.RecvPkt(0x01, &prp); err != nil {
-			ploger.Errorf("Read ping request packet error: %v", err)
-			return
-		}
-		if err = c.SendPkt(0x01, (liter.PingResponsePkt)(prp)); err != nil {
-			ploger.Errorf("Send ping response packet error: %v", err)
-			return
-		}
+		ploger.Debugf("Handle ping connection for server '%s'", svr.Id)
+		handleServerStatus(ploger, c, "Idle", svr.Motd)
 		return
 	}
 
 	var conn *liter.Conn
 	if conn, err = liter.Dial(svr.Target); err != nil {
 		ploger.Errorf("Cannot dial to %q: %v", svr.Target, err)
+		ploger.Debugf("Handle ping connection for server '%s'", svr.Id)
+		handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
 		return
 	}
 	if err = conn.SendHandshakePkt(hp); err != nil {
@@ -344,4 +317,40 @@ func handler(c *liter.Conn){
 	rc := c.RawConn()
 	go io.Copy(rc, conn.RawConn())
 	io.Copy(conn.RawConn(), rc)
+}
+
+func handleServerStatus(loger logger.Logger, c *liter.Conn, version string, motd string){
+	var srp liter.StatusRequestPkt
+	var err error
+	if err = c.RecvPkt(0x00, &srp); err != nil {
+		loger.Errorf("Read status request packet error: %v", err)
+		return
+	}
+	if err = c.SendPkt(0x00, liter.StatusResponsePkt{
+		Payload: liter.Object{
+			"version": liter.Object{
+				"name": "Idle",
+				"protocol": 0,
+			},
+			"players": liter.Object{
+				"max": 1,
+				"online": 0,
+			},
+			"description": liter.Object{
+				"text": motd,
+			},
+		},
+	}); err != nil {
+		loger.Errorf("Send packet error: %v", err)
+		return
+	}
+	var prp liter.PingRequestPkt
+	if err = c.RecvPkt(0x01, &prp); err != nil {
+		loger.Errorf("Read ping request packet error: %v", err)
+		return
+	}
+	if err = c.SendPkt(0x01, (liter.PingResponsePkt)(prp)); err != nil {
+		loger.Errorf("Send ping response packet error: %v", err)
+		return
+	}
 }
