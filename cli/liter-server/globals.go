@@ -2,18 +2,15 @@
 package main
 
 import (
-	"bufio"
-	"bytes"
 	"encoding/json"
 	"net"
 	"os"
 	"path/filepath"
 	"runtime"
 	"sort"
-	"strconv"
-	"strings"
 	"sync"
 
+	"gopkg.in/yaml.v3"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"github.com/kmcsr/go-logger"
@@ -39,7 +36,7 @@ var configDir = getConfigDir()
 func getConfigDir()(dir string){
 	_ = _after_load
 	if runtime.GOOS != "windows" {
-		dir = filepath.Join("/etc", "litermc")
+		dir = filepath.Join("/opt", "litermc")
 	}else{
 		dir = "."
 	}
@@ -66,17 +63,18 @@ func reloadConfigs(){
 	config = readConfig()
 	whitelist = loadWhitelist()
 	blacklist = loadBlacklist()
-	servers = loadServerIns()
 }
 
 type Config struct {
-	Debug bool `json:"debug"`
+	Debug bool `json:"debug" yaml:"debug"`
 
-	ServerIP   string `json:"server-ip"`
-	ServerPort uint16 `json:"server-port"`
+	ServerIP   string `json:"server-ip" yaml:"server-ip"`
+	ServerPort uint16 `json:"server-port" yaml:"server-port"`
 
-	EnableWhitelist   bool `json:"enable-whitelist"`
-	EnableIPWhitelist bool `json:"enable-ip-whitelist"`
+	EnableWhitelist   bool `json:"enable-whitelist" yaml:"enable-whitelist"`
+	EnableIPWhitelist bool `json:"enable-ip-whitelist" yaml:"enable-ip-whitelist"`
+
+	Servers []*ServerIns `json:"servers" yaml:"servers"`
 }
 
 var config = readConfig()
@@ -89,13 +87,16 @@ func getConfig()(Config){
 
 func readConfig()(cfg Config){
 	_ = _after_load
-	path := filepath.Join(configDir, "config.json")
+	path := filepath.Join(configDir, "config.yml")
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
 			cfg.ServerIP   = ""
 			cfg.ServerPort = 25565
-			if data, err = json.MarshalIndent(cfg, "", "  "); err != nil {
+			cfg.Servers = []*ServerIns{
+				{ Id: "main", Target: "127.0.0.1:25665", ServerNames: []string{ "minecraft.example.com", "anotherdomain.example.com" } },
+			}
+			if data, err = yaml.Marshal(cfg); err != nil {
 				loger.Fatalf("Cannot encode config data: %v", err)
 				return
 			}
@@ -108,7 +109,7 @@ func readConfig()(cfg Config){
 		}
 		return
 	}
-	if err = json.Unmarshal(data, &cfg); err != nil {
+	if err = yaml.Unmarshal(data, &cfg); err != nil {
 		loger.Fatalf("Cannot parse config file: %v", err)
 		return
 	}
@@ -117,8 +118,8 @@ func readConfig()(cfg Config){
 }
 
 type Whitelist struct {
-	UUIDWhitelist []uuid.UUID `json:"uuid-whitelist"`
-	IPWhitelist   []string    `json:"ip-whitelist"`
+	UUIDWhitelist []uuid.UUID `json:"uuids"`
+	IPWhitelist   []string    `json:"ips"`
 }
 
 var whitelist = loadWhitelist()
@@ -179,9 +180,9 @@ func (wl Whitelist)IncludeIP(ip net.IP)(ok bool){
 
 
 type Blacklist struct {
-	NameBlacklist []string    `json:"name-blacklist"`
-	UUIDBlacklist []uuid.UUID `json:"uuid-blacklist"`
-	IPBlacklist   []string    `json:"ip-blacklist"`
+	NameBlacklist []string    `json:"names"`
+	UUIDBlacklist []uuid.UUID `json:"uuids"`
+	IPBlacklist   []string    `json:"ips"`
 }
 
 var blacklist = loadBlacklist()
@@ -278,81 +279,14 @@ func (cfg Config)CheckConn(ip net.IP, username string)(ok bool){
 
 
 type ServerIns struct {
-	Id          string
-	Target      string
-	ServerNames []string
-	HandlePing  bool
-	Motd        string
-	MotdFailed  string
+	Id          string   `json:"id" yaml:"id"`
+	Target      string   `json:"target" yaml:"target"`
+	ServerNames []string `json:"names" yaml:"names"`
+	HandlePing  bool     `json:"handle-ping" yaml:"handle-ping"`
+	Motd        string   `json:"motd" yaml:"motd"`
+	MotdFailed  string   `json:"motd-failed" yaml:"motd-failed"`
 }
-
-var servers = loadServerIns()
 
 func getServers()([]*ServerIns){
-	configLock.RLock()
-	defer configLock.RUnlock()
-	return servers
-}
-
-func loadServerIns()(svrs []*ServerIns){
-	_ = _after_load
-	dirpath := filepath.Join(configDir, "server-available")
-	files, err := os.ReadDir(dirpath)
-	if err != nil {
-		if os.IsNotExist(err) {
-			if err = os.Mkdir(dirpath, 0755); err != nil {
-				loger.Fatalf("Cannot create config dir '%s': %v", dirpath, err)
-			}
-			return
-		}
-		loger.Fatalf("Error when loading server instances: %v", err)
-	}
-	for _, f := range files {
-		if !f.IsDir() && strings.HasSuffix(f.Name(), ".svr") {
-			p := filepath.Join(dirpath, f.Name())
-			data, err := os.ReadFile(p)
-			if err != nil {
-				loger.Errorf("Cannot load server instance at '%s': %v", p, err)
-				continue
-			}
-			svr := new(ServerIns)
-			sc := bufio.NewScanner(bytes.NewReader(data))
-			for sc.Scan() {
-				t := bytes.TrimSpace(sc.Bytes())
-				if len(t) == 0 || t[0] == '#' {
-					continue
-				}
-				k, v := split((string)(t), " \t")
-				if v = strings.TrimSpace(v); len(v) == 0 {
-					loger.Warnf("No value for key '%s' in '%s'", k, p)
-					continue
-				}
-				switch strings.ToLower(k) {
-				case "server_id":
-					if len(svr.Id) != 0 {
-						loger.Warnf("Already defined key 'server_id' in '%s'", p)
-						continue
-					}
-					svr.Id = v
-				case "server_name":
-					svr.ServerNames = append(svr.ServerNames, v)
-				case "target":
-					svr.Target = v
-				case "handle_ping":
-					svr.HandlePing, _ = strconv.ParseBool(v)
-				case "motd":
-					svr.Motd = v
-				case "motd_failed":
-					svr.MotdFailed = v
-				}
-			}
-			if len(svr.Id) == 0 {
-				loger.Warnf("No id for server file at '%s'", p)
-			}else{
-				loger.Infof("Loaded server config id='%s'", svr.Id)
-				svrs = append(svrs, svr)
-			}
-		}
-	}
-	return
+	return getConfig().Servers
 }

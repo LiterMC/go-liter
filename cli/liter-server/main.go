@@ -3,6 +3,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"io"
 	"net"
 	"os"
@@ -123,6 +124,9 @@ func main(){
 	manager.SetLogger(loger)
 
 RESTART:
+	if _, err := os.Stat(scriptpath); errors.Is(err, os.ErrNotExist) {
+		os.MkdirAll(scriptpath, 0755)
+	}
 	if _, err = manager.LoadFromDir(scriptpath); err != nil {
 		loger.Errorf("Cannot load scripts: %v", err)
 	}
@@ -166,6 +170,13 @@ WAIT:
 			if _, err = manager.LoadFromDir(scriptpath); err != nil {
 				loger.Errorf("Cannot load scripts: %v", err)
 			}
+			if cfg.Debug != ncfg.Debug {
+				if ncfg.Debug {
+					loger.SetLevel(logger.DebugLevel)
+				}else{
+					loger.SetLevel(logger.InfoLevel)
+				}
+			}
 			if cfg.ServerIP != ncfg.ServerIP || cfg.ServerPort != ncfg.ServerPort {
 				loger.Info("Server address changed, restarting server...")
 				timeoutCtx, cancel := context.WithTimeout(context.Background(), 16 * time.Second)
@@ -175,13 +186,6 @@ WAIT:
 				loger.Info("Restarting server...")
 				cfg = ncfg
 				goto RESTART
-			}
-			if cfg.Debug != ncfg.Debug {
-				if ncfg.Debug {
-					loger.SetLevel(logger.DebugLevel)
-				}else{
-					loger.SetLevel(logger.InfoLevel)
-				}
 			}
 			cfg = ncfg
 			goto WAIT
