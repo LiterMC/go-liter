@@ -165,25 +165,26 @@ func (c *Conn)RecvHandshakePkt()(pkt *HandshakePkt, err error){
 
 func readHandshakePacket(r io.Reader)(p *HandshakePkt, err error){
 	var (
+		varb [5]byte
 		n int = 0
 		size int32
 	)
 	{ // read varint
 		var (
 			i int = 0
-			b [1]byte
-			v0 uint32
+			v0 uint32 = 0
 		)
 		for {
-			if _, err = r.Read(b[:]); err != nil {
+			if _, err = r.Read(varb[n:n + 1]); err != nil {
 				return
 			}
-			if n == 0 && b[0] == 0xfe {
+			b := varb[n]
+			if n == 0 && b == 0xfe {
 				return nil, ErrOldHandshake
 			}
 			n++
-			v0 |= (uint32)(b[0] & 0x7f) << i
-			if b[0] & 0x80 == 0 {
+			v0 |= (uint32)(b & 0x7f) << i
+			if b & 0x80 == 0 {
 				size = (int32)(v0)
 				break
 			}
@@ -197,8 +198,8 @@ func readHandshakePacket(r io.Reader)(p *HandshakePkt, err error){
 		buf: make([]byte, (int32)(n) + size),
 		off: n,
 	}
-	encodeVarInt(pr.buf[:n], size)
-	if _, err = io.ReadFull(r, pr.buf[pr.off:]); err != nil {
+	copy(pr.buf[:n], varb[:n])
+	if _, err = io.ReadFull(r, pr.buf[n:]); err != nil {
 		return nil, err
 	}
 	var ok bool
@@ -210,6 +211,7 @@ func readHandshakePacket(r io.Reader)(p *HandshakePkt, err error){
 	}
 	p = new(HandshakePkt)
 	if err = p.Decode(pr); err != nil {
+		p = nil
 		return
 	}
 	return

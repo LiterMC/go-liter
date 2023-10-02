@@ -114,8 +114,6 @@ func initBeforeLoad()(_ bool){
 }
 
 func main(){
-	loger.Infof("Liter Server %s", version)
-
 	scriptpath := filepath.Join(configDir, "plugins")
 	var (
 		err error
@@ -123,6 +121,14 @@ func main(){
 		cfg = getConfig()
 		manager = script.NewManager()
 	)
+
+	if cfg.Debug {
+		loger.SetLevel(logger.TraceLevel)
+	}else{
+		loger.SetLevel(logger.InfoLevel)
+	}
+
+	loger.Infof("Liter Server %s", version)
 	manager.SetLogger(loger)
 
 RESTART:
@@ -174,7 +180,7 @@ WAIT:
 			}
 			if cfg.Debug != ncfg.Debug {
 				if ncfg.Debug {
-					loger.SetLevel(logger.DebugLevel)
+					loger.SetLevel(logger.TraceLevel)
 				}else{
 					loger.SetLevel(logger.InfoLevel)
 				}
@@ -319,7 +325,7 @@ func handler(c *liter.Conn){
 	io.Copy(conn.RawConn(), rc)
 }
 
-func handleServerStatus(loger logger.Logger, c *liter.Conn, version string, motd string){
+func handleServerStatus(loger logger.Logger, c *liter.Conn, name string, motd string){
 	var srp liter.StatusRequestPkt
 	var err error
 	if err = c.RecvPkt(0x00, &srp); err != nil {
@@ -329,8 +335,8 @@ func handleServerStatus(loger logger.Logger, c *liter.Conn, version string, motd
 	if err = c.SendPkt(0x00, liter.StatusResponsePkt{
 		Payload: liter.Object{
 			"version": liter.Object{
-				"name": "Idle",
-				"protocol": 0,
+				"name": name,
+				"protocol": c.Protocol(),
 			},
 			"players": liter.Object{
 				"max": 1,
