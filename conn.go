@@ -7,12 +7,14 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"strconv"
 	"strings"
 )
 
 const DefaultPort = 25565
 
 var (
+	ErrNoRecordFound = errors.New("No DNS record was found")
 	ErrOldHandshake = errors.New("Old client(<=1.6) handshake received") // The handshake packet <= 1.6 which first byte is 0xFE
 )
 
@@ -44,24 +46,34 @@ func ResloveAddrWithContext(ctx context.Context, target string)(addr *net.TCPAdd
 	addr = &net.TCPAddr{
 		Port: DefaultPort,
 	}
-	if strings.IndexByte(target, ':') == -1 {
-		var srvs []*net.SRV
-		if _, srvs, err = net.DefaultResolver.LookupSRV(ctx, "minecraft", "tcp", target); err == nil && len(srvs) > 0 {
-			srv := srvs[0]
-			target, addr.Port = srv.Target, (int)(srv.Port)
-		}
-		var ips []net.IP
-		if ips, err = net.LookupIP(target); err != nil {
-			return nil, err
-		}
-		addr.IP = ips[0]
-	}else{
-		if addr.IP = net.ParseIP(target); addr.IP == nil {
-			if addr, err = net.ResolveTCPAddr("tcp", target); err != nil {
-				return nil, err
-			}
+	host, port, err := net.SplitHostPort(target)
+	if err != nil {
+		if strings.Contains(err.Error(), "missing port in address") {
+			host = target
+			port = ""
+			err = nil
+		}else{
+			return
 		}
 	}
+	if len(port) == 0 {
+		// if target is host only, then we lookup srv
+		var srvs []*net.SRV
+		if _, srvs, err = net.DefaultResolver.LookupSRV(ctx, "minecraft", "tcp", host); err == nil && len(srvs) > 0 {
+			srv := srvs[0]
+			host, addr.Port = srv.Target, (int)(srv.Port)
+		}
+	}else if addr.Port, err = strconv.Atoi(port); err != nil {
+		return
+	}
+	var ips []net.IP
+	if ips, err = net.DefaultResolver.LookupIP(ctx, "ip", host); err != nil {
+		return nil, err
+	}
+	if len(ips) == 0 {
+		return nil, ErrNoRecordFound
+	}
+	addr.IP = ips[0]
 	return
 }
 

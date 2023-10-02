@@ -132,6 +132,7 @@ func main(){
 	manager.SetLogger(loger)
 
 RESTART:
+	loger.Debug("Debug log enabled")
 	if _, err := os.Stat(scriptpath); errors.Is(err, os.ErrNotExist) {
 		os.MkdirAll(scriptpath, 0755)
 	}
@@ -158,7 +159,7 @@ RESTART:
 		defer func(){
 			exitch <- struct{}{}
 		}()
-		if err := server.Serve(); err != nil {
+		if err := server.Serve(); err != nil && !errors.Is(err, net.ErrClosed) {
 			loger.Errorf("Error on serve: %v", err)
 		}
 	}()
@@ -169,7 +170,7 @@ RESTART:
 WAIT:
 	select {
 	case s := <-sigs:
-		loger.Infof("Got signal %s", s.String())
+		loger.Warnf("Got signal %s", s.String())
 		if s == syscall.SIGHUP {
 			reloadConfigs()
 			ncfg := getConfig()
@@ -200,7 +201,17 @@ WAIT:
 		}
 		timeoutCtx, _ := context.WithTimeout(context.Background(), 16 * time.Second)
 		loger.Warn("Closing server...")
-		server.Shutdown(timeoutCtx)
+		done := make(chan struct{}, 0)
+		go func(){
+			defer close(done)
+			server.Shutdown(timeoutCtx)
+		}()
+		select {
+		case <-done:
+		case <-sigs:
+			loger.Errorf("Got second close signal %s", s.String())
+			os.Exit(1)
+		}
 	case <-exitch:
 		os.Exit(1)
 	}
@@ -321,12 +332,34 @@ func handler(c *liter.Conn){
 		ploger.Errorf("New connection handshake error: %v", err)
 		return
 	}
-	rc := c.RawConn()
-	go io.Copy(rc, conn.RawConn())
-	io.Copy(conn.RawConn(), rc)
+	ploger.Tracef("Handshake sent successed")
+
+	rc, cr := c.RawConn(), conn.RawConn()
+	buf := make([]byte, 32 * 1024)
+	// try read to ensure the connection is ok
+	if n, err := cr.Read(buf); err != nil {
+		ploger.Errorf("First read failed for %q: %v", svr.Target, err)
+		ploger.Debugf("Handle ping connection for server %q", svr.Id)
+		handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+		return
+	}else if _, err = rc.Write(buf[:n]); err != nil {
+		ploger.Errorf("First write failed: %v", err)
+		return
+	}
+	go func(){
+		defer c.Close()
+		defer conn.Close()
+		io.Copy(rc, cr)
+	}()
+	io.CopyBuffer(cr, rc, buf)
 }
 
-func handleServerStatus(loger logger.Logger, c *liter.Conn, name string, motd string){
+type playerInfo struct {
+	Name string `json:"name"`
+	Id   liter.UUID `json:"id"`
+}
+
+func handleServerStatus(loger logger.Logger, c *liter.Conn, status string, motd string){
 	var srp liter.StatusRequestPkt
 	var err error
 	if err = c.RecvPkt(0x00, &srp); err != nil {
@@ -336,12 +369,15 @@ func handleServerStatus(loger logger.Logger, c *liter.Conn, name string, motd st
 	if err = c.SendPkt(0x00, liter.StatusResponsePkt{
 		Payload: liter.Object{
 			"version": liter.Object{
-				"name": name,
+				"name": status,
 				"protocol": c.Protocol(),
 			},
 			"players": liter.Object{
-				"max": 1,
-				"online": 0,
+				"max": 2,
+				"online": 1,
+				"sample": []playerInfo{
+					{ Name: status }, // to allow hover for the status
+				},
 			},
 			"description": liter.Object{
 				"text": motd,
