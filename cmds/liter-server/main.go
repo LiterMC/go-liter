@@ -277,7 +277,7 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 func handler(c *liter.Conn){
 	defer c.Close()
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
-	ploger.Debugf("Connected", c.RemoteAddr())
+	ploger.Debugf("Connected!")
 	var err error
 	var hp *liter.HandshakePkt
 	if hp, err = c.RecvHandshakePkt(); err != nil {
@@ -301,10 +301,10 @@ func handler(c *liter.Conn){
 		return
 	}
 
-	ploger.Infof("Connected with address [%s:%d], passing to server '%s'", hp.Addr, hp.Port, svr.Id)
+	ploger.Infof("Connected with address [%s:%d], passing to server %q[%s]", hp.Addr, hp.Port, svr.Id, svr.Target)
 
 	if hp.NextState == liter.NextPingState && svr.HandlePing {
-		ploger.Debugf("Handle ping connection for server '%s'", svr.Id)
+		ploger.Debugf("Handle ping connection for server %q", svr.Id)
 		handleServerStatus(ploger, c, "Idle", svr.Motd)
 		return
 	}
@@ -312,10 +312,11 @@ func handler(c *liter.Conn){
 	var conn *liter.Conn
 	if conn, err = liter.Dial(svr.Target); err != nil {
 		ploger.Errorf("Cannot dial to %q: %v", svr.Target, err)
-		ploger.Debugf("Handle ping connection for server '%s'", svr.Id)
+		ploger.Debugf("Handle ping connection for server %q", svr.Id)
 		handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
 		return
 	}
+	ploger.Debugf("Target %q connected", svr.Id)
 	if err = conn.SendHandshakePkt(hp); err != nil {
 		ploger.Errorf("New connection handshake error: %v", err)
 		return
