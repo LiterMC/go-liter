@@ -323,8 +323,10 @@ func handler(c *liter.Conn){
 	var conn *liter.Conn
 	if conn, err = liter.Dial(svr.Target); err != nil {
 		ploger.Errorf("Cannot dial to %q: %v", svr.Target, err)
-		ploger.Debugf("Handle ping connection for server %q", svr.Id)
-		handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+		if hp.NextState == liter.NextPingState {
+			ploger.Debugf("Handle ping connection for server %q", svr.Id)
+			handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+		}
 		return
 	}
 	ploger.Debugf("Target %q connected", svr.Id)
@@ -339,8 +341,10 @@ func handler(c *liter.Conn){
 	// try read to ensure the connection is ok
 	if n, err := cr.Read(buf); err != nil {
 		ploger.Errorf("First read failed for %q: %v", svr.Target, err)
-		ploger.Debugf("Handle ping connection for server %q", svr.Id)
-		handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+		if hp.NextState == liter.NextPingState {
+			ploger.Debugf("Handle ping connection for server %q", svr.Id)
+			handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+		}
 		return
 	}else if _, err = rc.Write(buf[:n]); err != nil {
 		ploger.Errorf("First write failed: %v", err)
