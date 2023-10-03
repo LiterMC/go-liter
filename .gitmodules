@@ -1,0 +1,3 @@
+[submodule "cmds/liter-server/dashboard"]
+	path = cmds/liter-server/dashboard
+	url = https://github.com/LiterMC/liter-dashboard.git
