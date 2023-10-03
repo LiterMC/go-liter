@@ -301,6 +301,17 @@ func (p *PacketBuilder)JSON(v any)(*PacketBuilder){
 	return p
 }
 
+func (p *PacketBuilder)Chat(v *Chat)(*PacketBuilder){
+	buf, err := v.MarshalJSON()
+	if err != nil {
+		panic(err)
+	}
+	p.
+		VarInt((VarInt)(len(buf))).
+		ByteArray(buf)
+	return p
+}
+
 func (p *PacketBuilder)Encode(v any){
 	switch w := v.(type) {
 	case Bool:
@@ -333,6 +344,8 @@ func (p *PacketBuilder)Encode(v any){
 		p.JSON(w)
 	case UUID:
 		p.UUID(w)
+	case *Chat:
+		p.Chat(w)
 	case Encodable:
 		w.Encode(p)
 	default:
@@ -584,7 +597,26 @@ func (p *PacketReader)JSON(ptr any)(err error){
 		return io.EOF
 	}
 	if err = json.Unmarshal(buf, ptr); err != nil {
-		return err
+		return
+	}
+	return
+}
+
+func (p *PacketReader)Chat()(c *Chat, err error){
+	var (
+		size VarInt
+		ok bool
+	)
+	if size, ok = p.VarInt(); !ok {
+		return nil, io.EOF
+	}
+	buf := make([]byte, size)
+	if ok = p.ByteArray(buf); !ok {
+		return nil, io.EOF
+	}
+	c = new(Chat)
+	if err = c.UnmarshalJSON(buf); err != nil {
+		return nil, err
 	}
 	return
 }

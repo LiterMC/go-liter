@@ -70,8 +70,30 @@ func (p StatusRequestPkt)String()(string){ return "<StatusRequestPkt>" }
 func (p StatusRequestPkt)Encode(b *PacketBuilder){}
 func (p *StatusRequestPkt)DecodeFrom(r *PacketReader)(err error){ return }
 
+type PlayerInfo struct {
+	Name string `json:"name"`
+	Id   UUID   `json:"id"`
+}
+
+type (
+	StatusResponsePayload struct {
+		Version ProtocolVersion `json:"version"`
+		Players PlayerStatus `json:"players"`
+		Description *Chat `json:"description"`
+	}
+	ProtocolVersion struct {
+		Name     string `json:"name"`
+		Protocol int    `json:"protocol"`
+	}
+	PlayerStatus struct {
+		Max    int `json:"max"`
+		Online int `json:"online"`
+		Sample []PlayerInfo `json:"sample,omitempty"`
+	}
+)
+
 type StatusResponsePkt struct {
-	Payload Object
+	Payload StatusResponsePayload
 }
 
 var _ Packet = (*StatusResponsePkt)(nil)
@@ -115,7 +137,9 @@ func (p *PingRequestPkt)DecodeFrom(r *PacketReader)(err error){
 	return
 }
 
-type PingResponsePkt PingRequestPkt
+type PingResponsePkt struct {
+	Payload int64
+}
 
 var _ Packet = (*PingResponsePkt)(nil)
 
@@ -132,6 +156,116 @@ func (p *PingResponsePkt)DecodeFrom(r *PacketReader)(err error){
 	var ok bool
 	if p.Payload, ok = r.Long(); !ok {
 		return io.EOF
+	}
+	return
+}
+
+type DisconnectPkt struct {
+	Reason *Chat
+}
+
+var _ Packet = (*DisconnectPkt)(nil)
+
+func (p DisconnectPkt)Encode(b *PacketBuilder){
+	b.Chat(p.Reason)
+}
+
+func (p *DisconnectPkt)DecodeFrom(r *PacketReader)(err error){
+	if err = r.JSON(&p.Reason); err != nil {
+		return
+	}
+	return
+}
+
+
+type LoginStartPacket struct {
+	Name string
+
+	// if protocol >= 1.19 && protocol <= 1.19.2
+	HasSign bool
+	Timestamp Long
+	PublicKey ByteArray
+	Sign ByteArray
+
+	// if protocol >= 1.19.1
+	Id Optional[UUID]
+}
+
+var _ Packet = (*LoginStartPacket)(nil)
+
+func (p LoginStartPacket)String()(string){
+	if p.Id.Ok {
+		return fmt.Sprintf("<LoginStartPacket name=%s uuid=%v>", p.Name, p.Id.V)
+	}
+	return fmt.Sprintf("<LoginStartPacket name=%s>", p.Name)
+}
+
+func (p LoginStartPacket)Encode(b *PacketBuilder){
+	protocol := b.Protocol()
+	b.String(p.Name)
+	if protocol >= V1_19 {
+		if protocol <= V1_19_2 {
+			b.Bool(p.HasSign)
+			if p.HasSign {
+				b.
+					Long(p.Timestamp).
+					VarInt((VarInt)(len(p.PublicKey))).
+					ByteArray(p.PublicKey).
+					VarInt((VarInt)(len(p.Sign))).
+					ByteArray(p.Sign)
+			}
+		}
+		if protocol >= V1_19_2 {
+			b.Bool(p.Id.Ok)
+			if p.Id.Ok {
+				b.UUID(p.Id.V)
+			}
+		}
+	}
+}
+
+func (p *LoginStartPacket)DecodeFrom(r *PacketReader)(err error){
+	protocol := r.Protocol()
+	var ok bool
+	if p.Name, ok = r.String(); !ok {
+		return io.EOF
+	}
+	if protocol >= V1_19 {
+		if protocol <= V1_19_2 {
+			if p.HasSign, ok = r.Bool(); !ok {
+				return io.EOF
+			}
+			if p.HasSign {
+				if p.Timestamp, ok = r.Long(); !ok {
+					return io.EOF
+				}
+				var n VarInt
+				if n, ok = r.VarInt(); !ok {
+					return io.EOF
+				}
+				p.PublicKey = make(ByteArray, n)
+				if ok = r.ByteArray(p.PublicKey); !ok {
+					return io.EOF
+				}
+				if n, ok = r.VarInt(); !ok {
+					return io.EOF
+				}
+				p.Sign = make(ByteArray, n)
+				if ok = r.ByteArray(p.Sign); !ok {
+					return io.EOF
+				}
+			}
+		}
+		if protocol >= V1_19_2 {
+			if p.Id.Ok, ok = r.Bool(); !ok {
+				return io.EOF
+			}
+			if p.Id.Ok {
+				if p.Id.V, ok = r.UUID(); !ok {
+					return io.EOF
+				}
+			}
+		}
 	}
 	return
 }

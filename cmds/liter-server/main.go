@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"sync"
 	"syscall"
 	"time"
@@ -219,7 +220,7 @@ WAIT:
 
 type Server struct{
 	Listener net.Listener
-	conns    []net.Conn
+	conns    []*liter.Conn
 	cond     *sync.Cond
 }
 
@@ -237,15 +238,39 @@ func (s *Server)Serve()(err error){
 			return
 		}
 		go func(c net.Conn){
+			successed := false
+			defer func(){
+				if !successed {
+					c.Close()
+				}
+			}()
+			cfg := getConfig()
+			if host, _, err := net.SplitHostPort(c.RemoteAddr().String()); err != nil {
+				return
+			}else{
+				ip := net.ParseIP(host)
+				if ip == nil {
+					return
+				}
+				if blacklist.IncludeIP(ip) {
+					return
+				}
+				if cfg.EnableIPWhitelist {
+					if !whitelist.IncludeIP(ip) {
+						return
+					}
+				}
+			}
+			wc := liter.WrapConn(c)
 			s.cond.L.Lock()
-			s.conns = append(s.conns, c)
+			s.conns = append(s.conns, wc)
 			s.cond.L.Unlock()
 			defer func(){
 				s.cond.L.Lock()
 				defer s.cond.L.Unlock()
 				e := len(s.conns) - 1
 				for i, d := range s.conns {
-					if d == c {
+					if d == wc {
 						if i != e {
 							s.conns[i], s.conns[e] = s.conns[e], s.conns[i]
 						}
@@ -257,7 +282,8 @@ func (s *Server)Serve()(err error){
 					}
 				}
 			}()
-			handler(liter.WrapConn(c))
+			successed = true
+			handler(wc)
 		}(c)
 	}
 }
@@ -266,6 +292,11 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 	if err = s.Listener.Close(); err != nil {
 		return
 	}
+	// s.cond.L.Lock()
+	// for _, c := range s.conns {
+	// 	c.SendPkt(0x00, )
+	// }
+	// s.cond.L.Unlock()
 	select {
 	case <-waitUntilNot(s.cond, func()(bool){
 		return len(s.conns) > 0
@@ -287,12 +318,15 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 
 func handler(c *liter.Conn){
 	defer c.Close()
+
+	cfg := getConfig()
+
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
 	ploger.Debugf("Connected!")
 	var err error
 	var hp *liter.HandshakePkt
 	if hp, err = c.RecvHandshakePkt(); err != nil {
-		ploger.Errorf("read handshake packet error: %v", err)
+		ploger.Debugf("Read handshake packet error: %v", err)
 		return
 	}
 	ploger.Tracef("Handshake packet: %v", hp)
@@ -308,15 +342,57 @@ func handler(c *liter.Conn){
 		}
 	}
 	if svr == nil {
-		ploger.Infof("Trying connected unexcept address %q", hp.Addr)
+		ploger.Infof("Trying connected with unexpected address %q", hp.Addr)
 		return
 	}
 
 	ploger.Infof("Connected with address [%s:%d], passing to server %q[%s]", hp.Addr, hp.Port, svr.Id, svr.Target)
 
-	if hp.NextState == liter.NextPingState && svr.HandlePing {
-		ploger.Debugf("Handle ping connection for server %q", svr.Id)
-		handleServerStatus(ploger, c, "Idle", svr.Motd)
+	var lp liter.LoginStartPacket
+
+	if hp.NextState == liter.NextPingState {
+		if svr.HandlePing {
+			ploger.Debugf("Handle ping connection for server %q", svr.Id)
+			handleServerStatus(ploger, c, "Idle", svr.Motd)
+			return
+		}
+	}else if hp.NextState == liter.NextLoginState {
+		if err = c.RecvPkt(0x00, &lp); err != nil {
+			ploger.Debugf("Read login start packet error: %v", err)
+			return
+		}
+
+		player, err := AuthClient.GetPlayerInfo(lp.Name)
+		if err != nil {
+			c.SendPkt(0x00, &liter.DisconnectPkt{
+				Reason: liter.NewChatFromString("Your username is not exists or auth server error"),
+			})
+			ploger.Debugf("Cannot get player info for %s: %v", lp.Name, err)
+			return
+		}
+		if lp.Id.Ok {
+			id := lp.Id.V
+			if id != player.Id {
+				c.SendPkt(0x00, &liter.DisconnectPkt{
+					Reason: liter.NewChatFromString("Your user profile is not match"),
+				})
+				return
+			}
+		}
+		if blacklist.HasPlayer(player) {
+			c.SendPkt(0x00, &liter.DisconnectPkt{
+				Reason: liter.NewChatFromString("Your are in the blacklist"),
+			})
+			return
+		}
+		if cfg.EnableWhitelist && !whitelist.HasPlayer(player) {
+			c.SendPkt(0x00, &liter.DisconnectPkt{
+				Reason: liter.NewChatFromString("Your are not in the whitelist"),
+			})
+			return
+		}
+	}else{
+		// unknown type connection
 		return
 	}
 
@@ -326,78 +402,89 @@ func handler(c *liter.Conn){
 		if hp.NextState == liter.NextPingState {
 			ploger.Debugf("Handle ping connection for server %q", svr.Id)
 			handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+		}else if hp.NextState == liter.NextLoginState {
+			c.SendPkt(0x00, &liter.DisconnectPkt{
+				Reason: liter.NewChatFromString("Cannot connect to the subserver"),
+			})
 		}
 		return
 	}
 	ploger.Debugf("Target %q connected", svr.Id)
 	if err = conn.SendHandshakePkt(hp); err != nil {
-		ploger.Errorf("New connection handshake error: %v", err)
+		ploger.Errorf("Connection handshake error: %v", err)
 		return
 	}
 	ploger.Tracef("Handshake sent successed")
 
+	if hp.NextState == liter.NextLoginState {
+		if err = conn.SendPkt(0x00, lp); err != nil {
+			ploger.Errorf("Connection login error: %v", err)
+			return
+		}
+		ploger.Tracef("Login start packet sent successed")
+	}
+
 	rc, cr := c.RawConn(), conn.RawConn()
+
 	buf := make([]byte, 32 * 1024)
+	cr.SetReadDeadline(time.Now().Add(time.Millisecond * 10))
 	// try read to ensure the connection is ok
 	if n, err := cr.Read(buf); err != nil {
-		ploger.Errorf("First read failed for %q: %v", svr.Target, err)
-		if hp.NextState == liter.NextPingState {
-			ploger.Debugf("Handle ping connection for server %q", svr.Id)
-			handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+		if strings.Contains(err.Error(), "connection reset by peer") {
+			ploger.Errorf("Connection reset by peer")
+			if hp.NextState == liter.NextPingState {
+				ploger.Debugf("Handle ping connection for server %q", svr.Id)
+				handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+			}
+			return
 		}
-		return
-	}else if _, err = rc.Write(buf[:n]); err != nil {
-		ploger.Errorf("First write failed: %v", err)
-		return
+	}else if n != 0 {
+		rc.Write(buf[:n])
 	}
+	cr.SetReadDeadline(time.Time{}) // clear read deadline
+
 	go func(){
 		defer c.Close()
 		defer conn.Close()
-		io.Copy(rc, cr)
+		buf := make([]byte, 32 * 1024)
+		io.CopyBuffer(rc, cr, buf)
 	}()
 	io.CopyBuffer(cr, rc, buf)
-}
-
-type playerInfo struct {
-	Name string `json:"name"`
-	Id   liter.UUID `json:"id"`
 }
 
 func handleServerStatus(loger logger.Logger, c *liter.Conn, status string, motd string){
 	var srp liter.StatusRequestPkt
 	var err error
 	if err = c.RecvPkt(0x00, &srp); err != nil {
-		loger.Errorf("Read status request packet error: %v", err)
+		loger.Debugf("Read status request packet error: %v", err)
 		return
 	}
 	if err = c.SendPkt(0x00, liter.StatusResponsePkt{
-		Payload: liter.Object{
-			"version": liter.Object{
-				"name": status,
-				"protocol": c.Protocol(),
+		Payload: liter.StatusResponsePayload{
+			Version: liter.ProtocolVersion{
+				Name: status,
+				Protocol: c.Protocol(),
 			},
-			"players": liter.Object{
-				"max": 2,
-				"online": 1,
-				"sample": []playerInfo{
+			Players: liter.PlayerStatus{
+				Max: 2,
+				Online: 1,
+				Sample: []liter.PlayerInfo{
 					{ Name: status }, // to allow hover for the status
 				},
 			},
-			"description": liter.Object{
-				"text": motd,
-			},
+			Description: liter.NewChatFromString(motd),
 		},
 	}); err != nil {
-		loger.Errorf("Send packet error: %v", err)
+		loger.Debugf("Send packet error: %v", err)
 		return
 	}
 	var prp liter.PingRequestPkt
 	if err = c.RecvPkt(0x01, &prp); err != nil {
-		loger.Errorf("Read ping request packet error: %v", err)
+		loger.Debugf("Read ping request packet error: %v", err)
 		return
 	}
 	if err = c.SendPkt(0x01, (liter.PingResponsePkt)(prp)); err != nil {
-		loger.Errorf("Send ping response packet error: %v", err)
+		loger.Debugf("Send ping response packet error: %v", err)
 		return
 	}
 }

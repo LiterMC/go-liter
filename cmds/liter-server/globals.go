@@ -3,11 +3,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net"
 	"os"
 	"path/filepath"
 	"runtime"
-	"sort"
 	"sync"
 
 	"gopkg.in/yaml.v3"
@@ -122,9 +122,73 @@ func readConfig()(cfg Config){
 	return
 }
 
+var AuthClient = liter.DefaultAuthClient
+
+type PlayerInfo struct {
+	liter.PlayerInfo
+	fixed bool `json:"-"`
+}
+
+func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
+	var v any
+	if err = json.Unmarshal(buf, &v); err != nil {
+		return
+	}
+	switch v := v.(type) {
+	case string:
+		p.fixed = true
+		var err error
+		if p.Id, err = uuid.Parse(v); err == nil {
+			profile, err := AuthClient.GetPlayerProfile(p.Id)
+			if err != nil {
+				return nil
+			}
+			p.Name = profile.Name
+			break
+		}
+		p.Name = v
+		info, err := AuthClient.GetPlayerInfo(p.Name)
+		if err != nil {
+			return nil
+		}
+		p.Id = info.Id
+	case map[string]any:
+		var ok, ok2 bool
+		var id string
+		p.Name, ok = v["name"].(string)
+		if id, ok2 = v["id"].(string); ok2 {
+			var e error
+			if p.Id, e = uuid.Parse(id); e != nil {
+				ok2 = false
+			}
+		}
+		if !ok2 {
+			if !ok {
+				return fmt.Errorf("Unknown player info")
+			}
+			info, err := AuthClient.GetPlayerInfo(p.Name)
+			if err != nil {
+				return nil
+			}
+			p.fixed = true
+			p.Id = info.Id
+		}else if !ok {
+			profile, err := AuthClient.GetPlayerProfile(p.Id)
+			if err != nil {
+				return nil
+			}
+			p.fixed = true
+			p.Name = profile.Name
+		}
+	default:
+		return fmt.Errorf("Unexpected player info (%T)%v", v, v)
+	}
+	return
+}
+
 type Whitelist struct {
-	UUIDWhitelist []uuid.UUID `json:"uuids"`
-	IPWhitelist   []string    `json:"ips"`
+	Players []PlayerInfo `json:"players"`
+	IPs     []string     `json:"ips"`
 }
 
 var whitelist = loadWhitelist()
@@ -140,8 +204,8 @@ func loadWhitelist()(wl Whitelist){
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			wl.UUIDWhitelist = make([]uuid.UUID, 0)
-			wl.IPWhitelist = make([]string, 0)
+			wl.Players = make([]PlayerInfo, 0)
+			wl.IPs = make([]string, 0)
 			if data, err = json.MarshalIndent(wl, "", "  "); err != nil {
 				loger.Fatalf("Cannot encode config data: %v", err)
 				return
@@ -159,23 +223,34 @@ func loadWhitelist()(wl Whitelist){
 		loger.Fatalf("Cannot parse whitelist file: %v", err)
 		return
 	}
-	sort.Slice(wl.UUIDWhitelist, func(i, j int)(bool){
-		return uuidLess(wl.UUIDWhitelist[i], wl.UUIDWhitelist[j])
-	})
+	for _, v := range wl.Players {
+		if v.fixed {
+			if data, err = json.MarshalIndent(wl, "", "  "); err != nil {
+				loger.Fatalf("Cannot encode config data: %v", err)
+				return
+			}
+			if err = os.WriteFile(path, data, 0644); err != nil {
+				loger.Fatalf("Cannot rewrite config file: %v", err)
+				return
+			}
+			break
+		}
+	}
 	loger.Infof("Whitelist is loaded")
 	return
 }
 
-func (wl Whitelist)HasUUID(id uuid.UUID)(ok bool){
-	l := len(wl.UUIDWhitelist)
-	i := sort.Search(l, func(i int)(bool){
-		return !uuidLess(wl.UUIDWhitelist[i], id)
-	})
-	return i < l && wl.UUIDWhitelist[i] == id
+func (wl Whitelist)HasPlayer(player liter.PlayerInfo)(ok bool){
+	for _, p := range wl.Players {
+		if p.Name == player.Name || p.Id == player.Id {
+			return true
+		}
+	}
+	return false
 }
 
 func (wl Whitelist)IncludeIP(ip net.IP)(ok bool){
-	for _, o := range wl.IPWhitelist {
+	for _, o := range wl.IPs {
 		if matchIP(o, ip) {
 			return true
 		}
@@ -185,9 +260,8 @@ func (wl Whitelist)IncludeIP(ip net.IP)(ok bool){
 
 
 type Blacklist struct {
-	NameBlacklist []string    `json:"names"`
-	UUIDBlacklist []uuid.UUID `json:"uuids"`
-	IPBlacklist   []string    `json:"ips"`
+	Players []PlayerInfo `json:"players"`
+	IPs     []string     `json:"ips"`
 }
 
 var blacklist = loadBlacklist()
@@ -203,9 +277,8 @@ func loadBlacklist()(bl Blacklist){
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			bl.NameBlacklist = make([]string, 0)
-			bl.UUIDBlacklist = make([]uuid.UUID, 0)
-			bl.IPBlacklist = make([]string, 0)
+			bl.Players = make([]PlayerInfo, 0)
+			bl.IPs = make([]string, 0)
 			if data, err = json.MarshalIndent(bl, "", "  "); err != nil {
 				loger.Fatalf("Cannot encode config data: %v", err)
 				return
@@ -223,65 +296,39 @@ func loadBlacklist()(bl Blacklist){
 		loger.Fatalf("Cannot parse blacklist file: %v", err)
 		return
 	}
-	sort.Strings(bl.NameBlacklist)
-	sort.Slice(bl.UUIDBlacklist, func(i, j int)(bool){
-		return uuidLess(bl.UUIDBlacklist[i], bl.UUIDBlacklist[j])
-	})
+	for _, v := range bl.Players {
+		if v.fixed {
+			if data, err = json.MarshalIndent(bl, "", "  "); err != nil {
+				loger.Fatalf("Cannot encode config data: %v", err)
+				return
+			}
+			if err = os.WriteFile(path, data, 0644); err != nil {
+				loger.Fatalf("Cannot create config file: %v", err)
+				return
+			}
+		}
+	}
 	loger.Infof("Blacklist is loaded")
 	return
 }
 
-func (bl Blacklist)HasName(name string)(ok bool){
-	i := sort.SearchStrings(bl.NameBlacklist, name)
-	return i < len(bl.NameBlacklist) && bl.NameBlacklist[i] == name
-}
-
-func (bl Blacklist)HasUUID(id uuid.UUID)(ok bool){
-	l := len(bl.UUIDBlacklist)
-	i := sort.Search(l, func(i int)(bool){
-		return !uuidLess(bl.UUIDBlacklist[i], id)
-	})
-	return i < l && bl.UUIDBlacklist[i] == id
-}
-
-func (bl Blacklist)IncludeIP(ip net.IP)(ok bool){
-	for _, o := range bl.IPBlacklist {
-		if matchIP(o, ip) {
+func (bl Blacklist)HasPlayer(player liter.PlayerInfo)(ok bool){
+	for _, p := range bl.Players {
+		if p.Name == player.Name || p.Id == player.Id {
 			return true
 		}
 	}
 	return false
 }
 
-
-func (cfg Config)CheckConn(ip net.IP, username string)(ok bool){
-	wl := getWhitelist()
-	bl := getBlacklist()
-
-	if bl.HasName(username) {
-		return false
-	}
-	if bl.IncludeIP(ip) {
-		return false
-	}
-	if cfg.EnableIPWhitelist {
-		if !wl.IncludeIP(ip) {
-			return false
+func (bl Blacklist)IncludeIP(ip net.IP)(ok bool){
+	for _, o := range bl.IPs {
+		if matchIP(o, ip) {
+			return true
 		}
 	}
-	_, uid, err := liter.DefaultAuthClient.GetPlayerUUID(username)
-	if err != nil {
-		loger.Errorf("Cannot get uuid of player '%s': %v", username, err)
-		return false
-	}
-	if cfg.EnableWhitelist {
-		if !wl.HasUUID(uid) {
-			return false
-		}
-	}
-	return true
+	return false
 }
-
 
 type ServerIns struct {
 	Id          string   `json:"id" yaml:"id"`

@@ -124,11 +124,9 @@ func (c *Conn)Send(p *PacketBuilder)(err error){
 	return
 }
 
-func (c *Conn)SendPkt(id int32, values ...any)(err error){
+func (c *Conn)SendPkt(id int32, value Encodable)(err error){
 	p := NewPacket(c.protocol, (VarInt)(id))
-	for _, v := range values {
-		p.Encode(v)
-	}
+	value.Encode(p)
 	return c.Send(p)
 }
 

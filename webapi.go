@@ -10,8 +10,6 @@ import (
 	"net/http"
 	"path"
 	"strings"
-
-	"github.com/google/uuid"
 )
 
 const (
@@ -50,7 +48,7 @@ func (e *HttpStatusError)Error()(string){
 	return fmt.Sprintf("%d %s", e.Code, http.StatusText(e.Code))
 }
 
-func (cli *AuthClient)GetPlayerUUID(name string)(_ string, _ uuid.UUID, err error){
+func (cli *AuthClient)GetPlayerInfo(name string)(player PlayerInfo, err error){
 	const EndPoint = "/users/profiles/minecraft"
 	url := joinUrl(cli.ApiServer, EndPoint, name)
 	var res *http.Response
@@ -69,14 +67,48 @@ func (cli *AuthClient)GetPlayerUUID(name string)(_ string, _ uuid.UUID, err erro
 	if body, err = readBody(res); err != nil {
 		return
 	}
-	var resp struct{
-		Name string  `json:"name"`
-		Id uuid.UUID `json:"id"`
-	}
-	if err = json.Unmarshal(body, &resp); err != nil{
+	if err = json.Unmarshal(body, &player); err != nil{
 		return
 	}
-	return resp.Name, resp.Id, nil
+	return
+}
+
+type Property struct {
+	Name  string `json:"name"`
+	Value any    `json:"value"`
+}
+
+type PlayerProfile struct {
+	Id   UUID `json:"id"`
+	Name string    `json:"name"`
+	Properties     []Property `json:"properties`
+	ProfileActions []string   `json:"profileActions"`
+}
+
+func (cli *AuthClient)GetPlayerProfile(id UUID)(profile *PlayerProfile, err error){
+	const EndPoint = "/profile"
+	url := joinUrl(cli.SessionServer, EndPoint, id.String())
+	var res *http.Response
+	if res, err = cli.Client.Get(url); err != nil {
+		return
+	}
+	if res.StatusCode == http.StatusNoContent {
+		err = PlayerNotExistsErr
+		return
+	}
+	if res.StatusCode != http.StatusOK {
+		err = &HttpStatusError{res.StatusCode}
+		return
+	}
+	var body []byte
+	if body, err = readBody(res); err != nil {
+		return
+	}
+	profile = new(PlayerProfile)
+	if err = json.Unmarshal(body, profile); err != nil{
+		return
+	}
+	return
 }
 
 func (cli *AuthClient)auth_request(point string, req any, res any)(err error){
@@ -153,11 +185,6 @@ type UserData struct{
 	Properties Props  `json:"properties"`
 }
 
-type Profile struct{
-	Name string  `json:"name"`
-	Id uuid.UUID `json:"id"`
-}
-
 type AuthData struct{
 	LoginData
 	ClientToken string `json:"clientToken"`
@@ -168,8 +195,8 @@ type AuthResponse struct{
 	ClientToken string   `json:"clientToken"`
 	AccessToken string   `json:"accessToken"`
 
-	AvailableProfiles []Profile `json:"availableProfiles"`
-	SelectedProfile   Profile   `json:"selectedProfile"`
+	AvailableProfiles []PlayerInfo `json:"availableProfiles"`
+	SelectedProfile   PlayerInfo   `json:"selectedProfile"`
 }
 
 func (cli *AuthClient)Auth(data AuthData)(res *AuthResponse, err error){
@@ -202,7 +229,7 @@ type RefreshResponse struct{
 	ClientToken string   `json:"clientToken"`
 	AccessToken string   `json:"accessToken"`
 
-	SelectedProfile Profile `json:"selectedProfile"`
+	SelectedProfile PlayerInfo `json:"selectedProfile"`
 }
 
 func (cli *AuthClient)Refresh(data AccessData)(res *RefreshResponse, err error){
