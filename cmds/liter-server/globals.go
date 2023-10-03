@@ -67,6 +67,7 @@ func reloadConfigs(){
 
 type Config struct {
 	Debug bool `json:"debug" yaml:"debug"`
+	OnlineMode bool `json:"online-mode" yaml:"online-mode"`
 
 	ServerIP   string `json:"server-ip" yaml:"server-ip"`
 	ServerPort uint16 `json:"server-port" yaml:"server-port"`
@@ -87,35 +88,36 @@ func getConfig()(Config){
 
 func readConfig()(cfg Config){
 	_ = _after_load
+
+	// set config default values
+	cfg.OnlineMode = true
+	cfg.ServerIP   = ""
+	cfg.ServerPort = 25565
+	cfg.Servers = []*ServerIns{
+		{
+			Id: "main",
+			Target: "127.0.0.1:25665",
+			ServerNames: []string{ "minecraft.example.com", "anotherdomain.example.com" },
+			MotdFailed: "Server is closed",
+		},
+	}
+
 	path := filepath.Join(configDir, "config.yml")
 	data, err := os.ReadFile(path)
 	if err != nil {
-		if os.IsNotExist(err) {
-			cfg.ServerIP   = ""
-			cfg.ServerPort = 25565
-			cfg.Servers = []*ServerIns{
-				{
-					Id: "main",
-					Target: "127.0.0.1:25665",
-					ServerNames: []string{ "minecraft.example.com", "anotherdomain.example.com" },
-					MotdFailed: "Server is closed",
-				},
-			}
-			if data, err = yaml.Marshal(cfg); err != nil {
-				loger.Fatalf("Cannot encode config data: %v", err)
-				return
-			}
-			if err = os.WriteFile(path, data, 0644); err != nil {
-				loger.Fatalf("Cannot create config file: %v", err)
-				return
-			}
-		}else{
+		if !os.IsNotExist(err) {
 			loger.Fatalf("Cannot read config file: %v", err)
 		}
+	}else if err = yaml.Unmarshal(data, &cfg); err != nil {
+		loger.Fatalf("Cannot parse config file: %v", err)
 		return
 	}
-	if err = yaml.Unmarshal(data, &cfg); err != nil {
-		loger.Fatalf("Cannot parse config file: %v", err)
+	if data, err = yaml.Marshal(cfg); err != nil {
+		loger.Fatalf("Cannot encode config data: %v", err)
+		return
+	}
+	if err = os.WriteFile(path, data, 0644); err != nil {
+		loger.Fatalf("Cannot rewrite config file: %v", err)
 		return
 	}
 	loger.Infof("Loaded config file")
@@ -126,7 +128,6 @@ var AuthClient = liter.DefaultAuthClient
 
 type PlayerInfo struct {
 	liter.PlayerInfo
-	fixed bool `json:"-"`
 }
 
 func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
@@ -136,7 +137,6 @@ func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
 	}
 	switch v := v.(type) {
 	case string:
-		p.fixed = true
 		var err error
 		if p.Id, err = uuid.Parse(v); err == nil {
 			profile, err := AuthClient.GetPlayerProfile(p.Id)
@@ -153,32 +153,33 @@ func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
 		}
 		p.Id = info.Id
 	case map[string]any:
-		var ok, ok2 bool
+		var ok bool
 		var id string
-		p.Name, ok = v["name"].(string)
-		if id, ok2 = v["id"].(string); ok2 {
-			var e error
-			if p.Id, e = uuid.Parse(id); e != nil {
-				ok2 = false
+		p.Name, _ = v["name"].(string)
+		if config.OnlineMode {
+			if id, ok = v["id"].(string); ok {
+				var e error
+				if p.Id, e = uuid.Parse(id); e != nil {
+					ok = false
+				}
+				profile, err := AuthClient.GetPlayerProfile(p.Id)
+				if err != nil {
+					return nil
+				}
+				if p.Name != profile.Name {
+					p.Name = profile.Name
+				}
+				return nil
 			}
 		}
-		if !ok2 {
-			if !ok {
-				return fmt.Errorf("Unknown player info")
-			}
+		if p.Name == "" {
+			return fmt.Errorf("Unknown player info")
+		}else if config.OnlineMode {
 			info, err := AuthClient.GetPlayerInfo(p.Name)
 			if err != nil {
 				return nil
 			}
-			p.fixed = true
 			p.Id = info.Id
-		}else if !ok {
-			profile, err := AuthClient.GetPlayerProfile(p.Id)
-			if err != nil {
-				return nil
-			}
-			p.fixed = true
-			p.Name = profile.Name
 		}
 	default:
 		return fmt.Errorf("Unexpected player info (%T)%v", v, v)
@@ -201,6 +202,10 @@ func getWhitelist()(Whitelist){
 
 func loadWhitelist()(wl Whitelist){
 	path := filepath.Join(configDir, "whitelist.json")
+
+	wl.Players = make([]PlayerInfo, 0)
+	wl.IPs = make([]string, 0)
+
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -223,18 +228,13 @@ func loadWhitelist()(wl Whitelist){
 		loger.Fatalf("Cannot parse whitelist file: %v", err)
 		return
 	}
-	for _, v := range wl.Players {
-		if v.fixed {
-			if data, err = json.MarshalIndent(wl, "", "  "); err != nil {
-				loger.Fatalf("Cannot encode config data: %v", err)
-				return
-			}
-			if err = os.WriteFile(path, data, 0644); err != nil {
-				loger.Fatalf("Cannot rewrite config file: %v", err)
-				return
-			}
-			break
-		}
+	if data, err = json.MarshalIndent(wl, "", "  "); err != nil {
+		loger.Fatalf("Cannot encode config data: %v", err)
+		return
+	}
+	if err = os.WriteFile(path, data, 0644); err != nil {
+		loger.Fatalf("Cannot rewrite config file: %v", err)
+		return
 	}
 	loger.Infof("Whitelist is loaded")
 	return
@@ -242,7 +242,11 @@ func loadWhitelist()(wl Whitelist){
 
 func (wl Whitelist)HasPlayer(player liter.PlayerInfo)(ok bool){
 	for _, p := range wl.Players {
-		if p.Name == player.Name || p.Id == player.Id {
+		if p.Id != uuid.Nil && player.Id != uuid.Nil { // player is online mode
+			if p.Id == player.Id {
+				return true
+			}
+		}else if p.Name == player.Name { // check when under offline mode (cannot access mojang api)
 			return true
 		}
 	}
@@ -274,11 +278,13 @@ func getBlacklist()(Blacklist){
 
 func loadBlacklist()(bl Blacklist){
 	path := filepath.Join(configDir, "blacklist.json")
+
+	bl.Players = make([]PlayerInfo, 0)
+	bl.IPs = make([]string, 0)
+
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if os.IsNotExist(err) {
-			bl.Players = make([]PlayerInfo, 0)
-			bl.IPs = make([]string, 0)
 			if data, err = json.MarshalIndent(bl, "", "  "); err != nil {
 				loger.Fatalf("Cannot encode config data: %v", err)
 				return
@@ -296,17 +302,13 @@ func loadBlacklist()(bl Blacklist){
 		loger.Fatalf("Cannot parse blacklist file: %v", err)
 		return
 	}
-	for _, v := range bl.Players {
-		if v.fixed {
-			if data, err = json.MarshalIndent(bl, "", "  "); err != nil {
-				loger.Fatalf("Cannot encode config data: %v", err)
-				return
-			}
-			if err = os.WriteFile(path, data, 0644); err != nil {
-				loger.Fatalf("Cannot create config file: %v", err)
-				return
-			}
-		}
+	if data, err = json.MarshalIndent(bl, "", "  "); err != nil {
+		loger.Fatalf("Cannot encode config data: %v", err)
+		return
+	}
+	if err = os.WriteFile(path, data, 0644); err != nil {
+		loger.Fatalf("Cannot create config file: %v", err)
+		return
 	}
 	loger.Infof("Blacklist is loaded")
 	return
@@ -314,7 +316,7 @@ func loadBlacklist()(bl Blacklist){
 
 func (bl Blacklist)HasPlayer(player liter.PlayerInfo)(ok bool){
 	for _, p := range bl.Players {
-		if p.Name == player.Name || p.Id == player.Id {
+		if p.Name == player.Name || p.Id == player.Id { // for blacklist, we block both username and uuid
 			return true
 		}
 	}

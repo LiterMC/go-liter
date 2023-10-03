@@ -364,11 +364,16 @@ func handler(c *liter.Conn){
 
 		player, err := AuthClient.GetPlayerInfo(lp.Name)
 		if err != nil {
-			c.SendPkt(0x00, &liter.DisconnectPkt{
-				Reason: liter.NewChatFromString("Your username is not exists or auth server error"),
-			})
-			ploger.Debugf("Cannot get player info for %s: %v", lp.Name, err)
-			return
+			if cfg.OnlineMode {
+				c.SendPkt(0x00, &liter.DisconnectPkt{
+					Reason: liter.NewChatFromString("Your username is not exists or auth server error"),
+				})
+				ploger.Debugf("Cannot get player info for %s: %v", lp.Name, err)
+				return
+			}
+			player = liter.PlayerInfo{
+				Name: lp.Name,
+			}
 		}
 		if lp.Id.Ok {
 			id := lp.Id.V
