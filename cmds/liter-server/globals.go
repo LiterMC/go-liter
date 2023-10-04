@@ -63,14 +63,25 @@ func reloadConfigs(){
 	config = readConfig()
 	whitelist = loadWhitelist()
 	blacklist = loadBlacklist()
+
+	if config.Debug {
+		loger.SetLevel(logger.TraceLevel)
+		loger.Debug("Debug log enabled")
+	}else{
+		loger.SetLevel(logger.InfoLevel)
+	}
 }
 
 type Config struct {
 	Debug bool `json:"debug" yaml:"debug"`
 	OnlineMode bool `json:"online-mode" yaml:"online-mode"`
 
-	ServerIP   string `json:"server-ip" yaml:"server-ip"`
-	ServerPort uint16 `json:"server-port" yaml:"server-port"`
+	ServerAddr string `json:"server-addr" yaml:"server-addr"`
+
+	Dashboard struct {
+		Enable bool   `yaml:"dashboard"`
+		Addr   string `yaml:"addr"`
+	} `yaml:"dashboard"`
 
 	EnableWhitelist   bool `json:"enable-whitelist" yaml:"enable-whitelist"`
 	EnableIPWhitelist bool `json:"enable-ip-whitelist" yaml:"enable-ip-whitelist"`
@@ -91,8 +102,7 @@ func readConfig()(cfg Config){
 
 	// set config default values
 	cfg.OnlineMode = true
-	cfg.ServerIP   = ""
-	cfg.ServerPort = 25565
+	cfg.ServerAddr = ":25565"
 	cfg.Servers = []*ServerIns{
 		{
 			Id: "main",
@@ -101,6 +111,7 @@ func readConfig()(cfg Config){
 			MotdFailed: "Server is closed",
 		},
 	}
+	cfg.Dashboard.Addr = "127.0.0.1:25580"
 
 	path := filepath.Join(configDir, "config.yml")
 	data, err := os.ReadFile(path)
