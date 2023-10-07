@@ -100,6 +100,9 @@ func decodeVarInt(buf []byte)(n int, v VarInt){
 		v0 uint32
 	)
 	for {
+		if n >= len(buf) {
+			return -1, 0
+		}
 		b = buf[n]
 		n++
 		v0 |= (uint32)(b & 0x7f) << i
@@ -119,6 +122,9 @@ func decodeVarLong(buf []byte)(n int, v VarLong){
 		v0 uint64
 	)
 	for {
+		if n >= len(buf) {
+			return -1, 0
+		}
 		b = buf[n]
 		n++
 		v0 |= (uint64)(b & 0x7f) << i

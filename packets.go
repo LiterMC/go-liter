@@ -535,6 +535,9 @@ func (p *PacketReader)Uint64()(v uint64, ok bool){
 func (p *PacketReader)VarInt()(v VarInt, ok bool){
 	var n int
 	n, v = decodeVarInt(p.buf[p.off:])
+	if n < 0 {
+		return 0, false
+	}
 	p.off += n
 	return v, true
 }
@@ -542,6 +545,9 @@ func (p *PacketReader)VarInt()(v VarInt, ok bool){
 func (p *PacketReader)VarLong()(v VarLong, ok bool){
 	var n int
 	n, v = decodeVarLong(p.buf[p.off:])
+	if n < 0 {
+		return 0, false
+	}
 	p.off += n
 	return v, true
 }
