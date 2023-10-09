@@ -3,13 +3,56 @@ package main
 
 import (
 	"bytes"
+	"crypto/rand"
+	"crypto/sha256"
+	"encoding/base64"
 	"net"
+	"runtime"
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 
 	"github.com/google/uuid"
 )
+
+func remove[T any](slice []T, index int)([]T){
+	copy(slice[index:], slice[index + 1:])
+	return slice[:len(slice) - 1]
+}
+
+func insert[T any](slice []T, index int, args ...T)(res []T){
+	n := len(args)
+	if n == 0 {
+		return slice
+	}
+	if index >= len(slice) {
+		return append(slice, args...)
+	}
+	tmp := make([]T, len(slice))
+	copy(tmp, slice)
+	resLen := len(slice) + n
+	if ca := cap(slice); ca >= resLen {
+		slice = slice[:resLen]
+	}else{
+		if ca == 0 {
+			ca = resLen
+		}else{
+			for ca < resLen {
+				if ca < 1024 {
+					ca *= 2
+				}else{
+					ca += 1024
+				}
+			}
+		}
+		slice = make([]T, resLen, ca)
+	}
+	copy(slice, tmp[:index])
+	copy(slice[index:], args)
+	copy(slice[index + n:], tmp[index:])
+	return slice
+}
 
 func split(s string, chs string)(a, b string){
 	i := strings.IndexAny(s, chs)
@@ -70,4 +113,44 @@ func uuidLess(a, b uuid.UUID)(bool){
 		}
 	}
 	return false
+}
+
+func genRandB64(n int)(s string, err error){
+	buf := make([]byte, n)
+	if _, err = rand.Read(buf); err != nil {
+		return
+	}
+	s = base64.RawURLEncoding.EncodeToString(buf)
+	return
+}
+
+func asSha256(s string)(string){
+	buf := sha256.Sum256(([]byte)(s))
+	return base64.RawURLEncoding.EncodeToString(buf[:])
+}
+
+func toSeconds(t time.Time)(float64){
+	return (float64)(t.Unix()) + (float64)(t.UnixNano() % 1e9) / 1e9
+}
+
+var stackPool = sync.Pool{
+	New: func()(any){
+		buf := make([]byte, 1024)
+		return &buf
+	},
+}
+
+func getStacktrace()(s string){
+	buf := *(stackPool.Get().(*[]byte))
+	defer func(){
+		stackPool.Put(&buf)
+	}()
+	for {
+		n := runtime.Stack(buf, false)
+		if n < len(buf) {
+			return (string)(buf[:n])
+		}
+		stackPool.Put(&buf)
+		buf = make([]byte, 2 * len(buf))
+	}
 }

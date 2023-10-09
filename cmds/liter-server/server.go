@@ -6,6 +6,8 @@ import (
 	"errors"
 	"net"
 	"net/http"
+	"os"
+	"path/filepath"
 	"sync"
 	"sync/atomic"
 
@@ -17,6 +19,7 @@ type Server struct{
 	Addr string
 	scripts *script.Manager
 	handler http.Handler
+	users   *UserStorage
 
 	inShutdown atomic.Bool
 	mux        sync.Mutex
@@ -28,9 +31,13 @@ type Server struct{
 func NewServer(sm *script.Manager)(s *Server){
 	s = &Server{
 		scripts: sm,
+		users: NewUserStorage(filepath.Join(configDir, "users.json")),
 	}
 	s.cond = sync.NewCond(&s.mux)
 	s.initHandler()
+	if err := s.users.Load(); errors.Is(err, os.ErrNotExist) {
+		s.users.Save()
+	}
 	return
 }
 
@@ -64,13 +71,19 @@ func (s *Server)Serve(listener net.Listener)(err error){
 			return
 		}
 		go func(c net.Conn){
+			defer func(){
+				if err := recover(); err != nil {
+					loger.Errorf("Error while handling %s:\n%v\n%s", c.RemoteAddr().String(), err, getStacktrace())
+				}
+			}()
+
 			successed := false
 			defer func(){
 				if !successed {
 					c.Close()
 				}
 			}()
-			cfg := getConfig()
+			cfg, _ := getConfig()
 			if host, _, err := net.SplitHostPort(c.RemoteAddr().String()); err != nil {
 				return
 			}else{
@@ -109,7 +122,7 @@ func (s *Server)Serve(listener net.Listener)(err error){
 				}
 			}()
 			successed = true
-			s.handle(wc)
+			s.handle(wc, &cfg)
 		}(c)
 	}
 }

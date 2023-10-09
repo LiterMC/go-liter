@@ -10,11 +10,9 @@ import (
 	"github.com/kmcsr/go-liter"
 )
 
-func (s *Server)handle(c *liter.Conn){
+func (s *Server)handle(c *liter.Conn, cfg *Config){
 	defer c.Close()
 	rc := c.RawConn()
-
-	cfg := getConfig()
 
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
 	ploger.Debugf("Connected!")
@@ -29,8 +27,7 @@ func (s *Server)handle(c *liter.Conn){
 	ploger.Tracef("Handshake packet: %v", hp)
 
 	var svr *ServerIns = nil
-	servers := getServers()
-	F: for _, s := range servers {
+	F: for _, s := range cfg.Servers {
 		for _, n := range s.ServerNames {
 			if ismatch(hp.Addr, n) {
 				svr = s
@@ -39,7 +36,7 @@ func (s *Server)handle(c *liter.Conn){
 		}
 	}
 	if svr == nil {
-		ploger.Infof("Trying connected with unexpected address %q", hp.Addr)
+		ploger.Infof("Trying to connect with unexpected address %q", hp.Addr)
 		return
 	}
 

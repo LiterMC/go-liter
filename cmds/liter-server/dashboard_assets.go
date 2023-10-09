@@ -12,11 +12,11 @@ import (
 //go:generate npm -C dashboard run build
 //go:embed dashboard/dist
 var _dashboardDist embed.FS
-var DashboardAssets http.Handler = func()(http.Handler){
+var DashboardAssets http.FileSystem = func()(http.FileSystem){
 	assetsFS, err := fs.Sub(_dashboardDist, "dashboard/dist")
 	if err != nil {
 		loger.Panic(err)
 	}
-	return http.FileServer(http.FS(assetsFS))
+	return http.FS(assetsFS)
 }()
 

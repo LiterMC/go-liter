@@ -13,6 +13,9 @@ outputdir=output
 mkdir -p "$outputdir"
 
 export CGO_ENABLED=0
+
+go generate "$curdir" || exit $?
+
 for p in "${available_platforms[@]}"; do
 	os=${p%/*}
 	arch=${p#*/}

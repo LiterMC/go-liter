@@ -8,7 +8,7 @@ PIDFile=/var/run/litermc.pid
 ExecStart=/usr/sbin/litermc daemon /var/run/litermc.pid
 ExecReload=/usr/sbin/litermc reload /var/run/litermc.pid
 ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /var/run/litermc.pid
-TimeoutStopSec=16
+TimeoutStopSec=10
 KillMode=mixed
 
 [Install]

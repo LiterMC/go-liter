@@ -19,7 +19,8 @@ const (
 )
 
 var (
-	PlayerNotExistsErr = errors.New("Player not exists on the server")
+	ErrPlayerNameInvalid = errors.New("Player name is invalid")
+	ErrPlayerNotExists = errors.New("Player not exists on the server")
 )
 
 type AuthClient struct{
@@ -50,13 +51,17 @@ func (e *HttpStatusError)Error()(string){
 
 func (cli *AuthClient)GetPlayerInfo(name string)(player PlayerInfo, err error){
 	const EndPoint = "/users/profiles/minecraft"
+	if len(name) == 0 {
+		err = ErrPlayerNameInvalid
+		return
+	}
 	url := joinUrl(cli.ApiServer, EndPoint, name)
 	var res *http.Response
 	if res, err = cli.Client.Get(url); err != nil {
 		return
 	}
 	if res.StatusCode == http.StatusNoContent {
-		err = PlayerNotExistsErr
+		err = ErrPlayerNotExists
 		return
 	}
 	if res.StatusCode != http.StatusOK {
@@ -93,7 +98,7 @@ func (cli *AuthClient)GetPlayerProfile(id UUID)(profile *PlayerProfile, err erro
 		return
 	}
 	if res.StatusCode == http.StatusNoContent {
-		err = PlayerNotExistsErr
+		err = ErrPlayerNotExists
 		return
 	}
 	if res.StatusCode != http.StatusOK {

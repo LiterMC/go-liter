@@ -7,9 +7,11 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+
+	"github.com/gin-gonic/gin"
 )
 
-var DashboardAssets http.Handler = http.FileServer(http.Dir("dashboard/dist"))
+var DashboardAssets http.FileSystem = gin.Dir("dashboard/dist", false)
 
 func init(){
 	loger.Infof("Starting frontend debug server")

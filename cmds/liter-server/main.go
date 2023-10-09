@@ -115,7 +115,7 @@ func main(){
 	scriptpath := filepath.Join(configDir, "plugins")
 	var (
 		err error
-		cfg = getConfig()
+		cfg, _ = getConfig()
 		manager = script.NewManager()
 		server = NewServer(manager)
 		dashboard *http.Server
@@ -133,19 +133,42 @@ func main(){
 		loger.Errorf("Cannot load scripts: %v", err)
 	}
 
-	server.Addr = cfg.ServerAddr
-	if exit1, err = listenAndServeLiterServer(server); err != nil {
-		loger.Fatalf("Cannot listening at [%s] for liter server: %v", cfg.ServerAddr, err)
+	startServer := func(addr string){
+		server.Addr = addr
+		if exit1, err = listenAndServeLiterServer(server); err != nil {
+			loger.Fatalf("Cannot listening at [%s] for liter server: %v", cfg.ServerAddr, err)
+		}
 	}
-
-	if cfg.Dashboard.Enable {
+	startDashboard := func(addr string){
 		dashboard = &http.Server{
-			Addr: cfg.Dashboard.Addr,
+			Addr: addr,
 			Handler: server,
+		}
+		if server.users.Len() == 0 {
+			loger.Errorf("No any users were found, creating one...")
+			if passwd, err := genRandB64(16); err != nil {
+				loger.Errorf("Cannot create new user: %v", err)
+			}else{
+				root := &User{
+					Name: "root",
+				}
+				root.SetPassword(passwd)
+				if err := server.users.AddUser(root); err != nil {
+					loger.Errorf("Cannot create new user: %v", err)
+				}else{
+					loger.Infof("Root user created: password=%s", passwd)
+				}
+			}
 		}
 		if exit2, err = listenAndServeHTTP(dashboard); err != nil {
 			loger.Fatalf("Cannot listening at [%s] for http server: %v", dashboard.Addr, err)
 		}
+	}
+
+	startServer(cfg.ServerAddr)
+
+	if cfg.Dashboard.Enable {
+		startDashboard(cfg.Dashboard.Addr)
 	}
 
 	sigs := make(chan os.Signal, 1)
@@ -157,7 +180,7 @@ WAIT:
 		loger.Warnf("Got signal %s", s.String())
 		if s == syscall.SIGHUP {
 			reloadConfigs()
-			ncfg := getConfig()
+			ncfg, _ := getConfig()
 			loger.Info("Reloading plugins ...")
 			manager.UnloadAll()
 			if _, err = manager.LoadFromDir(scriptpath); err != nil {
@@ -169,10 +192,7 @@ WAIT:
 				server.Shutdown(timeoutCtx)
 				cancel()
 				loger.Info("Restarting ...")
-				server.Addr = ncfg.ServerAddr
-				if exit1, err = listenAndServeLiterServer(server); err != nil {
-					loger.Fatalf("Cannot listening at [%s] for liter server: %v", cfg.ServerAddr, err)
-				}
+				startServer(ncfg.ServerAddr)
 			}
 			if !ncfg.Dashboard.Enable {
 				// if disabled but dashboard is opening
@@ -185,28 +205,16 @@ WAIT:
 				}
 			}else if dashboard == nil {
 				// if enabled but dashboard is closed
-				dashboard = &http.Server{
-					Addr: ncfg.Dashboard.Addr,
-					Handler: server,
-				}
 				loger.Info("Starting dashboard ...")
-				if exit2, err = listenAndServeHTTP(dashboard); err != nil {
-					loger.Fatalf("Cannot listening at [%s] for http server: %v", dashboard.Addr, err)
-				}
+				startDashboard(ncfg.Dashboard.Addr)
 			}else if cfg.Dashboard.Enable && cfg.Dashboard.Addr != ncfg.Dashboard.Addr {
 				// if enabled but address changed
 				loger.Warn("Closing dashboard for restart ...")
 				timeoutCtx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
 				dashboard.Shutdown(timeoutCtx)
 				cancel()
-				dashboard = &http.Server{
-					Addr: ncfg.Dashboard.Addr,
-					Handler: server,
-				}
 				loger.Info("Restarting dashboard ...")
-				if exit2, err = listenAndServeHTTP(dashboard); err != nil {
-					loger.Fatalf("Cannot listening at [%s] for http server: %v", dashboard.Addr, err)
-				}
+				startDashboard(ncfg.Dashboard.Addr)
 			}
 			cfg = ncfg
 			goto WAIT
@@ -272,7 +280,7 @@ func listenAndServeHTTP(server *http.Server)(exited chan struct{}, err error){
 	exit := make(chan struct{}, 0)
 	go func(){
 		defer close(exit)
-		if err := server.Serve(listener); err != nil {
+		if err := server.Serve(listener); err != nil && !errors.Is(err, net.ErrClosed) {
 			loger.Errorf("Error on serve: %v", err)
 		}
 	}()
