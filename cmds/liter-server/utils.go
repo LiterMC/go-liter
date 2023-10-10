@@ -8,6 +8,7 @@ import (
 	"encoding/base64"
 	"net"
 	"runtime"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -52,6 +53,84 @@ func insert[T any](slice []T, index int, args ...T)(res []T){
 	copy(slice[index:], args)
 	copy(slice[index + n:], tmp[index:])
 	return slice
+}
+
+type FlatMemory[T any] struct {
+	mux  sync.RWMutex
+	data []T
+	free []int // in descending order
+	lastEdit time.Time
+}
+
+// Size returns the actuall size of the internal slice
+func (m *FlatMemory[T])Size()(int){
+	m.mux.RLock()
+	defer m.mux.RUnlock()
+	return len(m.data)
+}
+
+// Count returns the used size
+func (m *FlatMemory[T])Count()(int){
+	m.mux.RLock()
+	defer m.mux.RUnlock()
+	return len(m.data) - len(m.free)
+}
+
+// Clear will remove all data stored
+func (m *FlatMemory[T])Clear(){
+	m.mux.Lock()
+	defer m.mux.Unlock()
+	m.data = nil
+	m.free = nil
+	m.lastEdit = time.Now()
+}
+
+func (m *FlatMemory[T])ForEach(cb func(i int, v T)){
+	m.mux.RLock()
+	defer m.mux.RUnlock()
+
+	for i, v := range m.data {
+		j := sort.Search(len(m.free), func(j int)(bool){
+			return m.free[j] <= i
+		})
+		if j < len(m.free) && m.free[j] == i {
+			cb(i, v)
+		}
+	}
+}
+
+func (m *FlatMemory[T])Get(i int)(T){
+	m.mux.RLock()
+	defer m.mux.RUnlock()
+	return m.data[i]
+}
+
+func (m *FlatMemory[T])Free(i int){
+	m.mux.Lock()
+	defer m.mux.Unlock()
+
+	var nilV T
+	m.data[i] = nilV
+	m.free = insert(m.free, sort.Search(len(m.free), func(j int)(bool){
+		return m.free[j] <= i
+	}), i)
+	m.lastEdit = time.Now()
+}
+
+func (m *FlatMemory[T])Put(v T)(i int){
+	m.mux.Lock()
+	defer m.mux.Unlock()
+
+	if len(m.free) > 0 {
+		j := len(m.free) - 1
+		m.free, i = m.free[:j], m.free[j]
+		m.data[i] = v
+		return
+	}
+	i = len(m.data)
+	m.data = append(m.data, v)
+	m.lastEdit = time.Now()
+	return
 }
 
 func split(s string, chs string)(a, b string){

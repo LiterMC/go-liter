@@ -12,6 +12,9 @@ import (
 
 func (s *Server)handle(c *liter.Conn, cfg *Config){
 	defer c.Close()
+	id := s.conns.Put(c)
+	defer s.conns.Free(id)
+
 	rc := c.RawConn()
 
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())

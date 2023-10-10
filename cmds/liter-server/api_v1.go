@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
 	"sync"
 	"time"
 
@@ -136,7 +137,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 
 	v1.GET("/config", s.checkTokenMiddle, func(ctx *gin.Context){
 		cfg, cfgHash := getConfig()
-		ctx.Header("ETag", cfgHash)
+		ctx.Header("ETag", strconv.Quote(cfgHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == cfgHash {
 			ctx.Status(http.StatusNotModified)
 			return
@@ -159,7 +160,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != cfgHash {
+		}else if savedHash != strconv.Quote(cfgHash) {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -216,7 +217,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 
 	v1.GET("/whitelist", s.checkTokenMiddle, func(ctx *gin.Context){
 		wl, listHash := getWhitelist()
-		ctx.Header("ETag", listHash)
+		ctx.Header("ETag", strconv.Quote(listHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
 			ctx.Status(http.StatusNotModified)
 			return
@@ -238,7 +239,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != listHash {
+		}else if savedHash != strconv.Quote(listHash) {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -311,7 +312,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 
 	v1.GET("/blacklist", s.checkTokenMiddle, func(ctx *gin.Context){
 		wl, listHash := getBlacklist()
-		ctx.Header("ETag", listHash)
+		ctx.Header("ETag", strconv.Quote(listHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
 			ctx.Status(http.StatusNotModified)
 			return
@@ -333,7 +334,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != listHash {
+		}else if savedHash != strconv.Quote(listHash) {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))

@@ -25,7 +25,7 @@ type Server struct{
 	mux        sync.Mutex
 	cond       *sync.Cond
 	listeners  []net.Listener
-	conns      []*liter.Conn
+	conns      *FlatMemory[*liter.Conn]
 }
 
 func NewServer(sm *script.Manager)(s *Server){
@@ -101,26 +101,6 @@ func (s *Server)Serve(listener net.Listener)(err error){
 				}
 			}
 			wc := liter.WrapConn(c)
-			s.mux.Lock()
-			s.conns = append(s.conns, wc)
-			s.mux.Unlock()
-			defer func(){
-				s.mux.Lock()
-				defer s.mux.Unlock()
-				e := len(s.conns) - 1
-				for i, d := range s.conns {
-					if d == wc {
-						if i != e {
-							s.conns[i], s.conns[e] = s.conns[e], s.conns[i]
-						}
-						s.conns = s.conns[:e]
-						if len(s.conns) == 0 {
-							s.cond.Broadcast()
-						}
-						return
-					}
-				}
-			}()
 			successed = true
 			s.handle(wc, &cfg)
 		}(c)
@@ -136,17 +116,17 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 
 	select {
 	case <-waitUntilNot(s.cond, func()(bool){
-		return len(s.conns) > 0
+		return s.conns.Count() > 0
 	}):
 	case <-ctx.Done():
 		err = ctx.Err()
 		s.mux.Lock()
 		defer s.mux.Unlock()
-		if len(s.conns) > 0 {
-			for _, c := range s.conns {
+		if s.conns.Count() > 0 {
+			s.conns.ForEach(func(_ int, c *liter.Conn){
 				c.Close()
-			}
-			s.conns = nil
+			})
+			s.conns.Clear()
 			s.cond.Broadcast()
 		}
 	}
