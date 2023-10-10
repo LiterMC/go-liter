@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"sync"
 	"sync/atomic"
+	"time"
 
 	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-liter/script"
@@ -23,9 +24,8 @@ type Server struct{
 
 	inShutdown atomic.Bool
 	mux        sync.Mutex
-	cond       *sync.Cond
 	listeners  []net.Listener
-	conns      *FlatMemory[*liter.Conn]
+	conns      FlatMemory[*liter.Conn]
 }
 
 func NewServer(sm *script.Manager)(s *Server){
@@ -33,7 +33,6 @@ func NewServer(sm *script.Manager)(s *Server){
 		scripts: sm,
 		users: NewUserStorage(filepath.Join(configDir, "users.json")),
 	}
-	s.cond = sync.NewCond(&s.mux)
 	s.initHandler()
 	if err := s.users.Load(); errors.Is(err, os.ErrNotExist) {
 		s.users.Save()
@@ -114,10 +113,14 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 	s.closeListenersLocked()
 	s.mux.Unlock()
 
+	if s.conns.Count() == 0 {
+		return
+	}
 	select {
-	case <-waitUntilNot(s.cond, func()(bool){
-		return s.conns.Count() > 0
-	}):
+	case <-time.After(time.Millisecond * 50):
+		if s.conns.Count() == 0 {
+			return
+		}
 	case <-ctx.Done():
 		err = ctx.Err()
 		s.mux.Lock()
@@ -127,7 +130,6 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 				c.Close()
 			})
 			s.conns.Clear()
-			s.cond.Broadcast()
 		}
 	}
 	return
