@@ -41,6 +41,7 @@ const (
 
 const (
 	clientIdKey = "liter.client.id"
+	clientUserKey = "liter.client.user"
 )
 
 var hmacKey []byte = func()(key []byte){

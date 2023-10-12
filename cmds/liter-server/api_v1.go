@@ -59,6 +59,11 @@ func (s *Server)checkToken(ctx *gin.Context, token string)(ok bool){
 	if c["cli"] != id {
 		return false
 	}
+	if u, ok := c["user"]; !ok {
+		return false
+	}else{
+		ctx.Set(clientUserKey, u)
+	}
 	return true
 }
 
@@ -135,7 +140,39 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
-	v1.GET("/config", s.checkTokenMiddle, func(ctx *gin.Context){
+	v1.POST("/changepasswd", s.checkTokenMiddle, func(ctx *gin.Context){
+		user := ctx.GetString(clientUserKey)
+
+		var req struct {
+			OldPasswd string `json:"oldPassword"`
+			NewPasswd string `json:"newPassword"`
+		}
+
+		if err := ctx.BindJSON(&req); err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+			return
+		}
+
+		u := s.users.GetUser(user)
+		if u == nil || !u.CheckPassword(req.OldPasswd) {
+			ctx.AbortWithStatusJSON(http.StatusUnauthorized, RequestFailedFromString(
+				"AuthError", "Password is error",
+			))
+			return
+		}
+		u.SetPassword(req.NewPasswd)
+		s.users.Save()
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"status": "ok",
+		})
+	})
+
+	registerConfigs(s, v1)
+}
+
+func registerConfigs(s *Server, g *gin.RouterGroup){
+	g.GET("/config", s.checkTokenMiddle, func(ctx *gin.Context){
 		cfg, cfgHash := getConfig()
 		ctx.Header("ETag", strconv.Quote(cfgHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == cfgHash {
@@ -150,7 +187,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
-	v1.POST("/config", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.POST("/config", s.checkTokenMiddle, func(ctx *gin.Context){
 		configLock.Lock()
 		defer configLock.Unlock()
 
@@ -215,7 +252,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
-	v1.GET("/whitelist", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.GET("/whitelist", s.checkTokenMiddle, func(ctx *gin.Context){
 		wl, listHash := getWhitelist()
 		ctx.Header("ETag", strconv.Quote(listHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
@@ -228,7 +265,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
-	v1.POST("/whitelist", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.POST("/whitelist", s.checkTokenMiddle, func(ctx *gin.Context){
 		configLock.Lock()
 		defer configLock.Unlock()
 
@@ -310,7 +347,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
-	v1.GET("/blacklist", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.GET("/blacklist", s.checkTokenMiddle, func(ctx *gin.Context){
 		wl, listHash := getBlacklist()
 		ctx.Header("ETag", strconv.Quote(listHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
@@ -323,7 +360,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
-	v1.POST("/blacklist", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.POST("/blacklist", s.checkTokenMiddle, func(ctx *gin.Context){
 		configLock.Lock()
 		defer configLock.Unlock()
 
@@ -403,5 +440,5 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
-	})
+	})	
 }
