@@ -14,6 +14,9 @@ jobs:
         name: Action Checkout
         uses: actions/checkout@v3
       -
+        name: Checkout submodules
+        run: git submodule foreach 'git submodule update --init'
+      -
         name: Setup Golang
         uses: actions/setup-go@v4
         with:
