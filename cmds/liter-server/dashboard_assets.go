@@ -9,6 +9,7 @@ import (
 	"net/http"
 )
 
+//go:generate npm -C dashboard ci
 //go:generate npm -C dashboard run build
 //go:embed dashboard/dist
 var _dashboardDist embed.FS
