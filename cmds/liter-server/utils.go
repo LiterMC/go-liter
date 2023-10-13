@@ -6,6 +6,7 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base64"
+	"encoding/hex"
 	"net"
 	"runtime"
 	"sort"
@@ -203,9 +204,15 @@ func genRandB64(n int)(s string, err error){
 	return
 }
 
+// return a URL encoded base64 string
 func asSha256(s string)(string){
 	buf := sha256.Sum256(([]byte)(s))
 	return base64.RawURLEncoding.EncodeToString(buf[:])
+}
+
+func asSha256Hex(s string)(string){
+	buf := sha256.Sum256(([]byte)(s))
+	return hex.EncodeToString(buf[:])
 }
 
 func toSeconds(t time.Time)(float64){

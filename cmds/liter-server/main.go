@@ -152,7 +152,8 @@ func main(){
 				root := &User{
 					Name: "root",
 				}
-				root.SetPassword(passwd)
+				// one more sha from the browser
+				root.SetPassword(asSha256Hex(passwd))
 				if err := server.users.AddUser(root); err != nil {
 					loger.Errorf("Cannot create new user: %v", err)
 				}else{
@@ -280,7 +281,7 @@ func listenAndServeHTTP(server *http.Server)(exited chan struct{}, err error){
 	exit := make(chan struct{}, 0)
 	go func(){
 		defer close(exit)
-		if err := server.Serve(listener); err != nil && !errors.Is(err, net.ErrClosed) {
+		if err := server.Serve(listener); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			loger.Errorf("Error on serve: %v", err)
 		}
 	}()

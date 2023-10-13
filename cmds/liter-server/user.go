@@ -27,7 +27,7 @@ func (u *User)SetPassword(pswd string){
 }
 
 func (u *User)CheckPassword(pswd string)(ok bool){
-	return subtle.ConstantTimeCompare(([]byte)(u.Password), ([]byte)(asSha256(pswd))) == 0
+	return subtle.ConstantTimeCompare(([]byte)(u.Password), ([]byte)(asSha256(pswd))) == 1
 }
 
 type UserStorage struct {

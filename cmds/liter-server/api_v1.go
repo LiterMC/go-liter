@@ -49,14 +49,22 @@ func (s *Server)checkToken(ctx *gin.Context, token string)(ok bool){
 		jwt.WithIssuer(jwtIssuer),
 	)
 	if err != nil {
+		loger.Debugf("JWT verify error: %v", err)
 		return false
 	}
 	c, ok := t.Claims.(jwt.MapClaims)
 	if !ok {
+		loger.Debugf("JWT claim is not jwt.MapClaims")
 		return false
 	}
 	id := ctx.GetString(clientIdKey)
 	if c["cli"] != id {
+		loger.Debugf("JWT cli %q not match %q", c["cli"], id)
+		return false
+	}
+	if jti, ok := c["jti"].(string); !ok || !checkTokenId(jti) {
+		ctx.Set(clientTokenIdKey, jti)
+		loger.Debug("JWT id not exist")
 		return false
 	}
 	if u, ok := c["user"]; !ok {
@@ -134,6 +142,13 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
+	v1.POST("/logout", s.checkTokenMiddle, func(ctx *gin.Context){
+		unregisterTokenId(ctx.GetString(clientTokenIdKey))
+		ctx.JSON(http.StatusOK, gin.H{
+			"status": "ok",
+		})
+	})
+
 	v1.GET("/verify", s.checkTokenMiddle, func(ctx *gin.Context){
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -154,7 +169,8 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		}
 
 		u := s.users.GetUser(user)
-		if u == nil || !u.CheckPassword(req.OldPasswd) {
+		ok := u.CheckPassword(req.OldPasswd)
+		if u == nil || !ok {
 			ctx.AbortWithStatusJSON(http.StatusUnauthorized, RequestFailedFromString(
 				"AuthError", "Password is error",
 			))
