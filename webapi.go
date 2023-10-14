@@ -78,18 +78,6 @@ func (cli *AuthClient)GetPlayerInfo(name string)(player PlayerInfo, err error){
 	return
 }
 
-type Property struct {
-	Name  string `json:"name"`
-	Value any    `json:"value"`
-}
-
-type PlayerProfile struct {
-	Id   UUID `json:"id"`
-	Name string    `json:"name"`
-	Properties     []Property `json:"properties`
-	ProfileActions []string   `json:"profileActions"`
-}
-
 func (cli *AuthClient)GetPlayerProfile(id UUID)(profile *PlayerProfile, err error){
 	const EndPoint = "/profile"
 	url := joinUrl(cli.SessionServer, EndPoint, id.String())

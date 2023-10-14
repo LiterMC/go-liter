@@ -2,13 +2,16 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"image/png"
 	"net/http"
 	"strconv"
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -102,7 +105,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		}
 
 		if err := ctx.BindJSON(&req); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 			return
 		}
 
@@ -164,7 +167,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		}
 
 		if err := ctx.BindJSON(&req); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 			return
 		}
 
@@ -185,6 +188,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 	})
 
 	registerConfigs(s, v1)
+	registerPlayers(s, v1.Group("/player"))
 }
 
 func registerConfigs(s *Server, g *gin.RouterGroup){
@@ -226,7 +230,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		}
 
 		if err := ctx.BindJSON(&req); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 			return
 		}
 
@@ -234,19 +238,19 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		switch req.Op {
 		case "onlineMode":
 			if err := json.Unmarshal(req.Value, &tmp.OnlineMode); err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
 			config.OnlineMode = tmp.OnlineMode
 		case "enableWhitelist":
 			if err := json.Unmarshal(req.Value, &tmp.EnableWhitelist); err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
 			config.EnableWhitelist = tmp.EnableWhitelist
 		case "enableIPWhitelist":
 			if err := json.Unmarshal(req.Value, &tmp.EnableIPWhitelist); err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
 			config.EnableIPWhitelist = tmp.EnableIPWhitelist
@@ -313,7 +317,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		}
 		req.Index = -1
 		if err := ctx.BindJSON(&req); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 			return
 		}
 
@@ -334,7 +338,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 			whitelist.Players = remove(whitelist.Players, req.Index)
 		case opAddIP:
 			if err := whitelist.AddIP(req.Value); err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
 		case opRemoveIP:
@@ -408,7 +412,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		}
 		req.Index = -1
 		if err := ctx.BindJSON(&req); err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 			return
 		}
 
@@ -429,7 +433,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 			blacklist.Players = remove(blacklist.Players, req.Index)
 		case opAddIP:
 			if err := blacklist.AddIP(req.Value); err != nil {
-				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("EncodeError"))
+				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
 		case opRemoveIP:
@@ -457,4 +461,37 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 			"status": "ok",
 		})
 	})	
+}
+
+func registerPlayers(s *Server, g *gin.RouterGroup){
+	const uuidKey = "liter.param.uuid"
+	gu := g.Group("/:uuid/")
+	gu.Use(func(ctx *gin.Context){
+		id, err := uuid.Parse(ctx.Param("uuid"))
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
+			return
+		}
+		ctx.Set(uuidKey, id)
+		ctx.Next()
+	})
+	gu.GET("/head", func(ctx *gin.Context){
+		uid := ctx.Value(uuidKey).(uuid.UUID)
+		profile, err := AuthClient.GetPlayerProfile(uid)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromError(err).SetType("RemoteError"))
+			return
+		}
+		skin, err := profile.GetSkin(AuthClient.Client)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromError(err).SetType("RemoteError"))
+			return
+		}
+		var buf bytes.Buffer
+		if err = png.Encode(&buf, skin.Head()); err != nil {
+			ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromError(err).SetType("EncodeError"))
+			return
+		}
+		ctx.Data(http.StatusOK, "image/png", buf.Bytes())
+	})
 }
