@@ -16,6 +16,24 @@ import (
 	"github.com/kmcsr/go-liter/script"
 )
 
+type Conn struct {
+	*liter.Conn
+	When time.Time
+	player atomic.Pointer[liter.PlayerInfo]
+}
+
+func (c *Conn)ActiveTime()(time.Duration){
+	return time.Since(c.When)
+}
+
+func (c *Conn)SetPlayer(player liter.PlayerInfo){
+	c.player.Store(&player)
+}
+
+func (c *Conn)Player()(*liter.PlayerInfo){
+	return c.player.Load()
+}
+
 type Server struct{
 	Addr string
 	scripts *script.Manager
@@ -25,7 +43,7 @@ type Server struct{
 	inShutdown atomic.Bool
 	mux        sync.Mutex
 	listeners  []net.Listener
-	conns      FlatMemory[*liter.Conn]
+	conns      FlatMemory[*Conn]
 }
 
 func NewServer(sm *script.Manager)(s *Server){
@@ -126,7 +144,7 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 		s.mux.Lock()
 		defer s.mux.Unlock()
 		if s.conns.Count() > 0 {
-			s.conns.ForEach(func(_ int, c *liter.Conn){
+			s.conns.ForEach(func(_ int, c *Conn){
 				c.Close()
 			})
 			s.conns.Clear()

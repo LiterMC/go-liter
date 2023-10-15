@@ -14,6 +14,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/kmcsr/go-liter"
 )
 
 var (
@@ -92,6 +93,8 @@ func (s *Server)checkTokenMiddle(ctx *gin.Context){
 }
 
 func (s *Server)initV1(v1 *gin.RouterGroup){
+	checkedG := v1.Group("/", s.checkTokenMiddle)
+
 	v1.GET("/", func(ctx *gin.Context){
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
@@ -145,20 +148,20 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
-	v1.POST("/logout", s.checkTokenMiddle, func(ctx *gin.Context){
+	checkedG.POST("/logout", func(ctx *gin.Context){
 		unregisterTokenId(ctx.GetString(clientTokenIdKey))
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
 	})
 
-	v1.GET("/verify", s.checkTokenMiddle, func(ctx *gin.Context){
+	checkedG.GET("/verify", func(ctx *gin.Context){
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
 	})
 
-	v1.POST("/changepasswd", s.checkTokenMiddle, func(ctx *gin.Context){
+	checkedG.POST("/changepasswd", func(ctx *gin.Context){
 		user := ctx.GetString(clientUserKey)
 
 		var req struct {
@@ -187,12 +190,14 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		})
 	})
 
-	registerConfigs(s, v1)
-	registerPlayers(s, v1.Group("/player"))
+	registerPlayerAPI(s, v1)
+	registerConfigs(s, checkedG)
+	registerStatus(s, checkedG)
 }
 
+// config APIs
 func registerConfigs(s *Server, g *gin.RouterGroup){
-	g.GET("/config", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.GET("/config", func(ctx *gin.Context){
 		cfg, cfgHash := getConfig()
 		ctx.Header("ETag", strconv.Quote(cfgHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == cfgHash {
@@ -207,7 +212,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		})
 	})
 
-	g.POST("/config", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.POST("/config", func(ctx *gin.Context){
 		configLock.Lock()
 		defer configLock.Unlock()
 
@@ -272,7 +277,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		})
 	})
 
-	g.GET("/whitelist", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.GET("/whitelist", func(ctx *gin.Context){
 		wl, listHash := getWhitelist()
 		ctx.Header("ETag", strconv.Quote(listHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
@@ -285,7 +290,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		})
 	})
 
-	g.POST("/whitelist", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.POST("/whitelist", func(ctx *gin.Context){
 		configLock.Lock()
 		defer configLock.Unlock()
 
@@ -367,7 +372,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		})
 	})
 
-	g.GET("/blacklist", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.GET("/blacklist", func(ctx *gin.Context){
 		wl, listHash := getBlacklist()
 		ctx.Header("ETag", strconv.Quote(listHash))
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
@@ -380,7 +385,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		})
 	})
 
-	g.POST("/blacklist", s.checkTokenMiddle, func(ctx *gin.Context){
+	g.POST("/blacklist", func(ctx *gin.Context){
 		configLock.Lock()
 		defer configLock.Unlock()
 
@@ -463,9 +468,10 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 	})	
 }
 
-func registerPlayers(s *Server, g *gin.RouterGroup){
+// register player api, for get basic informations
+func registerPlayerAPI(s *Server, g *gin.RouterGroup){
 	const uuidKey = "liter.param.uuid"
-	gu := g.Group("/:uuid/")
+	gu := g.Group("/player/:uuid/")
 	gu.Use(func(ctx *gin.Context){
 		id, err := uuid.Parse(ctx.Param("uuid"))
 		if err != nil {
@@ -487,11 +493,39 @@ func registerPlayers(s *Server, g *gin.RouterGroup){
 			ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromError(err).SetType("RemoteError"))
 			return
 		}
+		ctx.Header("Etag", skin.Etag)
+		if inm := ctx.GetHeader("If-None-Match"); len(inm) > 0 && inm == skin.Etag {
+			ctx.Status(http.StatusNotModified)
+			return
+		}
 		var buf bytes.Buffer
 		if err = png.Encode(&buf, skin.Head()); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromError(err).SetType("EncodeError"))
 			return
 		}
 		ctx.Data(http.StatusOK, "image/png", buf.Bytes())
+	})
+}
+
+// server status APIs
+func registerStatus(s *Server, g *gin.RouterGroup){
+	g.GET("/conns", func(ctx *gin.Context){
+		type resT struct {
+			Addr   string `json:"addr"`
+			When   int64  `json:"when"`
+			Player *liter.PlayerInfo `json:"player,omitempty"`
+		}
+		data := make([]resT, 0, s.conns.Count())
+		s.conns.ForEach(func(_ int, conn *Conn){
+			data = append(data, resT{
+				Addr: conn.RemoteAddr().String(),
+				When: conn.When.Unix(),
+				Player: conn.Player(),
+			})
+		})
+		ctx.JSON(http.StatusOK, gin.H{
+			"status": "ok",
+			"data": data,
+		})
 	})
 }

@@ -12,7 +12,11 @@ import (
 
 func (s *Server)handle(c *liter.Conn, cfg *Config){
 	defer c.Close()
-	id := s.conns.Put(c)
+	c0 := &Conn{
+		Conn: c,
+		When: time.Now(),
+	}
+	id := s.conns.Put(c0)
 	defer s.conns.Free(id)
 
 	rc := c.RawConn()
@@ -93,6 +97,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 			})
 			return
 		}
+		c0.SetPlayer(player)
 	}else{
 		// unknown type connection
 		return

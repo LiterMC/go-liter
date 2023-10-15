@@ -6,8 +6,10 @@ import (
 	"encoding/json"
 	"errors"
 	"image"
+	"image/color"
 	"image/png"
 	"net/http"
+	"sync"
 )
 
 type Property struct {
@@ -46,12 +48,20 @@ const (
 
 // https://minecraft.wiki/w/Skin
 type Skin struct {
+	// HTTP cache
+	Etag string
+
 	img image.Image
 	meta map[string]any
 	headFront image.Image
+	initOnce sync.Once
 }
 
 func (s *Skin)init(){
+	s.initOnce.Do(s._init)
+}
+
+func (s *Skin)_init(){
 	const headSize = 8
 	s.headFront = s.subImage(8, 8, headSize, headSize)
 }
@@ -61,13 +71,19 @@ func (s *Skin)subImage(x, y, width, height int)(image.Image){
 	for dx := 0; dx < width; dx++ {
 		for dy := 0; dy < height; dy++ {
 			x0, y0 := x + dx, y + dy
-			img.Set(dx, dy, s.img.At(x0, y0))
+			c := color.NRGBAModel.Convert(s.img.At(x0, y0)).(color.NRGBA)
+			if c.A == 0 {
+				c.R, c.G, c.B = 0, 0, 0
+			}
+			c.A = 0xff
+			img.Set(dx, dy, c)
 		}
 	}
 	return img
 }
 
 func (s *Skin)Head()(image.Image){
+	s.init()
 	return s.headFront
 }
 
@@ -109,12 +125,13 @@ func (p *PlayerProfile)GetSkin(cli *http.Client)(skin *Skin, err error){
 		return
 	}
 	defer res.Body.Close()
-	skin = new(Skin)
+	skin = &Skin{
+		Etag: res.Header.Get("Etag"),
+	}
 	if skin.img, err = png.Decode(res.Body); err != nil {
 		skin = nil
 		return
 	}
 	skin.meta = data.Textures.Skin.Meta
-	skin.init()
 	return
 }
