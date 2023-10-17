@@ -32,6 +32,8 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	}
 	rc.SetReadDeadline(time.Time{})
 	ploger.Tracef("Handshake packet: %v", hp)
+	isPing := hp.NextState == liter.NextPingState
+	isLogin := hp.NextState == liter.NextLoginState
 
 	var svr *ServerIns = nil
 	F: for _, s := range cfg.Servers {
@@ -51,13 +53,13 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 
 	var lp liter.LoginStartPacket
 
-	if hp.NextState == liter.NextPingState {
+	if isPing {
 		if svr.HandlePing {
 			ploger.Debugf("Handle ping connection for server %q", svr.Id)
 			handleServerStatus(ploger, c, "Idle", svr.Motd)
 			return
 		}
-	}else if hp.NextState == liter.NextLoginState {
+	}else if isLogin {
 		if err = c.RecvPkt(0x00, &lp); err != nil {
 			ploger.Debugf("Read login start packet error: %v", err)
 			return
@@ -106,10 +108,10 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	var conn *liter.Conn
 	if conn, err = liter.Dial(svr.Target); err != nil {
 		ploger.Errorf("Cannot dial to %q: %v", svr.Target, err)
-		if hp.NextState == liter.NextPingState {
+		if isPing {
 			ploger.Debugf("Handle ping connection for server %q", svr.Id)
 			handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
-		}else if hp.NextState == liter.NextLoginState {
+		}else if isLogin {
 			c.SendPkt(0x00, &liter.DisconnectPkt{
 				Reason: liter.NewChatFromString("Cannot connect to the subserver"),
 			})
@@ -123,7 +125,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	}
 	ploger.Tracef("Handshake sent successed")
 
-	if hp.NextState == liter.NextLoginState {
+	if isLogin {
 		if err = conn.SendPkt(0x00, lp); err != nil {
 			ploger.Errorf("Connection login error: %v", err)
 			return

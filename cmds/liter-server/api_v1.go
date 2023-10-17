@@ -511,18 +511,23 @@ func registerPlayerAPI(s *Server, g *gin.RouterGroup){
 func registerStatus(s *Server, g *gin.RouterGroup){
 	g.GET("/conns", func(ctx *gin.Context){
 		type resT struct {
+			Id     int    `json:"id"`
 			Addr   string `json:"addr"`
 			When   int64  `json:"when"`
 			Player *liter.PlayerInfo `json:"player,omitempty"`
 		}
+		ctx.Header("Cache-Control", "no-cache")
+		lm := s.conns.LastModified().Format(time.RFC1123)
 		data := make([]resT, 0, s.conns.Count())
-		s.conns.ForEach(func(_ int, conn *Conn){
+		s.conns.ForEach(func(i int, conn *Conn){
 			data = append(data, resT{
+				Id: i,
 				Addr: conn.RemoteAddr().String(),
 				When: conn.When.Unix(),
 				Player: conn.Player(),
 			})
 		})
+		ctx.Header("Last-Modified", lm)
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 			"data": data,

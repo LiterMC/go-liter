@@ -77,6 +77,10 @@ func (m *FlatMemory[T])Count()(int){
 	return len(m.data) - len(m.free)
 }
 
+func (m *FlatMemory[T])LastModified()(time.Time){
+	return m.lastEdit
+}
+
 // Clear will remove all data stored
 func (m *FlatMemory[T])Clear(){
 	m.mux.Lock()
@@ -94,7 +98,7 @@ func (m *FlatMemory[T])ForEach(cb func(i int, v T)){
 		j := sort.Search(len(m.free), func(j int)(bool){
 			return m.free[j] <= i
 		})
-		if j < len(m.free) && m.free[j] == i {
+		if j >= len(m.free) || m.free[j] != i {
 			cb(i, v)
 		}
 	}
