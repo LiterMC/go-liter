@@ -10,6 +10,8 @@ ExecReload=/usr/sbin/litermc reload /var/run/litermc.pid
 ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /var/run/litermc.pid
 TimeoutStopSec=10
 KillMode=mixed
+Restart=on-failure
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

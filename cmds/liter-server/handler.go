@@ -48,7 +48,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		ploger.Infof("Trying to connect with unexpected address %q", hp.Addr)
 		return
 	}
-
+	c0.SetLocalServer(hp.Addr, svr.Id)
 	ploger.Infof("Connected with address [%s:%d], passing to server %q[%s]", hp.Addr, hp.Port, svr.Id, svr.Target)
 
 	var lp liter.LoginStartPacket

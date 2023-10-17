@@ -18,8 +18,9 @@ import (
 
 type Conn struct {
 	*liter.Conn
-	When time.Time
+	When   time.Time
 	player atomic.Pointer[liter.PlayerInfo]
+	server atomic.Pointer[[2]string]
 }
 
 func (c *Conn)ActiveTime()(time.Duration){
@@ -32,6 +33,18 @@ func (c *Conn)SetPlayer(player liter.PlayerInfo){
 
 func (c *Conn)Player()(*liter.PlayerInfo){
 	return c.player.Load()
+}
+
+func (c *Conn)SetLocalServer(localAddr, server string){
+	c.server.Store(&[2]string{localAddr, server})
+}
+
+func (c *Conn)LocalServer()(localAddr, server string, ok bool){
+	p := c.server.Load()
+	if p == nil {
+		return
+	}
+	return p[0], p[1], true
 }
 
 type Server struct{

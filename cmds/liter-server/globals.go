@@ -72,20 +72,20 @@ func reloadConfigs(){
 }
 
 type Config struct {
-	Debug bool `json:"debug" yaml:"debug"`
-	OnlineMode bool `json:"online-mode" yaml:"online-mode"`
+	Debug bool `yaml:"debug"`
+	OnlineMode bool `yaml:"online-mode"`
 
-	ServerAddr string `json:"server-addr" yaml:"server-addr"`
+	ServerAddr string `yaml:"server-addr"`
 
 	Dashboard struct {
-		Enable bool   `yaml:"dashboard"`
+		Enable bool   `yaml:"enable"`
 		Addr   string `yaml:"addr"`
 	} `yaml:"dashboard"`
 
-	EnableWhitelist   bool `json:"enable-whitelist" yaml:"enable-whitelist"`
-	EnableIPWhitelist bool `json:"enable-ip-whitelist" yaml:"enable-ip-whitelist"`
+	EnableWhitelist   bool `yaml:"enable-whitelist"`
+	EnableIPWhitelist bool `yaml:"enable-ip-whitelist"`
 
-	Servers []*ServerIns `json:"servers" yaml:"servers"`
+	Servers []*ServerIns `yaml:"servers"`
 }
 
 var config = loadConfig()

@@ -514,17 +514,25 @@ func registerStatus(s *Server, g *gin.RouterGroup){
 			Id     int    `json:"id"`
 			Addr   string `json:"addr"`
 			When   int64  `json:"when"`
-			Player *liter.PlayerInfo `json:"player,omitempty"`
+			LocalAddr string `json:"localAddr"`
+			Server    string `json:"server"`
+			Player    *liter.PlayerInfo `json:"player,omitempty"`
 		}
 		ctx.Header("Cache-Control", "no-cache")
 		lm := s.conns.LastModified().Format(time.RFC1123)
 		data := make([]resT, 0, s.conns.Count())
 		s.conns.ForEach(func(i int, conn *Conn){
+			local, svr, ok := conn.LocalServer()
+			if !ok {
+				return
+			}
 			data = append(data, resT{
 				Id: i,
 				Addr: conn.RemoteAddr().String(),
 				When: conn.When.Unix(),
 				Player: conn.Player(),
+				LocalAddr: local,
+				Server: svr,
 			})
 		})
 		ctx.Header("Last-Modified", lm)
