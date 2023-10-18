@@ -3,6 +3,8 @@ package main
 
 import (
 	"context"
+	crand "crypto/rand"
+	"crypto/rsa"
 	"errors"
 	"net"
 	"net/http"
@@ -52,6 +54,7 @@ type Server struct{
 	scripts *script.Manager
 	handler http.Handler
 	users   *UserStorage
+	rsaKey  *rsa.PrivateKey
 
 	inShutdown atomic.Bool
 	mux        sync.Mutex
@@ -64,8 +67,14 @@ func NewServer(sm *script.Manager)(s *Server){
 		scripts: sm,
 		users: NewUserStorage(filepath.Join(configDir, "users.json")),
 	}
+	var err error
+
+	if s.rsaKey, err = rsa.GenerateKey(crand.Reader, 1024); err != nil {
+		loger.Fatalf("Cannot generate RSA key: %v", err)
+	}
+
 	s.initHandler()
-	if err := s.users.Load(); errors.Is(err, os.ErrNotExist) {
+	if err = s.users.Load(); errors.Is(err, os.ErrNotExist) {
 		s.users.Save()
 	}
 	return

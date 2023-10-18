@@ -482,6 +482,7 @@ func registerPlayerAPI(s *Server, g *gin.RouterGroup){
 		ctx.Next()
 	})
 	gu.GET("/head", func(ctx *gin.Context){
+		ctx.Header("Cache-Control", "no-cache")
 		uid := ctx.Value(uuidKey).(uuid.UUID)
 		profile, err := AuthClient.GetPlayerProfile(uid)
 		if err != nil {
@@ -511,9 +512,9 @@ func registerPlayerAPI(s *Server, g *gin.RouterGroup){
 func registerStatus(s *Server, g *gin.RouterGroup){
 	g.GET("/conns", func(ctx *gin.Context){
 		type resT struct {
-			Id     int    `json:"id"`
-			Addr   string `json:"addr"`
-			When   int64  `json:"when"`
+			Id        int    `json:"id"`
+			Addr      string `json:"addr"`
+			When      int64  `json:"when"`
 			LocalAddr string `json:"localAddr"`
 			Server    string `json:"server"`
 			Player    *liter.PlayerInfo `json:"player,omitempty"`
@@ -536,6 +537,10 @@ func registerStatus(s *Server, g *gin.RouterGroup){
 			})
 		})
 		ctx.Header("Last-Modified", lm)
+		if lm2 := ctx.GetHeader("Last-Modified"); len(lm2) != 0 && lm2 == lm {
+			ctx.Status(http.StatusNotModified)
+			return
+		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 			"data": data,

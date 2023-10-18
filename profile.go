@@ -8,6 +8,7 @@ import (
 	"image"
 	"image/color"
 	"image/png"
+	"io"
 	"net/http"
 	"sync"
 )
@@ -15,6 +16,7 @@ import (
 type Property struct {
 	Name  string `json:"name"`
 	Value string `json:"value"`
+	Sign  string `json:"signature,omitempty"`
 }
 
 func (p *Property)UnmarshalJSONValue(ptr any)(err error){
@@ -25,11 +27,43 @@ func (p *Property)UnmarshalJSONValue(ptr any)(err error){
 	return json.Unmarshal(buf, ptr)
 }
 
+func (p *Property)Encode(b *PacketBuilder){
+	b.String(p.Name)
+	b.String(p.Value)
+	hasSign := len(p.Sign) > 0
+	b.Bool(hasSign)
+	if hasSign {
+		b.String(p.Sign)
+	}
+}
+
+func (p *Property)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Name, ok = r.String(); !ok {
+		return io.EOF
+	}
+	if p.Value, ok = r.String(); !ok {
+		return io.EOF
+	}
+	var hasSign bool
+	if hasSign, ok = r.Bool(); !ok {
+		return io.EOF
+	}
+	if hasSign {
+		if p.Sign, ok = r.String(); !ok {
+			return io.EOF
+		}
+	}else{
+		p.Sign = ""
+	}
+	return
+}
+
 type PlayerProfile struct {
-	Id   UUID `json:"id"`
+	Id   UUID      `json:"id"`
 	Name string    `json:"name"`
 	Properties     []*Property `json:"properties`
-	ProfileActions []string   `json:"profileActions"`
+	ProfileActions []string    `json:"profileActions"`
 }
 
 func (p *PlayerProfile)GetProp(name string)(t *Property){

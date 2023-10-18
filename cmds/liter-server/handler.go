@@ -51,7 +51,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	c0.SetLocalServer(hp.Addr, svr.Id)
 	ploger.Infof("Connected with address [%s:%d], passing to server %q[%s]", hp.Addr, hp.Port, svr.Id, svr.Target)
 
-	var lp liter.LoginStartPacket
+	var lp liter.LoginStartPkt
 
 	if isPing {
 		if svr.HandlePing {

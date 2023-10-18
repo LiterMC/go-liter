@@ -14,5 +14,5 @@ A Minecraft proxy that can extended with JavaScript.
 
 ## Applications
 
-[liter-proxy](./cmds/liter-proxy/README.MD): The minecraft forward proxy which support socks5
-[liter-server](./cmds/liter-server/README.MD): The minecraft reverse proxy with a simple manage dashboard
+- [liter-proxy](./cmds/liter-proxy/README.MD): The minecraft forward proxy which support socks5
+- [liter-server](./cmds/liter-server/README.MD): The minecraft reverse proxy with a simple manage dashboard
