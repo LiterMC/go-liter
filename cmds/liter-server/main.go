@@ -251,6 +251,8 @@ WAIT:
 	case <-exit1:
 		os.Exit(1)
 	case <-exit2:
+		// ignore the http server exit
+		exit2 = nil
 		goto WAIT
 	}
 }
