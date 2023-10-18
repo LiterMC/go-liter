@@ -5,6 +5,7 @@ After=network.target nss-lookup.target
 [Service]
 Type=forking
 PIDFile=/var/run/litermc.pid
+WorkingDirectory=/opt/litermc
 ExecStart=/usr/sbin/litermc daemon /var/run/litermc.pid
 ExecReload=/usr/sbin/litermc reload /var/run/litermc.pid
 ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /var/run/litermc.pid

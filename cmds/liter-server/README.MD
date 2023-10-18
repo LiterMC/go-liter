@@ -8,14 +8,9 @@ If you want to run liter server as a systemd service, we have a service file at 
 
 ## Setup
 
-All the data & configs are saved under current directory (in windows) or `/opt/litermc` (other systems). Please makesure that this application have permission to the directory.
+All the data & configs are saved under the current working directory. Please makesure that this application have permission to the directory its running.
 
-
-Set up commands for run liter-server use your own user with right perimission
-```sh
-sudo mkdir -p /opt/litermc
-sudo chown $(whoami) -R /opt/litermc
-```
+If you are using [litermc.service](./litermc.service), the default working directory is at `/opt/litermc`
 
 ## Configs
 

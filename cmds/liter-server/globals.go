@@ -7,7 +7,6 @@ import (
 	"net"
 	"os"
 	"path/filepath"
-	"runtime"
 	"strings"
 	"sync"
 
@@ -37,19 +36,23 @@ var configDir = getConfigDir()
 
 func getConfigDir()(dir string){
 	_ = _after_load
-	if runtime.GOOS != "windows" {
-		dir = filepath.Join("/opt", "litermc")
-	}else{
-		dir = "."
-	}
-	if fi, err := os.Stat(dir); err == nil {
-		if !fi.IsDir() {
-			loger.Fatalf("Path '%s' is not a dir", dir)
-		}
-	}else if os.IsNotExist(err) {
-		if err = os.MkdirAll(dir, 0755); err != nil {
-			loger.Fatalf("Cannot create config dir '%s': %v", dir, err)
-		}
+	// if runtime.GOOS != "windows" {
+	// 	dir = filepath.Join("/opt", "litermc")
+	// }else{
+	// 	dir = "."
+	// }
+	// if fi, err := os.Stat(dir); err == nil {
+	// 	if !fi.IsDir() {
+	// 		loger.Fatalf("Path '%s' is not a dir", dir)
+	// 	}
+	// }else if os.IsNotExist(err) {
+	// 	if err = os.MkdirAll(dir, 0755); err != nil {
+	// 		loger.Fatalf("Cannot create config dir '%s': %v", dir, err)
+	// 	}
+	// }
+	dir, err := os.Getwd()
+	if err != nil {
+		loger.Panicf("Cannot get working dir", err)
 	}
 	return
 }

@@ -29,10 +29,10 @@ func initBeforeLoad()(_ bool){
 		switch command {
 		case "daemon":
 			if len(os.Args) < 3 {
-				os.Args = append(os.Args, "/var/run/litermc.pid")
+				loger.Fatal("Missing argument <pidfile>, need point a pid file for the daemon process")
 			}
 			proca := &os.ProcAttr{
-				Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
+				Files: []*os.File{nil, os.Stdout, os.Stderr},
 			}
 			os.Args[1] = "__daemon0"
 			name, err := os.Executable()
@@ -57,7 +57,7 @@ func initBeforeLoad()(_ bool){
 			}
 			pidfile := os.Args[2]
 			proca := &os.ProcAttr{
-				Files: []*os.File{os.Stdin, os.Stdout, os.Stderr},
+				Files: []*os.File{nil, os.Stdout, os.Stderr},
 			}
 			args := make([]string, len(os.Args) - 1)
 			args[0] = os.Args[0]
@@ -79,10 +79,9 @@ func initBeforeLoad()(_ bool){
 		case "reload":
 			var pidfile string
 			if len(os.Args) < 3 {
-				pidfile = "/var/run/litermc.pid"
-			}else{
-				pidfile = os.Args[2]
+				loger.Fatal("Missing argument <pidfile>, need point a pid file for the daemon process")
 			}
+			pidfile = os.Args[2]
 			buf, err := os.ReadFile(pidfile)
 			if err != nil {
 				loger.Fatalf("Cannot read pid file '%s': %v", pidfile, err)
@@ -255,6 +254,7 @@ WAIT:
 		exit2 = nil
 		goto WAIT
 	}
+	loger.Warn("Server exited")
 }
 
 
