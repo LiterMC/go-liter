@@ -7,6 +7,8 @@ import (
 	"fmt"
 	"io"
 	"strings"
+
+	"github.com/google/uuid"
 )
 
 const (
@@ -365,6 +367,7 @@ func (p *LoginEncryptionResponsePkt)DecodeFrom(r *PacketReader)(err error){
 }
 
 type LoginSuccessPkt struct {
+	// Before 1.16: Unlike in other packets, this field contains the UUID as a string with hyphens.
 	UUID UUID
 	Username string
 	Properties []*Property
@@ -373,33 +376,53 @@ type LoginSuccessPkt struct {
 var _ Packet = (*LoginSuccessPkt)(nil)
 
 func (p *LoginSuccessPkt)Encode(b *PacketBuilder){
-	b.UUID(p.UUID)
+	protocol := b.Protocol()
+	if protocol >= V1_16_3 {
+		b.UUID(p.UUID)
+	}else{
+		b.String(p.UUID.String())
+	}
 	b.String(p.Username)
-	b.VarInt((VarInt)(len(p.Properties)))
-	for _, v := range p.Properties {
-		v.Encode(b)
+	if protocol >= V1_19 {
+		b.VarInt((VarInt)(len(p.Properties)))
+		for _, v := range p.Properties {
+			v.Encode(b)
+		}
 	}
 }
 
 func (p *LoginSuccessPkt)DecodeFrom(r *PacketReader)(err error){
+	protocol := r.Protocol()
 	var ok bool
-	if p.UUID, ok = r.UUID(); !ok {
-		return io.EOF
+	if protocol >= V1_16_3 {
+		if p.UUID, ok = r.UUID(); !ok {
+			return io.EOF
+		}
+	}else{
+		var id string
+		if id, ok = r.String(); !ok {
+			return io.EOF
+		}
+		if p.UUID, err = uuid.Parse(id); err != nil {
+			return
+		}
 	}
 	if p.Username, ok = r.String(); !ok {
 		return io.EOF
 	}
-	var n VarInt
-	if n, ok = r.VarInt(); !ok {
-		return io.EOF
-	}
-	p.Properties = make([]*Property, n)
-	for i, _ := range p.Properties {
-		v := new(Property)
-		if err = v.DecodeFrom(r); err != nil {
-			return
+	if protocol >= V1_19 {
+		var n VarInt
+		if n, ok = r.VarInt(); !ok {
+			return io.EOF
 		}
-		p.Properties[i] = v
+		p.Properties = make([]*Property, n)
+		for i, _ := range p.Properties {
+			v := new(Property)
+			if err = v.DecodeFrom(r); err != nil {
+				return
+			}
+			p.Properties[i] = v
+		}
 	}
 	return
 }
