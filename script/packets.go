@@ -12,6 +12,12 @@ import (
 func WrapPacketBuilder(p *liter.PacketBuilder, conn *liter.Conn, vm *goja.Runtime)(o *goja.Object){
 	o = vm.NewObject()
 	sent := false
+	o.DefineAccessorProperty("protocol", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+		return vm.ToValue(p.Protocol())
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
+	o.DefineAccessorProperty("id", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+		return vm.ToValue((int)(p.Id()))
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
 	o.Set("send", func(call goja.FunctionCall)(goja.Value){
 		if sent {
 			panic(vm.ToValue("This packet is already being sent"))
@@ -104,6 +110,21 @@ var _ Exportsable = (*WrappedPacketReader)(nil)
 func WrapPacketReader(p *liter.PacketReader, vm *goja.Runtime)(*WrappedPacketReader){
 	EOF := vm.NewGoError(io.EOF)
 	o := vm.NewObject()
+	o.DefineAccessorProperty("protocol", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+		return vm.ToValue(p.Protocol())
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
+	o.DefineAccessorProperty("id", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+		return vm.ToValue((int)(p.Id()))
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
+	o.DefineAccessorProperty("offset", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+		return vm.ToValue(p.Offset())
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
+	o.DefineAccessorProperty("remain", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+		return vm.ToValue(p.Remain())
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
+	o.DefineAccessorProperty("data", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+		return vm.ToValue(vm.NewArrayBuffer(p.Bytes()))
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
 	o.Set("bytearray", func(call goja.FunctionCall)(goja.Value){
 		buf := make([]byte, call.Arguments[0].ToInteger())
 		if !p.ByteArray(buf) {

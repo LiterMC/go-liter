@@ -5,9 +5,11 @@ import (
 	"io"
 	"strings"
 	"time"
+	"net"
 
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
+	"github.com/kmcsr/go-liter/script"
 )
 
 func (s *Server)handle(c *liter.Conn, cfg *Config){
@@ -16,10 +18,11 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		Conn: c,
 		When: time.Now(),
 	}
-	id := s.conns.Put(c0)
-	defer s.conns.Free(id)
+	cid := s.conns.Put(c0)
+	defer s.conns.Free(cid)
 
 	rc := c.RawConn()
+	wc := s.scripts.WrapConn(c)
 
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
 	ploger.Debugf("Connected!")
@@ -48,10 +51,45 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		ploger.Infof("Trying to connect with unexpected address %q", hp.Addr)
 		return
 	}
+
+	ploger.Tracef("== start emit event")
+	noforward := <-s.scripts.Emit(script.NewEvent("handshake", Map{
+		"client": wc.Exports(),
+		"handshake": hp,
+		"target": &svr, // to allow changes to the target
+	}))
+	ploger.Tracef("== end emit event: noforward=%v", noforward)
+	if wc.Closed() {
+		return
+	}
+	if noforward {
+		for !wc.Closed() {
+			var r *script.WrappedPacketReader
+			if r, err = wc.Recv(); err != nil {
+				if !wc.Closed() {
+					wc.Emit(&script.Event{
+						Name: "error",
+						Data: Map{
+							"conn": wc.Exports(),
+							"error": err.Error(),
+						},
+					})
+				}
+				return
+			}
+			<-wc.Emit(script.NewEvent("packet", Map{
+				"conn": wc,
+				"packet": r,
+			}))
+		}
+		return
+	}
+
 	c0.SetLocalServer(hp.Addr, svr.Id)
 	ploger.Infof("Connected with address [%s:%d], passing to server %q[%s]", hp.Addr, hp.Port, svr.Id, svr.Target)
 
 	var lp liter.LoginStartPkt
+	var player Map // only exists when login
 
 	if isPing {
 		if svr.HandlePing {
@@ -65,7 +103,8 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 			return
 		}
 
-		player, err := AuthClient.GetPlayerInfo(lp.Name)
+		var pl liter.PlayerInfo
+		pl, err = AuthClient.GetPlayerInfo(lp.Name)
 		if err != nil {
 			if cfg.OnlineMode {
 				c.SendPkt(0x00, &liter.DisconnectPkt{
@@ -74,32 +113,36 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 				ploger.Debugf("Cannot get player info for %s: %v", lp.Name, err)
 				return
 			}
-			player = liter.PlayerInfo{
+			pl = liter.PlayerInfo{
 				Name: lp.Name,
 			}
 		}
 		if lp.Id.Ok {
 			id := lp.Id.V
-			if id != player.Id {
+			if id != pl.Id {
 				c.SendPkt(0x00, &liter.DisconnectPkt{
 					Reason: liter.NewChatFromString("Your user profile is not match"),
 				})
 				return
 			}
 		}
-		if blacklist.HasPlayer(player) {
+		if blacklist.HasPlayer(pl) {
 			c.SendPkt(0x00, &liter.DisconnectPkt{
 				Reason: liter.NewChatFromString("Your are in the blacklist"),
 			})
 			return
 		}
-		if cfg.EnableWhitelist && !whitelist.HasPlayer(player) {
+		if cfg.EnableWhitelist && !whitelist.HasPlayer(pl) {
 			c.SendPkt(0x00, &liter.DisconnectPkt{
 				Reason: liter.NewChatFromString("Your are not in the whitelist"),
 			})
 			return
 		}
-		c0.SetPlayer(player)
+		player = Map{
+			"name": pl.Name,
+			"id": pl.Id.String(),
+		}
+		c0.SetPlayer(pl)
 	}else{
 		// unknown type connection
 		return
@@ -118,12 +161,17 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		}
 		return
 	}
+	defer conn.Close()
+
 	ploger.Debugf("Target %q connected", svr.Id)
+
 	if err = conn.SendHandshakePkt(hp); err != nil {
 		ploger.Errorf("Connection handshake error: %v", err)
 		return
 	}
 	ploger.Tracef("Handshake sent successed")
+
+	wconn := s.scripts.WrapConn(conn)
 
 	if isLogin {
 		if err = conn.SendPkt(0x00, lp); err != nil {
@@ -135,31 +183,32 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 
 	cr := conn.RawConn()
 
-	buf := make([]byte, 32 * 1024)
-	cr.SetReadDeadline(time.Now().Add(time.Millisecond * 10))
-	// try read to ensure the connection is ok
-	if n, err := cr.Read(buf); err != nil {
-		if strings.Contains(err.Error(), "connection reset by peer") {
-			ploger.Errorf("Connection reset by peer")
-			if hp.NextState == liter.NextPingState {
+	if !<-s.scripts.Emit(script.NewEvent("serve", Map{
+		"client": wc.Exports(),
+		"server": wconn.Exports(),
+		"player": player,
+		"handshake": hp,
+	})) {
+		if proxyRawConn(ploger, cr, rc) {
+			// if connection reset by peer
+			if isPing {
 				ploger.Debugf("Handle ping connection for server %q", svr.Id)
 				handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
 			}
-			return
 		}
-	}else if n != 0 {
-		rc.Write(buf[:n])
+		return
 	}
-	cr.SetReadDeadline(time.Time{}) // clear read deadline
 
-	go func(){
-		defer c.Close()
-		defer conn.Close()
-		buf := make([]byte, 32 * 1024)
-		io.CopyBuffer(rc, cr, buf)
-	}()
-	io.CopyBuffer(cr, rc, buf)
+	errCh1 := parseAndForward(wconn, wc)
+	errCh2 := parseAndForward(wc, wconn)
+	select {
+	case err := <-errCh1:
+		ploger.Errorf("Error at errCh1: %v", err)
+	case err := <-errCh2:
+		ploger.Errorf("Error at errCh2: %v", err)
+	}
 }
+
 
 func handleServerStatus(loger logger.Logger, c *liter.Conn, status string, motd string){
 	var srp liter.StatusRequestPkt
@@ -196,4 +245,75 @@ func handleServerStatus(loger logger.Logger, c *liter.Conn, status string, motd 
 		loger.Debugf("Send ping response packet error: %v", err)
 		return
 	}
+}
+
+func proxyRawConn(ploger logger.Logger, cr, rc net.Conn)(bool){
+	buf := make([]byte, 32 * 1024)
+	cr.SetReadDeadline(time.Now().Add(time.Millisecond * 10))
+	// try read to ensure the connection is ok
+	if n, err := cr.Read(buf); err != nil {
+		if strings.Contains(err.Error(), "reset by peer") {
+			ploger.Errorf("Connection reset by peer")
+			return true
+		}
+	}else if n != 0 {
+		rc.Write(buf[:n])
+	}
+	cr.SetReadDeadline(time.Time{}) // clear read deadline
+
+	go func(){
+		defer cr.Close()
+		defer rc.Close()
+		buf := make([]byte, 32 * 1024)
+		io.CopyBuffer(rc, cr, buf)
+	}()
+	io.CopyBuffer(cr, rc, buf)
+	return false
+}
+
+func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
+	errCh := make(chan error, 1)
+	go func(){
+		var err error
+		defer func(){
+			errCh <- err
+		}()
+		var pkt liter.PacketBuilder
+		for !src.Closed() {
+			var r *script.WrappedPacketReader
+			if r, err = src.Recv(); err != nil {
+				if !src.Closed() {
+					src.Emit(&script.Event{
+						Name: "error",
+						Data: Map{
+							"src": src.Exports(),
+							"dst": dst.Exports(),
+							"error": err.Error(),
+						},
+					})
+				}
+				return
+			}
+			if !<-src.Emit(script.NewEvent("packet", Map{
+				"src": src.Exports(),
+				"dest": dst.Exports(),
+				"packet": r,
+			})) {
+				if err = dst.Send(pkt.Reset(r.Protocol(), r.Id()).ByteArray(r.Bytes())); err != nil {
+					if !dst.Closed() {
+						dst.Emit(&script.Event{
+							Name: "error",
+							Data: Map{
+								"src": src.Exports(),
+								"dst": dst.Exports(),
+								"error": err.Error(),
+							},
+						})
+					}
+					return
+				}
+			}
+		}
+	}()
+	return errCh
 }

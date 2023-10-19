@@ -18,6 +18,8 @@ import (
 	"github.com/google/uuid"
 )
 
+type Map = map[string]any
+
 func remove[T any](slice []T, index int)([]T){
 	copy(slice[index:], slice[index + 1:])
 	return slice[:len(slice) - 1]

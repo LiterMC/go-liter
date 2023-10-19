@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,8 +16,12 @@ import (
 var DashboardAssets http.FileSystem = gin.Dir("dashboard/dist", false)
 
 func init(){
+	basedir := "."
+	if _, curfile, _, ok := runtime.Caller(0); ok {
+		basedir = filepath.Dir(curfile)
+	}
 	loger.Infof("Starting frontend debug server")
-	cmd := exec.Command("npm", "-C", "dashboard", "run", "build-dev")
+	cmd := exec.Command("npm", "-C", filepath.Join(basedir, "dashboard"), "run", "build-dev")
 	cmd.Stdout = os.Stderr
 	cmd.Stderr = os.Stderr
 	if err := cmd.Start(); err != nil {

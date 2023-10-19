@@ -118,7 +118,7 @@ func NewPacket(protocol int, id VarInt)(p *PacketBuilder){
 func (p *PacketBuilder)Reset(protocol int, id VarInt)(*PacketBuilder){
 	p.protocol = protocol
 	p.id = id
-	p.buf = p.buf[:]
+	p.buf = p.buf[:0]
 	p.len = 0
 	return p
 }
@@ -365,22 +365,22 @@ func ReadPacket(protocol int, r io.Reader)(p *PacketReader, err error){
 	var (
 		n int
 		size int32
+		id int32
 	)
-	if n, size, err = readVarInt(r); err != nil {
+	if _, size, err = readVarInt(r); err != nil {
 		return
 	}
+	if n, id, err = readVarInt(r); err != nil {
+		return
+	}
+	size -= (int32)(n)
 	p = &PacketReader{
 		protocol: protocol,
-		buf: make([]byte, (int32)(n) + size),
-		off: n,
+		id: (VarInt)(id),
+		buf: make([]byte, size),
 	}
-	encodeVarInt(p.buf[:n], size)
-	if _, err = io.ReadFull(r, p.buf[p.off:]); err != nil {
+	if _, err = io.ReadFull(r, p.buf); err != nil {
 		return nil, err
-	}
-	var ok bool
-	if p.id, ok = p.VarInt(); !ok {
-		return nil, io.EOF
 	}
 	return
 }
@@ -582,7 +582,7 @@ func (p *PacketReader)String()(v String, ok bool){
 	if size, ok = p.VarInt(); !ok {
 		return
 	}
-	var buf = make([]byte, size)
+	buf := make([]byte, size)
 	if ok = p.ByteArray(buf); !ok {
 		return
 	}

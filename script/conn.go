@@ -12,6 +12,7 @@ import (
 type WrappedConn struct {
 	*liter.Conn
 	vm *goja.Runtime
+	loop *eventloop.EventLoop
 	closed atomic.Bool
 
 	emitter *EventEmitter
@@ -24,18 +25,19 @@ func WrapConn(conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop)(c *
 	c = &WrappedConn{
 		Conn: conn,
 		vm: vm,
+		loop: loop,
 		emitter: NewEventEmitter(vm, loop),
 	}
 	o := vm.NewObject()
 	o.DefineAccessorProperty("protocol", vm.ToValue(func(goja.FunctionCall)(goja.Value){
 		return vm.ToValue(conn.Protocol())
-	}), nil, goja.FLAG_FALSE, goja.FLAG_FALSE)
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
 	o.DefineAccessorProperty("localAddr", vm.ToValue(func(goja.FunctionCall)(goja.Value){
 		return vm.ToValue(conn.LocalAddr().String())
-	}), nil, goja.FLAG_FALSE, goja.FLAG_FALSE)
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
 	o.DefineAccessorProperty("remoteAddr", vm.ToValue(func(goja.FunctionCall)(goja.Value){
 		return vm.ToValue(conn.RemoteAddr().String())
-	}), nil, goja.FLAG_FALSE, goja.FLAG_FALSE)
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
 	o.Set("close", vm.ToValue(func(goja.FunctionCall)(goja.Value){
 		c.closed.Store(true)
 		conn.Close()
@@ -71,7 +73,11 @@ func (c *WrappedConn)Recv()(w *WrappedPacketReader, err error){
 	if err != nil {
 		return
 	}
-	return WrapPacketReader(r, c.vm), nil
+	ch := make(chan *WrappedPacketReader, 1)
+	c.loop.RunOnLoop(func(vm *goja.Runtime){
+		ch <- WrapPacketReader(r, vm)
+	})
+	return <-ch, nil
 }
 
 // func (c *WrappedConn)Reset(conn *liter.Conn){

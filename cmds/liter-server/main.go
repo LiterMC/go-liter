@@ -13,9 +13,7 @@ import (
 	"syscall"
 	"time"
 
-	// "github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-liter/script"
-	// "github.com/kmcsr/go-liter/packets"
 )
 
 var _after_load = initBeforeLoad()

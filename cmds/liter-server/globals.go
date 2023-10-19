@@ -239,7 +239,7 @@ func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
 		}
 		p.Name = info.Name
 		p.Id = info.Id
-	case map[string]any:
+	case Map:
 		var ok bool
 		var id string
 		p.Name, _ = v["name"].(string)

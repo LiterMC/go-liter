@@ -97,7 +97,9 @@ func (e *EventEmitter)Emit(event *Event)(cancelled bool){
 		}
 		arg := event.toValue(e.vm, e.loop)
 		for _, l := range listeners {
-			l(nil, arg)
+			if _, err := l(nil, arg); err != nil {
+				panic(e.vm.ToValue(err))
+			}
 			if event.Cancelled() {
 				return true
 			}

@@ -36,18 +36,17 @@ func (e *Event)toValue(vm *goja.Runtime, loop *eventloop.EventLoop)(goja.Value){
 	o.Set("cancel", e.Cancel)
 	o.DefineAccessorProperty("cancelable", vm.ToValue(func(goja.FunctionCall)(goja.Value){
 		return vm.ToValue(e.Cancelable)
-	}), nil, goja.FLAG_FALSE, goja.FLAG_FALSE)
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
 	o.DefineAccessorProperty("cancelled", vm.ToValue(func(goja.FunctionCall)(goja.Value){
 		return vm.ToValue(e.Cancelled())
-	}), nil, goja.FLAG_FALSE, goja.FLAG_FALSE)
+	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
 	if e.Data == nil {
 		o.Set("data", vm.NewObject()) // a empty object
 	}else{
 		o.Set("data", e.Data)
 		for k, v := range e.Data {
 			switch k { // ignore reserved keys
-			case "name", "client", "server", "data",
-				"cancel", "isCancelled":
+			case "name", "data", "cancel", "cancelable", "cancelled":
 				continue
 			}
 			switch v := v.(type) {
