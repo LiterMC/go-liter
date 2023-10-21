@@ -31,14 +31,16 @@ func (e *PktIdAssertError)Error()(string){
 
 
 type Conn struct{
-	protocol int
 	conn net.Conn
+	protocol int
+	threshold int
 }
 
 func WrapConn(c net.Conn)(*Conn){
 	return &Conn{
 		protocol: V_UNSET,
 		conn: c,
+		threshold: -1,
 	}
 }
 
@@ -117,6 +119,21 @@ func (c *Conn)Close()(err error){
 	return c.conn.Close()
 }
 
+func (c *Conn)Compressed()(bool){
+	return c.threshold >= 0
+}
+
+func (c *Conn)Threshold()(int){
+	return c.threshold
+}
+
+func (c *Conn)SetThreshold(threshold int){
+	if c.threshold >= 0 && threshold < 0 {
+		panic("Wrong usage: cannot cancel a compressed connection")
+	}
+	c.threshold = threshold
+}
+
 func (c *Conn)Send(p *PacketBuilder)(err error){
 	if _, err = p.WriteTo(c.conn); err != nil {
 		return
@@ -144,12 +161,12 @@ func (c *Conn)SendHandshakePkt(pkt *HandshakePkt)(err error){
 }
 
 func (c *Conn)Recv()(r *PacketReader, err error){
-	return ReadPacket(c.protocol, c.conn)
+	return ReadPacket(c.protocol, c.conn, c.Compressed())
 }
 
 func (c *Conn)RecvPkt(id int32, pkt Decodable)(err error){
 	var r *PacketReader
-	if r, err = ReadPacket(c.protocol, c.conn); err != nil {
+	if r, err = c.Recv(); err != nil {
 		return
 	}
 	if r.Id() != (VarInt)(id) {

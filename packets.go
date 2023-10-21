@@ -2,6 +2,8 @@
 package liter
 
 import (
+	"bytes"
+	"compress/zlib"
 	"encoding/json"
 	"io"
 
@@ -139,21 +141,63 @@ func (p *PacketBuilder)Data()([]byte){
 	return p.buf[:p.len]
 }
 
+// Bytes returns the uncompressed packet data, does not include the packet length
 func (p *PacketBuilder)Bytes()(buf []byte){
-	bf := make([]byte, 5 + p.len)
-	n := encodeVarInt(bf[:5], (int32)(p.id))
-	n += copy(bf[n:], p.buf[:p.len])
-	buf = make([]byte, 5 + n)
-	bf = bf[:n]
-	n = encodeVarInt(buf[:5], (int32)(n))
-	n += copy(buf[n:], bf)
-	return buf[:n]
+	buf = make([]byte, 5 + p.len)
+	leng := encodeVarInt(buf[:5], (int32)(p.id))
+	leng += copy(buf[leng:], p.buf[:p.len])
+	return buf[:leng]
 }
 
+// WriteTo will write the packet to a writer, use without compression format
 func (p *PacketBuilder)WriteTo(w io.Writer)(n int64, err error){
+	data := p.Bytes()
+	leng := len(data)
+	buf := make([]byte, 5 + leng)
+	leng = encodeVarInt(buf[:5], (int32)(leng))
+	leng += copy(buf[leng:], data)
 	var n0 int
-	n0, err = w.Write(p.Bytes())
+	n0, err = w.Write(buf[:leng])
 	n = (int64)(n0)
+	return
+}
+
+// WriteCompressedTo will write the packet to a writer, use with compression format
+func (p *PacketBuilder)WriteCompressedTo(w io.Writer, threshold int)(n int64, err error){
+	data := p.Bytes()
+	leng := len(data)
+	if leng < threshold {
+		buf := make([]byte, 5 + 1 + leng)
+		leng = encodeVarInt(buf[:5], (int32)(1 + leng))
+		buf[leng] = 0x00 // set Data Length to (VarInt)(0)
+		leng++
+		leng += copy(buf[leng:], data)
+		var n0 int
+		n0, err = w.Write(buf[:leng])
+		n = (int64)(n0)
+	}else{
+		buf := make([]byte, 5 + 5 + leng)
+		bbuf := bytes.NewBuffer(buf[5 + 5:5 + 5])
+		{
+			zw := zlib.NewWriter(bbuf)
+			zw.Write(data)
+			zw.Close()
+		}
+		blen := bbuf.Len()
+		leng = encodeVarInt(buf[5:], (int32)(leng)) // Data Length
+		i := encodeVarInt(buf, (int32)(leng + blen)) // Packet Length
+		copy(buf[i:], buf[5:5 + leng])
+		leng += i
+		if end := 5 + 5 + blen; end > len(buf) {
+			buf = append(buf[:leng], bbuf.Bytes()...)
+		}else{
+			copy(buf[leng:], buf[5 + 5:5 + 5 + blen])
+		}
+		leng += blen
+		var n0 int
+		n0, err = w.Write(buf[:leng])
+		n = (int64)(n0)
+	}
 	return
 }
 
@@ -361,7 +405,14 @@ type PacketReader struct {
 	off int
 }
 
-func ReadPacket(protocol int, r io.Reader)(p *PacketReader, err error){
+func ReadPacket(protocol int, r io.Reader, compressed bool)(p *PacketReader, err error){
+	if compressed {
+		return readPacketCompressed(protocol, r)
+	}
+	return readPacket(protocol, r)
+}
+
+func readPacket(protocol int, r io.Reader)(p *PacketReader, err error){
 	var (
 		n int
 		size int32
@@ -380,6 +431,50 @@ func ReadPacket(protocol int, r io.Reader)(p *PacketReader, err error){
 		buf: make([]byte, size),
 	}
 	if _, err = io.ReadFull(r, p.buf); err != nil {
+		return nil, err
+	}
+	return
+}
+
+func readPacketCompressed(protocol int, r io.Reader)(p *PacketReader, err error){
+	var (
+		n int
+		size int32
+		dataLeng int32
+		id int32
+	)
+	if _, size, err = readVarInt(r); err != nil {
+		return
+	}
+	if n, dataLeng, err = readVarInt(r); err != nil {
+		return
+	}
+	size -= (int32)(n)
+	if dataLeng != 0 {
+		buf := make([]byte, size)
+		if _, err = io.ReadFull(r, buf); err != nil {
+			return nil, err
+		}
+		var zr io.ReadCloser
+		zr, err = zlib.NewReader(bytes.NewReader(buf))
+		if err != nil {
+			return
+		}
+		defer zr.Close()
+		r = zr
+		size = dataLeng
+	}
+	if n, id, err = readVarInt(r); err != nil {
+		return
+	}
+	size -= (int32)(n)
+
+	p = &PacketReader{
+		protocol: protocol,
+		id: (VarInt)(id),
+		buf: make([]byte, size),
+	}
+	if n, err = io.ReadFull(r, p.buf); err != nil {
 		return nil, err
 	}
 	return

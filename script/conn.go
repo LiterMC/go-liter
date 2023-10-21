@@ -14,6 +14,7 @@ type WrappedConn struct {
 	vm *goja.Runtime
 	loop *eventloop.EventLoop
 	closed atomic.Bool
+	OnClose func()
 
 	emitter *EventEmitter
 	exports *goja.Object
@@ -39,8 +40,7 @@ func WrapConn(conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop)(c *
 		return vm.ToValue(conn.RemoteAddr().String())
 	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
 	o.Set("close", vm.ToValue(func(goja.FunctionCall)(goja.Value){
-		c.closed.Store(true)
-		conn.Close()
+		c.Close()
 		return goja.Undefined()
 	}))
 	o.Set("newPacket", func(call goja.FunctionCall)(goja.Value){
@@ -55,7 +55,17 @@ func WrapConn(conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop)(c *
 	return
 }
 
-// Closed return wheather the connection is closed by the script
+func (c *WrappedConn)Close()(err error){
+	if !c.closed.CompareAndSwap(false, true) {
+		return
+	}
+	if c.OnClose != nil {
+		c.OnClose()
+	}
+	return c.Conn.Close()
+}
+
+// Closed return whether the connection is or not closed manually
 func (c *WrappedConn)Closed()(bool){
 	return c.closed.Load()
 }

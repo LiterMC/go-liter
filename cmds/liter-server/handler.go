@@ -13,16 +13,24 @@ import (
 )
 
 func (s *Server)handle(c *liter.Conn, cfg *Config){
-	defer c.Close()
+	preventClose := false
+	wc := s.scripts.WrapConn(c)
+	defer func(){
+		if !preventClose {
+			wc.Close()
+		}
+	}()
+	rc := c.RawConn()
+
 	c0 := &Conn{
 		Conn: c,
 		When: time.Now(),
 	}
 	cid := s.conns.Put(c0)
-	defer s.conns.Free(cid)
+	wc.OnClose = func(){
+		s.conns.Free(cid)
+	}
 
-	rc := c.RawConn()
-	wc := s.scripts.WrapConn(c)
 
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
 	ploger.Debugf("Connected!")
@@ -34,7 +42,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		return
 	}
 	rc.SetReadDeadline(time.Time{})
-	ploger.Tracef("Handshake packet: %v", hp)
+	ploger.Debugf("Handshake packet: %v", hp)
 	isPing := hp.NextState == liter.NextPingState
 	isLogin := hp.NextState == liter.NextLoginState
 
@@ -52,13 +60,11 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		return
 	}
 
-	ploger.Tracef("== start emit event")
 	noforward := <-s.scripts.Emit(script.NewEvent("handshake", Map{
 		"client": wc.Exports(),
 		"handshake": hp,
 		"target": &svr, // to allow changes to the target
 	}))
-	ploger.Tracef("== end emit event: noforward=%v", noforward)
 	if wc.Closed() {
 		return
 	}
@@ -169,7 +175,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		ploger.Errorf("Connection handshake error: %v", err)
 		return
 	}
-	ploger.Tracef("Handshake sent successed")
+	ploger.Debugf("Handshake sent successed")
 
 	wconn := s.scripts.WrapConn(conn)
 
@@ -178,7 +184,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 			ploger.Errorf("Connection login error: %v", err)
 			return
 		}
-		ploger.Tracef("Login start packet sent successed")
+		ploger.Debugf("Login start packet sent successed")
 	}
 
 	cr := conn.RawConn()
@@ -203,9 +209,23 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	errCh2 := parseAndForward(wc, wconn)
 	select {
 	case err := <-errCh1:
-		ploger.Errorf("Error at errCh1: %v", err)
+		ploger.Errorf("Error at client connection: %v", err)
+		if !<-wc.Emit(script.NewEvent("close", Map{
+			"conn": wc.Exports(),
+			"error": err,
+		})) {
+			ploger.Infof("Server connection default close action prevented")
+			wconn.Close()
+		}
 	case err := <-errCh2:
-		ploger.Errorf("Error at errCh2: %v", err)
+		ploger.Errorf("Error at server connection: %v", err)
+		if <-wconn.Emit(script.NewEvent("close", Map{
+			"conn": wconn.Exports(),
+			"error": err,
+		})) {
+			ploger.Infof("Client connection default close action prevented")
+			preventClose = true
+		}
 	}
 }
 
@@ -296,7 +316,7 @@ func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
 			}
 			if !<-src.Emit(script.NewEvent("packet", Map{
 				"src": src.Exports(),
-				"dest": dst.Exports(),
+				"dst": dst.Exports(),
 				"packet": r,
 			})) {
 				if err = dst.Send(pkt.Reset(r.Protocol(), r.Id()).ByteArray(r.Bytes())); err != nil {
