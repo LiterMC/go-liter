@@ -186,7 +186,7 @@ func (p DisconnectPkt)Encode(b *PacketBuilder){
 }
 
 func (p *DisconnectPkt)DecodeFrom(r *PacketReader)(err error){
-	if err = r.JSON(&p.Reason); err != nil {
+	if p.Reason, err = r.Chat(); err != nil {
 		return
 	}
 	return
@@ -250,6 +250,25 @@ func (p *LoginSuccessPkt)DecodeFrom(r *PacketReader)(err error){
 			}
 			p.Properties[i] = v
 		}
+	}
+	return
+}
+
+// ID=0x03; Clientbound
+type LoginSetCompressionPkt struct {
+	Threshold VarInt // Maximum size of a packet before it is compressed.
+}
+
+var _ Packet = (*LoginSetCompressionPkt)(nil)
+
+func (p LoginSetCompressionPkt)Encode(b *PacketBuilder){
+	b.VarInt(p.Threshold)
+}
+
+func (p *LoginSetCompressionPkt)DecodeFrom(r *PacketReader)(err error){
+	var ok bool
+	if p.Threshold, ok = r.VarInt(); !ok {
+		return io.EOF
 	}
 	return
 }

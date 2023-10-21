@@ -166,7 +166,7 @@ func (p *PacketBuilder)WriteTo(w io.Writer)(n int64, err error){
 func (p *PacketBuilder)WriteCompressedTo(w io.Writer, threshold int)(n int64, err error){
 	data := p.Bytes()
 	leng := len(data)
-	if leng < threshold {
+	if leng <= threshold {
 		buf := make([]byte, 5 + 1 + leng)
 		leng = encodeVarInt(buf[:5], (int32)(1 + leng))
 		buf[leng] = 0x00 // set Data Length to (VarInt)(0)

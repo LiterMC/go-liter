@@ -2,10 +2,11 @@
 package main
 
 import (
+	"fmt"
 	"io"
+	"net"
 	"strings"
 	"time"
-	"net"
 
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
@@ -13,10 +14,10 @@ import (
 )
 
 func (s *Server)handle(c *liter.Conn, cfg *Config){
-	preventClose := false
+	preventCliSideClose := false
 	wc := s.scripts.WrapConn(c)
 	defer func(){
-		if !preventClose {
+		if !preventCliSideClose {
 			wc.Close()
 		}
 	}()
@@ -28,6 +29,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	}
 	cid := s.conns.Put(c0)
 	wc.OnClose = func(){
+		wc.Emit(&script.Event{ Name: "close" })
 		s.conns.Free(cid)
 	}
 
@@ -83,7 +85,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 				}
 				return
 			}
-			<-wc.Emit(script.NewEvent("packet", Map{
+			wc.Emit(script.NewEvent("packet", Map{
 				"conn": wc,
 				"packet": r,
 			}))
@@ -113,9 +115,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		pl, err = AuthClient.GetPlayerInfo(lp.Name)
 		if err != nil {
 			if cfg.OnlineMode {
-				c.SendPkt(0x00, &liter.DisconnectPkt{
-					Reason: liter.NewChatFromString("Your username is not exists or auth server error"),
-				})
+				loginDisconnect(c, "Your username is not exists or auth server error")
 				ploger.Debugf("Cannot get player info for %s: %v", lp.Name, err)
 				return
 			}
@@ -126,22 +126,16 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		if lp.Id.Ok {
 			id := lp.Id.V
 			if id != pl.Id {
-				c.SendPkt(0x00, &liter.DisconnectPkt{
-					Reason: liter.NewChatFromString("Your user profile is not match"),
-				})
+				loginDisconnect(c, "Your user profile is not match")
 				return
 			}
 		}
 		if blacklist.HasPlayer(pl) {
-			c.SendPkt(0x00, &liter.DisconnectPkt{
-				Reason: liter.NewChatFromString("Your are in the blacklist"),
-			})
+			loginDisconnect(c, "Your are in the blacklist")
 			return
 		}
 		if cfg.EnableWhitelist && !whitelist.HasPlayer(pl) {
-			c.SendPkt(0x00, &liter.DisconnectPkt{
-				Reason: liter.NewChatFromString("Your are not in the whitelist"),
-			})
+			loginDisconnect(c, "Your are not in the whitelist")
 			return
 		}
 		player = Map{
@@ -161,13 +155,20 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 			ploger.Debugf("Handle ping connection for server %q", svr.Id)
 			handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
 		}else if isLogin {
-			c.SendPkt(0x00, &liter.DisconnectPkt{
-				Reason: liter.NewChatFromString("Cannot connect to the subserver"),
-			})
+			loginDisconnect(c, "Cannot connect to the subserver")
 		}
 		return
 	}
-	defer conn.Close()
+	wconn := s.scripts.WrapConn(conn)
+	preventSvrSideClose := false
+	defer func(){
+		if !preventSvrSideClose {
+			wconn.Close()
+		}
+	}()
+	wconn.OnClose = func(){
+		wconn.Emit(&script.Event{ Name: "close" })
+	}
 
 	ploger.Debugf("Target %q connected", svr.Id)
 
@@ -176,8 +177,6 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		return
 	}
 	ploger.Debugf("Handshake sent successed")
-
-	wconn := s.scripts.WrapConn(conn)
 
 	if isLogin {
 		if err = conn.SendPkt(0x00, lp); err != nil {
@@ -200,31 +199,43 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 			if isPing {
 				ploger.Debugf("Handle ping connection for server %q", svr.Id)
 				handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
+			}else if isLogin {
+				loginDisconnect(c, "Connection reset by peer")
 			}
 		}
 		return
 	}
+
+	var sp *liter.LoginSuccessPkt
+	if sp, err = proxyLoginPackets(s, conn, c); err != nil {
+		ploger.Debugf("Cannot login: %v", err)
+		return
+	}
+	c0.SetPlayer(liter.PlayerInfo{
+		Id: sp.UUID,
+		Name: sp.Username,
+	})
 
 	errCh1 := parseAndForward(wconn, wc)
 	errCh2 := parseAndForward(wc, wconn)
 	select {
 	case err := <-errCh1:
 		ploger.Errorf("Error at client connection: %v", err)
-		if !<-wc.Emit(script.NewEvent("close", Map{
-			"conn": wc.Exports(),
-			"error": err,
-		})) {
-			ploger.Infof("Server connection default close action prevented")
-			wconn.Close()
-		}
-	case err := <-errCh2:
-		ploger.Errorf("Error at server connection: %v", err)
-		if <-wconn.Emit(script.NewEvent("close", Map{
+		if <-wconn.Emit(script.NewEvent("before_close", Map{
 			"conn": wconn.Exports(),
 			"error": err,
 		})) {
+			ploger.Infof("Server connection default close action prevented")
+			preventSvrSideClose = true
+		}
+	case err := <-errCh2:
+		ploger.Errorf("Error at server connection: %v", err)
+		if <-wc.Emit(script.NewEvent("before_close", Map{
+			"conn": wc.Exports(),
+			"error": err,
+		})) {
 			ploger.Infof("Client connection default close action prevented")
-			preventClose = true
+			preventCliSideClose = true
 		}
 	}
 }
@@ -289,6 +300,84 @@ func proxyRawConn(ploger logger.Logger, cr, rc net.Conn)(bool){
 	}()
 	io.CopyBuffer(cr, rc, buf)
 	return false
+}
+
+func loginDisconnectByErr(c *liter.Conn, e error)(err error){
+	return c.SendPkt(0x00, &liter.DisconnectPkt{
+		Reason: liter.NewChatFromString(e.Error()),
+	})
+}
+
+func loginDisconnect(c *liter.Conn, reason string)(err error){
+	return c.SendPkt(0x00, &liter.DisconnectPkt{
+		Reason: liter.NewChatFromString(reason),
+	})
+}
+
+type DisconnectError struct {
+	Reason *liter.Chat
+}
+
+func (e *DisconnectError)Error()(string){
+	return e.Reason.Plain()
+}
+
+func proxyLoginPackets(s *Server, svr, cli *liter.Conn)(res *liter.LoginSuccessPkt, err error){
+	res = new(liter.LoginSuccessPkt)
+	var r *liter.PacketReader
+	if r, err = svr.Recv(); err != nil {
+		loginDisconnectByErr(cli, err)
+		return
+	}
+	switch r.Id() {
+	case 0x00: // Disconnect
+		var pkt liter.DisconnectPkt
+		if err = pkt.DecodeFrom(r); err != nil {
+			loginDisconnectByErr(cli, err)
+			return
+		}
+		if err = cli.SendPkt(0x00, &pkt); err != nil {
+			return
+		}
+		return nil, &DisconnectError{ Reason: pkt.Reason }
+	case 0x03: // Set Compression
+		var pkt liter.LoginSetCompressionPkt
+		if err = pkt.DecodeFrom(r); err != nil {
+			loginDisconnectByErr(cli, err)
+			return
+		}
+		if err = cli.SendPkt(0x03, &pkt); err != nil {
+			return
+		}
+		if pkt.Threshold >= 0 {
+			cli.SetThreshold((int)(pkt.Threshold))
+			svr.SetThreshold((int)(pkt.Threshold))
+		}
+		if r, err = svr.Recv(); err != nil {
+			loginDisconnectByErr(cli, err)
+			return
+		}
+		if r.Id() != 0x02 {
+			err = &liter.PktIdAssertError{ Require: 0x02, Got: (int32)(r.Id()) }
+			return
+		}
+		fallthrough
+	case 0x02: // Login Success
+		if err = res.DecodeFrom(r); err != nil {
+			loginDisconnectByErr(cli, err)
+			return
+		}
+		if err = cli.SendPkt(0x02, res); err != nil {
+			return
+		}
+		return
+	// case 0x01: // Encryption Request
+	default:
+		err = fmt.Errorf("Unexpected packet id %d", r.Id())
+		loginDisconnectByErr(cli, err)
+		return
+	}
+	return
 }
 
 func parseAndForward(dst, src *script.WrappedConn)(<-chan error){

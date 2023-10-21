@@ -135,7 +135,11 @@ func (c *Conn)SetThreshold(threshold int){
 }
 
 func (c *Conn)Send(p *PacketBuilder)(err error){
-	if _, err = p.WriteTo(c.conn); err != nil {
+	if c.Compressed() {
+		if _, err = p.WriteCompressedTo(c.conn, c.threshold); err != nil {
+			return
+		}
+	}else if _, err = p.WriteTo(c.conn); err != nil {
 		return
 	}
 	return
