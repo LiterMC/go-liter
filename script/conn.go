@@ -48,7 +48,7 @@ func WrapConn(conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop)(c *
 			panic(vm.NewTypeError("arg#0 is not a integer of packet id"))
 		}
 		id := (liter.VarInt)(call.Argument(0).ToInteger())
-		return WrapPacketBuilder(liter.NewPacket(conn.Protocol(), id), conn, vm)
+		return WrapPacketBuilder(liter.NewPacket(conn.Protocol(), id), conn, vm, loop)
 	})
 	c.emitter.ExportTo(o)
 	c.exports = o

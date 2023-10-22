@@ -26,10 +26,10 @@ func NewEventEmitter(vm *goja.Runtime, loop *eventloop.EventLoop)(e *EventEmitte
 }
 
 func (e *EventEmitter)ExportTo(o *goja.Object){
-	o.Set("on", e.On)
-	o.Set("addListener", e.On)
-	o.Set("off", e.Off)
-	o.Set("removeListener", e.Off)
+	o.Set("on", e.on)
+	o.Set("addListener", e.on)
+	o.Set("off", e.off)
+	o.Set("removeListener", e.off)
 	o.Set("emit", func(call goja.FunctionCall, vm *goja.Runtime)(goja.Value){
 		event := &Event{
 			Name: call.Arguments[0].String(),
@@ -46,25 +46,25 @@ func (e *EventEmitter)ExportTo(o *goja.Object){
 				event.Cancelable = cancelable
 			}
 		}
-		return vm.ToValue(e.Emit(event))
+		return vm.ToValue(e.emit(event))
 	})
-	o.Set("removeAllListeners", e.RemoveAllListeners)
-	o.Set("eventNames", e.EventNames)
-	o.Set("listeners", e.Listeners)
+	o.Set("removeAllListeners", e.removeAllListeners)
+	o.Set("eventNames", e.eventNames)
+	o.Set("listeners", e.getListeners)
 }
 
-func (e *EventEmitter)On(name string, listener goja.Callable)(*EventEmitter){
+func (e *EventEmitter)on(name string, listener goja.Callable)(*EventEmitter){
 	e.listeners[name] = append(e.listeners[name], listener)
 	return e
 }
 
 func (e *EventEmitter)OnAsync(name string, listener goja.Callable){
 	e.loop.RunOnLoop(func(vm *goja.Runtime){
-		e.On(name, listener)
+		e.on(name, listener)
 	})
 }
 
-func (e *EventEmitter)Off(name string, listener goja.Callable){
+func (e *EventEmitter)off(name string, listener goja.Callable){
 	if listeners, ok := e.listeners[name]; ok {
 		hp := reflect.ValueOf(listener).Pointer()
 		for i := len(listeners) - 1; i >= 0; i-- {
@@ -79,15 +79,15 @@ func (e *EventEmitter)Off(name string, listener goja.Callable){
 
 func (e *EventEmitter)OffAsync(name string, listener goja.Callable){
 	e.loop.RunOnLoop(func(vm *goja.Runtime){
-		e.Off(name, listener)
+		e.off(name, listener)
 	})
 }
 
-func (e *EventEmitter)RemoveAllListeners(name string){
+func (e *EventEmitter)removeAllListeners(name string){
 	delete(e.listeners, name)
 }
 
-func (e *EventEmitter)Emit(event *Event)(cancelled bool){
+func (e *EventEmitter)emit(event *Event)(cancelled bool){
 	if event.Cancelled() {
 		panic(e.vm.ToValue("Error: Trying to emit a cancelled event"))
 	}
@@ -112,12 +112,12 @@ func (e *EventEmitter)EmitAsync(event *Event)(done <-chan bool){
 	exit := make(chan bool, 1)
 	e.loop.RunOnLoop(func(vm *goja.Runtime){
 		defer close(exit)
-		exit <- e.Emit(event)
+		exit <- e.emit(event)
 	})
 	return exit
 }
 
-func (e *EventEmitter)EventNames()(names []string){
+func (e *EventEmitter)eventNames()(names []string){
 	names = make([]string, 0, len(e.listeners))
 	for n, _ := range e.listeners {
 		names = append(names, n)
@@ -125,7 +125,7 @@ func (e *EventEmitter)EventNames()(names []string){
 	return
 }
 
-func (e *EventEmitter)Listeners(name string)(handlers []goja.Callable){
+func (e *EventEmitter)getListeners(name string)(handlers []goja.Callable){
 	listeners := e.listeners[name]
 	handlers = make([]goja.Callable, 0, len(listeners))
 	for _, c := range listeners {

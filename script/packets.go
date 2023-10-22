@@ -6,10 +6,11 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/dop251/goja"
+	"github.com/dop251/goja_nodejs/eventloop"
 	"github.com/kmcsr/go-liter"
 )
 
-func WrapPacketBuilder(p *liter.PacketBuilder, conn *liter.Conn, vm *goja.Runtime)(o *goja.Object){
+func WrapPacketBuilder(p *liter.PacketBuilder, conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop)(o *goja.Object){
 	o = vm.NewObject()
 	sent := false
 	o.DefineAccessorProperty("protocol", vm.ToValue(func(goja.FunctionCall)(goja.Value){
@@ -26,9 +27,13 @@ func WrapPacketBuilder(p *liter.PacketBuilder, conn *liter.Conn, vm *goja.Runtim
 		pm, r, e := vm.NewPromise()
 		go func(){
 			if err := conn.Send(p); err != nil {
-				e(err)
+				loop.RunOnLoop(func(*goja.Runtime){
+					e(err)
+				})
 			}else{
-				r(goja.Undefined())
+				loop.RunOnLoop(func(*goja.Runtime){
+					r(goja.Undefined())
+				})
 			}
 		}()
 		return vm.ToValue(pm)
@@ -130,7 +135,12 @@ func WrapPacketReader(p *liter.PacketReader, vm *goja.Runtime)(*WrappedPacketRea
 		if !p.ByteArray(buf) {
 			panic(EOF)
 		}
-		return vm.ToValue(vm.NewArrayBuffer(buf))
+		jsUint8Array, _ := goja.AssertConstructor(vm.Get("Uint8Array"))
+		res, err := jsUint8Array(vm.NewObject(), vm.ToValue(vm.NewArrayBuffer(buf)))
+		if err != nil {
+			panic(err)
+		}
+		return res
 	})
 	o.Set("bool", func(call goja.FunctionCall)(goja.Value){
 		v, ok := p.Bool()

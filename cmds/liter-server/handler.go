@@ -29,7 +29,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	}
 	cid := s.conns.Put(c0)
 	wc.OnClose = func(){
-		wc.Emit(&script.Event{ Name: "close" })
+		wc.Emit(&script.Event{ Name: "close", Data: Map{ "conn": wc.Exports() } })
 		s.conns.Free(cid)
 	}
 
@@ -167,7 +167,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		}
 	}()
 	wconn.OnClose = func(){
-		wconn.Emit(&script.Event{ Name: "close" })
+		wconn.Emit(&script.Event{ Name: "close", Data: Map{ "conn": wconn.Exports() } })
 	}
 
 	ploger.Debugf("Target %q connected", svr.Id)
@@ -223,7 +223,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		ploger.Errorf("Error at client connection: %v", err)
 		if <-wconn.Emit(script.NewEvent("before_close", Map{
 			"conn": wconn.Exports(),
-			"error": err,
+			"error": err.Error(),
 		})) {
 			ploger.Infof("Server connection default close action prevented")
 			preventSvrSideClose = true
@@ -232,7 +232,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		ploger.Errorf("Error at server connection: %v", err)
 		if <-wc.Emit(script.NewEvent("before_close", Map{
 			"conn": wc.Exports(),
-			"error": err,
+			"error": err.Error(),
 		})) {
 			ploger.Infof("Client connection default close action prevented")
 			preventCliSideClose = true
@@ -395,8 +395,7 @@ func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
 					src.Emit(&script.Event{
 						Name: "error",
 						Data: Map{
-							"src": src.Exports(),
-							"dst": dst.Exports(),
+							"conn": src.Exports(),
 							"error": err.Error(),
 						},
 					})
@@ -404,8 +403,7 @@ func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
 				return
 			}
 			if !<-src.Emit(script.NewEvent("packet", Map{
-				"src": src.Exports(),
-				"dst": dst.Exports(),
+				"conn": src.Exports(),
 				"packet": r,
 			})) {
 				if err = dst.Send(pkt.Reset(r.Protocol(), r.Id()).ByteArray(r.Bytes())); err != nil {
@@ -413,8 +411,7 @@ func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
 						dst.Emit(&script.Event{
 							Name: "error",
 							Data: Map{
-								"src": src.Exports(),
-								"dst": dst.Exports(),
+								"conn": dst.Exports(),
 								"error": err.Error(),
 							},
 						})
