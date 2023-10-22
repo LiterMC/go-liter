@@ -32,13 +32,12 @@
 
 `EventEmitter` 的监听器有且仅传入一个参数 `event`, `Event` 对象的定义如下:
 ```ts
-class Event {
+interface Event {
 	name: string
 	data: Object
-	get cancelable(): bool
-	get canceled(): bool
-	cancel()
-	// 也会将 data 对象的键值对展开到 Event 对象中
+	readonly cancelable: boolean
+	readonly canceled: boolean
+	cancel(): void
 }
 ```
 
@@ -53,6 +52,7 @@ class Event {
 | `$`     | `serve`     | 服务端连接建立 | 阻止底层转发, 允许解析数据包并将触发 `packet` 事件 |
 | `Conn`  | `packet`    | 连接收到数据包 | 阻止该数据包的转发 |
 | `Conn`  | `error`     | 连接产生错误   | 不可撤销         |
-| `Conn`  | `close`     | 连接断开      | 对等连接将不会自动断开 |
+| `Conn`  | `close`     | 连接断开      | 不可撤销          |
+| `Conn`  | `before_close` | 由于对等方连接断开导致该连接准备断开 | 该连接将不会断开 |
 
 如果您想处理连接, 则必须在 `handshake` 或 `serve` 上调用 `cancel()` 方法, 否则 `packet` 事件不会触发
