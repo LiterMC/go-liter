@@ -6,6 +6,8 @@
 
 A Minecraft proxy that can extended with JavaScript.
 
+If you are interested in develop script, please check [script/README.MD](./script/README.MD)
+
 ## Features
 
 - Support both forward proxy and reverse proxy
