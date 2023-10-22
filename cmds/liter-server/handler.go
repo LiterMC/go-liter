@@ -65,7 +65,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	noforward := <-s.scripts.Emit(script.NewEvent("handshake", Map{
 		"client": wc.Exports(),
 		"handshake": hp,
-		"target": &svr, // to allow changes to the target
+		"target": *svr, // do not allow changes
 	}))
 	if wc.Closed() {
 		return

@@ -32,12 +32,12 @@ declare global {
 		error(...args: any[]): void
 	}
 
-	function setInterval(handler: Function, timeout?: number, ...arguments: any[]): Object
-	function setTimeout(handler: Function, timeout?: number, ...arguments: any[]): Object
-	function setImmediate(handler: Function, ...arguments: any[]): Object
-	function clearInterval(id: Object | undefined): void
-	function clearTimeout(id: Object | undefined): void
-	function clearImmediate(id: Object | undefined): void
+	function setInterval(handler: Function, timeout?: number, ...arguments: any[]): Readonly<Object>
+	function setTimeout(handler: Function, timeout?: number, ...arguments: any[]): Readonly<Object>
+	function setImmediate(handler: Function, ...arguments: any[]): Readonly<Object>
+	function clearInterval(id: Readonly<Object> | undefined): void
+	function clearTimeout(id: Readonly<Object> | undefined): void
+	function clearImmediate(id: Readonly<Object> | undefined): void
 
 	type Event<T extends obj = Object> = _Event<T> & T
 
@@ -105,17 +105,34 @@ declare global {
 		json<T>(): T
 	}
 
+	interface HandshakePkt {
+		protocol: number
+		addr: string
+		addition: string
+		port: number
+		nextState: number
+	}
+
+	interface ServerIns {
+		id: string
+		target: string
+		serverNames: string[]
+		handlePing: boolean
+		motd: string
+		motdFailed: string
+	}
+
+	type HandshakeEvent = Event<{
+		client: Conn
+		handshake: Readonly<HandshakePkt>
+		target: Readonly<ServerIns>
+	}>
+
 	type ServeEvent = Event<{
-		player?: PlayerInfo
+		player?: PlayerInfo // undefined means serve for ping connection
 		client: Conn
 		server: Conn
-		handshake: {
-			protocol: number
-			addr: string
-			addition: string
-			port: number
-			nextState: number
-		}
+		handshake: Readonly<HandshakePkt>
 	}>
 
 	type PacketEvent = Event<{

@@ -543,11 +543,11 @@ type ServerIns struct {
 	Target      string   `json:"target" yaml:"target"`
 	ServerNames []string `json:"names" yaml:"names"`
 	// HandlePing is useful if you want to hide online players from others who won't join the server
-	HandlePing  bool     `json:"handle-ping" yaml:"handle-ping"`
+	HandlePing  bool     `json:"handlePing" yaml:"handle-ping"`
 	// Motd only use when HandlePing is true
 	Motd        string   `json:"motd" yaml:"motd"`
 	// MotdFailed will be send back when the ping connection failed on the server
-	MotdFailed  string   `json:"motd-failed" yaml:"motd-failed"`
+	MotdFailed  string   `json:"motdFailed" yaml:"motd-failed"`
 }
 
 func getServers()(servers []*ServerIns, listHash string){
