@@ -2,8 +2,10 @@
 package script
 
 import (
+	"archive/zip"
 	"context"
 	"errors"
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -11,25 +13,37 @@ import (
 	"sync"
 
 	"github.com/dop251/goja"
-	"github.com/dop251/goja/ast"
-	"github.com/dop251/goja/file"
 	"github.com/dop251/goja_nodejs/eventloop"
 	"github.com/dop251/goja_nodejs/require"
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-logger/logrus"
 	"github.com/kmcsr/go-liter"
-	"github.com/kmcsr/go-liter/script/console"
 )
 
 var (
 	fileNameRe = regexp.MustCompile(`^([a-z_][0-9a-z_]{0,31})(?:@(\d+(?:\.\d+)*))?(?:-.+)?\..+$`)
 )
 
-var (
-	ErrFileNameInvalid = errors.New("The plugin's filename is invalid")
-	ErrPluginLoaded    = errors.New("The plugin is already loaded")
-	ErrScriptInvalid   = errors.New("Invalid script")
-)
+type PluginIdLoadedError struct {
+	Id string
+}
+
+func (e *PluginIdLoadedError)Error()(string){
+	return fmt.Sprintf("Plugin %s is already loaded", e.Id)
+}
+
+type PluginLoadError struct {
+	Path string
+	Origin error
+}
+
+func (e *PluginLoadError)Unwrap()(error){
+	return e.Origin
+}
+
+func (e *PluginLoadError)Error()(string){
+	return fmt.Sprintf("Error when loading %q: %v", e.Path, e.Origin)
+}
 
 type Manager struct {
 	logger logger.Logger
@@ -59,7 +73,7 @@ func (m *Manager)SetLogger(loger logger.Logger){
 	defer m.scriptMux.Unlock()
 	m.logger = loger
 	for _, s := range m.scripts {
-		s.console.SetLogger(setPrefixLogger(loger, s.id))
+		s.console.SetLogger(setPrefixLogger(loger, s.Id))
 	}
 }
 
@@ -86,87 +100,33 @@ func (m *Manager)Load(path string)(script *Script, err error){
 	return m.LoadWithContext(context.Background(), path)
 }
 
-// LoadWithContext will load a script plugin use the given filepath.
-// Script's filename must match `^([a-z_][0-9a-z_]{0,31})(?:@(\d+(?:\.\d+)*)(?:-.+)?)?\..+$`
+// LoadWithContext will load a plugin packet use the given filepath.
 // The first capture group will be the script's ID. The second capture group is the script's version
 // If the script's ID is already loaded, then an error will be returned
 func (m *Manager)LoadWithContext(ctx context.Context, path string)(script *Script, err error){
-	name := filepath.Base(path)
-	matches := fileNameRe.FindStringSubmatch(name)
-	if matches == nil {
-		return nil, ErrFileNameInvalid
+	var packet *zip.ReadCloser
+	if packet, err = zip.OpenReader(path); err != nil {
+		return
 	}
-	id := matches[1]
-	version := matches[2]
-
+	meta, err := loadScriptMeta(packet)
+	if err != nil {
+		return
+	}
 	m.scriptMux.Lock()
-	if _, ok := m.scripts[id]; ok {
+	if _, ok := m.scripts[meta.Id]; ok {
 		m.scriptMux.Unlock()
-		return nil, ErrPluginLoaded
+		return nil, &PluginIdLoadedError{ Id: meta.Id }
 	}
-	m.scripts[id] = nil // reserve the slot
+	m.scripts[meta.Id] = nil // reserve the slot
 	m.scriptMux.Unlock()
-
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return
-	}
-	parsed, err := goja.Parse(path, (string)(data))
-	if err != nil {
-		return
-	}
-	// wrap code as `function($, console){ ... }`
-	parsed.Body = []ast.Statement{&ast.ExpressionStatement{
-		Expression: &ast.FunctionLiteral{
-			Function: -1,
-			Name: nil,
-			ParameterList: &ast.ParameterList{
-				Opening: -1,
-				List: []*ast.Binding{
-					{ Target: &ast.Identifier{ Name:"$", Idx: -1 } },
-					{ Target: &ast.Identifier{ Name:"console", Idx: -1 } },
-				},
-				Closing: -1,
-			},
-			Body: &ast.BlockStatement{
-				LeftBrace: 0,
-				List: parsed.Body,
-				RightBrace: (file.Idx)(len(data) - 1),
-			},
-			DeclarationList: parsed.DeclarationList,
-		},
-	}}
-	prog, err := goja.CompileAST(parsed, true)
-	if err != nil {
-		return
-	}
-
-	script = newScript(id, version, path, prog, m.loop)
 
 	errCh := make(chan error, 1)
 	m.loop.RunOnLoop(func(vm *goja.Runtime){
-		defer close(errCh)
-		if ctx.Err() != nil {
-			return
-		}
 		var err error
-		var res goja.Value
-		if res, err = vm.RunProgram(prog); err != nil {
+		defer func(){
 			errCh <- err
-			return
-		}
-		cb, ok := goja.AssertFunction(res)
-		if !ok {
-			errCh <- ErrScriptInvalid
-			return
-		}
-		if ctx.Err() != nil {
-			return
-		}
-		script.init(vm)
-		script.console = console.NewConsole(vm, setPrefixLogger(m.logger, id))
-		if _, err = cb(nil, script.doll, script.console.Exports()); err != nil {
-			errCh <- err
+		}()
+		if script, err = loadScript(packet, meta, m.logger, vm, m.loop); err != nil {
 			return
 		}
 	})
@@ -180,7 +140,7 @@ func (m *Manager)LoadWithContext(ctx context.Context, path string)(script *Scrip
 	}
 	m.scriptMux.Lock()
 	defer m.scriptMux.Unlock()
-	m.scripts[id] = script
+	m.scripts[script.Id] = script
 	return
 }
 
@@ -232,9 +192,9 @@ func (m *Manager)UnloadAll()(scripts []*Script){
 	return
 }
 
-// LoadFromDir will load all plugins under the path which have the ext `.js`,
+// LoadFromDir will load all plugins under the path which have the ext `.zip`,
 // and return all successfully loaded plugins with a possible error
-// If the target path is not exists, LoadFromDir will do nothing and return no error
+// If the target path is not exists, LoadFromDir will do nothing and return without error
 // If there are errors during load any plugin, the errors will be wrapped use `errors.Join`,
 // and other plugins will continue to be load.
 func (m *Manager)LoadFromDir(path string)(scripts []*Script, err error){
@@ -249,10 +209,11 @@ func (m *Manager)LoadFromDir(path string)(scripts []*Script, err error){
 	for _, e := range entries {
 		name := e.Name()
 		if !e.IsDir() {
-			if strings.HasSuffix(name, ".js") {
-				s, err := m.Load(filepath.Join(path, name))
+			if strings.HasSuffix(name, ".zip") {
+				p := filepath.Join(path, name)
+				s, err := m.Load(p)
 				if err != nil {
-					errs = append(errs, err)
+					errs = append(errs, &PluginLoadError{ Path: p, Origin: err })
 					continue
 				}
 				scripts = append(scripts, s)

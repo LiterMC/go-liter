@@ -2,45 +2,76 @@
 package script
 
 import (
+	"io/fs"
+	"encoding/json"
+
 	"github.com/dop251/goja"
 	"github.com/dop251/goja_nodejs/eventloop"
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter/script/console"
 )
 
+type ScriptMeta struct {
+	Id string `json:"name"`
+	Version string `json:"version"`
+	Description string `json:"description"`
+}
+
 type Script struct {
-	id      string
-	version string
-	path    string
+	ScriptMeta
+
+	loader *moduleLoader
 
 	prog *goja.Program
 	vm   *goja.Runtime
 	loop *eventloop.EventLoop
 
-	// exports *goja.Object
-	doll    *goja.Object
+	exports *goja.Object
 	console *console.Console
 
 	storage *MemoryStorage
 	emitter *EventEmitter
+
+	packet  fs.FS
+	modules map[string]*goja.Object
 }
 
-func newScript(id string, version string, path string, prog *goja.Program, loop *eventloop.EventLoop)(*Script){
-	return &Script{
-		id: id,
-		version: version,
-		path: path,
-		prog: prog,
-		loop: loop,
+func loadScriptMeta(packet fs.FS)(meta ScriptMeta, err error){
+	fd, err := packet.Open("plugin.meta.json")
+	if err != nil {
+		return
 	}
+	defer fd.Close()
+	if err = json.NewDecoder(fd).Decode(&meta); err != nil {
+		return
+	}
+	return
 }
 
-func (s *Script)Id()(string){
-	return s.id
+func loadScript(packet fs.FS, meta ScriptMeta, loger logger.Logger, vm *goja.Runtime, loop *eventloop.EventLoop)(s *Script, err error){
+	s = &Script{
+		ScriptMeta: meta,
+		vm: vm,
+		loop: loop,
+		emitter: NewEventEmitter(vm, loop),
+	}
+
+	doll := vm.NewObject()
+	doll.Set("ID", s.Id)
+	doll.Set("VERSION", s.Version)
+	s.emitter.ExportTo(doll)
+	s.console = console.NewConsole(vm, setPrefixLogger(loger, s.Id))
+	s.loader = newModuleLoader(packet, vm, []addonVar{
+		{ name: "$", val: doll },
+		{ name: "console", val: s.console.Exports() },
+	})
+	if s.exports, err = s.loader.load("index.js", "."); err != nil {
+		return
+	}
+	return
 }
 
-// TODO: Exports return a possible exports object from the script
-// it's always nil for now, maybe it will be used later
+// Exports return the module.exports from index.js
 func (s *Script)Exports()(*goja.Object){
 	// return s.exports
 	return nil
@@ -48,22 +79,6 @@ func (s *Script)Exports()(*goja.Object){
 
 func (s *Script)Logger()(logger.Logger){
 	return s.console.Logger()
-}
-
-func (s *Script)init(vm *goja.Runtime){
-	if s.vm != nil {
-		panic("liter: script: Script already initialized")
-	}
-	s.vm = vm
-	s.storage = NewMemoryStorage(vm)
-	s.emitter = NewEventEmitter(vm, s.loop)
-
-	o := vm.NewObject()
-	o.Set("ID", s.id)
-	o.Set("VERSION", s.version)
-	o.Set("storage", s.storage.Exports())
-	s.emitter.ExportTo(o)
-	s.doll = o
 }
 
 func (s *Script)On(name string, listener goja.Callable){
