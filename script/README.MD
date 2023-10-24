@@ -13,7 +13,7 @@ Please read their [Features](https://github.com/dop251/goja#features) and [Known
 ## Lazy setup
 
 ```sh
-npm init glp@latest "<directory name>"
+npm init glp@latest "<plugin-name>"
 ```
 
 Note: Typescript will be automaticly configured.
@@ -45,4 +45,22 @@ Check files under [./types/lib/](./types/lib/) for more information
 
 # Events
 
-TODO
+There is a list of events on each object below
+
+## `$`
+
+| Event Name  | Description  | Consequences after called `cancel()` |
+|-------------|--------------|--------------------------------------|
+| `unload`    | The unload event for the plugin | N/A |
+| `handshake` | Client sent the handshake packet | Abort client to connect to the target server, but allows the scripts to handle `packet` event on the connection. |
+| `serve`     | The server connection is success | Abort to use native directly copy, but allows the scripts to handle `packet` event on the connection. |
+
+## `Conn`
+
+| Event Name  | Description  | Consequences after called `cancel()` |
+|-------------|--------------|--------------------------------------|
+| `packet`    | Received a minecraft packet | Prevent this packet to be forward |
+| `error`     | An error occurred on the connection | N/A |
+| `close`     | Connection closed | N/A |
+| `before_close` | The other connection of the pair closed | This connection will not be closed. |
+

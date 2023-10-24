@@ -1,6 +1,6 @@
 {
   "name": "go-liter-plugin",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Typescript definitions for Go Liter script",
   "types": "./lib/index.d.ts",
   "scripts": {

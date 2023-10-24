@@ -14,7 +14,7 @@
 # 初始化
 
 ```sh
-npm init glp@latest "<directory name>"
+npm init glp@latest "<plugin-name>"
 ```
 
 注: 同时会自动配置 Typescript
