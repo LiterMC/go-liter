@@ -113,19 +113,10 @@ declare global {
 		nextState: number
 	}
 
-	interface ServerIns {
-		id: string
-		target: string
-		serverNames: string[]
-		handlePing: boolean
-		motd: string
-		motdFailed: string
-	}
-
 	type HandshakeEvent = Event<{
 		client: Conn
 		handshake: Readonly<HandshakePkt>
-		target: Readonly<ServerIns>
+		target: string
 	}>
 
 	type ServeEvent = Event<{

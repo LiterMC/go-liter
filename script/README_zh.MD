@@ -4,46 +4,29 @@
 
 # Script
 
-该包实现了脚本管理器等功能
-
-每个插件都应放在工作目录下的`plugins`文件夹内, 文件名以`.js`结尾并符合如下格式:
-```regexp
-^([a-z_][0-9a-z_]{0,31})(?:@(\d+(?:\.\d+)*))?(?:-.+)?\..+$
-```
-简单来说, 文件名分为3个部分:
-1. 插件ID: 该部分必须使用小写字母或下划线开头, 仅能包含数字、小写字母或下划线. 长度在1~32之间
-2. 插件版本 (可选): 该部分必须以 `@` 开头, 仅包含数字和小数点
-3. 附加信息: 该部分以小数点(`.`)或横杠(`-`)开头, 直到文件名末尾
+该包实现了脚本管理器等功能.  
+插件基于 [goja](https://github.com/dop251/goja) 运行, 然而 goja 并不支持全部的 ES6 特性, 请开发者注意.
 
 每个脚本拥有独立的魔法变量 `$`, 该变量提供脚本的基本信息, 如 `$.ID`、`$.VERSION`.  
 `$.storage` 实现了 [Storage API](https://developer.mozilla.org/zh-CN/docs/Web/API/Storage) 目前仅在运行时有效, 暂不推荐使用.  
 脚本可以使用 `$.on`、`$.emit` 等方法收发事件
 
-### 日志
+# 初始化
+
+```sh
+npm init glp@latest "<directory name>"
+```
+
+注: 同时会自动配置 Typescript
+
+# 日志
 
 所有脚本日志都应该通过 `console` 对象输出.  
 `trace`、`debug`、`info`/`log`、`warn`、`error` 6个方法代表了日志的5个级别, 级别过低的日志在没有明确配置的情况下不会被记录.
 
 日志输出时会自动加上脚本ID作为前缀.
 
-### 事件系统
-
-`EventEmitter` 对象实现了 [NodeJS EventEmitter](https://nodejs.dev/en/learn/the-nodejs-event-emitter/) 的大部分功能.
-
-`EventEmitter` 的监听器有且仅传入一个参数 `event`, `Event` 对象的定义如下:
-```ts
-interface Event {
-	name: string
-	data: Object
-	readonly cancelable: boolean
-	readonly canceled: boolean
-	cancel(): void
-}
-```
-
-发送事件时, `emit(<name>, [<data>], [<cancelable>])` 会自动打包成 `Event` 对象
-
-大部分对象都实现了 `EventEmitter`, 常见事件有:
+# 常见事件
 
 | 所在对象 | 事件名       | 描述          | 撤销后果         |
 |---------|-------------|--------------|-----------------|

@@ -10,6 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/kmcsr/go-logger"
 	logrusl "github.com/kmcsr/go-logger/logrus"
+	"github.com/kmcsr/go-liter"
 )
 
 var loger = initLogger()
@@ -99,3 +100,5 @@ func readConfig()(cfg Config){
 	}
 	return
 }
+
+var AuthClient = liter.DefaultAuthClient

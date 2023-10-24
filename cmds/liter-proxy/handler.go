@@ -8,14 +8,15 @@ import (
 	"strings"
 	"time"
 
+	"golang.org/x/net/proxy"
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-liter/script"
 )
 
-func (s *Server)handle(c *liter.Conn, cfg *Config){
+func (s *ProxyServer)handle(c *liter.Conn){
 	preventCliSideClose := false
-	wc := s.scripts.WrapConn(c)
+	wc := manager.WrapConn(c)
 	defer func(){
 		if !preventCliSideClose {
 			wc.Close()
@@ -23,14 +24,8 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	}()
 	rc := c.RawConn()
 
-	c0 := &Conn{
-		Conn: c,
-		When: time.Now(),
-	}
-	cid := s.conns.Put(c0)
 	wc.OnClose = func(){
 		wc.Emit(&script.Event{ Name: "close", Data: Map{ "conn": wc.Exports() } })
-		s.conns.Free(cid)
 	}
 
 
@@ -45,27 +40,27 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	}
 	rc.SetReadDeadline(time.Time{})
 	ploger.Debugf("Handshake packet: %v", hp)
-	isPing := hp.NextState == liter.NextPingState
 	isLogin := hp.NextState == liter.NextLoginState
 
-	var svr *ServerIns = nil
-	F: for _, s := range cfg.Servers {
-		for _, n := range s.ServerNames {
-			if ismatch(hp.Addr, n) {
-				svr = s
-				break F
-			}
-		}
-	}
-	if svr == nil {
+	item, ok := cfg.ProxyMap[hp.Addr]
+	if !ok {
 		ploger.Infof("Trying to connect with unexpected address %q", hp.Addr)
 		return
 	}
 
-	noforward := <-s.scripts.Emit(script.NewEvent("handshake", Map{
+	var outHp *liter.HandshakePkt
+	*outHp = *hp
+	if item.ForwardAddr != "" {
+		outHp.Addr = item.ForwardAddr
+	}
+	if item.ForwardPort != 0 {
+		outHp.Port = item.ForwardPort
+	}
+
+	noforward := <-manager.Emit(script.NewEvent("handshake", Map{
 		"client": wc.Exports(),
 		"handshake": hp,
-		"target": svr.Target,
+		"target": item.Target,
 	}))
 	if wc.Closed() {
 		return
@@ -93,73 +88,36 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		return
 	}
 
-	c0.SetLocalServer(hp.Addr, svr.Id)
-	ploger.Infof("Connected with address [%s:%d], passing to server %q[%s]", hp.Addr, hp.Port, svr.Id, svr.Target)
-
 	var lp liter.LoginStartPkt
 	var player Map // only exists when login
 
-	if isPing {
-		if svr.HandlePing {
-			ploger.Debugf("Handle ping connection for server %q", svr.Id)
-			handleServerStatus(ploger, c, "Idle", svr.Motd)
-			return
-		}
-	}else if isLogin {
+	if isLogin {
 		if err = c.RecvPkt(0x00, &lp); err != nil {
 			ploger.Debugf("Read login start packet error: %v", err)
 			return
 		}
-
-		var pl liter.PlayerInfo
-		pl, err = AuthClient.GetPlayerInfo(lp.Name)
-		if err != nil {
-			if cfg.OnlineMode {
-				loginDisconnect(c, "Your username is not exists or auth server error")
-				ploger.Debugf("Cannot get player info for %s: %v", lp.Name, err)
-				return
-			}
-			pl = liter.PlayerInfo{
-				Name: lp.Name,
-			}
-		}
-		if lp.Id.Ok {
-			id := lp.Id.V
-			if id != pl.Id {
-				loginDisconnect(c, "Your user profile is not match")
-				return
-			}
-		}
-		if blacklist.HasPlayer(pl) {
-			loginDisconnect(c, "Your are in the blacklist")
-			return
-		}
-		if cfg.EnableWhitelist && !whitelist.HasPlayer(pl) {
-			loginDisconnect(c, "Your are not in the whitelist")
-			return
-		}
-		player = Map{
-			"name": pl.Name,
-			"id": pl.Id.String(),
-		}
-		c0.SetPlayer(pl)
 	}else{
 		// unknown type connection
 		return
 	}
 
-	var conn *liter.Conn
-	if conn, err = liter.Dial(svr.Target); err != nil {
-		ploger.Errorf("Cannot dial to %q: %v", svr.Target, err)
-		if isPing {
-			ploger.Debugf("Handle ping connection for server %q", svr.Id)
-			handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
-		}else if isLogin {
-			loginDisconnect(c, "Cannot connect to the subserver")
-		}
+	var addr *net.TCPAddr
+	if addr, err = liter.ResloveAddrWithContext(s.ctx, item.Target); err != nil {
+		ploger.Errorf("Cannot resolve addr of %q: %v", item.Target, err)
 		return
 	}
-	wconn := s.scripts.WrapConn(conn)
+	var cr net.Conn
+	if s.Dialer == nil {
+		cr, err = proxy.Dial(s.ctx, "tcp", addr.String())
+	}else{
+		cr, err = s.Dialer.DialContext(s.ctx, "tcp", addr.String())
+	}
+	if err != nil {
+		ploger.Errorf("Cannot dial to %q: %v", item.Target, err)
+		return
+	}
+	conn := liter.WrapConn(cr)
+	wconn := manager.WrapConn(conn)
 	preventSvrSideClose := false
 	defer func(){
 		if !preventSvrSideClose {
@@ -169,8 +127,6 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	wconn.OnClose = func(){
 		wconn.Emit(&script.Event{ Name: "close", Data: Map{ "conn": wconn.Exports() } })
 	}
-
-	ploger.Debugf("Target %q connected", svr.Id)
 
 	if err = conn.SendHandshakePkt(hp); err != nil {
 		ploger.Errorf("Connection handshake error: %v", err)
@@ -186,9 +142,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		ploger.Debugf("Login start packet sent successed")
 	}
 
-	cr := conn.RawConn()
-
-	if !<-s.scripts.Emit(script.NewEvent("serve", Map{
+	if !<-manager.Emit(script.NewEvent("serve", Map{
 		"client": wc.Exports(),
 		"server": wconn.Exports(),
 		"player": player,
@@ -196,10 +150,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	})) {
 		if proxyRawConn(ploger, cr, rc) {
 			// if connection reset by peer
-			if isPing {
-				ploger.Debugf("Handle ping connection for server %q", svr.Id)
-				handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
-			}else if isLogin {
+			if isLogin {
 				loginDisconnect(c, "Connection reset by peer")
 			}
 		}
@@ -211,10 +162,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		ploger.Debugf("Cannot login: %v", err)
 		return
 	}
-	c0.SetPlayer(liter.PlayerInfo{
-		Id: sp.UUID,
-		Name: sp.Username,
-	})
+	_ = sp
 
 	errCh1 := parseAndForward(wconn, wc)
 	errCh2 := parseAndForward(wc, wconn)
@@ -322,7 +270,7 @@ func (e *DisconnectError)Error()(string){
 	return e.Reason.Plain()
 }
 
-func proxyLoginPackets(s *Server, svr, cli *liter.Conn)(res *liter.LoginSuccessPkt, err error){
+func proxyLoginPackets(s *ProxyServer, svr, cli *liter.Conn)(res *liter.LoginSuccessPkt, err error){
 	res = new(liter.LoginSuccessPkt)
 	var r *liter.PacketReader
 	if r, err = svr.Recv(); err != nil {
