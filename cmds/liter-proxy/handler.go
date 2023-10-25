@@ -40,6 +40,7 @@ func (s *ProxyServer)handle(c *liter.Conn){
 	}
 	rc.SetReadDeadline(time.Time{})
 	ploger.Debugf("Handshake packet: %v", hp)
+	isPing := hp.NextState == liter.NextPingState
 	isLogin := hp.NextState == liter.NextLoginState
 
 	item, ok := cfg.ProxyMap[hp.Addr]
@@ -48,7 +49,7 @@ func (s *ProxyServer)handle(c *liter.Conn){
 		return
 	}
 
-	var outHp *liter.HandshakePkt
+	outHp := new(liter.HandshakePkt)
 	*outHp = *hp
 	if item.ForwardAddr != "" {
 		outHp.Addr = item.ForwardAddr
@@ -96,7 +97,13 @@ func (s *ProxyServer)handle(c *liter.Conn){
 			ploger.Debugf("Read login start packet error: %v", err)
 			return
 		}
-	}else{
+		player = Map{
+			"name": lp.Name,
+		}
+		if lp.Id.Ok {
+			player["id"] = lp.Id.V.String()
+		}
+	}else if !isPing {
 		// unknown type connection
 		return
 	}
@@ -156,6 +163,8 @@ func (s *ProxyServer)handle(c *liter.Conn){
 		}
 		return
 	}
+
+	loger.Debugf("Proxied login process")
 
 	var sp *liter.LoginSuccessPkt
 	if sp, err = proxyLoginPackets(s, conn, c); err != nil {

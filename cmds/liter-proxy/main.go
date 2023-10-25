@@ -81,7 +81,7 @@ WAIT:
 		loger.Infof("Got signal %s", s.String())
 		if s == syscall.SIGHUP {
 			loger.Infof("Reloading config...")
-			ncfg := readConfig()
+			ncfg := loadConfig()
 			loger.Infof("Reloading plugins...")
 			manager.UnloadAll()
 			if _, err := manager.LoadFromDir(scriptpath); err != nil {
