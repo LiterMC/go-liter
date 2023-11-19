@@ -12,11 +12,6 @@ interface _Event<T extends obj> {
 	cancel(): void
 }
 
-interface PlayerInfo {
-	id: string
-	name: string
-}
-
 declare global {
 	const $: {
 		ID: string
@@ -103,6 +98,11 @@ declare global {
 		string(): string
 		uuid(): string
 		json<T>(): T
+	}
+
+	interface PlayerInfo {
+		id: string
+		name: string
 	}
 
 	interface HandshakePkt {
