@@ -15,6 +15,7 @@ type ScriptMeta struct {
 	Id string `json:"name"`
 	Version string `json:"version"`
 	Description string `json:"description"`
+	Dependencies DependMap `json:"dependencies"`
 }
 
 type Script struct {
@@ -48,7 +49,9 @@ func loadScriptMeta(packet fs.FS)(meta ScriptMeta, err error){
 	return
 }
 
-func loadScript(packet fs.FS, meta ScriptMeta, loger logger.Logger, vm *goja.Runtime, loop *eventloop.EventLoop)(s *Script, err error){
+func loadScript(packet fs.FS, meta ScriptMeta,
+	extLoader extModuleLoader, loger logger.Logger,
+	vm *goja.Runtime, loop *eventloop.EventLoop)(s *Script, err error){
 	s = &Script{
 		ScriptMeta: meta,
 		vm: vm,
@@ -61,7 +64,7 @@ func loadScript(packet fs.FS, meta ScriptMeta, loger logger.Logger, vm *goja.Run
 	doll.Set("VERSION", s.Version)
 	s.emitter.ExportTo(doll)
 	s.console = console.NewConsole(vm, setPrefixLogger(loger, s.Id))
-	s.loader = newModuleLoader(packet, vm, []addonVar{
+	s.loader = newModuleLoader(packet, vm, extLoader, []addonVar{
 		{ name: "$", val: doll },
 		{ name: "console", val: s.console.Exports() },
 	})
@@ -73,8 +76,7 @@ func loadScript(packet fs.FS, meta ScriptMeta, loger logger.Logger, vm *goja.Run
 
 // Exports return the module.exports from index.js
 func (s *Script)Exports()(*goja.Object){
-	// return s.exports
-	return nil
+	return s.exports
 }
 
 func (s *Script)Logger()(logger.Logger){

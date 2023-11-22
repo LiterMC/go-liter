@@ -7,6 +7,11 @@ import (
 	"strings"
 )
 
+// OptBool is a simplified optional boolean type
+// liter.TRUE means true
+// liter.FALSE means false
+// default value 0 means not set
+// other values will cause undefined behaviour
 type OptBool int
 const (
 	TRUE OptBool = 1

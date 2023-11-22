@@ -22,6 +22,8 @@ github.com/dop251/goja_nodejs v0.0.0-20210225215109-d91c329300e7/go.mod h1:hn7BA
 github.com/dop251/goja_nodejs v0.0.0-20211022123610-8dd9abb0616d/go.mod h1:DngW8aVqWbuLRMHItjPUyqdj+HWPvnQe8V8y1nDpIbM=
 github.com/dop251/goja_nodejs v0.0.0-20230914102007-198ba9a8b098 h1:MdrnfFPrfMfxiwnoJU2vnJ9ucskslblk7UhNWZTO2Qo=
 github.com/dop251/goja_nodejs v0.0.0-20230914102007-198ba9a8b098/go.mod h1:phKgRwmVpHQiW0mh9HNXILv/e2MfH7kqAnDANHnpXdU=
+github.com/fsnotify/fsnotify v1.7.0 h1:8JEhPFa5W2WU7YfeZzPNqzMP6Lwt7L2715Ggo0nosvA=
+github.com/fsnotify/fsnotify v1.7.0/go.mod h1:40Bi/Hjc2AVfZrqy+aj+yEI+/bRxZnMJyTJwOpGvigM=
 github.com/gabriel-vasile/mimetype v1.4.2 h1:w5qFW6JKBz9Y393Y4q372O9A7cUSequkh1Q7OhCmWKU=
 github.com/gabriel-vasile/mimetype v1.4.2/go.mod h1:zApsH/mKG4w07erKIaJPFiX0Tsq9BFQgN3qGY5GnNgA=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
@@ -57,6 +59,8 @@ github.com/klauspost/cpuid/v2 v2.2.4 h1:acbojRNwl3o09bUq+yDCtZFc1aiwaAAxtcn8YkZX
 github.com/klauspost/cpuid/v2 v2.2.4/go.mod h1:RVVoqg1df56z8g3pUjL/3lE5UfnlrJX8tyFgg4nqhuY=
 github.com/kmcsr/go-logger v1.3.0 h1:cs1b/j61I8dFnzyqHHXOia9cQzARMQ9L8mZBjoPjPww=
 github.com/kmcsr/go-logger v1.3.0/go.mod h1:w/kqF9HZCFShu7Y7xQyMPiHs/xAf96OwC5061ptvt6U=
+github.com/kmcsr/semver v0.1.2 h1:155zDE+kw+vR7V3LG4BUr5I0FFy8nh82CqASL5akjUE=
+github.com/kmcsr/semver v0.1.2/go.mod h1:eIMuG6CT22R1nBlWiPpSdwf/LeZmRczPa50lbNfZhSM=
 github.com/kr/pretty v0.1.0/go.mod h1:dAy3ld7l9f0ibDNOQOHHMYYIIbhfbHSm3C4ZsoJORNo=
 github.com/kr/pretty v0.2.1/go.mod h1:ipq/a2n7PKx3OHsz4KJII5eveXtPO4qwEXGdVfWzfnI=
 github.com/kr/pretty v0.3.0 h1:WgNl7dwNpEZ6jJ9k1snq4pZsg7DOEN8hP9Xw0Tsjwk0=

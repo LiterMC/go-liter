@@ -45,29 +45,29 @@ const (
 	clientTokenIdKey = "liter.client.jti"
 )
 
-var hmacKey []byte = func()(key []byte){
-	path := filepath.Join(configDir, "server.hmac.private_key")
+func loadHmacKey()(key []byte){
+	path := filepath.Join(workingDir, "server.hmac.private_key")
 	buf, err := os.ReadFile(path)
 	if err != nil {
 		if errors.Is(err, os.ErrNotExist) {
 			var sbuf string
 			if sbuf, err = genRandB64(256); err != nil {
-				loger.Fatalf("Cannot generate hmac key: %v", err)
+				loger.Panicf("Cannot generate hmac key: %v", err)
 			}
 			buf = ([]byte)(sbuf)
 			if err = os.WriteFile(path, buf, 0600); err != nil {
-				loger.Fatalf("Cannot create hmac key file: %v", err)
+				loger.Panicf("Cannot create hmac key file: %v", err)
 			}
 		}else{
-			loger.Fatalf("Cannot read hmac key: %v", err)
+			loger.Panicf("Cannot read hmac key: %v", err)
 		}
 	}
 	key = make([]byte, base64.RawURLEncoding.DecodedLen(len(buf)))
 	if _, err = base64.RawURLEncoding.Decode(key, buf); err != nil {
-		loger.Fatalf("Cannot decode hmac key: %v", err)
+		loger.Panicf("Cannot decode hmac key: %v", err)
 	}
 	return
-}()
+}
 
 func (s *Server)initAPI(api *gin.RouterGroup){
 	api.Use(func(ctx *gin.Context){

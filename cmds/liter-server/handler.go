@@ -13,7 +13,7 @@ import (
 	"github.com/kmcsr/go-liter/script"
 )
 
-func (s *Server)handle(c *liter.Conn, cfg *Config){
+func (s *Server)handle(c *liter.Conn){
 	preventCliSideClose := false
 	wc := s.scripts.WrapConn(c)
 	defer func(){
@@ -49,7 +49,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 	isLogin := hp.NextState == liter.NextLoginState
 
 	var svr *ServerIns = nil
-	F: for _, s := range cfg.Servers {
+	F: for _, s := range s.config.Servers {
 		for _, n := range s.ServerNames {
 			if ismatch(hp.Addr, n) {
 				svr = s
@@ -114,7 +114,7 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 		var pl liter.PlayerInfo
 		pl, err = AuthClient.GetPlayerInfo(lp.Name)
 		if err != nil {
-			if cfg.OnlineMode {
+			if s.config.OnlineMode {
 				loginDisconnect(c, "Your username is not exists or auth server error")
 				ploger.Debugf("Cannot get player info for %s: %v", lp.Name, err)
 				return
@@ -130,11 +130,11 @@ func (s *Server)handle(c *liter.Conn, cfg *Config){
 				return
 			}
 		}
-		if blacklist.HasPlayer(pl) {
+		if s.blacklist.HasPlayer(pl) {
 			loginDisconnect(c, "Your are in the blacklist")
 			return
 		}
-		if cfg.EnableWhitelist && !whitelist.HasPlayer(pl) {
+		if s.config.EnableWhitelist && !s.whitelist.HasPlayer(pl, s.config.OnlineMode) {
 			loginDisconnect(c, "Your are not in the whitelist")
 			return
 		}

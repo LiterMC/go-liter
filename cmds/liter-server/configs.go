@@ -8,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"sync"
 
 	"gopkg.in/yaml.v3"
 	"github.com/google/uuid"
@@ -32,50 +31,37 @@ func initLogger()(loger logger.Logger){
 	return
 }
 
-var configDir = getConfigDir()
-
-func getConfigDir()(dir string){
-	_ = _after_load
-	// if runtime.GOOS != "windows" {
-	// 	dir = filepath.Join("/opt", "litermc")
-	// }else{
-	// 	dir = "."
-	// }
-	// if fi, err := os.Stat(dir); err == nil {
-	// 	if !fi.IsDir() {
-	// 		loger.Fatalf("Path '%s' is not a dir", dir)
-	// 	}
-	// }else if os.IsNotExist(err) {
-	// 	if err = os.MkdirAll(dir, 0755); err != nil {
-	// 		loger.Fatalf("Cannot create config dir '%s': %v", dir, err)
-	// 	}
-	// }
+var workingDir string = func()(string){
 	dir, err := os.Getwd()
 	if err != nil {
 		loger.Panicf("Cannot get working dir", err)
 	}
-	return
+	return dir
+}()
+
+type ServerIns struct {
+	Id          string   `json:"id" yaml:"id"`
+	Target      string   `json:"target" yaml:"target"`
+	ServerNames []string `json:"names" yaml:"names"`
+	// HandlePing is useful if you want to hide online players from others who won't join the server
+	HandlePing  bool     `json:"handlePing" yaml:"handle-ping"`
+	// Motd only use when HandlePing is true
+	Motd        string   `json:"motd" yaml:"motd"`
+	// MotdFailed will be send back when the ping connection failed on the server
+	MotdFailed  string   `json:"motdFailed" yaml:"motd-failed"`
 }
 
-var (
-	configLock sync.RWMutex
-	cfgHash, _ = genRandB64(48)
-)
-
-func reloadConfigs(){
-	loger.Infof("Reloading config...")
-
-	configLock.Lock()
-	defer configLock.Unlock()
-
-	cfgHash, _ = genRandB64(48)
-	config = loadConfig()
-	whitelist = loadWhitelist()
-	blacklist = loadBlacklist()
+type DevConfig struct {
+	Debug bool `yaml:"debug"`
+	WatchPlugin        bool `yaml:"watch-plugin"`
+	WatchReloadTimeout int  `yaml:"watch-reload-timeout"` // in seconds
+	// liter will run `${npm-bin} run build` to load a directory plugin
+	DirectoryPlugin bool `yaml:"directory-plugin"`
+	Npm     string   `yaml:"npm-bin"`
+	NpmArgs []string `yaml:"npm-args"`
 }
 
 type Config struct {
-	Debug bool `yaml:"debug"`
 	OnlineMode bool `yaml:"online-mode"`
 
 	ServerAddr string `yaml:"server-addr"`
@@ -89,19 +75,11 @@ type Config struct {
 	EnableIPWhitelist bool `yaml:"enable-ip-whitelist"`
 
 	Servers []*ServerIns `yaml:"servers"`
-}
 
-var config = loadConfig()
-
-func getConfig()(Config, string){
-	configLock.RLock()
-	defer configLock.RUnlock()
-	return config, cfgHash
+	Dev DevConfig `yaml:"dev"`
 }
 
 func loadConfig()(cfg Config){
-	_ = _after_load
-
 	// set config default values
 	cfg.OnlineMode = true
 	cfg.ServerAddr = ":25565"
@@ -114,24 +92,28 @@ func loadConfig()(cfg Config){
 		},
 	}
 	cfg.Dashboard.Addr = "127.0.0.1:25580"
+	cfg.Dev = DevConfig{
+		WatchReloadTimeout: 5,
+		Npm: "npm",
+	}
 
-	path := filepath.Join(configDir, "config.yml")
+	path := filepath.Join(workingDir, "config.yml")
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if !os.IsNotExist(err) {
-			loger.Fatalf("Cannot read config file: %v", err)
+			loger.Panicf("Cannot read config file: %v", err)
 		}
 	}else if err = yaml.Unmarshal(data, &cfg); err != nil {
-		loger.Fatalf("Cannot parse config file: %v", err)
+		loger.Panicf("Cannot parse config file: %v", err)
 		return
 	}
 	if err = cfg.Save(); err != nil {
-		loger.Fatalf("Cannot save config file: %v", err)
+		loger.Panicf("Cannot save config file: %v", err)
 		return
 	}
 	loger.Infof("Loaded config file")
 
-	if cfg.Debug {
+	if cfg.Dev.Debug {
 		loger.SetLevel(logger.TraceLevel)
 		loger.Debug("Debug log enabled")
 		gin.SetMode(gin.DebugMode)
@@ -143,7 +125,7 @@ func loadConfig()(cfg Config){
 }
 
 func (cfg Config)Save()(err error){
-	path := filepath.Join(configDir, "config.yml")
+	path := filepath.Join(workingDir, "config.yml")
 
 	var data []byte
 	if data, err = yaml.Marshal(cfg); err != nil {
@@ -158,10 +140,12 @@ func (cfg Config)Save()(err error){
 var AuthClient = liter.DefaultAuthClient
 
 type PlayerInfo struct {
+	onlineMode bool
 	liter.PlayerInfo
 }
 
-func ParsePlayerInfoFromString(v string)(p PlayerInfo, err error){
+func ParsePlayerInfoFromString(v string, onlineMode bool)(p PlayerInfo, err error){
+	p.onlineMode = onlineMode
 	if p.Id, err = uuid.Parse(v); err == nil {
 		var profile *liter.PlayerProfile
 		profile, err = AuthClient.GetPlayerProfile(p.Id)
@@ -171,7 +155,7 @@ func ParsePlayerInfoFromString(v string)(p PlayerInfo, err error){
 		p.Name = profile.Name
 	}else{
 		err = nil
-		if config.OnlineMode {
+		if onlineMode {
 			var info liter.PlayerInfo
 			info, err = AuthClient.GetPlayerInfo(v)
 			if err != nil {
@@ -194,7 +178,7 @@ func (p *PlayerInfo)update()(err error){
 	if p.IsOffline() {
 		return
 	}
-	if config.OnlineMode {
+	if p.onlineMode {
 		var profile *liter.PlayerProfile
 		profile, err = AuthClient.GetPlayerProfile(p.Id)
 		if err != nil {
@@ -204,7 +188,7 @@ func (p *PlayerInfo)update()(err error){
 	}
 	if p.Name == "" {
 		return fmt.Errorf("Unknown player info")
-	}else if config.OnlineMode {
+	}else if p.onlineMode {
 		var info liter.PlayerInfo
 		info, err = AuthClient.GetPlayerInfo(p.Name)
 		if err != nil {
@@ -243,7 +227,7 @@ func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
 		var ok bool
 		var id string
 		p.Name, _ = v["name"].(string)
-		if config.OnlineMode {
+		if p.onlineMode {
 			if id, ok = v["id"].(string); ok {
 				var e error
 				if p.Id, e = uuid.Parse(id); e != nil {
@@ -259,7 +243,7 @@ func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
 		}
 		if p.Name == "" {
 			return fmt.Errorf("Unknown player info")
-		}else if config.OnlineMode {
+		}else if p.onlineMode {
 			info, err := AuthClient.GetPlayerInfo(p.Name)
 			if err != nil {
 				return nil
@@ -278,16 +262,8 @@ type Whitelist struct {
 	IPs     []string     `json:"ips"`
 }
 
-var whitelist = loadWhitelist()
-
-func getWhitelist()(Whitelist, string){
-	configLock.RLock()
-	defer configLock.RUnlock()
-	return whitelist, cfgHash
-}
-
 func loadWhitelist()(wl Whitelist){
-	path := filepath.Join(configDir, "whitelist.json")
+	path := filepath.Join(workingDir, "whitelist.json")
 
 	wl.Players = make([]PlayerInfo, 0)
 	wl.IPs = make([]string, 0)
@@ -298,24 +274,24 @@ func loadWhitelist()(wl Whitelist){
 			wl.Players = make([]PlayerInfo, 0)
 			wl.IPs = make([]string, 0)
 			if data, err = json.MarshalIndent(wl, "", "  "); err != nil {
-				loger.Fatalf("Cannot encode whitelist data: %v", err)
+				loger.Panicf("Cannot encode whitelist data: %v", err)
 				return
 			}
 			if err = os.WriteFile(path, data, 0644); err != nil {
-				loger.Fatalf("Cannot create whitelist file: %v", err)
+				loger.Panicf("Cannot create whitelist file: %v", err)
 				return
 			}
 		}else{
-			loger.Fatalf("Cannot read whitelist file: %v", err)
+			loger.Panicf("Cannot read whitelist file: %v", err)
 		}
 		return
 	}
 	if err = json.Unmarshal(data, &wl); err != nil {
-		loger.Fatalf("Cannot parse whitelist file: %v", err)
+		loger.Panicf("Cannot parse whitelist file: %v", err)
 		return
 	}
 	if err = wl.Save(); err != nil {
-		loger.Fatalf("Cannot save whitelist: %v", err)
+		loger.Panicf("Cannot save whitelist: %v", err)
 		return
 	}
 	loger.Infof("Whitelist is loaded")
@@ -323,7 +299,7 @@ func loadWhitelist()(wl Whitelist){
 }
 
 func (wl Whitelist)Save()(err error){
-	path := filepath.Join(configDir, "whitelist.json")
+	path := filepath.Join(workingDir, "whitelist.json")
 	var data []byte
 	if data, err = json.MarshalIndent(wl, "", "  "); err != nil {
 		return
@@ -334,13 +310,13 @@ func (wl Whitelist)Save()(err error){
 	return
 }
 
-func (wl Whitelist)HasPlayer(player liter.PlayerInfo)(ok bool){
+func (wl Whitelist)HasPlayer(player liter.PlayerInfo, onlineMode bool)(ok bool){
 	for _, p := range wl.Players {
 		if !p.IsOffline() && player.Id != uuid.Nil { // player is online mode
 			if p.Id == player.Id {
 				return true
 			}
-		}else if !config.OnlineMode && p.Name == player.Name { // check when under offline mode
+		}else if !onlineMode && p.Name == player.Name { // check when under offline mode
 			return true
 		}
 	}
@@ -372,8 +348,8 @@ func (wl *Whitelist)cleanPlayers(){
 	wl.Players = players
 }
 
-func (wl *Whitelist)AddPlayer(v string)(err error){
-	p, err := ParsePlayerInfoFromString(v)
+func (wl *Whitelist)AddPlayer(v string, onlineMode bool)(err error){
+	p, err := ParsePlayerInfoFromString(v, onlineMode)
 	if err != nil {
 		return
 	}
@@ -414,16 +390,8 @@ type Blacklist struct {
 	IPs     []string     `json:"ips"`
 }
 
-var blacklist = loadBlacklist()
-
-func getBlacklist()(Blacklist, string){
-	configLock.RLock()
-	defer configLock.RUnlock()
-	return blacklist, cfgHash
-}
-
 func loadBlacklist()(bl Blacklist){
-	path := filepath.Join(configDir, "blacklist.json")
+	path := filepath.Join(workingDir, "blacklist.json")
 
 	bl.Players = make([]PlayerInfo, 0)
 	bl.IPs = make([]string, 0)
@@ -432,24 +400,24 @@ func loadBlacklist()(bl Blacklist){
 	if err != nil {
 		if os.IsNotExist(err) {
 			if data, err = json.MarshalIndent(bl, "", "  "); err != nil {
-				loger.Fatalf("Cannot encode blacklist data: %v", err)
+				loger.Panicf("Cannot encode blacklist data: %v", err)
 				return
 			}
 			if err = os.WriteFile(path, data, 0644); err != nil {
-				loger.Fatalf("Cannot create blacklist file: %v", err)
+				loger.Panicf("Cannot create blacklist file: %v", err)
 				return
 			}
 		}else{
-			loger.Fatalf("Cannot read blacklist file: %v", err)
+			loger.Panicf("Cannot read blacklist file: %v", err)
 		}
 		return
 	}
 	if err = json.Unmarshal(data, &bl); err != nil {
-		loger.Fatalf("Cannot parse blacklist file: %v", err)
+		loger.Panicf("Cannot parse blacklist file: %v", err)
 		return
 	}
 	if err = bl.Save(); err != nil {
-		loger.Fatalf("Cannot save blacklist: %v", err)
+		loger.Panicf("Cannot save blacklist: %v", err)
 		return
 	}
 	loger.Infof("Blacklist is loaded")
@@ -457,7 +425,7 @@ func loadBlacklist()(bl Blacklist){
 }
 
 func (bl Blacklist)Save()(err error){
-	path := filepath.Join(configDir, "blacklist.json")
+	path := filepath.Join(workingDir, "blacklist.json")
 	var data []byte
 	if data, err = json.MarshalIndent(bl, "", "  "); err != nil {
 		return
@@ -501,8 +469,8 @@ func (bl *Blacklist)cleanPlayers(){
 	bl.Players = players
 }
 
-func (bl *Blacklist)AddPlayer(v string)(err error){
-	p, err := ParsePlayerInfoFromString(v)
+func (bl *Blacklist)AddPlayer(v string, onlineMode bool)(err error){
+	p, err := ParsePlayerInfoFromString(v, onlineMode)
 	if err != nil {
 		return
 	}
@@ -534,24 +502,5 @@ func (bl *Blacklist)RemovePlayer(v string)(err error){
 
 func (bl *Blacklist)AddIP(v string)(err error){
 	bl.IPs = append(bl.IPs, v)
-	return
-}
-
-
-type ServerIns struct {
-	Id          string   `json:"id" yaml:"id"`
-	Target      string   `json:"target" yaml:"target"`
-	ServerNames []string `json:"names" yaml:"names"`
-	// HandlePing is useful if you want to hide online players from others who won't join the server
-	HandlePing  bool     `json:"handlePing" yaml:"handle-ping"`
-	// Motd only use when HandlePing is true
-	Motd        string   `json:"motd" yaml:"motd"`
-	// MotdFailed will be send back when the ping connection failed on the server
-	MotdFailed  string   `json:"motdFailed" yaml:"motd-failed"`
-}
-
-func getServers()(servers []*ServerIns, listHash string){
-	cfg, listHash := getConfig()
-	servers = cfg.Servers
 	return
 }

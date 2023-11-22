@@ -60,17 +60,25 @@ type Server struct{
 	mux        sync.Mutex
 	listeners  []net.Listener
 	conns      FlatMemory[*Conn]
+
+	hmacKey    []byte
+	configLock *sync.RWMutex
+	cfgHash    *string
+	config     *Config
+	whitelist  *Whitelist
+	blacklist  *Blacklist
 }
 
-func NewServer(sm *script.Manager)(s *Server){
+func NewServer(configDir string, sm *script.Manager)(s *Server){
 	s = &Server{
 		scripts: sm,
 		users: NewUserStorage(filepath.Join(configDir, "users.json")),
+		hmacKey: loadHmacKey(),
 	}
 	var err error
 
 	if s.rsaKey, err = rsa.GenerateKey(crand.Reader, 1024); err != nil {
-		loger.Fatalf("Cannot generate RSA key: %v", err)
+		loger.Panicf("Cannot generate RSA key: %v", err)
 	}
 
 	s.initHandler()
@@ -122,7 +130,6 @@ func (s *Server)Serve(listener net.Listener)(err error){
 					c.Close()
 				}
 			}()
-			cfg, _ := getConfig()
 			if host, _, err := net.SplitHostPort(c.RemoteAddr().String()); err != nil {
 				return
 			}else{
@@ -130,18 +137,18 @@ func (s *Server)Serve(listener net.Listener)(err error){
 				if ip == nil {
 					return
 				}
-				if blacklist.IncludeIP(ip) {
+				if s.blacklist.IncludeIP(ip) {
 					return
 				}
-				if cfg.EnableIPWhitelist {
-					if !whitelist.IncludeIP(ip) {
+				if s.config.EnableIPWhitelist {
+					if !s.whitelist.IncludeIP(ip) {
 						return
 					}
 				}
 			}
 			wc := liter.WrapConn(c)
 			successed = true
-			s.handle(wc, &cfg)
+			s.handle(wc)
 		}(c)
 	}
 }

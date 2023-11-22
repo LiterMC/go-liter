@@ -21,3 +21,6 @@ var DashboardAssets http.FileSystem = func()(http.FileSystem){
 	return http.FS(assetsFS)
 }()
 
+func runDashResources()(func(), error){
+	return func(){}, nil
+}

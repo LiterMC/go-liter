@@ -9,6 +9,7 @@ import (
 	"net"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 const DefaultPort = 25565
@@ -30,12 +31,14 @@ func (e *PktIdAssertError)Error()(string){
 }
 
 
-type Conn struct{
+type Conn struct {
 	conn net.Conn
 	protocol int
 	threshold int
+	sendMux sync.Mutex
 }
 
+// WrapConn wraps a raw net.Conn as a minecraft connection
 func WrapConn(c net.Conn)(*Conn){
 	return &Conn{
 		protocol: V_UNSET,
@@ -44,6 +47,7 @@ func WrapConn(c net.Conn)(*Conn){
 	}
 }
 
+// Resolve the minecraft server's hostport with the given address and cancel context
 func ResloveAddrWithContext(ctx context.Context, target string)(addr *net.TCPAddr, err error){
 	addr = &net.TCPAddr{
 		Port: DefaultPort,
@@ -79,10 +83,12 @@ func ResloveAddrWithContext(ctx context.Context, target string)(addr *net.TCPAdd
 	return
 }
 
+// Resolve the minecraft server's hostport with the given address
 func ResloveAddr(target string)(addr *net.TCPAddr, err error){
 	return ResloveAddrWithContext(context.Background(), target)
 }
 
+// Dial to a minecraft server with given context
 func DialWithContext(ctx context.Context, target string)(c *Conn, err error){
 	var c0 *net.TCPConn
 	var addr *net.TCPAddr
@@ -95,46 +101,61 @@ func DialWithContext(ctx context.Context, target string)(c *Conn, err error){
 	return WrapConn(c0), nil
 }
 
+// Dial to a minecraft server
 func Dial(target string)(c *Conn, err error){
 	return DialWithContext(context.Background(), target)
 }
 
+// Protocol returns the cached protocol from HandshakePkt
 func (c *Conn)Protocol()(int){
 	return c.protocol
 }
 
+// RawConn returns the underlying connection
 func (c *Conn)RawConn()(net.Conn){
 	return c.conn
 }
 
+// LocalAddr returns the LocalAddr of the underlying connection
 func (c *Conn)LocalAddr()(net.Addr){
 	return c.conn.LocalAddr()
 }
 
+// RemoteAddr returns the RemoteAddr of the underlying connection
 func (c *Conn)RemoteAddr()(net.Addr){
 	return c.conn.RemoteAddr()
 }
 
+// Close will directly close the underlying connection
 func (c *Conn)Close()(err error){
 	return c.conn.Close()
 }
 
+// Compressed returns whether the connection is compressed or not (threshold >= 0)
 func (c *Conn)Compressed()(bool){
 	return c.threshold >= 0
 }
 
+// Threshold returns the current connection's data compress threshold.
+// Less than zero means the threshold is unset
 func (c *Conn)Threshold()(int){
 	return c.threshold
 }
 
+// SetThreshold will set the current connection's data compress threshold.
+// It should only be called once
 func (c *Conn)SetThreshold(threshold int){
 	if c.threshold >= 0 && threshold < 0 {
-		panic("Wrong usage: cannot cancel a compressed connection")
+		panic("liter: Conn.SetThreshold: Wrong usage: cannot cancel a compressed connection")
 	}
 	c.threshold = threshold
 }
 
+// Send sends data from a PacketBuilder
+// It's thread-safe
 func (c *Conn)Send(p *PacketBuilder)(err error){
+	c.sendMux.Lock()
+	defer c.sendMux.Unlock()
 	if c.Compressed() {
 		if _, err = p.WriteCompressedTo(c.conn, c.threshold); err != nil {
 			return
@@ -145,12 +166,18 @@ func (c *Conn)Send(p *PacketBuilder)(err error){
 	return
 }
 
+// SendPkt encode the encodable value into a PacketBuilder with given ID and cached protocol.
+// It will pass the builder to method Send.
+// It's thread-safe
 func (c *Conn)SendPkt(id int32, value Encodable)(err error){
 	p := NewPacket(c.protocol, (VarInt)(id))
 	value.Encode(p)
 	return c.Send(p)
 }
 
+// SendHandshakePkt will encode the HandshakePkt into a PacketBuilder.
+// For each connection, only one of the SendHandshakePkt or RecvHandshakePkt can be called, and it should be only called once.
+// It's thread-safe, but you shouldn't call it more than one time
 func (c *Conn)SendHandshakePkt(pkt *HandshakePkt)(err error){
 	if c.protocol != V_UNSET {
 		panic("The first handshake packet is already has been received or sent")
@@ -164,10 +191,15 @@ func (c *Conn)SendHandshakePkt(pkt *HandshakePkt)(err error){
 	return
 }
 
+// Recv read a packet and returns a PacketReader.
+// The PacketReader is safely to read concurrently, but this method cannot be called concurrently.
 func (c *Conn)Recv()(r *PacketReader, err error){
 	return ReadPacket(c.protocol, c.conn, c.Compressed())
 }
 
+// RecvPkt read a packet and parse it into the Decodable.
+// It will assert the id while parsing the packet.
+// This method cannot be called concurrently
 func (c *Conn)RecvPkt(id int32, pkt Decodable)(err error){
 	var r *PacketReader
 	if r, err = c.Recv(); err != nil {
@@ -182,6 +214,8 @@ func (c *Conn)RecvPkt(id int32, pkt Decodable)(err error){
 	return
 }
 
+// For each connection, only one of the SendHandshakePkt or RecvHandshakePkt can be called, and it should be only called once.
+// This method cannot be called concurrently
 func (c *Conn)RecvHandshakePkt()(pkt *HandshakePkt, err error){
 	if c.protocol != V_UNSET {
 		panic("The first handshake packet is already has been received or sent")

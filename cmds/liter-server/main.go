@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -10,19 +9,18 @@ import (
 	"os/signal"
 	"path/filepath"
 	"strconv"
+	"sync"
 	"syscall"
 	"time"
 
 	"github.com/kmcsr/go-liter/script"
 )
 
-var _after_load = initBeforeLoad()
-
-func initBeforeLoad()(_ bool){
+func parseFlags() {
 	var command string
 	if len(os.Args) == 1 {
 		command = "serve"
-	}else{
+	} else {
 		command = os.Args[1]
 		switch command {
 		case "daemon":
@@ -57,7 +55,7 @@ func initBeforeLoad()(_ bool){
 			proca := &os.ProcAttr{
 				Files: []*os.File{nil, os.Stdout, os.Stderr},
 			}
-			args := make([]string, len(os.Args) - 1)
+			args := make([]string, len(os.Args)-1)
 			args[0] = os.Args[0]
 			args[1] = "serve"
 			copy(args[2:], os.Args[3:])
@@ -105,68 +103,37 @@ func initBeforeLoad()(_ bool){
 		return
 	}
 	loger.Fatalf("Unknown subcommand '%s'", command)
-	return
 }
 
-func main(){
-	scriptpath := filepath.Join(configDir, "plugins")
-	var (
-		err error
-		cfg, _ = getConfig()
-		manager = script.NewManager()
-		server = NewServer(manager)
-		dashboard *http.Server
+func main() {
+	parseFlags()
 
-		exit1, exit2 chan struct{}
-	)
-
-	loger.Infof("Liter Server %s", version)
-	manager.SetLogger(loger)
-
-	if _, err := os.Stat(scriptpath); errors.Is(err, os.ErrNotExist) {
-		os.MkdirAll(scriptpath, 0755)
+	cleaner, err := runDashResources()
+	if err != nil {
+		loger.Panicf("Cannot start the frontend server: %v", err)
 	}
-	if _, err = manager.LoadFromDir(scriptpath); err != nil {
-		loger.Errorf("Cannot load scripts: %v", err)
-	}
+	defer cleaner()
 
-	startServer := func(addr string){
-		server.Addr = addr
-		if exit1, err = listenAndServeLiterServer(server); err != nil {
-			loger.Fatalf("Cannot listening at [%s] for liter server: %v", cfg.ServerAddr, err)
-		}
+	r := new(Runner)
+	if r.configDir, err = os.Getwd(); err != nil {
+		loger.Panicf("Cannot get working dir", err)
 	}
-	startDashboard := func(addr string){
-		dashboard = &http.Server{
-			Addr: addr,
-			Handler: server,
-		}
-		if server.users.Len() == 0 {
-			loger.Errorf("No any users were found, creating one...")
-			if passwd, err := genRandB64(16); err != nil {
-				loger.Errorf("Cannot create new user: %v", err)
-			}else{
-				root := &User{
-					Name: "root",
-				}
-				// one more sha from the browser
-				root.SetPassword(asSha256Hex(passwd))
-				if err := server.users.AddUser(root); err != nil {
-					loger.Errorf("Cannot create new user: %v", err)
-				}else{
-					loger.Infof("Root user created: password=%s", passwd)
-				}
-			}
-		}
-		if exit2, err = listenAndServeHTTP(dashboard); err != nil {
-			loger.Fatalf("Cannot listening at [%s] for http server: %v", dashboard.Addr, err)
-		}
-	}
+	r.scriptPath = filepath.Join(r.configDir, "plugins")
+	r.cfgHash, _ = genRandB64(48)
+	r.config = loadConfig()
+	r.whitelist = loadWhitelist()
+	r.blacklist = loadBlacklist()
+	r.manager = script.NewManager()
+	r.server = NewServer(r.configDir, r.manager)
+	r.server.configLock = &r.configLock
+	r.server.cfgHash = &r.cfgHash
+	r.server.config = &r.config
+	r.server.blacklist = &r.blacklist
+	r.server.whitelist = &r.whitelist
 
-	startServer(cfg.ServerAddr)
-
-	if cfg.Dashboard.Enable {
-		startDashboard(cfg.Dashboard.Addr)
+	r.startServer()
+	if r.config.Dashboard.Enable {
+		r.startDashboard(r.config.Dashboard.Addr)
 	}
 
 	sigs := make(chan os.Signal, 1)
@@ -176,110 +143,215 @@ WAIT:
 	select {
 	case s := <-sigs:
 		loger.Warnf("Got signal %s", s.String())
-		if s == syscall.SIGHUP {
-			reloadConfigs()
-			ncfg, _ := getConfig()
-			loger.Info("Reloading plugins ...")
-			manager.UnloadAll()
-			if _, err = manager.LoadFromDir(scriptpath); err != nil {
-				loger.Errorf("Cannot load scripts: %v", err)
-			}
-			if cfg.ServerAddr != ncfg.ServerAddr {
-				timeoutCtx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
-				loger.Warn("Closing server for restart ...")
-				server.Shutdown(timeoutCtx)
-				cancel()
-				loger.Info("Restarting ...")
-				startServer(ncfg.ServerAddr)
-			}
-			if !ncfg.Dashboard.Enable {
-				// if disabled but dashboard is opening
-				if dashboard != nil {
-					loger.Warn("Closing dashboard ...")
-					timeoutCtx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
-					dashboard.Shutdown(timeoutCtx)
-					dashboard = nil
-					cancel()
-				}
-			}else if dashboard == nil {
-				// if enabled but dashboard is closed
-				loger.Info("Starting dashboard ...")
-				startDashboard(ncfg.Dashboard.Addr)
-			}else if cfg.Dashboard.Enable && cfg.Dashboard.Addr != ncfg.Dashboard.Addr {
-				// if enabled but address changed
-				loger.Warn("Closing dashboard for restart ...")
-				timeoutCtx, cancel := context.WithTimeout(context.Background(), 3 * time.Second)
-				dashboard.Shutdown(timeoutCtx)
-				cancel()
-				loger.Info("Restarting dashboard ...")
-				startDashboard(ncfg.Dashboard.Addr)
-			}
-			cfg = ncfg
+		if s == syscall.SIGHUP { // reload
+			r.Reload()
 			goto WAIT
 		}
-		timeoutCtx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
-		go func(){
-			defer cancel()
-			select {
-			case <-sigs:
-				loger.Errorf("Got second close signal %s", s.String())
-			}
-		}()
-		loger.Warn("Closing server...")
-		done := make(chan struct{}, 2)
-		go func(){
-			defer func(){
-				done <- struct{}{}
-			}()
-			server.Shutdown(timeoutCtx)
-		}()
-		if dashboard != nil {
-			go func(){
-				defer func(){
-					done <- struct{}{}
-				}()
-				dashboard.Shutdown(timeoutCtx)
-			}()
-		}
-		<-done
-		if dashboard != nil {
-			<-done
-		}
-	case <-exit1:
+		r.Stop(sigs)
+	case <-r.exitSvr:
 		os.Exit(1)
-	case <-exit2:
+	case <-r.exitDash:
 		// ignore the http server exit
-		exit2 = nil
+		r.exitDash = nil
 		goto WAIT
 	}
 	loger.Warn("Server exited")
 }
 
+type Runner struct {
+	configDir         string
+	scriptPath        string
 
-func listenAndServeLiterServer(server *Server)(exited chan struct{}, err error){
-	var listener net.Listener
-	if listener, err = net.Listen("tcp", server.Addr); err != nil {
+	configLock sync.RWMutex
+	cfgHash   string
+	config    Config
+	whitelist Whitelist
+	blacklist Blacklist
+
+	manager           *script.Manager
+	server            *Server
+	dashboard         *http.Server
+	exitSvr, exitDash chan struct{}
+}
+
+func (r *Runner) Run() {
+	var err error
+
+	loger.Infof("Liter Server %s", version)
+	r.manager.SetLogger(loger)
+
+	if _, err := os.Stat(r.scriptPath); errors.Is(err, os.ErrNotExist) {
+		os.MkdirAll(r.scriptPath, 0755)
+	}
+
+	if _, err = r.manager.LoadFromDir(r.scriptPath); err != nil {
+		loger.Errorf("Cannot load scripts: %v", err)
+	}
+
+	return
+}
+
+func (r *Runner) startServer() {
+	if r.exitSvr != nil {
+		panic("liter: Server is already started")
+	}
+	r.server.Addr = r.config.ServerAddr
+	listener, err := net.Listen("tcp", r.server.Addr)
+	if err != nil {
+		loger.Panicf("Cannot listening at [%s] for liter server: %v", r.server.Addr, err)
 		return
 	}
 	loger.Infof("Liter server listening at [%v]", listener.Addr())
 	exit := make(chan struct{}, 0)
-	go func(){
+	go func() {
 		defer close(exit)
-		if err := server.Serve(listener); err != nil {
+		if err := r.server.Serve(listener); err != nil {
 			loger.Errorf("Error on serve: %v", err)
 		}
 	}()
-	return exit, nil
+	r.exitSvr = exit
 }
 
-func listenAndServeHTTP(server *http.Server)(exited chan struct{}, err error){
+func (r *Runner) startDashboard(addr string) {
+	if r.exitDash != nil || r.dashboard != nil {
+		panic("liter: Dashboard is already started")
+	}
+	r.dashboard = &http.Server{
+		Addr:    addr,
+		Handler: r.server,
+	}
+	if r.server.users.Len() == 0 {
+		loger.Errorf("No any users were found, creating one...")
+		if passwd, err := genRandB64(16); err != nil {
+			loger.Errorf("Cannot create new user: %v", err)
+		} else {
+			root := &User{
+				Name: "root",
+			}
+			// one more sha from the browser
+			root.SetPassword(asSha256Hex(passwd))
+			if err := r.server.users.AddUser(root); err != nil {
+				loger.Errorf("Cannot create new user: %v", err)
+			} else {
+				loger.Infof("Root user created: password=%s", passwd)
+			}
+		}
+	}
+	var err error
+	if r.exitDash, err = listenAndServeHTTP(r.dashboard); err != nil {
+		loger.Panicf("Cannot listening at [%s] for http server: %v", r.dashboard.Addr, err)
+	}
+}
+
+func (r *Runner) closeServer(ctx context.Context) {
+	loger.Warn("Closing server ...")
+	if ctx == nil {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+	}
+	r.server.Shutdown(ctx)
+	r.exitSvr = nil
+}
+
+func (r *Runner) closeDashboard(ctx context.Context) {
+	loger.Warn("Closing dashboard ...")
+	if ctx == nil {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
+		defer cancel()
+	}
+	r.dashboard.Shutdown(ctx)
+	r.dashboard = nil
+	r.exitDash = nil
+}
+
+func (r *Runner) ReloadConfigs() (old Config) {
+	r.configLock.Lock()
+	defer r.configLock.Unlock()
+
+	r.cfgHash, _ = genRandB64(48)
+	old = r.config
+	r.config = loadConfig()
+	r.whitelist = loadWhitelist()
+	r.blacklist = loadBlacklist()
+	return
+}
+
+func (r *Runner) Reload() {
+	loger.Info("Unloading plugins ...")
+	r.manager.UnloadAll()
+
+	loger.Infof("Reloading config...")
+	ocfg := r.ReloadConfigs()
+
+	if ocfg.ServerAddr != r.config.ServerAddr {
+		loger.Info("Restarting ...")
+		r.startServer()
+	}
+	if !r.config.Dashboard.Enable {
+		// if disabled but dashboard is opening
+		if r.dashboard != nil {
+			r.closeDashboard(nil)
+		}
+	} else if r.dashboard == nil {
+		// if enabled but dashboard is closed
+		loger.Info("Starting dashboard ...")
+		r.startDashboard(r.config.Dashboard.Addr)
+	} else if ocfg.Dashboard.Enable && ocfg.Dashboard.Addr != r.config.Dashboard.Addr {
+		// if enabled but address changed
+		r.closeDashboard(nil)
+		loger.Info("Restarting dashboard ...")
+		r.startDashboard(r.config.Dashboard.Addr)
+	}
+
+	loger.Info("Reloading plugins ...")
+	if _, err := r.manager.LoadFromDir(r.scriptPath); err != nil {
+		loger.Errorf("Cannot load plugins: %v", err)
+	}
+}
+
+func (r *Runner) Stop(sigs <-chan os.Signal) {
+	timeoutCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	go func() {
+		defer cancel()
+		select {
+		case s := <-sigs:
+			loger.Errorf("Got second close signal %s", s.String())
+		}
+	}()
+
+	done := make(chan struct{}, 2)
+	hasDash := r.dashboard != nil
+
+	go func() {
+		defer func() {
+			done <- struct{}{}
+		}()
+		r.closeServer(timeoutCtx)
+	}()
+	if hasDash {
+		go func() {
+			defer func() {
+				done <- struct{}{}
+			}()
+			r.closeDashboard(timeoutCtx)
+		}()
+	}
+	<-done
+	if hasDash {
+		<-done
+	}
+}
+
+func listenAndServeHTTP(server *http.Server) (exited chan struct{}, err error) {
 	var listener net.Listener
 	if listener, err = net.Listen("tcp", server.Addr); err != nil {
 		return
 	}
 	loger.Infof("HTTP server listening at [%v]", listener.Addr())
 	exit := make(chan struct{}, 0)
-	go func(){
+	go func() {
 		defer close(exit)
 		if err := server.Serve(listener); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			loger.Errorf("Error on serve: %v", err)

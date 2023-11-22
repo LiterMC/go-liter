@@ -1,4 +1,5 @@
 
+// This package provide some useful data encode/decode
 package liter
 
 import (

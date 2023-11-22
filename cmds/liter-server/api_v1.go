@@ -46,7 +46,7 @@ func (s *Server)checkToken(ctx *gin.Context, token string)(ok bool){
 			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
 			}
-			return hmacKey, nil
+			return s.hmacKey, nil
 		},
 		jwt.WithSubject("optk"),
 		jwt.WithIssuedAt(),
@@ -136,7 +136,7 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 			"cli": id,
 			"user": req.User,
 		})
-		tokenStr, err := token.SignedString(hmacKey)
+		tokenStr, err := token.SignedString(s.hmacKey)
 		if err != nil {
 			ctx.AbortWithError(http.StatusInternalServerError, err)
 			return
@@ -198,23 +198,25 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 // config APIs
 func registerConfigs(s *Server, g *gin.RouterGroup){
 	g.GET("/config", func(ctx *gin.Context){
-		cfg, cfgHash := getConfig()
-		ctx.Header("ETag", strconv.Quote(cfgHash))
-		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == cfgHash {
+		qhash := strconv.Quote(*s.cfgHash)
+		ctx.Header("ETag", qhash)
+		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == qhash {
 			ctx.Status(http.StatusNotModified)
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
-			"onlineMode": cfg.OnlineMode,
-			"enableWhitelist": cfg.EnableWhitelist,
-			"enableIPWhitelist": cfg.EnableIPWhitelist,
+			"onlineMode": s.config.OnlineMode,
+			"enableWhitelist": s.config.EnableWhitelist,
+			"enableIPWhitelist": s.config.EnableIPWhitelist,
 		})
 	})
 
 	g.POST("/config", func(ctx *gin.Context){
-		configLock.Lock()
-		defer configLock.Unlock()
+		s.configLock.Lock()
+		defer s.configLock.Unlock()
+
+		qhash := strconv.Quote(*s.cfgHash)
 
 		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) == 0 {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
@@ -222,7 +224,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != strconv.Quote(cfgHash) {
+		}else if savedHash != qhash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -246,19 +248,19 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
-			config.OnlineMode = tmp.OnlineMode
+			s.config.OnlineMode = tmp.OnlineMode
 		case "enableWhitelist":
 			if err := json.Unmarshal(req.Value, &tmp.EnableWhitelist); err != nil {
 				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
-			config.EnableWhitelist = tmp.EnableWhitelist
+			s.config.EnableWhitelist = tmp.EnableWhitelist
 		case "enableIPWhitelist":
 			if err := json.Unmarshal(req.Value, &tmp.EnableIPWhitelist); err != nil {
 				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
-			config.EnableIPWhitelist = tmp.EnableIPWhitelist
+			s.config.EnableIPWhitelist = tmp.EnableIPWhitelist
 		default:
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
 				"UnknownOperation", fmt.Sprintf("Unsupported config key %q", req.Op),
@@ -266,8 +268,8 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 			return
 		}
 
-		cfgHash, _ = genRandB64(48)
-		if err := config.Save(); err != nil {
+		*s.cfgHash, _ = genRandB64(48)
+		if err := s.config.Save(); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromError(err).SetType("SaveError"))
 			return
 		}
@@ -278,30 +280,30 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 	})
 
 	g.GET("/whitelist", func(ctx *gin.Context){
-		wl, listHash := getWhitelist()
-		ctx.Header("ETag", strconv.Quote(listHash))
+		listHash := strconv.Quote(*s.cfgHash)
+		ctx.Header("ETag", listHash)
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
 			ctx.Status(http.StatusNotModified)
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
-			"data": wl,
+			"data": s.whitelist,
 		})
 	})
 
 	g.POST("/whitelist", func(ctx *gin.Context){
-		configLock.Lock()
-		defer configLock.Unlock()
+		s.configLock.Lock()
+		defer s.configLock.Unlock()
 
-		listHash := cfgHash
+		listHash := strconv.Quote(*s.cfgHash)
 		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) == 0 {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
 				"HeaderMissing",
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != strconv.Quote(listHash) {
+		}else if savedHash != listHash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -328,32 +330,32 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 
 		switch req.Op {
 		case opAddPlayer:
-			if err := whitelist.AddPlayer(req.Value); err != nil {
+			if err := s.whitelist.AddPlayer(req.Value, s.config.OnlineMode); err != nil {
 				ctx.AbortWithError(http.StatusOK, err)
 				return
 			}
-			whitelist.cleanPlayers()
+			s.whitelist.cleanPlayers()
 		case opRemovePlayer:
-			if req.Index < 0 || req.Index >= len(whitelist.Players) {
+			if req.Index < 0 || req.Index >= len(s.whitelist.Players) {
 				ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromString(
 					"IndexOutOfBounds", fmt.Sprintf("Array index %d out of bounds", req.Index),
 				))
 				return
 			}
-			whitelist.Players = remove(whitelist.Players, req.Index)
+			s.whitelist.Players = remove(s.whitelist.Players, req.Index)
 		case opAddIP:
-			if err := whitelist.AddIP(req.Value); err != nil {
+			if err := s.whitelist.AddIP(req.Value); err != nil {
 				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
 		case opRemoveIP:
-			if req.Index < 0 || req.Index >= len(whitelist.IPs) {
+			if req.Index < 0 || req.Index >= len(s.whitelist.IPs) {
 				ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromString(
 					"IndexOutOfBounds", fmt.Sprintf("Array index %d out of bounds", req.Index),
 				))
 				return
 			}
-			whitelist.IPs = remove(whitelist.IPs, req.Index)
+			s.whitelist.IPs = remove(s.whitelist.IPs, req.Index)
 		default:
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
 				"UnknownOperation", fmt.Sprintf("Unsupported operation %q", req.Op),
@@ -361,8 +363,8 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 			return
 		}
 
-		cfgHash, _ = genRandB64(48)
-		if err := whitelist.Save(); err != nil {
+		*s.cfgHash, _ = genRandB64(48)
+		if err := s.whitelist.Save(); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromError(err).SetType("SaveError"))
 			return
 		}
@@ -373,30 +375,30 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 	})
 
 	g.GET("/blacklist", func(ctx *gin.Context){
-		wl, listHash := getBlacklist()
-		ctx.Header("ETag", strconv.Quote(listHash))
+		listHash := strconv.Quote(*s.cfgHash)
+		ctx.Header("ETag", listHash)
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
 			ctx.Status(http.StatusNotModified)
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
-			"data": wl,
+			"data": s.blacklist,
 		})
 	})
 
 	g.POST("/blacklist", func(ctx *gin.Context){
-		configLock.Lock()
-		defer configLock.Unlock()
+		s.configLock.Lock()
+		defer s.configLock.Unlock()
 
-		listHash := cfgHash
+		listHash := strconv.Quote(*s.cfgHash)
 		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) == 0 {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
 				"HeaderMissing",
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != strconv.Quote(listHash) {
+		}else if savedHash != listHash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -423,32 +425,32 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 
 		switch req.Op {
 		case opAddPlayer:
-			if err := blacklist.AddPlayer(req.Value); err != nil {
+			if err := s.blacklist.AddPlayer(req.Value, s.config.OnlineMode); err != nil {
 				ctx.AbortWithError(http.StatusOK, err)
 				return
 			}
-			blacklist.cleanPlayers()
+			s.blacklist.cleanPlayers()
 		case opRemovePlayer:
-			if req.Index < 0 || req.Index >= len(blacklist.Players) {
+			if req.Index < 0 || req.Index >= len(s.blacklist.Players) {
 				ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromString(
 					"IndexOutOfBounds", fmt.Sprintf("Array index %d out of bounds", req.Index),
 				))
 				return
 			}
-			blacklist.Players = remove(blacklist.Players, req.Index)
+			s.blacklist.Players = remove(s.blacklist.Players, req.Index)
 		case opAddIP:
-			if err := blacklist.AddIP(req.Value); err != nil {
+			if err := s.blacklist.AddIP(req.Value); err != nil {
 				ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
 				return
 			}
 		case opRemoveIP:
-			if req.Index < 0 || req.Index >= len(blacklist.IPs) {
+			if req.Index < 0 || req.Index >= len(s.blacklist.IPs) {
 				ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromString(
 					"IndexOutOfBounds", fmt.Sprintf("Array index %d out of bounds", req.Index),
 				))
 				return
 			}
-			blacklist.IPs = remove(blacklist.IPs, req.Index)
+			s.blacklist.IPs = remove(s.blacklist.IPs, req.Index)
 		default:
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
 				"UnknownOperation", fmt.Sprintf("Unsupported operation %q", req.Op),
@@ -456,8 +458,8 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 			return
 		}
 
-		cfgHash, _ = genRandB64(48)
-		if err := blacklist.Save(); err != nil {
+		*s.cfgHash, _ = genRandB64(48)
+		if err := s.blacklist.Save(); err != nil {
 			ctx.AbortWithStatusJSON(http.StatusInternalServerError, RequestFailedFromError(err).SetType("SaveError"))
 			return
 		}

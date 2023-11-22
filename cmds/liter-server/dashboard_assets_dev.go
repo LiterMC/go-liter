@@ -4,8 +4,8 @@
 package main
 
 import (
+	"bufio"
 	"net/http"
-	"os"
 	"os/exec"
 	"path/filepath"
 	"runtime"
@@ -15,22 +15,49 @@ import (
 
 var DashboardAssets http.FileSystem = gin.Dir("dashboard/dist", false)
 
-func init(){
+func runDashResources()(cleaner func(), err error){
 	basedir := "."
 	if _, curfile, _, ok := runtime.Caller(0); ok {
 		basedir = filepath.Dir(curfile)
 	}
+
 	loger.Infof("Starting frontend debug server")
 	cmd := exec.Command("npm", "-C", filepath.Join(basedir, "dashboard"), "run", "build-dev")
-	cmd.Stdout = os.Stderr
-	cmd.Stderr = os.Stderr
-	if err := cmd.Start(); err != nil {
-		loger.Fatalf("Cannot start the frontend server: %v", err)
+
+	pout, err := cmd.StdoutPipe()
+	if err != nil {
+		return
 	}
+	perr, err := cmd.StderrPipe()
+	if err != nil {
+		return
+	}
+
+	if err = cmd.Start(); err != nil {
+		return
+	}
+
 	go func(){
-		defer cmd.Process.Kill()
+		s := bufio.NewScanner(pout)
+		for s.Scan() {
+			loger.Info("[npm-dev/stdout]: " + s.Text())
+		}
+	}()
+	go func(){
+		s := bufio.NewScanner(perr)
+		for s.Scan() {
+			loger.Info("[npm-dev/stderr]: " + s.Text())
+		}
+	}()
+
+	go func(){
 		if err := cmd.Wait(); err != nil {
 			loger.Errorf("npm frontend server exited: %v", err)
 		}
 	}()
+
+	cleaner = func(){
+		cmd.Process.Kill()
+	}
+	return
 }

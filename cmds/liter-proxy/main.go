@@ -42,7 +42,7 @@ RESTART:
 
 	server := NewProxyServer()
 	if server.Listener, err = net.ListenTCP("tcp", laddr); err != nil {
-		loger.Fatalf("Cannot listening at [%v]: %v", laddr, err)
+		loger.Panicf("Cannot listening at [%v]: %v", laddr, err)
 	}
 	loger.Infof("Server starts listening at [%v]", server.Listener.Addr())
 

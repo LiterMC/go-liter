@@ -63,18 +63,18 @@ func loadConfig()(cfg Config){
 	data, err := os.ReadFile(path)
 	if err != nil {
 		if !os.IsNotExist(err) {
-			loger.Fatalf("Cannot read config file: %v", err)
+			loger.Panicf("Cannot read config file: %v", err)
 		}
 	}else if err = yaml.Unmarshal(data, &cfg); err != nil {
-		loger.Fatalf("Cannot parse config file: %v", err)
+		loger.Panicf("Cannot parse config file: %v", err)
 		return
 	}
 	if data, err = yaml.Marshal(cfg); err != nil {
-		loger.Fatalf("Cannot encode config data: %v", err)
+		loger.Panicf("Cannot encode config data: %v", err)
 		return
 	}
 	if err = os.WriteFile(path, data, 0644); err != nil {
-		loger.Fatalf("Cannot save config file: %v", err)
+		loger.Panicf("Cannot save config file: %v", err)
 		return
 	}
 	loger.Infof("Loaded config file")

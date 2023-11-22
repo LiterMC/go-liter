@@ -8,7 +8,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"regexp"
 	"strings"
 	"sync"
 
@@ -18,10 +17,6 @@ import (
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-logger/logrus"
 	"github.com/kmcsr/go-liter"
-)
-
-var (
-	fileNameRe = regexp.MustCompile(`^([a-z_][0-9a-z_]{0,31})(?:@(\d+(?:\.\d+)*))?(?:-.+)?\..+$`)
 )
 
 type PluginIdLoadedError struct {
@@ -63,7 +58,7 @@ func NewManager()(m *Manager){
 	}
 	m.loop.Start()
 	m.loop.RunOnLoop(func(vm *goja.Runtime){
-		vm.GlobalObject().Delete("require") // disable require
+		vm.GlobalObject().Delete("require") // disable the default require provided by goja_nodejs
 	})
 	return
 }
@@ -77,7 +72,7 @@ func (m *Manager)SetLogger(loger logger.Logger){
 	}
 }
 
-var errRequireDisabled = errors.New("require is disabled")
+var errRequireDisabled = errors.New("the default require is disabled")
 
 func disableRequire(path string)([]byte, error){
 	return nil, errRequireDisabled
@@ -90,7 +85,9 @@ func (m *Manager)List()(scripts []*Script){
 
 	scripts = make([]*Script, 0, len(m.scripts))
 	for _, s := range m.scripts {
-		scripts = append(scripts, s)
+		if s != nil {
+			scripts = append(scripts, s)
+		}
 	}
 	return
 }
@@ -126,7 +123,7 @@ func (m *Manager)LoadWithContext(ctx context.Context, path string)(script *Scrip
 		defer func(){
 			errCh <- err
 		}()
-		if script, err = loadScript(packet, meta, m.logger, vm, m.loop); err != nil {
+		if script, err = loadScript(packet, meta, m.extModuleLoader, m.logger, vm, m.loop); err != nil {
 			return
 		}
 	})
@@ -181,10 +178,12 @@ func (m *Manager)UnloadAll()(scripts []*Script){
 	scripts = make([]*Script, 0, len(m.scripts))
 	dones := make([]<-chan bool, 0, len(m.scripts))
 	for _, s := range m.scripts {
-		scripts = append(scripts, s)
-		dones = append(dones, s.Emit(&Event{
-			Name: "unload",
-		}))
+		if s != nil {
+			scripts = append(scripts, s)
+			dones = append(dones, s.Emit(&Event{
+				Name: "unload",
+			}))
+		}
 	}
 	for _, ch := range dones {
 		<-ch
@@ -226,6 +225,16 @@ func (m *Manager)LoadFromDir(path string)(scripts []*Script, err error){
 	return
 }
 
+func (m *Manager)extModuleLoader(module string)(l *moduleLoader, err error){
+	s := m.scripts[module]
+	if s != nil {
+		return s.loader, nil
+	}
+	return nil, &ModuleNotFoundErr{
+		Module: module,
+	}
+}
+
 func (m *Manager)Emit(event *Event)(done <-chan bool){
 	if event.Cancelled() {
 		panic("liter: script: Trying to emit a cancelled event")
@@ -238,9 +247,11 @@ func (m *Manager)Emit(event *Event)(done <-chan bool){
 		defer m.scriptMux.RUnlock()
 
 		for _, s := range m.scripts {
-			if <-s.Emit(event) {
-				exit <- true
-				return
+			if s != nil {
+				if <-s.Emit(event) {
+					exit <- true
+					return
+				}
 			}
 		}
 	}()
