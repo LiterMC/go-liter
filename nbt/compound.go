@@ -1,4 +1,3 @@
-
 package nbt
 
 import (
@@ -12,22 +11,22 @@ type NBTCompound struct {
 	Data []NBT
 }
 
-func (n *NBTCompound)Type()(Byte){ return NbtCompound }
-func (n *NBTCompound)Name()(string){ return n.name }
-func (n *NBTCompound)SetName(name string){ n.name = name }
+func (n *NBTCompound) Type() Byte          { return NbtCompound }
+func (n *NBTCompound) Name() string        { return n.name }
+func (n *NBTCompound) SetName(name string) { n.name = name }
 
-func (n *NBTCompound)String()(string){
+func (n *NBTCompound) String() string {
 	var s strings.Builder
 	s.WriteString("Tag_Compound(")
 	if len(n.name) == 0 {
 		s.WriteString("None")
-	}else{
+	} else {
 		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	fmt.Fprintf(&s, "): %d ", len(n.Data))
 	if len(n.Data) == 1 {
 		s.WriteString("entry")
-	}else{
+	} else {
 		s.WriteString("entries")
 	}
 	s.WriteString("\n{\n")
@@ -39,13 +38,13 @@ func (n *NBTCompound)String()(string){
 	return s.String()
 }
 
-func (n *NBTCompound)Encode(b *PacketBuilder){
+func (n *NBTCompound) Encode(b *PacketBuilder) {
 	for _, v := range n.Data {
 		WriteNBT(b, v)
 	}
 }
 
-func (n *NBTCompound)DecodeFrom(r *PacketReader)(err error){
+func (n *NBTCompound) DecodeFrom(r *PacketReader) (err error) {
 	n.Data = n.Data[:0]
 	for {
 		var v NBT
@@ -60,7 +59,7 @@ func (n *NBTCompound)DecodeFrom(r *PacketReader)(err error){
 	return
 }
 
-func (n *NBTCompound)Get(name string)(NBT){
+func (n *NBTCompound) Get(name string) NBT {
 	for _, v := range n.Data {
 		if v.Name() == name {
 			return v
@@ -69,7 +68,7 @@ func (n *NBTCompound)Get(name string)(NBT){
 	return nil
 }
 
-func (n *NBTCompound)Set(name string, tag NBT){
+func (n *NBTCompound) Set(name string, tag NBT) {
 	for i, v := range n.Data {
 		if v.Name() == name {
 			n.Data[i] = tag

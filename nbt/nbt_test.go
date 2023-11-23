@@ -1,14 +1,13 @@
-
 package nbt_test
 
 import (
-	"testing"
 	"os"
+	"testing"
 
 	"github.com/kmcsr/go-liter/nbt"
 )
 
-func TestReadNBT(t *testing.T){
+func TestReadNBT(t *testing.T) {
 	type T struct {
 		file string
 	}

@@ -1,4 +1,3 @@
-
 package liter
 
 import (
@@ -6,37 +5,36 @@ import (
 )
 
 type EmptyCmdPropEncoder struct {
-	id VarInt
+	id  VarInt
 	sid string
 }
 
 var _ CmdPropEncoder = (*EmptyCmdPropEncoder)(nil)
 
-func NewEmptyCmdPropEncoder(id VarInt, sid string)(*EmptyCmdPropEncoder){
+func NewEmptyCmdPropEncoder(id VarInt, sid string) *EmptyCmdPropEncoder {
 	return &EmptyCmdPropEncoder{
-		id: id,
+		id:  id,
 		sid: sid,
 	}
 }
 
-func (p *EmptyCmdPropEncoder)Id()(VarInt){ return p.id }
-func (p *EmptyCmdPropEncoder)String()(String){ return p.sid }
-func (p *EmptyCmdPropEncoder)Encode(b *PacketBuilder, value any)(err error){ return }
-func (p *EmptyCmdPropEncoder)Decode(r *PacketReader)(value any, err error){ return }
+func (p *EmptyCmdPropEncoder) Id() VarInt                                     { return p.id }
+func (p *EmptyCmdPropEncoder) String() String                                 { return p.sid }
+func (p *EmptyCmdPropEncoder) Encode(b *PacketBuilder, value any) (err error) { return }
+func (p *EmptyCmdPropEncoder) Decode(r *PacketReader) (value any, err error)  { return }
 
-
-func init(){
+func init() {
 	vanillaParsers := []CmdPropEncoder{
-		NewEmptyCmdPropEncoder(0,  "brigadier:bool"),
-		&numRangePropEncoder_Float{1,  "brigadier:float"},
-		&numRangePropEncoder_Double{2,  "brigadier:double"},
-		&numRangePropEncoder_Int{3,  "brigadier:integer"},
-		&numRangePropEncoder_Long{4,  "brigadier:long"},
-		NewEmptyCmdPropEncoder(5,  "brigadier:string"),
-		NewEmptyCmdPropEncoder(6,  "minecraft:entity"),
-		NewEmptyCmdPropEncoder(7,  "minecraft:game_profile"),
-		NewEmptyCmdPropEncoder(8,  "minecraft:block_pos"),
-		NewEmptyCmdPropEncoder(9,  "minecraft:column_pos"),
+		NewEmptyCmdPropEncoder(0, "brigadier:bool"),
+		&numRangePropEncoder_Float{1, "brigadier:float"},
+		&numRangePropEncoder_Double{2, "brigadier:double"},
+		&numRangePropEncoder_Int{3, "brigadier:integer"},
+		&numRangePropEncoder_Long{4, "brigadier:long"},
+		NewEmptyCmdPropEncoder(5, "brigadier:string"),
+		NewEmptyCmdPropEncoder(6, "minecraft:entity"),
+		NewEmptyCmdPropEncoder(7, "minecraft:game_profile"),
+		NewEmptyCmdPropEncoder(8, "minecraft:block_pos"),
+		NewEmptyCmdPropEncoder(9, "minecraft:column_pos"),
 		NewEmptyCmdPropEncoder(10, "minecraft:vec3with"),
 		NewEmptyCmdPropEncoder(11, "minecraft:vec2with"),
 		NewEmptyCmdPropEncoder(12, "minecraft:block_state"),
@@ -82,4 +80,3 @@ func init(){
 		}
 	}
 }
-

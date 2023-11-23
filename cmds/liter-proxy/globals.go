@@ -1,25 +1,24 @@
-
 package main
 
 import (
 	"os"
 	"path/filepath"
 
-	"gopkg.in/yaml.v3"
-	"github.com/sirupsen/logrus"
+	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-logger"
 	logrusl "github.com/kmcsr/go-logger/logrus"
-	"github.com/kmcsr/go-liter"
+	"github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v3"
 )
 
 var loger = initLogger()
 
-func initLogger()(loger logger.Logger){
+func initLogger() (loger logger.Logger) {
 	loger = logrusl.New()
 	loger.SetOutput(os.Stderr)
 	logrusl.Unwrap(loger).SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05.000",
-		FullTimestamp: true,
+		FullTimestamp:   true,
 	})
 	loger.SetLevel(logger.InfoLevel)
 	return
@@ -45,10 +44,10 @@ type Config struct {
 
 var cfg = loadConfig()
 
-func loadConfig()(cfg Config){
+func loadConfig() (cfg Config) {
 	// set config default values
-	cfg.ProxyURL   = ""
-	cfg.ServerIP   = "127.0.0.1"
+	cfg.ProxyURL = ""
+	cfg.ServerIP = "127.0.0.1"
 	cfg.ServerPort = 25565
 	cfg.ProxyMap = map[string]ProxyMapItem{
 		"hypixel.localhost": ProxyMapItem{
@@ -65,7 +64,7 @@ func loadConfig()(cfg Config){
 		if !os.IsNotExist(err) {
 			loger.Panicf("Cannot read config file: %v", err)
 		}
-	}else if err = yaml.Unmarshal(data, &cfg); err != nil {
+	} else if err = yaml.Unmarshal(data, &cfg); err != nil {
 		loger.Panicf("Cannot parse config file: %v", err)
 		return
 	}
@@ -82,7 +81,7 @@ func loadConfig()(cfg Config){
 	if cfg.Debug {
 		loger.SetLevel(logger.TraceLevel)
 		loger.Debug("Debug log enabled")
-	}else{
+	} else {
 		loger.SetLevel(logger.InfoLevel)
 	}
 	return

@@ -1,4 +1,3 @@
-
 package liter
 
 import (
@@ -20,11 +19,11 @@ type ChunkSection struct { // 1.9.4 ~ 1.11.2
 
 var _ Packet = (*ChunkSection)(nil)
 
-func (c *ChunkSection)Encode(b *PacketBuilder){
+func (c *ChunkSection) Encode(b *PacketBuilder) {
 	b.Short(c.BlockCount)
 }
 
-func (c *ChunkSection)DecodeFrom(r *PacketReader)(err error){
+func (c *ChunkSection) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if c.BlockCount, ok = r.Short(); !ok {
 		return io.EOF
@@ -55,11 +54,11 @@ type PalettedContainer struct {
 	DataArray []Long
 }
 
-func (c PalettedContainer)Encode(b *PacketBuilder){
+func (c PalettedContainer) Encode(b *PacketBuilder) {
 	b.UByte(c.BitsPerEntry)
 }
 
-func (c *PalettedContainer)DecodeFrom(r *PacketReader)(err error){
+func (c *PalettedContainer) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if c.BitsPerEntry, ok = r.UByte(); !ok {
 		return io.EOF
@@ -75,4 +74,4 @@ type IndirectPalette struct {
 	Palette []VarInt
 }
 
-type DirectPalette struct {}
+type DirectPalette struct{}

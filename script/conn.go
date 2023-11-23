@@ -1,4 +1,3 @@
-
 package script
 
 import (
@@ -11,9 +10,9 @@ import (
 
 type WrappedConn struct {
 	*liter.Conn
-	vm *goja.Runtime
-	loop *eventloop.EventLoop
-	closed atomic.Bool
+	vm      *goja.Runtime
+	loop    *eventloop.EventLoop
+	closed  atomic.Bool
 	OnClose func()
 
 	emitter *EventEmitter
@@ -22,28 +21,28 @@ type WrappedConn struct {
 
 var _ Exportsable = (*WrappedConn)(nil)
 
-func WrapConn(conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop)(c *WrappedConn){
+func WrapConn(conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop) (c *WrappedConn) {
 	c = &WrappedConn{
-		Conn: conn,
-		vm: vm,
-		loop: loop,
+		Conn:    conn,
+		vm:      vm,
+		loop:    loop,
 		emitter: NewEventEmitter(vm, loop),
 	}
 	o := vm.NewObject()
-	o.DefineAccessorProperty("protocol", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+	o.DefineAccessorProperty("protocol", vm.ToValue(func(goja.FunctionCall) goja.Value {
 		return vm.ToValue(conn.Protocol())
 	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
-	o.DefineAccessorProperty("localAddr", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+	o.DefineAccessorProperty("localAddr", vm.ToValue(func(goja.FunctionCall) goja.Value {
 		return vm.ToValue(conn.LocalAddr().String())
 	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
-	o.DefineAccessorProperty("remoteAddr", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+	o.DefineAccessorProperty("remoteAddr", vm.ToValue(func(goja.FunctionCall) goja.Value {
 		return vm.ToValue(conn.RemoteAddr().String())
 	}), nil, goja.FLAG_FALSE, goja.FLAG_TRUE)
-	o.Set("close", vm.ToValue(func(goja.FunctionCall)(goja.Value){
+	o.Set("close", vm.ToValue(func(goja.FunctionCall) goja.Value {
 		c.Close()
 		return goja.Undefined()
 	}))
-	o.Set("newPacket", func(call goja.FunctionCall)(goja.Value){
+	o.Set("newPacket", func(call goja.FunctionCall) goja.Value {
 		if len(call.Arguments) == 0 {
 			panic(vm.NewTypeError("arg#0 is not a integer of packet id"))
 		}
@@ -55,7 +54,7 @@ func WrapConn(conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop)(c *
 	return
 }
 
-func (c *WrappedConn)Close()(err error){
+func (c *WrappedConn) Close() (err error) {
 	if !c.closed.CompareAndSwap(false, true) {
 		return
 	}
@@ -66,25 +65,25 @@ func (c *WrappedConn)Close()(err error){
 }
 
 // Closed return whether the connection is or not closed manually
-func (c *WrappedConn)Closed()(bool){
+func (c *WrappedConn) Closed() bool {
 	return c.closed.Load()
 }
 
-func (c *WrappedConn)Exports()(*goja.Object){
+func (c *WrappedConn) Exports() *goja.Object {
 	return c.exports
 }
 
-func (c *WrappedConn)Emit(event *Event)(done <-chan bool){
+func (c *WrappedConn) Emit(event *Event) (done <-chan bool) {
 	return c.emitter.EmitAsync(event)
 }
 
-func (c *WrappedConn)Recv()(w *WrappedPacketReader, err error){
+func (c *WrappedConn) Recv() (w *WrappedPacketReader, err error) {
 	r, err := c.Conn.Recv()
 	if err != nil {
 		return
 	}
 	ch := make(chan *WrappedPacketReader, 1)
-	c.loop.RunOnLoop(func(vm *goja.Runtime){
+	c.loop.RunOnLoop(func(vm *goja.Runtime) {
 		ch <- WrapPacketReader(r, vm)
 	})
 	return <-ch, nil

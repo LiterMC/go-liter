@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -11,43 +10,43 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"github.com/kmcsr/go-liter"
 )
 
 var (
-	tokenIdSet = make(map[string]struct{})
+	tokenIdSet    = make(map[string]struct{})
 	tokenIdSetMux sync.RWMutex
 )
 
-func registerTokenId(id string){
+func registerTokenId(id string) {
 	tokenIdSetMux.Lock()
 	defer tokenIdSetMux.Unlock()
 	tokenIdSet[id] = struct{}{}
 }
 
-func unregisterTokenId(id string){
+func unregisterTokenId(id string) {
 	tokenIdSetMux.Lock()
 	defer tokenIdSetMux.Unlock()
 	delete(tokenIdSet, id)
 }
 
-func checkTokenId(id string)(ok bool){
+func checkTokenId(id string) (ok bool) {
 	tokenIdSetMux.RLock()
 	defer tokenIdSetMux.RUnlock()
 	_, ok = tokenIdSet[id]
 	return
 }
 
-func (s *Server)checkToken(ctx *gin.Context, token string)(ok bool){
-	t, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error){
-			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
-			}
-			return s.hmacKey, nil
-		},
+func (s *Server) checkToken(ctx *gin.Context, token string) (ok bool) {
+	t, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
+		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+			return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
+		}
+		return s.hmacKey, nil
+	},
 		jwt.WithSubject("optk"),
 		jwt.WithIssuedAt(),
 		jwt.WithIssuer(jwtIssuer),
@@ -73,7 +72,7 @@ func (s *Server)checkToken(ctx *gin.Context, token string)(ok bool){
 	}
 	if u, ok := c["user"]; !ok {
 		return false
-	}else{
+	} else {
 		ctx.Set(clientUserKey, u)
 	}
 	return true
@@ -81,7 +80,7 @@ func (s *Server)checkToken(ctx *gin.Context, token string)(ok bool){
 
 // checkTokenMiddle method will verify the token defined in the http header "X-Token"
 // use custom header instead of standard "Authorization" is for avoid XSS attacks
-func (s *Server)checkTokenMiddle(ctx *gin.Context){
+func (s *Server) checkTokenMiddle(ctx *gin.Context) {
 	token := ctx.GetHeader("X-Token")
 	if !s.checkToken(ctx, token) {
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, RequestFailedFromString(
@@ -92,17 +91,17 @@ func (s *Server)checkTokenMiddle(ctx *gin.Context){
 	ctx.Next()
 }
 
-func (s *Server)initV1(v1 *gin.RouterGroup){
+func (s *Server) initV1(v1 *gin.RouterGroup) {
 	checkedG := v1.Group("/", s.checkTokenMiddle)
 
-	v1.GET("/", func(ctx *gin.Context){
+	v1.GET("/", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
 	})
 
-	v1.POST("/login", func(ctx *gin.Context){
-		var req struct{
+	v1.POST("/login", func(ctx *gin.Context) {
+		var req struct {
 			User   string `json:"username"`
 			Passwd string `json:"password"`
 		}
@@ -128,12 +127,12 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		}
 		now := time.Now()
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-			"jti": jti,
-			"sub": "optk",
-			"iss": jwtIssuer,
-			"iat": toSeconds(now),
-			"exp": toSeconds(now.Add(time.Hour * 12)),
-			"cli": id,
+			"jti":  jti,
+			"sub":  "optk",
+			"iss":  jwtIssuer,
+			"iat":  toSeconds(now),
+			"exp":  toSeconds(now.Add(time.Hour * 12)),
+			"cli":  id,
 			"user": req.User,
 		})
 		tokenStr, err := token.SignedString(s.hmacKey)
@@ -144,24 +143,24 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 		registerTokenId(jti)
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
-			"token": tokenStr,
+			"token":  tokenStr,
 		})
 	})
 
-	checkedG.POST("/logout", func(ctx *gin.Context){
+	checkedG.POST("/logout", func(ctx *gin.Context) {
 		unregisterTokenId(ctx.GetString(clientTokenIdKey))
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
 	})
 
-	checkedG.GET("/verify", func(ctx *gin.Context){
+	checkedG.GET("/verify", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
 	})
 
-	checkedG.POST("/changepasswd", func(ctx *gin.Context){
+	checkedG.POST("/changepasswd", func(ctx *gin.Context) {
 		user := ctx.GetString(clientUserKey)
 
 		var req struct {
@@ -196,8 +195,8 @@ func (s *Server)initV1(v1 *gin.RouterGroup){
 }
 
 // config APIs
-func registerConfigs(s *Server, g *gin.RouterGroup){
-	g.GET("/config", func(ctx *gin.Context){
+func registerConfigs(s *Server, g *gin.RouterGroup) {
+	g.GET("/config", func(ctx *gin.Context) {
 		qhash := strconv.Quote(*s.cfgHash)
 		ctx.Header("ETag", qhash)
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == qhash {
@@ -205,14 +204,14 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{
-			"status": "ok",
-			"onlineMode": s.config.OnlineMode,
-			"enableWhitelist": s.config.EnableWhitelist,
+			"status":            "ok",
+			"onlineMode":        s.config.OnlineMode,
+			"enableWhitelist":   s.config.EnableWhitelist,
 			"enableIPWhitelist": s.config.EnableIPWhitelist,
 		})
 	})
 
-	g.POST("/config", func(ctx *gin.Context){
+	g.POST("/config", func(ctx *gin.Context) {
 		s.configLock.Lock()
 		defer s.configLock.Unlock()
 
@@ -224,7 +223,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != qhash {
+		} else if savedHash != qhash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -232,7 +231,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		}
 
 		var req struct {
-			Op string `json:"op"`
+			Op    string          `json:"op"`
 			Value json.RawMessage `json:"value"`
 		}
 
@@ -279,7 +278,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		})
 	})
 
-	g.GET("/whitelist", func(ctx *gin.Context){
+	g.GET("/whitelist", func(ctx *gin.Context) {
 		listHash := strconv.Quote(*s.cfgHash)
 		ctx.Header("ETag", listHash)
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
@@ -288,11 +287,11 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
-			"data": s.whitelist,
+			"data":   s.whitelist,
 		})
 	})
 
-	g.POST("/whitelist", func(ctx *gin.Context){
+	g.POST("/whitelist", func(ctx *gin.Context) {
 		s.configLock.Lock()
 		defer s.configLock.Unlock()
 
@@ -303,7 +302,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != listHash {
+		} else if savedHash != listHash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -311,14 +310,14 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		}
 
 		const (
-			opAddPlayer = "addpl"
+			opAddPlayer    = "addpl"
 			opRemovePlayer = "rmpl"
-			opAddIP = "addip"
-			opRemoveIP = "rmip"
+			opAddIP        = "addip"
+			opRemoveIP     = "rmip"
 		)
 
 		var req struct {
-			Op string `json:"op"`
+			Op    string `json:"op"`
 			Value string `json:"value,omitempty"` // use when add
 			Index int    `json:"index,omitempty"` // use when remove
 		}
@@ -374,7 +373,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		})
 	})
 
-	g.GET("/blacklist", func(ctx *gin.Context){
+	g.GET("/blacklist", func(ctx *gin.Context) {
 		listHash := strconv.Quote(*s.cfgHash)
 		ctx.Header("ETag", listHash)
 		if savedHash := ctx.GetHeader("If-None-Match"); len(savedHash) != 0 && savedHash == listHash {
@@ -383,11 +382,11 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
-			"data": s.blacklist,
+			"data":   s.blacklist,
 		})
 	})
 
-	g.POST("/blacklist", func(ctx *gin.Context){
+	g.POST("/blacklist", func(ctx *gin.Context) {
 		s.configLock.Lock()
 		defer s.configLock.Unlock()
 
@@ -398,7 +397,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 				`"If-Match" header required`,
 			))
 			return
-		}else if savedHash != listHash {
+		} else if savedHash != listHash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -406,14 +405,14 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		}
 
 		const (
-			opAddPlayer = "addpl"
+			opAddPlayer    = "addpl"
 			opRemovePlayer = "rmpl"
-			opAddIP = "addip"
-			opRemoveIP = "rmip"
+			opAddIP        = "addip"
+			opRemoveIP     = "rmip"
 		)
 
 		var req struct {
-			Op string `json:"op"`
+			Op    string `json:"op"`
 			Value string `json:"value,omitempty"` // use when add
 			Index int    `json:"index,omitempty"` // use when remove
 		}
@@ -467,14 +466,14 @@ func registerConfigs(s *Server, g *gin.RouterGroup){
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 		})
-	})	
+	})
 }
 
 // register player api, for get basic informations
-func registerPlayerAPI(s *Server, g *gin.RouterGroup){
+func registerPlayerAPI(s *Server, g *gin.RouterGroup) {
 	const uuidKey = "liter.param.uuid"
 	gu := g.Group("/player/:uuid/")
-	gu.Use(func(ctx *gin.Context){
+	gu.Use(func(ctx *gin.Context) {
 		id, err := uuid.Parse(ctx.Param("uuid"))
 		if err != nil {
 			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromError(err).SetType("DecodeError"))
@@ -483,7 +482,7 @@ func registerPlayerAPI(s *Server, g *gin.RouterGroup){
 		ctx.Set(uuidKey, id)
 		ctx.Next()
 	})
-	gu.GET("/head", func(ctx *gin.Context){
+	gu.GET("/head", func(ctx *gin.Context) {
 		ctx.Header("Cache-Control", "no-cache")
 		uid := ctx.Value(uuidKey).(uuid.UUID)
 		profile, err := AuthClient.GetPlayerProfile(uid)
@@ -511,31 +510,31 @@ func registerPlayerAPI(s *Server, g *gin.RouterGroup){
 }
 
 // server status APIs
-func registerStatus(s *Server, g *gin.RouterGroup){
-	g.GET("/conns", func(ctx *gin.Context){
+func registerStatus(s *Server, g *gin.RouterGroup) {
+	g.GET("/conns", func(ctx *gin.Context) {
 		type resT struct {
-			Id        int    `json:"id"`
-			Addr      string `json:"addr"`
-			When      int64  `json:"when"`
-			LocalAddr string `json:"localAddr"`
-			Server    string `json:"server"`
+			Id        int               `json:"id"`
+			Addr      string            `json:"addr"`
+			When      int64             `json:"when"`
+			LocalAddr string            `json:"localAddr"`
+			Server    string            `json:"server"`
 			Player    *liter.PlayerInfo `json:"player,omitempty"`
 		}
 		ctx.Header("Cache-Control", "no-cache")
 		lm := s.conns.LastModified().Format(time.RFC1123)
 		data := make([]resT, 0, s.conns.Count())
-		s.conns.ForEach(func(i int, conn *Conn){
+		s.conns.ForEach(func(i int, conn *Conn) {
 			local, svr, ok := conn.LocalServer()
 			if !ok {
 				return
 			}
 			data = append(data, resT{
-				Id: i,
-				Addr: conn.RemoteAddr().String(),
-				When: conn.When.Unix(),
-				Player: conn.Player(),
+				Id:        i,
+				Addr:      conn.RemoteAddr().String(),
+				When:      conn.When.Unix(),
+				Player:    conn.Player(),
 				LocalAddr: local,
-				Server: svr,
+				Server:    svr,
 			})
 		})
 		ctx.Header("Last-Modified", lm)
@@ -545,7 +544,7 @@ func registerStatus(s *Server, g *gin.RouterGroup){
 		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
-			"data": data,
+			"data":   data,
 		})
 	})
 }

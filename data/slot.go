@@ -1,4 +1,3 @@
-
 package data
 
 import (
@@ -9,15 +8,15 @@ import (
 )
 
 type Slot struct {
-	Present bool
-	ItemId int
+	Present   bool
+	ItemId    int
 	ItemCount Byte
-	NBT nbt.NBT
+	NBT       nbt.NBT
 }
 
 var _ Packet = (*Slot)(nil)
 
-func (c Slot)Encode(b *PacketBuilder){
+func (c Slot) Encode(b *PacketBuilder) {
 	if b.Protocol() >= V1_13_2 {
 		b.Bool(c.Present)
 		if c.Present {
@@ -25,7 +24,7 @@ func (c Slot)Encode(b *PacketBuilder){
 			b.Byte(c.ItemCount)
 			nbt.WriteNBT(b, c.NBT)
 		}
-	}else{
+	} else {
 		b.Short((Short)(c.ItemId))
 		if c.ItemId >= 0 {
 			b.Byte(c.ItemCount)
@@ -34,7 +33,7 @@ func (c Slot)Encode(b *PacketBuilder){
 	}
 }
 
-func (c *Slot)DecodeFrom(r *PacketReader)(err error){
+func (c *Slot) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if r.Protocol() >= V1_13_2 {
 		if c.Present, ok = r.Bool(); !ok {
@@ -53,7 +52,7 @@ func (c *Slot)DecodeFrom(r *PacketReader)(err error){
 				return
 			}
 		}
-	}else{
+	} else {
 		var id Short
 		if id, ok = r.Short(); !ok {
 			return io.EOF

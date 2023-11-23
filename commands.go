@@ -1,4 +1,3 @@
-
 package liter
 
 import (
@@ -8,24 +7,24 @@ import (
 )
 
 var (
-	ErrParserIdNotExists = errors.New("liter.CommandNode: parser id is not exists")
+	ErrParserIdNotExists       = errors.New("liter.CommandNode: parser id is not exists")
 	ErrParserInstanceNotExists = errors.New("liter.CommandNode: command parser instance not exists")
 )
 
 type CmdPropEncoder interface {
-	Id()(VarInt)
-	String()(String)
-	Encode(b *PacketBuilder, value any)(err error)
-	Decode(r *PacketReader)(value any, err error)
+	Id() VarInt
+	String() String
+	Encode(b *PacketBuilder, value any) (err error)
+	Decode(r *PacketReader) (value any, err error)
 }
 
 var (
-	cmdMux sync.RWMutex
-	cmdIDMap = make(map[VarInt]CmdPropEncoder, 50)
+	cmdMux    sync.RWMutex
+	cmdIDMap  = make(map[VarInt]CmdPropEncoder, 50)
 	cmdSIDMap = make(map[string]CmdPropEncoder, 50)
 )
 
-func RegisterCmdEncoder(p CmdPropEncoder)(ok bool){
+func RegisterCmdEncoder(p CmdPropEncoder) (ok bool) {
 	id := p.Id()
 	sid := p.String()
 
@@ -42,7 +41,7 @@ func RegisterCmdEncoder(p CmdPropEncoder)(ok bool){
 	return true
 }
 
-func UnregisterCmdEncoder(p CmdPropEncoder)(ok bool){
+func UnregisterCmdEncoder(p CmdPropEncoder) (ok bool) {
 	id := p.Id()
 	sid := p.String()
 
@@ -61,8 +60,8 @@ func UnregisterCmdEncoder(p CmdPropEncoder)(ok bool){
 	return true
 }
 
-
 type CmdFlag Byte
+
 const (
 	// Values
 	CmdTypeRoot    CmdFlag = 0x00
@@ -88,19 +87,19 @@ type CommandNode struct {
 
 var _ Packet = (*CommandNode)(nil)
 
-func (c *CommandNode)Type()(CmdFlag){
+func (c *CommandNode) Type() CmdFlag {
 	return c.Flags & CmdTypeMask
 }
 
-func (c *CommandNode)HasFlag(f CmdFlag)(bool){
-	return c.Flags & f != 0
+func (c *CommandNode) HasFlag(f CmdFlag) bool {
+	return c.Flags&f != 0
 }
 
-func (c *CommandNode)Vaild()(bool){
+func (c *CommandNode) Vaild() bool {
 	return c.HasFlag(CmdExec)
 }
 
-func (c *CommandNode)GetParserId()(VarInt, error){
+func (c *CommandNode) GetParserId() (VarInt, error) {
 	if !c.ParserId.Ok {
 		if !c.ParserStrId.Ok {
 			return -1, ErrParserIdNotExists
@@ -116,7 +115,7 @@ func (c *CommandNode)GetParserId()(VarInt, error){
 	return c.ParserId.V, nil
 }
 
-func (c *CommandNode)GetParserStrId()(String, error){
+func (c *CommandNode) GetParserStrId() (String, error) {
 	if !c.ParserStrId.Ok {
 		if !c.ParserId.Ok {
 			return "", ErrParserIdNotExists
@@ -132,7 +131,7 @@ func (c *CommandNode)GetParserStrId()(String, error){
 	return c.ParserStrId.V, nil
 }
 
-func (c *CommandNode)GetParser()(CmdPropEncoder, error){
+func (c *CommandNode) GetParser() (CmdPropEncoder, error) {
 	if c.ParserId.Ok {
 		cmdMux.RLock()
 		p, ok := cmdIDMap[c.ParserId.V]
@@ -154,7 +153,7 @@ func (c *CommandNode)GetParser()(CmdPropEncoder, error){
 	return nil, ErrParserIdNotExists
 }
 
-func (c *CommandNode)Encode(b *PacketBuilder){
+func (c *CommandNode) Encode(b *PacketBuilder) {
 	b.VarInt((VarInt)(c.Flags))
 	b.VarInt((VarInt)(len(c.Children)))
 	for _, child := range c.Children {
@@ -182,7 +181,7 @@ func (c *CommandNode)Encode(b *PacketBuilder){
 	}
 }
 
-func (c *CommandNode)DecodeFrom(r *PacketReader)(err error){
+func (c *CommandNode) DecodeFrom(r *PacketReader) (err error) {
 	protocol := r.Protocol()
 	var ok bool
 	var flags VarInt
@@ -227,7 +226,7 @@ func (c *CommandNode)DecodeFrom(r *PacketReader)(err error){
 			if p, err = c.GetParser(); err != nil {
 				return
 			}
-		}else{
+		} else {
 			var v VarInt
 			if v, ok = r.VarInt(); !ok {
 				return io.EOF

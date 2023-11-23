@@ -159,14 +159,14 @@ WAIT:
 }
 
 type Runner struct {
-	configDir         string
-	scriptPath        string
+	configDir  string
+	scriptPath string
 
 	configLock sync.RWMutex
-	cfgHash   string
-	config    Config
-	whitelist Whitelist
-	blacklist Blacklist
+	cfgHash    string
+	config     Config
+	whitelist  Whitelist
+	blacklist  Blacklist
 
 	manager           *script.Manager
 	server            *Server

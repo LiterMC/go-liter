@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -12,16 +11,16 @@ import (
 	"syscall"
 	"time"
 
-	"golang.org/x/net/proxy"
-	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-liter/script"
+	"github.com/kmcsr/go-logger"
+	"golang.org/x/net/proxy"
 	// "github.com/kmcsr/go-liter/packets"
 )
 
 var manager = script.NewManager()
 
-func main(){
+func main() {
 	scriptpath := filepath.Join(configDir, "plugins")
 	manager.SetLogger(loger)
 	var err error
@@ -49,7 +48,7 @@ RESTART:
 	// parse and connect to proxy
 	if cfg.ProxyURL == "" {
 		server.Dialer = proxy.Direct
-	}else{
+	} else {
 		var u *url.URL
 		if u, err = url.Parse(cfg.ProxyURL); err != nil {
 			loger.Errorf("Cannot parse proxy URL, using default proxy")
@@ -63,8 +62,8 @@ RESTART:
 
 	exitch := make(chan struct{}, 1)
 
-	go func(){
-		defer func(){
+	go func() {
+		defer func() {
 			exitch <- struct{}{}
 		}()
 		if err := server.Serve(); err != nil {
@@ -89,7 +88,7 @@ WAIT:
 			}
 			if cfg.ServerIP != ncfg.ServerIP || cfg.ServerPort != ncfg.ServerPort {
 				loger.Info("Server address changed, restarting server...")
-				timeoutCtx, cancel := context.WithTimeout(context.Background(), 16 * time.Second)
+				timeoutCtx, cancel := context.WithTimeout(context.Background(), 16*time.Second)
 				loger.Warn("Closing server...")
 				server.Shutdown(timeoutCtx)
 				cancel()
@@ -100,7 +99,7 @@ WAIT:
 			if cfg.Debug != ncfg.Debug {
 				if ncfg.Debug {
 					loger.SetLevel(logger.DebugLevel)
-				}else{
+				} else {
 					loger.SetLevel(logger.InfoLevel)
 				}
 			}
@@ -109,7 +108,7 @@ WAIT:
 		}
 		loger.Infof("Unloading plugins...")
 		manager.UnloadAll()
-		timeoutCtx, _ := context.WithTimeout(context.Background(), 16 * time.Second)
+		timeoutCtx, _ := context.WithTimeout(context.Background(), 16*time.Second)
 		loger.Warn("Closing server...")
 		server.Shutdown(timeoutCtx)
 	case <-exitch:
@@ -127,7 +126,7 @@ type ProxyServer struct {
 	conns *Set[*liter.Conn]
 }
 
-func NewProxyServer()(s *ProxyServer){
+func NewProxyServer() (s *ProxyServer) {
 	s = &ProxyServer{
 		conns: NewSet[*liter.Conn](),
 	}
@@ -135,7 +134,7 @@ func NewProxyServer()(s *ProxyServer){
 	return
 }
 
-func (s *ProxyServer)Serve()(err error){
+func (s *ProxyServer) Serve() (err error) {
 	var c net.Conn
 	for {
 		if c, err = s.Listener.Accept(); err != nil {
@@ -148,7 +147,7 @@ func (s *ProxyServer)Serve()(err error){
 	}
 }
 
-func (s *ProxyServer)Shutdown(ctx context.Context)(err error){
+func (s *ProxyServer) Shutdown(ctx context.Context) (err error) {
 	if err = s.Listener.Close(); err != nil {
 		return
 	}

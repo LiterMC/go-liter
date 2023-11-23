@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -25,23 +24,23 @@ type Conn struct {
 	server atomic.Pointer[[2]string]
 }
 
-func (c *Conn)ActiveTime()(time.Duration){
+func (c *Conn) ActiveTime() time.Duration {
 	return time.Since(c.When)
 }
 
-func (c *Conn)SetPlayer(player liter.PlayerInfo){
+func (c *Conn) SetPlayer(player liter.PlayerInfo) {
 	c.player.Store(&player)
 }
 
-func (c *Conn)Player()(*liter.PlayerInfo){
+func (c *Conn) Player() *liter.PlayerInfo {
 	return c.player.Load()
 }
 
-func (c *Conn)SetLocalServer(localAddr, server string){
+func (c *Conn) SetLocalServer(localAddr, server string) {
 	c.server.Store(&[2]string{localAddr, server})
 }
 
-func (c *Conn)LocalServer()(localAddr, server string, ok bool){
+func (c *Conn) LocalServer() (localAddr, server string, ok bool) {
 	p := c.server.Load()
 	if p == nil {
 		return
@@ -49,8 +48,8 @@ func (c *Conn)LocalServer()(localAddr, server string, ok bool){
 	return p[0], p[1], true
 }
 
-type Server struct{
-	Addr string
+type Server struct {
+	Addr    string
 	scripts *script.Manager
 	handler http.Handler
 	users   *UserStorage
@@ -69,10 +68,10 @@ type Server struct{
 	blacklist  *Blacklist
 }
 
-func NewServer(configDir string, sm *script.Manager)(s *Server){
+func NewServer(configDir string, sm *script.Manager) (s *Server) {
 	s = &Server{
 		scripts: sm,
-		users: NewUserStorage(filepath.Join(configDir, "users.json")),
+		users:   NewUserStorage(filepath.Join(configDir, "users.json")),
 		hmacKey: loadHmacKey(),
 	}
 	var err error
@@ -88,11 +87,11 @@ func NewServer(configDir string, sm *script.Manager)(s *Server){
 	return
 }
 
-func (s *Server)Scripts()(*script.Manager){
+func (s *Server) Scripts() *script.Manager {
 	return s.scripts
 }
 
-func (s *Server)closeListenersLocked()(err error){
+func (s *Server) closeListenersLocked() (err error) {
 	for _, l := range s.listeners {
 		if e := l.Close(); e != nil {
 			if err == nil {
@@ -104,7 +103,7 @@ func (s *Server)closeListenersLocked()(err error){
 	return
 }
 
-func (s *Server)Serve(listener net.Listener)(err error){
+func (s *Server) Serve(listener net.Listener) (err error) {
 	s.mux.Lock()
 	s.listeners = append(s.listeners, listener)
 	s.mux.Unlock()
@@ -117,22 +116,22 @@ func (s *Server)Serve(listener net.Listener)(err error){
 			}
 			return
 		}
-		go func(c net.Conn){
-			defer func(){
+		go func(c net.Conn) {
+			defer func() {
 				if err := recover(); err != nil {
 					loger.Errorf("Error while handling %s:\n%v\n%s", c.RemoteAddr().String(), err, getStacktrace())
 				}
 			}()
 
 			successed := false
-			defer func(){
+			defer func() {
 				if !successed {
 					c.Close()
 				}
 			}()
 			if host, _, err := net.SplitHostPort(c.RemoteAddr().String()); err != nil {
 				return
-			}else{
+			} else {
 				ip := net.ParseIP(host)
 				if ip == nil {
 					return
@@ -153,7 +152,7 @@ func (s *Server)Serve(listener net.Listener)(err error){
 	}
 }
 
-func (s *Server)Shutdown(ctx context.Context)(err error){
+func (s *Server) Shutdown(ctx context.Context) (err error) {
 	s.inShutdown.Store(true)
 
 	s.mux.Lock()
@@ -173,7 +172,7 @@ func (s *Server)Shutdown(ctx context.Context)(err error){
 		s.mux.Lock()
 		defer s.mux.Unlock()
 		if s.conns.Count() > 0 {
-			s.conns.ForEach(func(_ int, c *Conn){
+			s.conns.ForEach(func(_ int, c *Conn) {
 				c.Close()
 			})
 			s.conns.Clear()

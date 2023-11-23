@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -9,29 +8,29 @@ import (
 	"path/filepath"
 	"strings"
 
-	"gopkg.in/yaml.v3"
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/sirupsen/logrus"
+	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-logger"
 	logrusl "github.com/kmcsr/go-logger/logrus"
-	"github.com/kmcsr/go-liter"
-	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v3"
 )
 
 var loger = initLogger()
 
-func initLogger()(loger logger.Logger){
+func initLogger() (loger logger.Logger) {
 	loger = logrusl.New()
 	loger.SetOutput(os.Stdout)
 	logrusl.Unwrap(loger).SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: "2006-01-02 15:04:05.000",
-		FullTimestamp: true,
+		FullTimestamp:   true,
 	})
 	loger.SetLevel(logger.InfoLevel)
 	return
 }
 
-var workingDir string = func()(string){
+var workingDir string = func() string {
 	dir, err := os.Getwd()
 	if err != nil {
 		loger.Panicf("Cannot get working dir", err)
@@ -44,21 +43,21 @@ type ServerIns struct {
 	Target      string   `json:"target" yaml:"target"`
 	ServerNames []string `json:"names" yaml:"names"`
 	// HandlePing is useful if you want to hide online players from others who won't join the server
-	HandlePing  bool     `json:"handlePing" yaml:"handle-ping"`
+	HandlePing bool `json:"handlePing" yaml:"handle-ping"`
 	// Motd only use when HandlePing is true
-	Motd        string   `json:"motd" yaml:"motd"`
+	Motd string `json:"motd" yaml:"motd"`
 	// MotdFailed will be send back when the ping connection failed on the server
-	MotdFailed  string   `json:"motdFailed" yaml:"motd-failed"`
+	MotdFailed string `json:"motdFailed" yaml:"motd-failed"`
 }
 
 type DevConfig struct {
-	Debug bool `yaml:"debug"`
+	Debug              bool `yaml:"debug"`
 	WatchPlugin        bool `yaml:"watch-plugin"`
 	WatchReloadTimeout int  `yaml:"watch-reload-timeout"` // in seconds
 	// liter will run `${npm-bin} run build` to load a directory plugin
-	DirectoryPlugin bool `yaml:"directory-plugin"`
-	Npm     string   `yaml:"npm-bin"`
-	NpmArgs []string `yaml:"npm-args"`
+	DirectoryPlugin bool     `yaml:"directory-plugin"`
+	Npm             string   `yaml:"npm-bin"`
+	NpmArgs         []string `yaml:"npm-args"`
 }
 
 type Config struct {
@@ -79,22 +78,22 @@ type Config struct {
 	Dev DevConfig `yaml:"dev"`
 }
 
-func loadConfig()(cfg Config){
+func loadConfig() (cfg Config) {
 	// set config default values
 	cfg.OnlineMode = true
 	cfg.ServerAddr = ":25565"
 	cfg.Servers = []*ServerIns{
 		{
-			Id: "main",
-			Target: "127.0.0.1:25665",
-			ServerNames: []string{ "minecraft.example.com", "anotherdomain.example.com" },
-			MotdFailed: "Server is closed",
+			Id:          "main",
+			Target:      "127.0.0.1:25665",
+			ServerNames: []string{"minecraft.example.com", "anotherdomain.example.com"},
+			MotdFailed:  "Server is closed",
 		},
 	}
 	cfg.Dashboard.Addr = "127.0.0.1:25580"
 	cfg.Dev = DevConfig{
 		WatchReloadTimeout: 5,
-		Npm: "npm",
+		Npm:                "npm",
 	}
 
 	path := filepath.Join(workingDir, "config.yml")
@@ -103,7 +102,7 @@ func loadConfig()(cfg Config){
 		if !os.IsNotExist(err) {
 			loger.Panicf("Cannot read config file: %v", err)
 		}
-	}else if err = yaml.Unmarshal(data, &cfg); err != nil {
+	} else if err = yaml.Unmarshal(data, &cfg); err != nil {
 		loger.Panicf("Cannot parse config file: %v", err)
 		return
 	}
@@ -117,14 +116,14 @@ func loadConfig()(cfg Config){
 		loger.SetLevel(logger.TraceLevel)
 		loger.Debug("Debug log enabled")
 		gin.SetMode(gin.DebugMode)
-	}else{
+	} else {
 		loger.SetLevel(logger.InfoLevel)
 		gin.SetMode(gin.ReleaseMode)
 	}
 	return
 }
 
-func (cfg Config)Save()(err error){
+func (cfg Config) Save() (err error) {
 	path := filepath.Join(workingDir, "config.yml")
 
 	var data []byte
@@ -144,7 +143,7 @@ type PlayerInfo struct {
 	liter.PlayerInfo
 }
 
-func ParsePlayerInfoFromString(v string, onlineMode bool)(p PlayerInfo, err error){
+func ParsePlayerInfoFromString(v string, onlineMode bool) (p PlayerInfo, err error) {
 	p.onlineMode = onlineMode
 	if p.Id, err = uuid.Parse(v); err == nil {
 		var profile *liter.PlayerProfile
@@ -153,7 +152,7 @@ func ParsePlayerInfoFromString(v string, onlineMode bool)(p PlayerInfo, err erro
 			return
 		}
 		p.Name = profile.Name
-	}else{
+	} else {
 		err = nil
 		if onlineMode {
 			var info liter.PlayerInfo
@@ -163,18 +162,18 @@ func ParsePlayerInfoFromString(v string, onlineMode bool)(p PlayerInfo, err erro
 			}
 			p.Name = info.Name
 			p.Id = info.Id
-		}else{
+		} else {
 			p.Name = v
 		}
 	}
 	return
 }
 
-func (p PlayerInfo)IsOffline()(ok bool){
+func (p PlayerInfo) IsOffline() (ok bool) {
 	return p.Id == uuid.Nil
 }
 
-func (p *PlayerInfo)update()(err error){
+func (p *PlayerInfo) update() (err error) {
 	if p.IsOffline() {
 		return
 	}
@@ -188,7 +187,7 @@ func (p *PlayerInfo)update()(err error){
 	}
 	if p.Name == "" {
 		return fmt.Errorf("Unknown player info")
-	}else if p.onlineMode {
+	} else if p.onlineMode {
 		var info liter.PlayerInfo
 		info, err = AuthClient.GetPlayerInfo(p.Name)
 		if err != nil {
@@ -200,7 +199,7 @@ func (p *PlayerInfo)update()(err error){
 	return
 }
 
-func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
+func (p *PlayerInfo) UnmarshalJSON(buf []byte) (err error) {
 	var v any
 	if err = json.Unmarshal(buf, &v); err != nil {
 		return
@@ -243,7 +242,7 @@ func (p *PlayerInfo)UnmarshalJSON(buf []byte)(err error){
 		}
 		if p.Name == "" {
 			return fmt.Errorf("Unknown player info")
-		}else if p.onlineMode {
+		} else if p.onlineMode {
 			info, err := AuthClient.GetPlayerInfo(p.Name)
 			if err != nil {
 				return nil
@@ -262,7 +261,7 @@ type Whitelist struct {
 	IPs     []string     `json:"ips"`
 }
 
-func loadWhitelist()(wl Whitelist){
+func loadWhitelist() (wl Whitelist) {
 	path := filepath.Join(workingDir, "whitelist.json")
 
 	wl.Players = make([]PlayerInfo, 0)
@@ -281,7 +280,7 @@ func loadWhitelist()(wl Whitelist){
 				loger.Panicf("Cannot create whitelist file: %v", err)
 				return
 			}
-		}else{
+		} else {
 			loger.Panicf("Cannot read whitelist file: %v", err)
 		}
 		return
@@ -298,7 +297,7 @@ func loadWhitelist()(wl Whitelist){
 	return
 }
 
-func (wl Whitelist)Save()(err error){
+func (wl Whitelist) Save() (err error) {
 	path := filepath.Join(workingDir, "whitelist.json")
 	var data []byte
 	if data, err = json.MarshalIndent(wl, "", "  "); err != nil {
@@ -310,20 +309,20 @@ func (wl Whitelist)Save()(err error){
 	return
 }
 
-func (wl Whitelist)HasPlayer(player liter.PlayerInfo, onlineMode bool)(ok bool){
+func (wl Whitelist) HasPlayer(player liter.PlayerInfo, onlineMode bool) (ok bool) {
 	for _, p := range wl.Players {
 		if !p.IsOffline() && player.Id != uuid.Nil { // player is online mode
 			if p.Id == player.Id {
 				return true
 			}
-		}else if !onlineMode && p.Name == player.Name { // check when under offline mode
+		} else if !onlineMode && p.Name == player.Name { // check when under offline mode
 			return true
 		}
 	}
 	return false
 }
 
-func (wl Whitelist)IncludeIP(ip net.IP)(ok bool){
+func (wl Whitelist) IncludeIP(ip net.IP) (ok bool) {
 	for _, o := range wl.IPs {
 		if matchIP(o, ip) {
 			return true
@@ -332,9 +331,8 @@ func (wl Whitelist)IncludeIP(ip net.IP)(ok bool){
 	return false
 }
 
-
 // Clean the player list: update player informations and remove duplicated players
-func (wl *Whitelist)cleanPlayers(){
+func (wl *Whitelist) cleanPlayers() {
 	pm := make(map[PlayerInfo]struct{}, len(wl.Players))
 	players := make([]PlayerInfo, 0, len(wl.Players))
 	for _, p := range wl.Players {
@@ -348,7 +346,7 @@ func (wl *Whitelist)cleanPlayers(){
 	wl.Players = players
 }
 
-func (wl *Whitelist)AddPlayer(v string, onlineMode bool)(err error){
+func (wl *Whitelist) AddPlayer(v string, onlineMode bool) (err error) {
 	p, err := ParsePlayerInfoFromString(v, onlineMode)
 	if err != nil {
 		return
@@ -357,7 +355,7 @@ func (wl *Whitelist)AddPlayer(v string, onlineMode bool)(err error){
 	return
 }
 
-func (wl *Whitelist)RemovePlayer(v string)(err error){
+func (wl *Whitelist) RemovePlayer(v string) (err error) {
 	if id, err := uuid.Parse(v); err == nil {
 		for i, p := range wl.Players {
 			if p.Id == id {
@@ -365,13 +363,13 @@ func (wl *Whitelist)RemovePlayer(v string)(err error){
 				break
 			}
 		}
-	}else{
+	} else {
 		v = strings.ToLower(v)
 		for i := 0; i < len(wl.Players); {
 			p := wl.Players[i]
 			if strings.ToLower(p.Name) == v {
 				remove(wl.Players, i)
-			}else{
+			} else {
 				i++
 			}
 		}
@@ -379,18 +377,17 @@ func (wl *Whitelist)RemovePlayer(v string)(err error){
 	return
 }
 
-func (wl *Whitelist)AddIP(v string)(err error){
+func (wl *Whitelist) AddIP(v string) (err error) {
 	wl.IPs = append(wl.IPs, v)
 	return
 }
-
 
 type Blacklist struct {
 	Players []PlayerInfo `json:"players"`
 	IPs     []string     `json:"ips"`
 }
 
-func loadBlacklist()(bl Blacklist){
+func loadBlacklist() (bl Blacklist) {
 	path := filepath.Join(workingDir, "blacklist.json")
 
 	bl.Players = make([]PlayerInfo, 0)
@@ -407,7 +404,7 @@ func loadBlacklist()(bl Blacklist){
 				loger.Panicf("Cannot create blacklist file: %v", err)
 				return
 			}
-		}else{
+		} else {
 			loger.Panicf("Cannot read blacklist file: %v", err)
 		}
 		return
@@ -424,7 +421,7 @@ func loadBlacklist()(bl Blacklist){
 	return
 }
 
-func (bl Blacklist)Save()(err error){
+func (bl Blacklist) Save() (err error) {
 	path := filepath.Join(workingDir, "blacklist.json")
 	var data []byte
 	if data, err = json.MarshalIndent(bl, "", "  "); err != nil {
@@ -436,7 +433,7 @@ func (bl Blacklist)Save()(err error){
 	return
 }
 
-func (bl Blacklist)HasPlayer(player liter.PlayerInfo)(ok bool){
+func (bl Blacklist) HasPlayer(player liter.PlayerInfo) (ok bool) {
 	for _, p := range bl.Players {
 		if p.Name == player.Name || p.Id == player.Id { // for blacklist, we block both username and uuid
 			return true
@@ -445,7 +442,7 @@ func (bl Blacklist)HasPlayer(player liter.PlayerInfo)(ok bool){
 	return false
 }
 
-func (bl Blacklist)IncludeIP(ip net.IP)(ok bool){
+func (bl Blacklist) IncludeIP(ip net.IP) (ok bool) {
 	for _, o := range bl.IPs {
 		if matchIP(o, ip) {
 			return true
@@ -455,7 +452,7 @@ func (bl Blacklist)IncludeIP(ip net.IP)(ok bool){
 }
 
 // Clean the player list: update player informations and remove duplicated players
-func (bl *Blacklist)cleanPlayers(){
+func (bl *Blacklist) cleanPlayers() {
 	pm := make(map[PlayerInfo]struct{}, len(bl.Players))
 	players := make([]PlayerInfo, 0, len(bl.Players))
 	for _, p := range bl.Players {
@@ -469,7 +466,7 @@ func (bl *Blacklist)cleanPlayers(){
 	bl.Players = players
 }
 
-func (bl *Blacklist)AddPlayer(v string, onlineMode bool)(err error){
+func (bl *Blacklist) AddPlayer(v string, onlineMode bool) (err error) {
 	p, err := ParsePlayerInfoFromString(v, onlineMode)
 	if err != nil {
 		return
@@ -478,7 +475,7 @@ func (bl *Blacklist)AddPlayer(v string, onlineMode bool)(err error){
 	return
 }
 
-func (bl *Blacklist)RemovePlayer(v string)(err error){
+func (bl *Blacklist) RemovePlayer(v string) (err error) {
 	if id, err := uuid.Parse(v); err == nil {
 		for i, p := range bl.Players {
 			if p.Id == id {
@@ -486,13 +483,13 @@ func (bl *Blacklist)RemovePlayer(v string)(err error){
 				break
 			}
 		}
-	}else{
+	} else {
 		v = strings.ToLower(v)
 		for i := 0; i < len(bl.Players); {
 			p := bl.Players[i]
 			if strings.ToLower(p.Name) == v {
 				remove(bl.Players, i)
-			}else{
+			} else {
 				i++
 			}
 		}
@@ -500,7 +497,7 @@ func (bl *Blacklist)RemovePlayer(v string)(err error){
 	return
 }
 
-func (bl *Blacklist)AddIP(v string)(err error){
+func (bl *Blacklist) AddIP(v string) (err error) {
 	bl.IPs = append(bl.IPs, v)
 	return
 }

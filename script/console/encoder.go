@@ -1,4 +1,3 @@
-
 package console
 
 import (
@@ -13,7 +12,7 @@ type writer interface {
 	io.StringWriter
 }
 
-func encode(w writer, v goja.Value){
+func encode(w writer, v goja.Value) {
 	switch v := v.(type) {
 	case goja.String:
 		w.WriteString(v.String())
@@ -24,7 +23,7 @@ func encode(w writer, v goja.Value){
 
 const indent = "  "
 
-func encode0(w writer, v goja.Value, indents string, emap map[*goja.Object]struct{}){
+func encode0(w writer, v goja.Value, indents string, emap map[*goja.Object]struct{}) {
 	var buf [128]byte
 	switch v := v.(type) {
 	case *goja.Object:
@@ -38,7 +37,7 @@ func encode0(w writer, v goja.Value, indents string, emap map[*goja.Object]struc
 			w.Write(strconv.AppendUint(buf[:0], (uint64)(leng), 10))
 			if leng == 0 {
 				w.WriteString(" ")
-			}else{
+			} else {
 				encodeBytes(w, bts, indents)
 				w.WriteString(indents)
 			}
@@ -80,7 +79,7 @@ func encode0(w writer, v goja.Value, indents string, emap map[*goja.Object]struc
 	}
 }
 
-func encodeBytes(w writer, buf []byte, indents string){
+func encodeBytes(w writer, buf []byte, indents string) {
 	var bf [2]byte
 	const step = 0x10
 	indents2 := indents + indent
@@ -93,7 +92,7 @@ func encodeBytes(w writer, buf []byte, indents string){
 			}
 			if j == 0x8 {
 				w.WriteString("  ")
-			}else{
+			} else {
 				w.WriteString(" ")
 			}
 			w.Write(formatByte(bf[:], b))
@@ -102,9 +101,9 @@ func encodeBytes(w writer, buf []byte, indents string){
 	}
 }
 
-func formatByte(buf []byte, b byte)([]byte){
+func formatByte(buf []byte, b byte) []byte {
 	const hexNumbers = "0123456789abcdef"
-	buf[0] = hexNumbers[b >> 4]
-	buf[1] = hexNumbers[b & 0xf]
+	buf[0] = hexNumbers[b>>4]
+	buf[1] = hexNumbers[b&0xf]
 	return buf[:2]
 }

@@ -1,4 +1,3 @@
-
 package data
 
 import (
@@ -10,17 +9,17 @@ import (
 )
 
 type EntityPropEncoder interface {
-	Type()(VarInt)
-	Encode(b *PacketBuilder, value any)(err error)
-	Decode(r *PacketReader)(value any, err error)
+	Type() VarInt
+	Encode(b *PacketBuilder, value any) (err error)
+	Decode(r *PacketReader) (value any, err error)
 }
 
 var (
 	entityEncoderMux sync.RWMutex
-	entityEncoders = make(map[VarInt]EntityPropEncoder, 30)
+	entityEncoders   = make(map[VarInt]EntityPropEncoder, 30)
 )
 
-func RegisterEntityEncoder(p EntityPropEncoder)(ok bool){
+func RegisterEntityEncoder(p EntityPropEncoder) (ok bool) {
 	typ := p.Type()
 
 	entityEncoderMux.Lock()
@@ -32,7 +31,7 @@ func RegisterEntityEncoder(p EntityPropEncoder)(ok bool){
 	return true
 }
 
-func UnregisterEntityEncoder(p EntityPropEncoder)(ok bool){
+func UnregisterEntityEncoder(p EntityPropEncoder) (ok bool) {
 	typ := p.Type()
 
 	entityEncoderMux.Lock()
@@ -58,7 +57,7 @@ type EntityMetadata struct {
 
 var _ Packet = (*EntityMetadata)(nil)
 
-func (c EntityMetadata)Encode(b *PacketBuilder){
+func (c EntityMetadata) Encode(b *PacketBuilder) {
 	b.UByte(c.Index)
 	if c.Index != 0xff {
 		typ := c.Type.Assert()
@@ -75,7 +74,7 @@ func (c EntityMetadata)Encode(b *PacketBuilder){
 	}
 }
 
-func (c *EntityMetadata)DecodeFrom(r *PacketReader)(err error){
+func (c *EntityMetadata) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if c.Index, ok = r.UByte(); !ok {
 		return io.EOF
@@ -96,4 +95,3 @@ func (c *EntityMetadata)DecodeFrom(r *PacketReader)(err error){
 	}
 	return
 }
-

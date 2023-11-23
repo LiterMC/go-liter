@@ -1,4 +1,3 @@
-
 package script
 
 import (
@@ -10,29 +9,29 @@ import (
 )
 
 type EventEmitter struct {
-	vm *goja.Runtime
+	vm   *goja.Runtime
 	loop *eventloop.EventLoop
 
 	listenerMux sync.RWMutex
 	listeners   map[string][]goja.Callable
 }
 
-func NewEventEmitter(vm *goja.Runtime, loop *eventloop.EventLoop)(e *EventEmitter){
+func NewEventEmitter(vm *goja.Runtime, loop *eventloop.EventLoop) (e *EventEmitter) {
 	return &EventEmitter{
-		vm: vm,
-		loop: loop,
+		vm:        vm,
+		loop:      loop,
 		listeners: make(map[string][]goja.Callable),
 	}
 }
 
-func (e *EventEmitter)ExportTo(o *goja.Object){
+func (e *EventEmitter) ExportTo(o *goja.Object) {
 	o.Set("on", e.on)
 	o.Set("addListener", e.on)
 	o.Set("off", e.off)
 	o.Set("removeListener", e.off)
-	o.Set("emit", func(call goja.FunctionCall, vm *goja.Runtime)(goja.Value){
+	o.Set("emit", func(call goja.FunctionCall, vm *goja.Runtime) goja.Value {
 		event := &Event{
-			Name: call.Arguments[0].String(),
+			Name:       call.Arguments[0].String(),
 			Cancelable: false,
 		}
 		if len(call.Arguments) > 1 {
@@ -42,7 +41,7 @@ func (e *EventEmitter)ExportTo(o *goja.Object){
 				if len(call.Arguments) > 2 {
 					event.Cancelable = call.Argument(2).ToBoolean()
 				}
-			}else if cancelable, ok := arg1.(bool); ok {
+			} else if cancelable, ok := arg1.(bool); ok {
 				event.Cancelable = cancelable
 			}
 		}
@@ -53,41 +52,41 @@ func (e *EventEmitter)ExportTo(o *goja.Object){
 	o.Set("listeners", e.getListeners)
 }
 
-func (e *EventEmitter)on(name string, listener goja.Callable)(*EventEmitter){
+func (e *EventEmitter) on(name string, listener goja.Callable) *EventEmitter {
 	e.listeners[name] = append(e.listeners[name], listener)
 	return e
 }
 
-func (e *EventEmitter)OnAsync(name string, listener goja.Callable){
-	e.loop.RunOnLoop(func(vm *goja.Runtime){
+func (e *EventEmitter) OnAsync(name string, listener goja.Callable) {
+	e.loop.RunOnLoop(func(vm *goja.Runtime) {
 		e.on(name, listener)
 	})
 }
 
-func (e *EventEmitter)off(name string, listener goja.Callable){
+func (e *EventEmitter) off(name string, listener goja.Callable) {
 	if listeners, ok := e.listeners[name]; ok {
 		hp := reflect.ValueOf(listener).Pointer()
 		for i := len(listeners) - 1; i >= 0; i-- {
 			if reflect.ValueOf(listeners[i]).Pointer() == hp {
-				copy(listeners[i:], listeners[i + 1:])
-				e.listeners[name] = listeners[:len(listeners) - 1]
+				copy(listeners[i:], listeners[i+1:])
+				e.listeners[name] = listeners[:len(listeners)-1]
 				break
 			}
 		}
 	}
 }
 
-func (e *EventEmitter)OffAsync(name string, listener goja.Callable){
-	e.loop.RunOnLoop(func(vm *goja.Runtime){
+func (e *EventEmitter) OffAsync(name string, listener goja.Callable) {
+	e.loop.RunOnLoop(func(vm *goja.Runtime) {
 		e.off(name, listener)
 	})
 }
 
-func (e *EventEmitter)removeAllListeners(name string){
+func (e *EventEmitter) removeAllListeners(name string) {
 	delete(e.listeners, name)
 }
 
-func (e *EventEmitter)emit(event *Event)(cancelled bool){
+func (e *EventEmitter) emit(event *Event) (cancelled bool) {
 	if event.Cancelled() {
 		panic(e.vm.ToValue("Error: Trying to emit a cancelled event"))
 	}
@@ -108,16 +107,16 @@ func (e *EventEmitter)emit(event *Event)(cancelled bool){
 	return false
 }
 
-func (e *EventEmitter)EmitAsync(event *Event)(done <-chan bool){
+func (e *EventEmitter) EmitAsync(event *Event) (done <-chan bool) {
 	exit := make(chan bool, 1)
-	e.loop.RunOnLoop(func(vm *goja.Runtime){
+	e.loop.RunOnLoop(func(vm *goja.Runtime) {
 		defer close(exit)
 		exit <- e.emit(event)
 	})
 	return exit
 }
 
-func (e *EventEmitter)eventNames()(names []string){
+func (e *EventEmitter) eventNames() (names []string) {
 	names = make([]string, 0, len(e.listeners))
 	for n, _ := range e.listeners {
 		names = append(names, n)
@@ -125,7 +124,7 @@ func (e *EventEmitter)eventNames()(names []string){
 	return
 }
 
-func (e *EventEmitter)getListeners(name string)(handlers []goja.Callable){
+func (e *EventEmitter) getListeners(name string) (handlers []goja.Callable) {
 	listeners := e.listeners[name]
 	handlers = make([]goja.Callable, 0, len(listeners))
 	for _, c := range listeners {

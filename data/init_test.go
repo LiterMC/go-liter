@@ -1,4 +1,3 @@
-
 package data_test
 
 import (
@@ -7,6 +6,6 @@ import (
 	_ "github.com/kmcsr/go-liter/data"
 )
 
-func TestInit(t *testing.T){
+func TestInit(t *testing.T) {
 	t.Logf("success")
 }

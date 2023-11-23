@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -9,24 +8,24 @@ import (
 
 type RequestFailed struct {
 	Status  string `json:"status"` // always is "failed"
-	Type    string `json:"type"` // default is "Unknown"
+	Type    string `json:"type"`   // default is "Unknown"
 	Message string `json:"message,omitempty"`
 }
 
-func RequestFailedFromError(err error)(*RequestFailed){
+func RequestFailedFromError(err error) *RequestFailed {
 	return &RequestFailed{
 		Message: err.Error(),
 	}
 }
 
-func RequestFailedFromString(typ string, msg string)(*RequestFailed){
+func RequestFailedFromString(typ string, msg string) *RequestFailed {
 	return &RequestFailed{
-		Type: typ,
+		Type:    typ,
 		Message: msg,
 	}
 }
 
-func (r *RequestFailed)MarshalJSON()(buf []byte, err error){
+func (r *RequestFailed) MarshalJSON() (buf []byte, err error) {
 	res := make(gin.H, 3)
 	res["status"] = "failed"
 	typ := "Unknown"
@@ -40,7 +39,7 @@ func (r *RequestFailed)MarshalJSON()(buf []byte, err error){
 	return json.Marshal(res)
 }
 
-func (r *RequestFailed)SetType(t string)(*RequestFailed){
+func (r *RequestFailed) SetType(t string) *RequestFailed {
 	r.Type = t
 	return r
 }

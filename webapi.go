@@ -1,4 +1,3 @@
-
 package liter
 
 import (
@@ -20,10 +19,10 @@ const (
 
 var (
 	ErrPlayerNameInvalid = errors.New("Player name is invalid")
-	ErrPlayerNotExists = errors.New("Player not exists on the server")
+	ErrPlayerNotExists   = errors.New("Player not exists on the server")
 )
 
-type AuthClient struct{
+type AuthClient struct {
 	Client *http.Client
 
 	ApiServer     string
@@ -39,17 +38,17 @@ var DefaultAuthClient = &AuthClient{
 	SessionServer: DefaultSessionServer,
 }
 
-type HttpStatusError struct{
+type HttpStatusError struct {
 	Code int
 }
 
 var _ error = (*HttpStatusError)(nil)
 
-func (e *HttpStatusError)Error()(string){
+func (e *HttpStatusError) Error() string {
 	return fmt.Sprintf("%d %s", e.Code, http.StatusText(e.Code))
 }
 
-func (cli *AuthClient)GetPlayerInfo(name string)(player PlayerInfo, err error){
+func (cli *AuthClient) GetPlayerInfo(name string) (player PlayerInfo, err error) {
 	const EndPoint = "/users/profiles/minecraft"
 	if len(name) == 0 {
 		err = ErrPlayerNameInvalid
@@ -72,13 +71,13 @@ func (cli *AuthClient)GetPlayerInfo(name string)(player PlayerInfo, err error){
 	if body, err = readBody(res); err != nil {
 		return
 	}
-	if err = json.Unmarshal(body, &player); err != nil{
+	if err = json.Unmarshal(body, &player); err != nil {
 		return
 	}
 	return
 }
 
-func (cli *AuthClient)GetPlayerProfile(id UUID)(profile *PlayerProfile, err error){
+func (cli *AuthClient) GetPlayerProfile(id UUID) (profile *PlayerProfile, err error) {
 	const EndPoint = "/profile"
 	url := joinUrl(cli.SessionServer, EndPoint, id.String())
 	var res *http.Response
@@ -98,13 +97,13 @@ func (cli *AuthClient)GetPlayerProfile(id UUID)(profile *PlayerProfile, err erro
 		return
 	}
 	profile = new(PlayerProfile)
-	if err = json.Unmarshal(body, profile); err != nil{
+	if err = json.Unmarshal(body, profile); err != nil {
 		return
 	}
 	return
 }
 
-func (cli *AuthClient)auth_request(point string, req any, res any)(err error){
+func (cli *AuthClient) auth_request(point string, req any, res any) (err error) {
 	url := joinUrl(cli.AuthServer, point)
 	var buf []byte
 	if buf, err = json.Marshal(req); err != nil {
@@ -120,7 +119,7 @@ func (cli *AuthClient)auth_request(point string, req any, res any)(err error){
 		return
 	}
 
-	failed := res0.StatusCode / 100 != 2 /* if not 2xx */
+	failed := res0.StatusCode/100 != 2 /* if not 2xx */
 	if failed {
 		yggErr := new(YggError)
 		if err = json.Unmarshal(body, yggErr); err != nil {
@@ -130,7 +129,7 @@ func (cli *AuthClient)auth_request(point string, req any, res any)(err error){
 	}
 	if res0.StatusCode != http.StatusNoContent {
 		if len(body) > 0 {
-			if err = json.Unmarshal(body, res); err != nil{
+			if err = json.Unmarshal(body, res); err != nil {
 				return
 			}
 		}
@@ -138,7 +137,7 @@ func (cli *AuthClient)auth_request(point string, req any, res any)(err error){
 	return
 }
 
-type YggError struct{
+type YggError struct {
 	Code         int    `json:"-"`
 	ErrorShort   string `json:"error"`
 	ErrorMessage string `json:"errorMessage"`
@@ -147,7 +146,7 @@ type YggError struct{
 
 var _ error = (*YggError)(nil)
 
-func (e *YggError)Error()(s string){
+func (e *YggError) Error() (s string) {
 	s = fmt.Sprintf("HTTP %d %s: %s", e.Code, e.ErrorShort, e.ErrorMessage)
 	if len(e.Cause) > 0 {
 		s += " caused by " + e.Cause
@@ -155,35 +154,35 @@ func (e *YggError)Error()(s string){
 	return
 }
 
-type LoginData struct{
+type LoginData struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
 }
 
-type AccessData struct{
+type AccessData struct {
 	ClientToken string `json:"clientToken"`
 	AccessToken string `json:"accessToken"`
 }
 
-type Prop struct{
+type Prop struct {
 	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
 type Props []Prop
 
-type UserData struct{
+type UserData struct {
 	Username   string `json:"username"`
 	Id         string `json:"id"`
 	Properties Props  `json:"properties"`
 }
 
-type AuthData struct{
+type AuthData struct {
 	LoginData
 	ClientToken string `json:"clientToken"`
 }
 
-type AuthResponse struct{
+type AuthResponse struct {
 	User        UserData `json:"user"`
 	ClientToken string   `json:"clientToken"`
 	AccessToken string   `json:"accessToken"`
@@ -192,13 +191,13 @@ type AuthResponse struct{
 	SelectedProfile   PlayerInfo   `json:"selectedProfile"`
 }
 
-func (cli *AuthClient)Auth(data AuthData)(res *AuthResponse, err error){
+func (cli *AuthClient) Auth(data AuthData) (res *AuthResponse, err error) {
 	const EndPoint = "/authenticate"
-	type agentT struct{
-		Name string `json:"name"`
-		Version int `json:"version"`
+	type agentT struct {
+		Name    string `json:"name"`
+		Version int    `json:"version"`
 	}
-	type payload struct{
+	type payload struct {
 		Agent agentT `json:"agent"`
 		AuthData
 		RequestUser bool `json:"requestUser"`
@@ -206,10 +205,10 @@ func (cli *AuthClient)Auth(data AuthData)(res *AuthResponse, err error){
 	res = new(AuthResponse)
 	if err = cli.auth_request(EndPoint, payload{
 		Agent: agentT{
-			Name: "Minecraft",
+			Name:    "Minecraft",
 			Version: 1,
 		},
-		AuthData: data,
+		AuthData:    data,
 		RequestUser: true,
 	}, res); err != nil {
 		return
@@ -217,7 +216,7 @@ func (cli *AuthClient)Auth(data AuthData)(res *AuthResponse, err error){
 	return
 }
 
-type RefreshResponse struct{
+type RefreshResponse struct {
 	User        UserData `json:"user"`
 	ClientToken string   `json:"clientToken"`
 	AccessToken string   `json:"accessToken"`
@@ -225,15 +224,15 @@ type RefreshResponse struct{
 	SelectedProfile PlayerInfo `json:"selectedProfile"`
 }
 
-func (cli *AuthClient)Refresh(data AccessData)(res *RefreshResponse, err error){
+func (cli *AuthClient) Refresh(data AccessData) (res *RefreshResponse, err error) {
 	const EndPoint = "/refresh"
-	type payload struct{
+	type payload struct {
 		AccessData
-		RequestUser bool   `json:"requestUser"`
+		RequestUser bool `json:"requestUser"`
 	}
 	res = new(RefreshResponse)
 	if err = cli.auth_request(EndPoint, payload{
-		AccessData: data,
+		AccessData:  data,
 		RequestUser: true,
 	}, res); err != nil {
 		return
@@ -241,7 +240,7 @@ func (cli *AuthClient)Refresh(data AccessData)(res *RefreshResponse, err error){
 	return
 }
 
-func (cli *AuthClient)Validate(data AccessData)(err error){
+func (cli *AuthClient) Validate(data AccessData) (err error) {
 	const EndPoint = "/validate"
 	if err = cli.auth_request(EndPoint, data, nil); err != nil {
 		return
@@ -249,7 +248,7 @@ func (cli *AuthClient)Validate(data AccessData)(err error){
 	return
 }
 
-func (cli *AuthClient)Signout(data LoginData)(err error){
+func (cli *AuthClient) Signout(data LoginData) (err error) {
 	const EndPoint = "/signout"
 	if err = cli.auth_request(EndPoint, data, nil); err != nil {
 		return
@@ -257,7 +256,7 @@ func (cli *AuthClient)Signout(data LoginData)(err error){
 	return
 }
 
-func (cli *AuthClient)Invalidate(data AccessData)(err error){
+func (cli *AuthClient) Invalidate(data AccessData) (err error) {
 	const EndPoint = "/invalidate"
 	if err = cli.auth_request(EndPoint, data, nil); err != nil {
 		return
@@ -265,10 +264,10 @@ func (cli *AuthClient)Invalidate(data AccessData)(err error){
 	return
 }
 
-func joinUrl(base string, paths ...string)(url string){
+func joinUrl(base string, paths ...string) (url string) {
 	var scheme string
 	if i := strings.Index(base, "://"); i != -1 {
-		scheme, base = base[:i], base[i + 3:]
+		scheme, base = base[:i], base[i+3:]
 	}
 	url = path.Join(base, path.Join(paths...))
 	if len(scheme) > 0 {
@@ -277,7 +276,7 @@ func joinUrl(base string, paths ...string)(url string){
 	return
 }
 
-func readBody(res *http.Response)(body []byte, err error){
+func readBody(res *http.Response) (body []byte, err error) {
 	defer res.Body.Close()
 	if res.StatusCode == http.StatusNoContent {
 		return
@@ -287,7 +286,7 @@ func readBody(res *http.Response)(body []byte, err error){
 		if _, err = io.ReadFull(res.Body, body); err != nil {
 			return
 		}
-	}else if body, err = io.ReadAll(res.Body); err != nil {
+	} else if body, err = io.ReadAll(res.Body); err != nil {
 		return
 	}
 	return

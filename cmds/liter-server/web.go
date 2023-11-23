@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -15,21 +14,21 @@ var (
 	ErrTokenExpired = errors.New("Operation token is expired")
 )
 
-func init(){
+func init() {
 	gin.DefaultWriter = os.Stdout
 }
 
 var _ http.Handler = (*Server)(nil)
 
-func (s *Server)ServeHTTP(rw http.ResponseWriter, req *http.Request){
+func (s *Server) ServeHTTP(rw http.ResponseWriter, req *http.Request) {
 	s.handler.ServeHTTP(rw, req)
 }
 
-func (s *Server)initHandler(){
+func (s *Server) initHandler() {
 	app := gin.Default()
 	app.StaticFS("/main", DashboardAssets)
 	s.initAPI(app.Group("/api"))
-	app.GET("/", func(ctx *gin.Context){
+	app.GET("/", func(ctx *gin.Context) {
 		ctx.Redirect(http.StatusFound, "/main")
 	})
 	s.handler = app.Handler()
@@ -40,12 +39,12 @@ const (
 )
 
 const (
-	clientIdKey = "liter.client.id"
-	clientUserKey = "liter.client.user"
+	clientIdKey      = "liter.client.id"
+	clientUserKey    = "liter.client.user"
 	clientTokenIdKey = "liter.client.jti"
 )
 
-func loadHmacKey()(key []byte){
+func loadHmacKey() (key []byte) {
 	path := filepath.Join(workingDir, "server.hmac.private_key")
 	buf, err := os.ReadFile(path)
 	if err != nil {
@@ -58,7 +57,7 @@ func loadHmacKey()(key []byte){
 			if err = os.WriteFile(path, buf, 0600); err != nil {
 				loger.Panicf("Cannot create hmac key file: %v", err)
 			}
-		}else{
+		} else {
 			loger.Panicf("Cannot read hmac key: %v", err)
 		}
 	}
@@ -69,8 +68,8 @@ func loadHmacKey()(key []byte){
 	return
 }
 
-func (s *Server)initAPI(api *gin.RouterGroup){
-	api.Use(func(ctx *gin.Context){
+func (s *Server) initAPI(api *gin.RouterGroup) {
+	api.Use(func(ctx *gin.Context) {
 		ctx.Next()
 		if ctx.IsAborted() {
 			if e := ctx.Errors.Last(); e != nil {
@@ -78,7 +77,7 @@ func (s *Server)initAPI(api *gin.RouterGroup){
 			}
 		}
 	})
-	api.Use(func(ctx *gin.Context){
+	api.Use(func(ctx *gin.Context) {
 		const cliIdCookieName = "_cliId"
 		const cliIdLeng = 64
 		var id string
@@ -94,8 +93,8 @@ func (s *Server)initAPI(api *gin.RouterGroup){
 				return
 			}
 		}
-		ctx.SetCookie(cliIdCookieName, id, 60 * 60 * 24 * 30 * 356, "/", "", true, true) // a year
-		ctx.Set(clientIdKey, asSha256(id)) // ensure the ID is secret
+		ctx.SetCookie(cliIdCookieName, id, 60*60*24*30*356, "/", "", true, true) // a year
+		ctx.Set(clientIdKey, asSha256(id))                                       // ensure the ID is secret
 		ctx.Next()
 	})
 	s.initV1(api.Group("v1"))

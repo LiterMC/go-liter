@@ -1,21 +1,20 @@
-
 package liter_test
 
 import (
-	"testing"
 	"bytes"
+	"testing"
 
 	. "github.com/kmcsr/go-liter"
 )
 
-func TestPacketForward(t *testing.T){
+func TestPacketForward(t *testing.T) {
 	data := []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08}
 	var (
-		pb *PacketBuilder = NewPacket(V1_19_2, 987)
-		pr *PacketReader
-		buf = bytes.NewBuffer(nil)
+		pb   *PacketBuilder = NewPacket(V1_19_2, 987)
+		pr   *PacketReader
+		buf  = bytes.NewBuffer(nil)
 		buf2 = bytes.NewBuffer(nil)
-		err error
+		err  error
 	)
 	pb.ByteArray(data)
 	pb.WriteTo(buf)
@@ -38,14 +37,14 @@ func TestPacketForward(t *testing.T){
 	}
 }
 
-func TestPacketForwardNoCompressed(t *testing.T){
+func TestPacketForwardNoCompressed(t *testing.T) {
 	data := []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08}
 	var (
-		pb *PacketBuilder = NewPacket(V1_19_2, 987)
-		pr *PacketReader
-		buf = bytes.NewBuffer(nil)
+		pb   *PacketBuilder = NewPacket(V1_19_2, 987)
+		pr   *PacketReader
+		buf  = bytes.NewBuffer(nil)
 		buf2 = bytes.NewBuffer(nil)
-		err error
+		err  error
 	)
 	pb.ByteArray(data)
 	pb.WriteCompressedTo(buf, 10000)
@@ -68,14 +67,14 @@ func TestPacketForwardNoCompressed(t *testing.T){
 	}
 }
 
-func TestPacketForwardCompressed(t *testing.T){
+func TestPacketForwardCompressed(t *testing.T) {
 	data := []byte{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08}
 	var (
-		pb *PacketBuilder = NewPacket(V1_19_2, 987)
-		pr *PacketReader
-		buf = bytes.NewBuffer(nil)
+		pb   *PacketBuilder = NewPacket(V1_19_2, 987)
+		pr   *PacketReader
+		buf  = bytes.NewBuffer(nil)
 		buf2 = bytes.NewBuffer(nil)
-		err error
+		err  error
 	)
 	pb.ByteArray(data)
 	pb.WriteCompressedTo(buf, 0)

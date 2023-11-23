@@ -1,4 +1,3 @@
-
 package nbt
 
 import (
@@ -12,16 +11,16 @@ type NBTString struct {
 	Data String
 }
 
-func (n *NBTString)Type()(Byte){ return NbtString }
-func (n *NBTString)Name()(string){ return n.name }
-func (n *NBTString)SetName(name string){ n.name = name }
+func (n *NBTString) Type() Byte          { return NbtString }
+func (n *NBTString) Name() string        { return n.name }
+func (n *NBTString) SetName(name string) { n.name = name }
 
-func (n *NBTString)String()(string){
+func (n *NBTString) String() string {
 	var s strings.Builder
 	s.WriteString("Tag_String(")
 	if len(n.name) == 0 {
 		s.WriteString("None")
-	}else{
+	} else {
 		s.WriteString(strconv.QuoteToASCII(n.name))
 	}
 	s.WriteString("): ")
@@ -29,11 +28,11 @@ func (n *NBTString)String()(string){
 	return s.String()
 }
 
-func (n *NBTString)Encode(b *PacketBuilder){
+func (n *NBTString) Encode(b *PacketBuilder) {
 	writeNBTString(b, n.Data)
 }
 
-func (n *NBTString)DecodeFrom(r *PacketReader)(err error){
+func (n *NBTString) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if n.Data, ok = readNBTString(r); !ok {
 		return io.EOF
@@ -41,13 +40,13 @@ func (n *NBTString)DecodeFrom(r *PacketReader)(err error){
 	return
 }
 
-func writeNBTString(b *PacketBuilder, s string){
+func writeNBTString(b *PacketBuilder, s string) {
 	buf := EncodeUtf8m(s)
 	b.UShort((UShort)(len(buf)))
 	b.ByteArray(buf)
 }
 
-func readNBTString(r *PacketReader)(s string, ok bool){
+func readNBTString(r *PacketReader) (s string, ok bool) {
 	var l UShort
 	if l, ok = r.UShort(); !ok {
 		return
@@ -58,4 +57,3 @@ func readNBTString(r *PacketReader)(s string, ok bool){
 	}
 	return DecodeUtf8m(buf), true
 }
-

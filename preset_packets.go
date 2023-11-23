@@ -1,4 +1,3 @@
-
 package liter
 
 import (
@@ -27,14 +26,14 @@ type HandshakePkt struct {
 	NextState VarInt
 }
 
-func (p HandshakePkt)String()(string){
+func (p HandshakePkt) String() string {
 	if len(p.Addition) == 0 {
 		return fmt.Sprintf("<HandshakePkt protocol=%d addr=%s port=%d nextState=%d>", p.Protocol, p.Addr, p.Port, p.NextState)
 	}
 	return fmt.Sprintf("<HandshakePkt protocol=%d addr=%s + %q port=%d nextState=%d>", p.Protocol, p.Addr, p.Addition, p.Port, p.NextState)
 }
 
-func (p HandshakePkt)EncodeTo(b *PacketBuilder){
+func (p HandshakePkt) EncodeTo(b *PacketBuilder) {
 	b.
 		VarInt((VarInt)(p.Protocol)).
 		String(p.Addr + p.Addition).
@@ -42,7 +41,7 @@ func (p HandshakePkt)EncodeTo(b *PacketBuilder){
 		VarInt(p.NextState)
 }
 
-func (p *HandshakePkt)Decode(r *PacketReader)(err error){
+func (p *HandshakePkt) Decode(r *PacketReader) (err error) {
 	var ok bool
 	var v VarInt
 	if v, ok = r.VarInt(); !ok {
@@ -73,9 +72,9 @@ type StatusRequestPkt struct{}
 
 var _ Packet = (*StatusRequestPkt)(nil)
 
-func (p StatusRequestPkt)String()(string){ return "<StatusRequestPkt>" }
-func (p StatusRequestPkt)Encode(b *PacketBuilder){}
-func (p *StatusRequestPkt)DecodeFrom(r *PacketReader)(err error){ return }
+func (p StatusRequestPkt) String() string                          { return "<StatusRequestPkt>" }
+func (p StatusRequestPkt) Encode(b *PacketBuilder)                 {}
+func (p *StatusRequestPkt) DecodeFrom(r *PacketReader) (err error) { return }
 
 type PlayerInfo struct {
 	Name string `json:"name"`
@@ -84,17 +83,17 @@ type PlayerInfo struct {
 
 type (
 	StatusResponsePayload struct {
-		Version ProtocolVersion `json:"version"`
-		Players PlayerStatus `json:"players"`
-		Description *Chat `json:"description"`
+		Version     ProtocolVersion `json:"version"`
+		Players     PlayerStatus    `json:"players"`
+		Description *Chat           `json:"description"`
 	}
 	ProtocolVersion struct {
 		Name     string `json:"name"`
 		Protocol int    `json:"protocol"`
 	}
 	PlayerStatus struct {
-		Max    int `json:"max"`
-		Online int `json:"online"`
+		Max    int          `json:"max"`
+		Online int          `json:"online"`
 		Sample []PlayerInfo `json:"sample,omitempty"`
 	}
 )
@@ -105,16 +104,16 @@ type StatusResponsePkt struct {
 
 var _ Packet = (*StatusResponsePkt)(nil)
 
-func (p StatusResponsePkt)String()(string){
+func (p StatusResponsePkt) String() string {
 	return "<StatusResponsePkt>"
 }
 
-func (p StatusResponsePkt)Encode(b *PacketBuilder){
+func (p StatusResponsePkt) Encode(b *PacketBuilder) {
 	b.
 		JSON(p.Payload)
 }
 
-func (p *StatusResponsePkt)DecodeFrom(r *PacketReader)(err error){
+func (p *StatusResponsePkt) DecodeFrom(r *PacketReader) (err error) {
 	if err = r.JSON(&p.Payload); err != nil {
 		return
 	}
@@ -127,16 +126,16 @@ type PingRequestPkt struct {
 
 var _ Packet = (*PingRequestPkt)(nil)
 
-func (p PingRequestPkt)String()(string){
+func (p PingRequestPkt) String() string {
 	return fmt.Sprintf("<PingRequestPkt payload=%d>", p.Payload)
 }
 
-func (p PingRequestPkt)Encode(b *PacketBuilder){
+func (p PingRequestPkt) Encode(b *PacketBuilder) {
 	b.
 		Long(p.Payload)
 }
 
-func (p *PingRequestPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PingRequestPkt) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if p.Payload, ok = r.Long(); !ok {
 		return io.EOF
@@ -150,16 +149,16 @@ type PingResponsePkt struct {
 
 var _ Packet = (*PingResponsePkt)(nil)
 
-func (p PingResponsePkt)String()(string){
+func (p PingResponsePkt) String() string {
 	return fmt.Sprintf("<PingResponsePkt payload=%d>", p.Payload)
 }
 
-func (p PingResponsePkt)Encode(b *PacketBuilder){
+func (p PingResponsePkt) Encode(b *PacketBuilder) {
 	b.
 		Long(p.Payload)
 }
 
-func (p *PingResponsePkt)DecodeFrom(r *PacketReader)(err error){
+func (p *PingResponsePkt) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if p.Payload, ok = r.Long(); !ok {
 		return io.EOF
@@ -181,11 +180,11 @@ type DisconnectPkt struct {
 
 var _ Packet = (*DisconnectPkt)(nil)
 
-func (p DisconnectPkt)Encode(b *PacketBuilder){
+func (p DisconnectPkt) Encode(b *PacketBuilder) {
 	b.Chat(p.Reason)
 }
 
-func (p *DisconnectPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *DisconnectPkt) DecodeFrom(r *PacketReader) (err error) {
 	if p.Reason, err = r.Chat(); err != nil {
 		return
 	}
@@ -195,18 +194,18 @@ func (p *DisconnectPkt)DecodeFrom(r *PacketReader)(err error){
 // ID=0x02; Clientbound
 type LoginSuccessPkt struct {
 	// Before 1.16: Unlike in other packets, this field contains the UUID as a string with hyphens.
-	UUID UUID
-	Username string
+	UUID       UUID
+	Username   string
 	Properties []*Property
 }
 
 var _ Packet = (*LoginSuccessPkt)(nil)
 
-func (p *LoginSuccessPkt)Encode(b *PacketBuilder){
+func (p *LoginSuccessPkt) Encode(b *PacketBuilder) {
 	protocol := b.Protocol()
 	if protocol >= V1_16_3 {
 		b.UUID(p.UUID)
-	}else{
+	} else {
 		b.String(p.UUID.String())
 	}
 	b.String(p.Username)
@@ -218,14 +217,14 @@ func (p *LoginSuccessPkt)Encode(b *PacketBuilder){
 	}
 }
 
-func (p *LoginSuccessPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *LoginSuccessPkt) DecodeFrom(r *PacketReader) (err error) {
 	protocol := r.Protocol()
 	var ok bool
 	if protocol >= V1_16_3 {
 		if p.UUID, ok = r.UUID(); !ok {
 			return io.EOF
 		}
-	}else{
+	} else {
 		var id string
 		if id, ok = r.String(); !ok {
 			return io.EOF
@@ -261,11 +260,11 @@ type LoginSetCompressionPkt struct {
 
 var _ Packet = (*LoginSetCompressionPkt)(nil)
 
-func (p LoginSetCompressionPkt)Encode(b *PacketBuilder){
+func (p LoginSetCompressionPkt) Encode(b *PacketBuilder) {
 	b.VarInt(p.Threshold)
 }
 
-func (p *LoginSetCompressionPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *LoginSetCompressionPkt) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if p.Threshold, ok = r.VarInt(); !ok {
 		return io.EOF
@@ -275,7 +274,7 @@ func (p *LoginSetCompressionPkt)DecodeFrom(r *PacketReader)(err error){
 
 // ID=0x04; Clientbound
 type LoginEncryptionRequestPkt struct {
-	ServerID string // Appears to be empty.
+	ServerID  string         // Appears to be empty.
 	PublicKey *rsa.PublicKey // encoded in ASN.1 DER format
 	/* A sequence of random bytes generated by the server.
 	 * Length of Verify Token is always 4 for Notchian servers. */
@@ -284,7 +283,7 @@ type LoginEncryptionRequestPkt struct {
 
 var _ Packet = (*LoginEncryptionRequestPkt)(nil)
 
-func (p LoginEncryptionRequestPkt)Encode(b *PacketBuilder){
+func (p LoginEncryptionRequestPkt) Encode(b *PacketBuilder) {
 	b.String(p.ServerID)
 	pubKey, _ := x509.MarshalPKIXPublicKey(p.PublicKey)
 	b.VarInt((VarInt)(len(pubKey)))
@@ -293,7 +292,7 @@ func (p LoginEncryptionRequestPkt)Encode(b *PacketBuilder){
 	b.ByteArray(p.VerifyToken)
 }
 
-func (p *LoginEncryptionRequestPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *LoginEncryptionRequestPkt) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	var n VarInt
 	if p.ServerID, ok = r.String(); !ok {
@@ -328,10 +327,10 @@ type LoginStartPkt struct {
 	Name string
 
 	// if protocol >= 1.19 && protocol <= 1.19.2
-	HasSign bool
+	HasSign   bool
 	Timestamp Long
 	PublicKey ByteArray
-	Sign ByteArray
+	Sign      ByteArray
 
 	// if protocol >= 1.19.1
 	Id Optional[UUID]
@@ -339,14 +338,14 @@ type LoginStartPkt struct {
 
 var _ Packet = (*LoginStartPkt)(nil)
 
-func (p LoginStartPkt)String()(string){
+func (p LoginStartPkt) String() string {
 	if p.Id.Ok {
 		return fmt.Sprintf("<LoginStartPkt name=%s uuid=%v>", p.Name, p.Id.V)
 	}
 	return fmt.Sprintf("<LoginStartPkt name=%s>", p.Name)
 }
 
-func (p LoginStartPkt)Encode(b *PacketBuilder){
+func (p LoginStartPkt) Encode(b *PacketBuilder) {
 	protocol := b.Protocol()
 	b.String(p.Name)
 	if protocol >= V1_19 {
@@ -370,7 +369,7 @@ func (p LoginStartPkt)Encode(b *PacketBuilder){
 	}
 }
 
-func (p *LoginStartPkt)DecodeFrom(r *PacketReader)(err error){
+func (p *LoginStartPkt) DecodeFrom(r *PacketReader) (err error) {
 	protocol := r.Protocol()
 	var ok bool
 	if p.Name, ok = r.String(); !ok {
@@ -419,19 +418,19 @@ func (p *LoginStartPkt)DecodeFrom(r *PacketReader)(err error){
 // ID=0x01; Serverbound
 type LoginEncryptionResponsePkt struct {
 	SharedSecret ByteArray // Shared Secret value, encrypted with the server's public key.
-	VerifyToken ByteArray // Verify Token value, encrypted with the same public key as the shared secret.
+	VerifyToken  ByteArray // Verify Token value, encrypted with the same public key as the shared secret.
 }
 
 var _ Packet = (*LoginEncryptionResponsePkt)(nil)
 
-func (p LoginEncryptionResponsePkt)Encode(b *PacketBuilder){
+func (p LoginEncryptionResponsePkt) Encode(b *PacketBuilder) {
 	b.VarInt((VarInt)(len(p.SharedSecret)))
 	b.ByteArray(p.SharedSecret)
 	b.VarInt((VarInt)(len(p.VerifyToken)))
 	b.ByteArray(p.VerifyToken)
 }
 
-func (p *LoginEncryptionResponsePkt)DecodeFrom(r *PacketReader)(err error){
+func (p *LoginEncryptionResponsePkt) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	var n VarInt
 	if n, ok = r.VarInt(); !ok {
@@ -456,6 +455,6 @@ type LoginAcknowledgedPkt struct{}
 
 var _ Packet = (*LoginAcknowledgedPkt)(nil)
 
-func (p LoginAcknowledgedPkt)String()(string){ return "<LoginAcknowledgedPkt>" }
-func (p LoginAcknowledgedPkt)Encode(b *PacketBuilder){}
-func (p *LoginAcknowledgedPkt)DecodeFrom(r *PacketReader)(err error){ return }
+func (p LoginAcknowledgedPkt) String() string                          { return "<LoginAcknowledgedPkt>" }
+func (p LoginAcknowledgedPkt) Encode(b *PacketBuilder)                 {}
+func (p *LoginAcknowledgedPkt) DecodeFrom(r *PacketReader) (err error) { return }

@@ -1,4 +1,3 @@
-
 package liter
 
 import (
@@ -19,7 +18,7 @@ type Property struct {
 	Sign  string `json:"signature,omitempty"`
 }
 
-func (p *Property)UnmarshalJSONValue(ptr any)(err error){
+func (p *Property) UnmarshalJSONValue(ptr any) (err error) {
 	buf, err := base64.StdEncoding.DecodeString(p.Value)
 	if err != nil {
 		return
@@ -27,7 +26,7 @@ func (p *Property)UnmarshalJSONValue(ptr any)(err error){
 	return json.Unmarshal(buf, ptr)
 }
 
-func (p *Property)Encode(b *PacketBuilder){
+func (p *Property) Encode(b *PacketBuilder) {
 	b.String(p.Name)
 	b.String(p.Value)
 	hasSign := len(p.Sign) > 0
@@ -37,7 +36,7 @@ func (p *Property)Encode(b *PacketBuilder){
 	}
 }
 
-func (p *Property)DecodeFrom(r *PacketReader)(err error){
+func (p *Property) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	if p.Name, ok = r.String(); !ok {
 		return io.EOF
@@ -53,20 +52,20 @@ func (p *Property)DecodeFrom(r *PacketReader)(err error){
 		if p.Sign, ok = r.String(); !ok {
 			return io.EOF
 		}
-	}else{
+	} else {
 		p.Sign = ""
 	}
 	return
 }
 
 type PlayerProfile struct {
-	Id   UUID      `json:"id"`
-	Name string    `json:"name"`
+	Id             UUID        `json:"id"`
+	Name           string      `json:"name"`
 	Properties     []*Property `json:"properties`
 	ProfileActions []string    `json:"profileActions"`
 }
 
-func (p *PlayerProfile)GetProp(name string)(t *Property){
+func (p *PlayerProfile) GetProp(name string) (t *Property) {
 	for _, t = range p.Properties {
 		if t.Name == name {
 			return
@@ -85,26 +84,26 @@ type Skin struct {
 	// HTTP cache
 	Etag string
 
-	img image.Image
-	meta map[string]any
+	img       image.Image
+	meta      map[string]any
 	headFront image.Image
-	initOnce sync.Once
+	initOnce  sync.Once
 }
 
-func (s *Skin)init(){
+func (s *Skin) init() {
 	s.initOnce.Do(s._init)
 }
 
-func (s *Skin)_init(){
+func (s *Skin) _init() {
 	const headSize = 8
 	s.headFront = s.subImage(8, 8, headSize, headSize)
 }
 
-func (s *Skin)subImage(x, y, width, height int)(image.Image){
+func (s *Skin) subImage(x, y, width, height int) image.Image {
 	img := image.NewNRGBA(image.Rect(0, 0, width, height))
 	for dx := 0; dx < width; dx++ {
 		for dy := 0; dy < height; dy++ {
-			x0, y0 := x + dx, y + dy
+			x0, y0 := x+dx, y+dy
 			c := color.NRGBAModel.Convert(s.img.At(x0, y0)).(color.NRGBA)
 			if c.A == 0 {
 				c.R, c.G, c.B = 0, 0, 0
@@ -116,23 +115,23 @@ func (s *Skin)subImage(x, y, width, height int)(image.Image){
 	return img
 }
 
-func (s *Skin)Head()(image.Image){
+func (s *Skin) Head() image.Image {
 	s.init()
 	return s.headFront
 }
 
-func (p *PlayerProfile)getDefaultSkin()(skin *Skin, err error){
+func (p *PlayerProfile) getDefaultSkin() (skin *Skin, err error) {
 	return nil, errors.New("Not implemented for default skin yet")
 }
 
-func (p *PlayerProfile)GetSkin(cli *http.Client)(skin *Skin, err error){
+func (p *PlayerProfile) GetSkin(cli *http.Client) (skin *Skin, err error) {
 	t := p.GetProp("textures")
 	if t == nil {
 		return p.getDefaultSkin()
 	}
 	type Textures struct {
 		Skin *struct {
-			Url  string `json:"url"`
+			Url  string         `json:"url"`
 			Meta map[string]any `json:"metadata"`
 		} `json:"SKIN,omitempty"`
 		Cape *struct {

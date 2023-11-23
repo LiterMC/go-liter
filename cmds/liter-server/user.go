@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -17,16 +16,16 @@ var (
 )
 
 type User struct {
-	Name     string `json:"name"`
+	Name string `json:"name"`
 	// password is encoded as sha256
 	Password string `json:"password"`
 }
 
-func (u *User)SetPassword(pswd string){
+func (u *User) SetPassword(pswd string) {
 	u.Password = asSha256(pswd)
 }
 
-func (u *User)CheckPassword(pswd string)(ok bool){
+func (u *User) CheckPassword(pswd string) (ok bool) {
 	return subtle.ConstantTimeCompare(([]byte)(u.Password), ([]byte)(asSha256(pswd))) == 1
 }
 
@@ -36,18 +35,18 @@ type UserStorage struct {
 	users []*User
 }
 
-func NewUserStorage(file string)(s *UserStorage){
+func NewUserStorage(file string) (s *UserStorage) {
 	s = &UserStorage{
 		file: file,
 	}
 	return
 }
 
-func (s *UserStorage)Len()(int){
+func (s *UserStorage) Len() int {
 	return len(s.users)
 }
 
-func (s *UserStorage)Load()(err error){
+func (s *UserStorage) Load() (err error) {
 	s.mux.Lock()
 	defer s.mux.Unlock()
 
@@ -70,21 +69,21 @@ func (s *UserStorage)Load()(err error){
 		}
 		users = append(users, u)
 	}
-	sort.Slice(users, func(i, j int)(bool){
+	sort.Slice(users, func(i, j int) bool {
 		return users[i].Name < users[j].Name
 	})
 	s.users = users
 	return
 }
 
-func (s *UserStorage)Save()(err error){
+func (s *UserStorage) Save() (err error) {
 	s.mux.RLock()
 	defer s.mux.RUnlock()
 
 	return s.save()
 }
 
-func (s *UserStorage)save()(err error){
+func (s *UserStorage) save() (err error) {
 	fd, err := os.Create(s.file)
 	if err != nil {
 		return
@@ -103,8 +102,8 @@ func (s *UserStorage)save()(err error){
 	return
 }
 
-func (s *UserStorage)searchUser(name string)(u *User, i int){
-	i = sort.Search(len(s.users), func(i int)(bool){
+func (s *UserStorage) searchUser(name string) (u *User, i int) {
+	i = sort.Search(len(s.users), func(i int) bool {
 		return s.users[i].Name >= name
 	})
 	if i >= len(s.users) {
@@ -117,7 +116,7 @@ func (s *UserStorage)searchUser(name string)(u *User, i int){
 	return
 }
 
-func (s *UserStorage)GetUser(name string)(u *User){
+func (s *UserStorage) GetUser(name string) (u *User) {
 	s.mux.RLock()
 	defer s.mux.RUnlock()
 
@@ -125,7 +124,7 @@ func (s *UserStorage)GetUser(name string)(u *User){
 	return
 }
 
-func (s *UserStorage)AddUser(u *User)(err error){
+func (s *UserStorage) AddUser(u *User) (err error) {
 	s.mux.Lock()
 	defer s.mux.Unlock()
 
@@ -143,7 +142,7 @@ func (s *UserStorage)AddUser(u *User)(err error){
 	return
 }
 
-func (s *UserStorage)DelUser(name string)(err error){
+func (s *UserStorage) DelUser(name string) (err error) {
 	s.mux.Lock()
 	defer s.mux.Unlock()
 

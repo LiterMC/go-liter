@@ -1,4 +1,3 @@
-
 //go:build dev
 
 package main
@@ -15,7 +14,7 @@ import (
 
 var DashboardAssets http.FileSystem = gin.Dir("dashboard/dist", false)
 
-func runDashResources()(cleaner func(), err error){
+func runDashResources() (cleaner func(), err error) {
 	basedir := "."
 	if _, curfile, _, ok := runtime.Caller(0); ok {
 		basedir = filepath.Dir(curfile)
@@ -37,26 +36,26 @@ func runDashResources()(cleaner func(), err error){
 		return
 	}
 
-	go func(){
+	go func() {
 		s := bufio.NewScanner(pout)
 		for s.Scan() {
 			loger.Info("[npm-dev/stdout]: " + s.Text())
 		}
 	}()
-	go func(){
+	go func() {
 		s := bufio.NewScanner(perr)
 		for s.Scan() {
 			loger.Info("[npm-dev/stderr]: " + s.Text())
 		}
 	}()
 
-	go func(){
+	go func() {
 		if err := cmd.Wait(); err != nil {
 			loger.Errorf("npm frontend server exited: %v", err)
 		}
 	}()
 
-	cleaner = func(){
+	cleaner = func() {
 		cmd.Process.Kill()
 	}
 	return

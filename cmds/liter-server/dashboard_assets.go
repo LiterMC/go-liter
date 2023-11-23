@@ -1,4 +1,3 @@
-
 //go:build !dev
 
 package main
@@ -13,7 +12,7 @@ import (
 //go:generate npm -C dashboard run build
 //go:embed dashboard/dist
 var _dashboardDist embed.FS
-var DashboardAssets http.FileSystem = func()(http.FileSystem){
+var DashboardAssets http.FileSystem = func() http.FileSystem {
 	assetsFS, err := fs.Sub(_dashboardDist, "dashboard/dist")
 	if err != nil {
 		loger.Panic(err)
@@ -21,6 +20,6 @@ var DashboardAssets http.FileSystem = func()(http.FileSystem){
 	return http.FS(assetsFS)
 }()
 
-func runDashResources()(func(), error){
-	return func(){}, nil
+func runDashResources() (func(), error) {
+	return func() {}, nil
 }

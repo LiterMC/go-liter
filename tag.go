@@ -1,4 +1,3 @@
-
 package liter
 
 import (
@@ -12,7 +11,7 @@ type Tag struct {
 
 var _ Packet = (*Tag)(nil)
 
-func (t Tag)Encode(b *PacketBuilder){
+func (t Tag) Encode(b *PacketBuilder) {
 	b.String(t.Name)
 	b.VarInt((VarInt)(len(t.Entries)))
 	for _, v := range t.Entries {
@@ -20,7 +19,7 @@ func (t Tag)Encode(b *PacketBuilder){
 	}
 }
 
-func (t *Tag)DecodeFrom(r *PacketReader)(err error){
+func (t *Tag) DecodeFrom(r *PacketReader) (err error) {
 	var ok bool
 	var n VarInt
 	if t.Name, ok = r.String(); !ok {

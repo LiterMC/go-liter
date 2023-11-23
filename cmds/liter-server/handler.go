@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -8,15 +7,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-liter/script"
+	"github.com/kmcsr/go-logger"
 )
 
-func (s *Server)handle(c *liter.Conn){
+func (s *Server) handle(c *liter.Conn) {
 	preventCliSideClose := false
 	wc := s.scripts.WrapConn(c)
-	defer func(){
+	defer func() {
 		if !preventCliSideClose {
 			wc.Close()
 		}
@@ -28,11 +27,10 @@ func (s *Server)handle(c *liter.Conn){
 		When: time.Now(),
 	}
 	cid := s.conns.Put(c0)
-	wc.OnClose = func(){
-		wc.Emit(&script.Event{ Name: "close", Data: Map{ "conn": wc.Exports() } })
+	wc.OnClose = func() {
+		wc.Emit(&script.Event{Name: "close", Data: Map{"conn": wc.Exports()}})
 		s.conns.Free(cid)
 	}
-
 
 	ploger := logger.NewPrefixLogger(loger, "client [%v]:", c.RemoteAddr())
 	ploger.Debugf("Connected!")
@@ -49,7 +47,8 @@ func (s *Server)handle(c *liter.Conn){
 	isLogin := hp.NextState == liter.NextLoginState
 
 	var svr *ServerIns = nil
-	F: for _, s := range s.config.Servers {
+F:
+	for _, s := range s.config.Servers {
 		for _, n := range s.ServerNames {
 			if ismatch(hp.Addr, n) {
 				svr = s
@@ -63,9 +62,9 @@ func (s *Server)handle(c *liter.Conn){
 	}
 
 	noforward := <-s.scripts.Emit(script.NewEvent("handshake", Map{
-		"client": wc.Exports(),
+		"client":    wc.Exports(),
 		"handshake": hp,
-		"target": svr.Target,
+		"target":    svr.Target,
 	}))
 	if wc.Closed() {
 		return
@@ -78,7 +77,7 @@ func (s *Server)handle(c *liter.Conn){
 					wc.Emit(&script.Event{
 						Name: "error",
 						Data: Map{
-							"conn": wc.Exports(),
+							"conn":  wc.Exports(),
 							"error": err.Error(),
 						},
 					})
@@ -86,7 +85,7 @@ func (s *Server)handle(c *liter.Conn){
 				return
 			}
 			wc.Emit(script.NewEvent("packet", Map{
-				"conn": wc,
+				"conn":   wc,
 				"packet": r,
 			}))
 		}
@@ -105,7 +104,7 @@ func (s *Server)handle(c *liter.Conn){
 			handleServerStatus(ploger, c, "Idle", svr.Motd)
 			return
 		}
-	}else if isLogin {
+	} else if isLogin {
 		if err = c.RecvPkt(0x00, &lp); err != nil {
 			ploger.Debugf("Read login start packet error: %v", err)
 			return
@@ -140,10 +139,10 @@ func (s *Server)handle(c *liter.Conn){
 		}
 		player = Map{
 			"name": pl.Name,
-			"id": pl.Id.String(),
+			"id":   pl.Id.String(),
 		}
 		c0.SetPlayer(pl)
-	}else{
+	} else {
 		// unknown type connection
 		return
 	}
@@ -154,20 +153,20 @@ func (s *Server)handle(c *liter.Conn){
 		if isPing {
 			ploger.Debugf("Handle ping connection for server %q", svr.Id)
 			handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
-		}else if isLogin {
+		} else if isLogin {
 			loginDisconnect(c, "Cannot connect to the subserver")
 		}
 		return
 	}
 	wconn := s.scripts.WrapConn(conn)
 	preventSvrSideClose := false
-	defer func(){
+	defer func() {
 		if !preventSvrSideClose {
 			wconn.Close()
 		}
 	}()
-	wconn.OnClose = func(){
-		wconn.Emit(&script.Event{ Name: "close", Data: Map{ "conn": wconn.Exports() } })
+	wconn.OnClose = func() {
+		wconn.Emit(&script.Event{Name: "close", Data: Map{"conn": wconn.Exports()}})
 	}
 
 	ploger.Debugf("Target %q connected", svr.Id)
@@ -189,9 +188,9 @@ func (s *Server)handle(c *liter.Conn){
 	cr := conn.RawConn()
 
 	if !<-s.scripts.Emit(script.NewEvent("serve", Map{
-		"client": wc.Exports(),
-		"server": wconn.Exports(),
-		"player": player,
+		"client":    wc.Exports(),
+		"server":    wconn.Exports(),
+		"player":    player,
 		"handshake": hp,
 	})) {
 		if proxyRawConn(ploger, cr, rc) {
@@ -199,7 +198,7 @@ func (s *Server)handle(c *liter.Conn){
 			if isPing {
 				ploger.Debugf("Handle ping connection for server %q", svr.Id)
 				handleServerStatus(ploger, c, "Closed", svr.MotdFailed)
-			}else if isLogin {
+			} else if isLogin {
 				loginDisconnect(c, "Connection reset by peer")
 			}
 		}
@@ -212,7 +211,7 @@ func (s *Server)handle(c *liter.Conn){
 		return
 	}
 	c0.SetPlayer(liter.PlayerInfo{
-		Id: sp.UUID,
+		Id:   sp.UUID,
 		Name: sp.Username,
 	})
 
@@ -222,7 +221,7 @@ func (s *Server)handle(c *liter.Conn){
 	case err := <-errCh1:
 		ploger.Errorf("Error at client connection: %v", err)
 		if <-wconn.Emit(script.NewEvent("before_close", Map{
-			"conn": wconn.Exports(),
+			"conn":  wconn.Exports(),
 			"error": err.Error(),
 		})) {
 			ploger.Infof("Server connection default close action prevented")
@@ -231,7 +230,7 @@ func (s *Server)handle(c *liter.Conn){
 	case err := <-errCh2:
 		ploger.Errorf("Error at server connection: %v", err)
 		if <-wc.Emit(script.NewEvent("before_close", Map{
-			"conn": wc.Exports(),
+			"conn":  wc.Exports(),
 			"error": err.Error(),
 		})) {
 			ploger.Infof("Client connection default close action prevented")
@@ -240,8 +239,7 @@ func (s *Server)handle(c *liter.Conn){
 	}
 }
 
-
-func handleServerStatus(loger logger.Logger, c *liter.Conn, status string, motd string){
+func handleServerStatus(loger logger.Logger, c *liter.Conn, status string, motd string) {
 	var srp liter.StatusRequestPkt
 	var err error
 	if err = c.RecvPkt(0x00, &srp); err != nil {
@@ -251,14 +249,14 @@ func handleServerStatus(loger logger.Logger, c *liter.Conn, status string, motd 
 	if err = c.SendPkt(0x00, liter.StatusResponsePkt{
 		Payload: liter.StatusResponsePayload{
 			Version: liter.ProtocolVersion{
-				Name: status,
+				Name:     status,
 				Protocol: c.Protocol(),
 			},
 			Players: liter.PlayerStatus{
-				Max: 2,
+				Max:    2,
 				Online: 1,
 				Sample: []liter.PlayerInfo{
-					{ Name: status }, // to allow hover for the status
+					{Name: status}, // to allow hover for the status
 				},
 			},
 			Description: liter.NewChatFromString(motd),
@@ -278,8 +276,8 @@ func handleServerStatus(loger logger.Logger, c *liter.Conn, status string, motd 
 	}
 }
 
-func proxyRawConn(ploger logger.Logger, cr, rc net.Conn)(bool){
-	buf := make([]byte, 32 * 1024)
+func proxyRawConn(ploger logger.Logger, cr, rc net.Conn) bool {
+	buf := make([]byte, 32*1024)
 	cr.SetReadDeadline(time.Now().Add(time.Millisecond * 10))
 	// try read to ensure the connection is ok
 	if n, err := cr.Read(buf); err != nil {
@@ -287,28 +285,28 @@ func proxyRawConn(ploger logger.Logger, cr, rc net.Conn)(bool){
 			ploger.Errorf("Connection reset by peer")
 			return true
 		}
-	}else if n != 0 {
+	} else if n != 0 {
 		rc.Write(buf[:n])
 	}
 	cr.SetReadDeadline(time.Time{}) // clear read deadline
 
-	go func(){
+	go func() {
 		defer cr.Close()
 		defer rc.Close()
-		buf := make([]byte, 32 * 1024)
+		buf := make([]byte, 32*1024)
 		io.CopyBuffer(rc, cr, buf)
 	}()
 	io.CopyBuffer(cr, rc, buf)
 	return false
 }
 
-func loginDisconnectByErr(c *liter.Conn, e error)(err error){
+func loginDisconnectByErr(c *liter.Conn, e error) (err error) {
 	return c.SendPkt(0x00, &liter.DisconnectPkt{
 		Reason: liter.NewChatFromString(e.Error()),
 	})
 }
 
-func loginDisconnect(c *liter.Conn, reason string)(err error){
+func loginDisconnect(c *liter.Conn, reason string) (err error) {
 	return c.SendPkt(0x00, &liter.DisconnectPkt{
 		Reason: liter.NewChatFromString(reason),
 	})
@@ -318,11 +316,11 @@ type DisconnectError struct {
 	Reason *liter.Chat
 }
 
-func (e *DisconnectError)Error()(string){
+func (e *DisconnectError) Error() string {
 	return e.Reason.Plain()
 }
 
-func proxyLoginPackets(s *Server, svr, cli *liter.Conn)(res *liter.LoginSuccessPkt, err error){
+func proxyLoginPackets(s *Server, svr, cli *liter.Conn) (res *liter.LoginSuccessPkt, err error) {
 	res = new(liter.LoginSuccessPkt)
 	var r *liter.PacketReader
 	if r, err = svr.Recv(); err != nil {
@@ -339,7 +337,7 @@ func proxyLoginPackets(s *Server, svr, cli *liter.Conn)(res *liter.LoginSuccessP
 		if err = cli.SendPkt(0x00, &pkt); err != nil {
 			return
 		}
-		return nil, &DisconnectError{ Reason: pkt.Reason }
+		return nil, &DisconnectError{Reason: pkt.Reason}
 	case 0x03: // Set Compression
 		var pkt liter.LoginSetCompressionPkt
 		if err = pkt.DecodeFrom(r); err != nil {
@@ -358,7 +356,7 @@ func proxyLoginPackets(s *Server, svr, cli *liter.Conn)(res *liter.LoginSuccessP
 			return
 		}
 		if r.Id() != 0x02 {
-			err = &liter.PktIdAssertError{ Require: 0x02, Got: (int32)(r.Id()) }
+			err = &liter.PktIdAssertError{Require: 0x02, Got: (int32)(r.Id())}
 			return
 		}
 		fallthrough
@@ -380,11 +378,11 @@ func proxyLoginPackets(s *Server, svr, cli *liter.Conn)(res *liter.LoginSuccessP
 	return
 }
 
-func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
+func parseAndForward(dst, src *script.WrappedConn) <-chan error {
 	errCh := make(chan error, 1)
-	go func(){
+	go func() {
 		var err error
-		defer func(){
+		defer func() {
 			errCh <- err
 		}()
 		var pkt liter.PacketBuilder
@@ -395,7 +393,7 @@ func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
 					src.Emit(&script.Event{
 						Name: "error",
 						Data: Map{
-							"conn": src.Exports(),
+							"conn":  src.Exports(),
 							"error": err.Error(),
 						},
 					})
@@ -403,7 +401,7 @@ func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
 				return
 			}
 			if !<-src.Emit(script.NewEvent("packet", Map{
-				"conn": src.Exports(),
+				"conn":   src.Exports(),
 				"packet": r,
 			})) {
 				if err = dst.Send(pkt.Reset(r.Protocol(), r.Id()).ByteArray(r.Bytes())); err != nil {
@@ -411,7 +409,7 @@ func parseAndForward(dst, src *script.WrappedConn)(<-chan error){
 						dst.Emit(&script.Event{
 							Name: "error",
 							Data: Map{
-								"conn": dst.Exports(),
+								"conn":  dst.Exports(),
 								"error": err.Error(),
 							},
 						})

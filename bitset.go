@@ -1,4 +1,3 @@
-
 package liter
 
 import (
@@ -9,15 +8,15 @@ type BitSet []uint64
 
 var _ Packet = (*BitSet)(nil)
 
-func NewBitSet()(s *BitSet){
+func NewBitSet() (s *BitSet) {
 	s = new(BitSet)
 	*s = make(BitSet, 0)
 	return
 }
 
-func NewBitSetWith(size int)(s *BitSet){
+func NewBitSetWith(size int) (s *BitSet) {
 	leng := size / 64
-	if size % 64 != 0 {
+	if size%64 != 0 {
 		leng++
 	}
 	s = new(BitSet)
@@ -25,18 +24,18 @@ func NewBitSetWith(size int)(s *BitSet){
 	return
 }
 
-func (s BitSet)Encode(p *PacketBuilder){
+func (s BitSet) Encode(p *PacketBuilder) {
 	p.VarInt((VarInt)(len(s)))
 	for _, v := range s {
 		p.Long((Long)(v))
 	}
 }
 
-func (s *BitSet)DecodeFrom(r *PacketReader)(err error){
+func (s *BitSet) DecodeFrom(r *PacketReader) (err error) {
 	var (
 		ok bool
-		l VarInt
-		v Long
+		l  VarInt
+		v  Long
 	)
 	if l, ok = r.VarInt(); !ok {
 		return io.EOF
@@ -51,8 +50,8 @@ func (s *BitSet)DecodeFrom(r *PacketReader)(err error){
 	return
 }
 
-func (s *BitSet)Set(index int, value bool){
-	i, b := index / 64, (uint64)(1) << (index % 64)
+func (s *BitSet) Set(index int, value bool) {
+	i, b := index/64, (uint64)(1)<<(index%64)
 	arr := *s
 	if i >= len(arr) {
 		for i >= len(arr) {
@@ -62,28 +61,28 @@ func (s *BitSet)Set(index int, value bool){
 	}
 	if value {
 		arr[i] |= b
-	}else{
+	} else {
 		arr[i] &^= b
 	}
 }
 
-func (s *BitSet)Open(index int){
+func (s *BitSet) Open(index int) {
 	s.Set(index, true)
 }
 
-func (s *BitSet)Close(index int){
+func (s *BitSet) Close(index int) {
 	s.Set(index, true)
 }
 
-func (s *BitSet)Get(index int)(value bool){
-	i, b := index / 64, (uint64)(1) << (index % 64)
+func (s *BitSet) Get(index int) (value bool) {
+	i, b := index/64, (uint64)(1)<<(index%64)
 	if i >= len(*s) {
 		return false
 	}
-	return (*s)[i] & b != 0
+	return (*s)[i]&b != 0
 }
 
-func (s *BitSet)Clear(){
+func (s *BitSet) Clear() {
 	for i, _ := range *s {
 		(*s)[i] = 0
 	}
