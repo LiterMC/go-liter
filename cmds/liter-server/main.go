@@ -115,26 +115,7 @@ func main() {
 	defer cleaner()
 
 	r := new(Runner)
-	if r.configDir, err = os.Getwd(); err != nil {
-		loger.Panicf("Cannot get working dir", err)
-	}
-	r.scriptPath = filepath.Join(r.configDir, "plugins")
-	r.cfgHash, _ = genRandB64(48)
-	r.config = loadConfig()
-	r.whitelist = loadWhitelist()
-	r.blacklist = loadBlacklist()
-	r.manager = script.NewManager()
-	r.server = NewServer(r.configDir, r.manager)
-	r.server.configLock = &r.configLock
-	r.server.cfgHash = &r.cfgHash
-	r.server.config = &r.config
-	r.server.blacklist = &r.blacklist
-	r.server.whitelist = &r.whitelist
-
-	r.startServer()
-	if r.config.Dashboard.Enable {
-		r.startDashboard(r.config.Dashboard.Addr)
-	}
+	r.Run()
 
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
@@ -159,8 +140,7 @@ WAIT:
 }
 
 type Runner struct {
-	configDir  string
-	scriptPath string
+	configDir string
 
 	configLock sync.RWMutex
 	cfgHash    string
@@ -180,15 +160,39 @@ func (r *Runner) Run() {
 	loger.Infof("Liter Server %s", version)
 	r.manager.SetLogger(loger)
 
-	if _, err := os.Stat(r.scriptPath); errors.Is(err, os.ErrNotExist) {
-		os.MkdirAll(r.scriptPath, 0755)
+	if r.configDir, err = os.Getwd(); err != nil {
+		loger.Panicf("Cannot get working dir", err)
+	}
+	r.LoadConfigs()
+
+	r.manager = script.NewManager()
+	r.server = NewServer(r.configDir, r.manager)
+	r.server.configLock = &r.configLock
+	r.server.cfgHash = &r.cfgHash
+	r.server.config = &r.config
+	r.server.blacklist = &r.blacklist
+	r.server.whitelist = &r.whitelist
+
+	r.startServer()
+	if r.config.Dashboard.Enable {
+		r.startDashboard(r.config.Dashboard.Addr)
 	}
 
-	if _, err = r.manager.LoadFromDir(r.scriptPath); err != nil {
+	scriptPath := r.scriptPath()
+	if _, err := os.Stat(scriptPath); errors.Is(err, os.ErrNotExist) {
+		os.MkdirAll(scriptPath, 0755)
+	}
+	if _, err = r.manager.LoadFromDir(scriptPath); err != nil {
 		loger.Errorf("Cannot load scripts: %v", err)
 	}
 
 	return
+}
+
+// scriptPath returns the path to load plugins
+// TODO: support multiple paths
+func (r *Runner) scriptPath() string {
+	return filepath.Join(r.configDir, "plugins")
 }
 
 func (r *Runner) startServer() {
@@ -266,7 +270,7 @@ func (r *Runner) closeDashboard(ctx context.Context) {
 	r.exitDash = nil
 }
 
-func (r *Runner) ReloadConfigs() (old Config) {
+func (r *Runner) LoadConfigs() (old Config) {
 	r.configLock.Lock()
 	defer r.configLock.Unlock()
 
@@ -283,7 +287,7 @@ func (r *Runner) Reload() {
 	r.manager.UnloadAll()
 
 	loger.Infof("Reloading config...")
-	ocfg := r.ReloadConfigs()
+	ocfg := r.LoadConfigs()
 
 	if ocfg.ServerAddr != r.config.ServerAddr {
 		loger.Info("Restarting ...")
@@ -306,7 +310,8 @@ func (r *Runner) Reload() {
 	}
 
 	loger.Info("Reloading plugins ...")
-	if _, err := r.manager.LoadFromDir(r.scriptPath); err != nil {
+	scriptPath := r.scriptPath()
+	if _, err := r.manager.LoadFromDir(scriptPath); err != nil {
 		loger.Errorf("Cannot load plugins: %v", err)
 	}
 }

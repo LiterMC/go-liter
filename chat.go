@@ -100,14 +100,10 @@ const (
 
 type (
 	Chat struct {
-		Component
-		Extra []*Component `json:"extra,omitempty"`
-	}
-	Component struct {
 		// content: parse by order
 		Text      string          `json:"text,omitempty"`
 		Translate string          `json:"translate,omitempty"`
-		With      []*Component    `json:"with,omitempty"` // the values for translate
+		With      []*Chat         `json:"with,omitempty"` // the values for translate
 		Keybind   string          `json:"keybind,omitempty"`
 		Score     *ScoreComponent `json:"score,omitempty"`
 		// properties
@@ -121,6 +117,7 @@ type (
 		Insertion     string      `json:"insertion,omitempty"`
 		ClickEvent    *ClickEvent `json:"clickEvent,omitempty"`
 		HoverEvent    *HoverEvent `json:"hoverEvent,omitempty"`
+		Extra         []*Chat     `json:"extra,omitempty"`
 	}
 	ClickEvent struct {
 		Action ClickAction `json:"action"`
@@ -140,18 +137,14 @@ type (
 
 var _ json.Marshaler = (*Chat)(nil)
 var _ json.Unmarshaler = (*Chat)(nil)
-var _ json.Marshaler = (*Component)(nil)
-var _ json.Unmarshaler = (*Component)(nil)
 
 func NewChatFromString(s string) (c *Chat) {
 	return &Chat{
-		Component: Component{
-			Text: s,
-		},
+		Text: s,
 	}
 }
 
-func (c *Component) toMap() (data map[string]any) {
+func (c *Chat) toMap() (data map[string]any) {
 	data = make(map[string]any, 12)
 	if c.Text != "" {
 		data["text"] = c.Text
@@ -191,29 +184,12 @@ func (c *Component) toMap() (data map[string]any) {
 	return
 }
 
-func (c *Component) MarshalJSON() (buf []byte, err error) {
+func (c *Chat) MarshalJSON() (buf []byte, err error) {
 	return json.Marshal(c.toMap())
 }
 
-func (c *Component) UnmarshalJSON(buf []byte) (err error) {
+func (c *Chat) UnmarshalJSON(buf []byte) (err error) {
 	return json.Unmarshal(buf, c)
-}
-
-// Plain() will return the plain text value for the component
-func (c *Component) Plain() string {
-	if c.Text != "" {
-		return c.Text
-	}
-	if c.Translate != "" {
-		return c.Translate
-	}
-	if c.Keybind != "" {
-		return c.Keybind
-	}
-	if c.Score != nil {
-		return fmt.Sprintf("<score objective=%s target=%s>", c.Score.Objective, c.Score.Name)
-	}
-	return ""
 }
 
 type ChatType int
@@ -227,7 +203,7 @@ const (
 )
 
 // Type will return the content's type of the chat component.
-func (c *Component) Type() ChatType {
+func (c *Chat) Type() ChatType {
 	if c.Text != "" {
 		return TextChat
 	}
@@ -243,30 +219,31 @@ func (c *Component) Type() ChatType {
 	return TextChat
 }
 
-func (c *Chat) MarshalJSON() (buf []byte, err error) {
-	data := c.toMap()
-	if len(c.Extra) != 0 {
-		extra := make([]map[string]any, len(c.Extra))
-		for i, v := range c.Extra {
-			extra[i] = v.toMap()
-		}
-		data["extra"] = extra
-	}
-	return json.Marshal(data)
-}
-
-func (c *Chat) UnmarshalJSON(buf []byte) (err error) {
-	return json.Unmarshal(buf, c)
-}
-
+// Plain() will return the plain text value for the chat component
 func (c *Chat) Plain() string {
 	if len(c.Extra) == 0 {
-		return c.Component.Plain()
+		return c.plain()
 	}
 	var sb strings.Builder
-	sb.WriteString(c.Component.Plain())
+	sb.WriteString(c.plain())
 	for _, v := range c.Extra {
 		sb.WriteString(v.Plain())
 	}
 	return sb.String()
+}
+
+func (c *Chat) plain() string {
+	if c.Text != "" {
+		return c.Text
+	}
+	if c.Translate != "" {
+		return c.Translate
+	}
+	if c.Keybind != "" {
+		return c.Keybind
+	}
+	if c.Score != nil {
+		return fmt.Sprintf("<score objective=%s target=%s>", c.Score.Objective, c.Score.Name)
+	}
+	return ""
 }
