@@ -54,7 +54,7 @@ func (cli *AuthClient) GetPlayerInfo(name string) (player PlayerInfo, err error)
 		err = ErrPlayerNameInvalid
 		return
 	}
-	url := joinUrl(cli.ApiServer, EndPoint, name)
+	url := joinUrl(cli.ApiServer, EndPoint, path.Base(name))
 	var res *http.Response
 	if res, err = cli.Client.Get(url); err != nil {
 		return
