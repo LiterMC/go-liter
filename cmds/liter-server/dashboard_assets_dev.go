@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var DashboardAssets http.FileSystem = gin.Dir("dashboard/dist", false)
+var DashboardAssets http.FileSystem
 
 func runDashResources() (cleaner func(), err error) {
 	basedir := "."
@@ -21,7 +21,12 @@ func runDashResources() (cleaner func(), err error) {
 	}
 
 	loger.Infof("Starting frontend debug server")
-	cmd := exec.Command("npm", "-C", filepath.Join(basedir, "dashboard"), "run", "build-dev")
+	npmDir := filepath.Join(basedir, "dashboard")
+	distDir := filepath.Join(npmDir, "dist")
+
+	DashboardAssets = gin.Dir(distDir, false)
+
+	cmd := exec.Command("npm", "-C", npmDir, "run", "build-dev")
 
 	pout, err := cmd.StdoutPipe()
 	if err != nil {

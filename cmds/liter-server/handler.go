@@ -375,7 +375,6 @@ func proxyLoginPackets(s *Server, svr, cli *liter.Conn) (res *liter.LoginSuccess
 		loginDisconnectByErr(cli, err)
 		return
 	}
-	return
 }
 
 func parseAndForward(dst, src *script.WrappedConn) <-chan error {

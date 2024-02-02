@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net"
 	"os"
@@ -199,16 +200,18 @@ func (p *PlayerInfo) update() (err error) {
 	return
 }
 
-func (p *PlayerInfo) UnmarshalJSON(buf []byte) (err error) {
+var errUnknownPlayerInfo = errors.New("Unknown player info")
+
+func (p *PlayerInfo) UnmarshalJSON(buf []byte) error {
 	var v any
-	if err = json.Unmarshal(buf, &v); err != nil {
-		return
+	if err := json.Unmarshal(buf, &v); err != nil {
+		return err
 	}
 	switch v := v.(type) {
 	case string:
-		var err error
-		if p.Id, err = uuid.Parse(v); err == nil {
-			profile, err := AuthClient.GetPlayerProfile(p.Id)
+		if uid, err := uuid.Parse(v); err == nil {
+			p.Id = uid
+			profile, err := AuthClient.GetPlayerProfile(uid)
 			if err != nil {
 				return nil
 			}
@@ -226,12 +229,12 @@ func (p *PlayerInfo) UnmarshalJSON(buf []byte) (err error) {
 		var ok bool
 		var id string
 		p.Name, _ = v["name"].(string)
-		if p.onlineMode {
-			if id, ok = v["id"].(string); ok {
-				var e error
-				if p.Id, e = uuid.Parse(id); e != nil {
-					ok = false
-				}
+		if id, ok = v["id"].(string); ok {
+			var e error
+			if p.Id, e = uuid.Parse(id); e != nil {
+				ok = false
+			}
+			if p.onlineMode {
 				profile, err := AuthClient.GetPlayerProfile(p.Id)
 				if err != nil {
 					return nil
@@ -240,20 +243,26 @@ func (p *PlayerInfo) UnmarshalJSON(buf []byte) (err error) {
 				return nil
 			}
 		}
-		if p.Name == "" {
-			return fmt.Errorf("Unknown player info")
-		} else if p.onlineMode {
-			info, err := AuthClient.GetPlayerInfo(p.Name)
-			if err != nil {
-				return nil
+		if !ok {
+			if p.Name != "" && p.onlineMode {
+				info, err := AuthClient.GetPlayerInfo(p.Name)
+				if err != nil {
+					return err
+				}
+				p.Name = info.Name
+				p.Id = info.Id
+			} else {
+				return errUnknownPlayerInfo
 			}
-			p.Name = info.Name
-			p.Id = info.Id
 		}
 	default:
 		return fmt.Errorf("Unexpected player info (%T)%v", v, v)
 	}
-	return
+	return nil
+}
+
+func (p *PlayerInfo) MarshalJSON() (buf []byte, err error) {
+	return json.Marshal(&p.PlayerInfo)
 }
 
 type Whitelist struct {

@@ -514,6 +514,14 @@ func registerPlayerAPI(s *Server, g *gin.RouterGroup) {
 // server status APIs
 func registerStatus(s *Server, g *gin.RouterGroup) {
 	g.GET("/conns", func(ctx *gin.Context) {
+		ctx.Header("Cache-Control", "no-cache")
+		lm := s.conns.LastModified().Format(time.RFC1123)
+		ctx.Header("Last-Modified", lm)
+		if lm2 := ctx.GetHeader("If-Modified-Since"); len(lm2) != 0 && lm2 == lm {
+			ctx.Status(http.StatusNotModified)
+			return
+		}
+
 		type resT struct {
 			Id        int               `json:"id"`
 			Addr      string            `json:"addr"`
@@ -522,8 +530,6 @@ func registerStatus(s *Server, g *gin.RouterGroup) {
 			Server    string            `json:"server"`
 			Player    *liter.PlayerInfo `json:"player,omitempty"`
 		}
-		ctx.Header("Cache-Control", "no-cache")
-		lm := s.conns.LastModified().Format(time.RFC1123)
 		data := make([]resT, 0, s.conns.Count())
 		s.conns.ForEach(func(i int, conn *Conn) {
 			local, svr, ok := conn.LocalServer()
@@ -539,11 +545,6 @@ func registerStatus(s *Server, g *gin.RouterGroup) {
 				Server:    svr,
 			})
 		})
-		ctx.Header("Last-Modified", lm)
-		if lm2 := ctx.GetHeader("Last-Modified"); len(lm2) != 0 && lm2 == lm {
-			ctx.Status(http.StatusNotModified)
-			return
-		}
 		ctx.JSON(http.StatusOK, gin.H{
 			"status": "ok",
 			"data":   data,

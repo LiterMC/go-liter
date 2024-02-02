@@ -79,6 +79,8 @@ func (m *FlatMemory[T]) Count() int {
 }
 
 func (m *FlatMemory[T]) LastModified() time.Time {
+	m.mux.RLock()
+	defer m.mux.RUnlock()
 	return m.lastEdit
 }
 

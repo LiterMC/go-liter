@@ -158,7 +158,6 @@ func (r *Runner) Run() {
 	var err error
 
 	loger.Infof("Liter Server %s", version)
-	r.manager.SetLogger(loger)
 
 	if r.configDir, err = os.Getwd(); err != nil {
 		loger.Panicf("Cannot get working dir", err)
@@ -166,6 +165,7 @@ func (r *Runner) Run() {
 	r.LoadConfigs()
 
 	r.manager = script.NewManager()
+	r.manager.SetLogger(loger)
 	r.server = NewServer(r.configDir, r.manager)
 	r.server.configLock = &r.configLock
 	r.server.cfgHash = &r.cfgHash
