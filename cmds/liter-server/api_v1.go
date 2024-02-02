@@ -41,12 +41,14 @@ func checkTokenId(id string) (ok bool) {
 }
 
 func (s *Server) checkToken(ctx *gin.Context, token string) (ok bool) {
-	t, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
-		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
-		}
-		return s.hmacKey, nil
-	},
+	t, err := jwt.Parse(
+		token,
+		func(t *jwt.Token) (interface{}, error) {
+			if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, fmt.Errorf("Unexpected signing method: %v", t.Header["alg"])
+			}
+			return s.hmacKey, nil
+		},
 		jwt.WithSubject("optk"),
 		jwt.WithIssuedAt(),
 		jwt.WithIssuer(jwtIssuer),

@@ -1,6 +1,7 @@
 [Unit]
 Description=A reverse proxy for minecraft server
-After=network.target nss-lookup.target
+Documentation=https://github.com/kmcsr/go-liter
+Requires=network.target nss-lookup.target
 
 [Service]
 Type=forking
@@ -8,12 +9,12 @@ PIDFile=/var/run/litermc.pid
 WorkingDirectory=/opt/litermc
 ExecStart=/usr/sbin/litermc daemon /var/run/litermc.pid
 ExecReload=/usr/sbin/litermc reload /var/run/litermc.pid
-ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /var/run/litermc.pid
+ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry TERM/5 --pidfile /var/run/litermc.pid
 TimeoutStopSec=10
 KillMode=mixed
 Restart=on-failure
-RestartSec=5
+RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
-Alias=litermc.service
+Alias=litermc
