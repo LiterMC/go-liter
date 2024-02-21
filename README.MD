@@ -20,5 +20,5 @@ If you are interested in develop script, please check [script/README.MD](./scrip
 
 ## Applications
 
-- [liter-proxy](./cmds/liter-proxy/README.MD): The minecraft forward proxy which support socks5
-- [liter-server](./cmds/liter-server/README.MD): The minecraft reverse proxy with a simple manage dashboard
+- [liter-proxy](./cmd/liter-proxy/README.MD): The minecraft forward proxy which support socks5
+- [liter-server](./cmd/liter-server/README.MD): The minecraft reverse proxy with a simple manage dashboard

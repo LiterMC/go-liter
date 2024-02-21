@@ -20,5 +20,5 @@
 
 ## 应用程序
 
-- [liter-proxy](./cmds/liter-proxy/README.MD): 一个支持 socks5 的 Minecraft 代理
-- [liter-server](./cmds/liter-server/README.MD): 内置一个简易管理面板的 Minecraft 反向代理
+- [liter-proxy](./cmd/liter-proxy/README.MD): 一个支持 socks5 的 Minecraft 代理
+- [liter-server](./cmd/liter-server/README.MD): 内置一个简易管理面板的 Minecraft 反向代理
