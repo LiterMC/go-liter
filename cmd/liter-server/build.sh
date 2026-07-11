@@ -5,7 +5,7 @@ curdir="$(dirname $0)"
 available_platforms=(
 	darwin/amd64 darwin/arm64
 	linux/386 linux/amd64 linux/arm linux/arm64
-	windows/386 windows/amd64 windows/arm windows/arm64
+	windows/386 windows/amd64
 )
 
 outputdir=output
