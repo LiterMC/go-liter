@@ -3,6 +3,7 @@ module github.com/LiterMC/go-liter
 go 1.26.4
 
 require (
+	github.com/coreos/go-systemd/v22 v22.7.0
 	github.com/dop251/goja v0.0.0-20260701091749-b07b74453ea9
 	github.com/dop251/goja_nodejs v0.0.0-20260212111938-1f56ff5bcf14
 	github.com/gin-gonic/gin v1.12.0

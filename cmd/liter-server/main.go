@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/LiterMC/go-liter/script"
+	"github.com/coreos/go-systemd/v22/daemon"
 )
 
 func parseFlags() {
@@ -117,6 +118,8 @@ func main() {
 	r := new(Runner)
 	r.Run()
 
+	daemon.SdNotify(false, daemon.SdNotifyReady)
+
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
 
@@ -125,9 +128,13 @@ WAIT:
 	case s := <-sigs:
 		loger.Warnf("Got signal %s", s.String())
 		if s == syscall.SIGHUP { // reload
+			daemon.SdNotify(false, daemon.SdNotifyReloading)
+			daemon.SdNotify(false, daemon.SdNotifyMonotonicUsec())
 			r.Reload()
+			daemon.SdNotify(false, daemon.SdNotifyReady)
 			goto WAIT
 		}
+		daemon.SdNotify(false, daemon.SdNotifyStopping)
 		r.Stop(sigs)
 	case <-r.exitSvr:
 		os.Exit(1)

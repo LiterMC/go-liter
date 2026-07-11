@@ -4,12 +4,9 @@ Documentation=https://github.com/LiterMC/go-liter
 Requires=network.target nss-lookup.target
 
 [Service]
-Type=forking
-PIDFile=/var/run/litermc.pid
+Type=notify-reload
 WorkingDirectory=/opt/litermc
-ExecStart=/usr/sbin/litermc daemon /var/run/litermc.pid
-ExecReload=/usr/sbin/litermc reload /var/run/litermc.pid
-ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry TERM/5 --pidfile /var/run/litermc.pid
+ExecStart=/usr/sbin/litermc serve
 TimeoutStopSec=10
 KillMode=mixed
 Restart=on-failure
