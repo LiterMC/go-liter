@@ -10,10 +10,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/LiterMC/go-liter"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
-	"github.com/kmcsr/go-liter"
 )
 
 var (

@@ -3,8 +3,8 @@ package liter_test
 import (
 	"testing"
 
+	. "github.com/LiterMC/go-liter"
 	"github.com/google/uuid"
-	. "github.com/kmcsr/go-liter"
 )
 
 func TestAuthClient_GetPlayerUUID(t *testing.T) {

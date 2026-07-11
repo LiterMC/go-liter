@@ -5,7 +5,7 @@ import (
 	"io"
 	"sync"
 
-	. "github.com/kmcsr/go-liter"
+	. "github.com/LiterMC/go-liter"
 )
 
 type EntityPropEncoder interface {

@@ -10,10 +10,10 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/LiterMC/go-liter"
 	"github.com/dop251/goja"
 	"github.com/dop251/goja_nodejs/eventloop"
 	"github.com/dop251/goja_nodejs/require"
-	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-logger"
 	"github.com/kmcsr/go-logger/logrus"
 )

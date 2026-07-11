@@ -7,7 +7,7 @@ import (
 	"time"
 	"unsafe"
 
-	. "github.com/kmcsr/go-liter/nbt"
+	. "github.com/LiterMC/go-liter/nbt"
 )
 
 var testDatas = []string{

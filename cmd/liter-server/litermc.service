@@ -1,6 +1,6 @@
 [Unit]
 Description=A reverse proxy for minecraft server
-Documentation=https://github.com/kmcsr/go-liter
+Documentation=https://github.com/LiterMC/go-liter
 Requires=network.target nss-lookup.target
 
 [Service]

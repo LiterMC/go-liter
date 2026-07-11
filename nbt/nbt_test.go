@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/kmcsr/go-liter/nbt"
+	"github.com/LiterMC/go-liter/nbt"
 )
 
 func TestReadNBT(t *testing.T) {

@@ -13,8 +13,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/kmcsr/go-liter"
-	"github.com/kmcsr/go-liter/script"
+	"github.com/LiterMC/go-liter"
+	"github.com/LiterMC/go-liter/script"
 )
 
 type Conn struct {

@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	. "github.com/kmcsr/go-liter"
+	. "github.com/LiterMC/go-liter"
 )
 
 func TestPacketForward(t *testing.T) {

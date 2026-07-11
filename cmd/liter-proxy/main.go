@@ -11,11 +11,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/kmcsr/go-liter"
-	"github.com/kmcsr/go-liter/script"
+	"github.com/LiterMC/go-liter"
+	"github.com/LiterMC/go-liter/script"
 	"github.com/kmcsr/go-logger"
 	"golang.org/x/net/proxy"
-	// "github.com/kmcsr/go-liter/packets"
+	// "github.com/LiterMC/go-liter/packets"
 )
 
 var manager = script.NewManager()

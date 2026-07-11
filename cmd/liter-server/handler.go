@@ -7,8 +7,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/kmcsr/go-liter"
-	"github.com/kmcsr/go-liter/script"
+	"github.com/LiterMC/go-liter"
+	"github.com/LiterMC/go-liter/script"
 	"github.com/kmcsr/go-logger"
 )
 

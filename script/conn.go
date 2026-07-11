@@ -3,9 +3,9 @@ package script
 import (
 	"sync/atomic"
 
+	"github.com/LiterMC/go-liter"
 	"github.com/dop251/goja"
 	"github.com/dop251/goja_nodejs/eventloop"
-	"github.com/kmcsr/go-liter"
 )
 
 type WrappedConn struct {

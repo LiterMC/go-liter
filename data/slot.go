@@ -3,8 +3,8 @@ package data
 import (
 	"io"
 
-	. "github.com/kmcsr/go-liter"
-	"github.com/kmcsr/go-liter/nbt"
+	. "github.com/LiterMC/go-liter"
+	"github.com/LiterMC/go-liter/nbt"
 )
 
 type Slot struct {

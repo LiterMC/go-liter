@@ -3,10 +3,10 @@ package script
 import (
 	"io"
 
+	"github.com/LiterMC/go-liter"
 	"github.com/dop251/goja"
 	"github.com/dop251/goja_nodejs/eventloop"
 	"github.com/google/uuid"
-	"github.com/kmcsr/go-liter"
 )
 
 func WrapPacketBuilder(p *liter.PacketBuilder, conn *liter.Conn, vm *goja.Runtime, loop *eventloop.EventLoop) (o *goja.Object) {

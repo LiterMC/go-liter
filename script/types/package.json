@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kmcsr/go-liter.git"
+    "url": "git+https://github.com/LiterMC/go-liter.git"
   },
   "keywords": [
     "TypeScript"
@@ -16,9 +16,9 @@
   "author": "zyxkad",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/kmcsr/go-liter/issues"
+    "url": "https://github.com/LiterMC/go-liter/issues"
   },
-  "homepage": "https://github.com/kmcsr/go-liter/tree/master/script#readme",
+  "homepage": "https://github.com/LiterMC/go-liter/tree/master/script#readme",
   "devDependencies": {
     "typescript": "^5.2.2"
   }

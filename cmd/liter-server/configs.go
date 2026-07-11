@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/LiterMC/go-liter"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/kmcsr/go-liter"
 	"github.com/kmcsr/go-logger"
 	logrusl "github.com/kmcsr/go-logger/logrus"
 	"github.com/sirupsen/logrus"

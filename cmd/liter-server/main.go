@@ -13,7 +13,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/kmcsr/go-liter/script"
+	"github.com/LiterMC/go-liter/script"
 )
 
 func parseFlags() {

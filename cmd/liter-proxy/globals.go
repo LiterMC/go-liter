@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/kmcsr/go-liter"
+	"github.com/LiterMC/go-liter"
 	"github.com/kmcsr/go-logger"
 	logrusl "github.com/kmcsr/go-logger/logrus"
 	"github.com/sirupsen/logrus"

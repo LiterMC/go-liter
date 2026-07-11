@@ -1,7 +1,7 @@
 package script_test
 
 import (
-	. "github.com/kmcsr/go-liter/script"
+	. "github.com/LiterMC/go-liter/script"
 	"testing"
 )
 

@@ -1,7 +1,7 @@
 
 [![Discord](https://img.shields.io/discord/1158169192114163722?style=for-the-badge&logo=discord&label=SUPPORT)](https://discord.gg/fK5DKwRhPj)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/kmcsr/go-liter/build.yml?style=for-the-badge&logo=github&label=Build%20Status)](https://github.com/kmcsr/go-liter/actions)
-[![Go Reference](https://pkg.go.dev/badge/github.com/kmcsr/go-liter.svg)](https://pkg.go.dev/github.com/kmcsr/go-liter)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/LiterMC/go-liter/build.yml?style=for-the-badge&logo=github&label=Build%20Status)](https://github.com/LiterMC/go-liter/actions)
+[![Go Reference](https://pkg.go.dev/badge/github.com/LiterMC/go-liter.svg)](https://pkg.go.dev/github.com/LiterMC/go-liter)
 
 - [English](./README.MD)
 - **中文**

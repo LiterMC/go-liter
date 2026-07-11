@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io"
 
-	. "github.com/kmcsr/go-liter"
+	. "github.com/LiterMC/go-liter"
 )
 
 type Rotation struct {

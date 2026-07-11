@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
 
-	liter "github.com/kmcsr/go-liter"
+	liter "github.com/LiterMC/go-liter"
 )
 
 type (
