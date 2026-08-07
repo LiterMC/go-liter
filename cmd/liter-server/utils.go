@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/google/uuid"
@@ -58,10 +59,10 @@ func insert[T any](slice []T, index int, args ...T) (res []T) {
 }
 
 type FlatMemory[T any] struct {
-	mux      sync.RWMutex
-	data     []T
-	free     []int // in descending order
-	lastEdit time.Time
+	mux       sync.RWMutex
+	data      []T
+	free      []int // in descending order
+	editCount atomic.Uint64
 }
 
 // Size returns the actuall size of the internal slice
@@ -78,10 +79,8 @@ func (m *FlatMemory[T]) Count() int {
 	return len(m.data) - len(m.free)
 }
 
-func (m *FlatMemory[T]) LastModified() time.Time {
-	m.mux.RLock()
-	defer m.mux.RUnlock()
-	return m.lastEdit
+func (m *FlatMemory[T]) EditCount() uint64 {
+	return m.editCount.Load()
 }
 
 // Clear will remove all data stored
@@ -90,7 +89,7 @@ func (m *FlatMemory[T]) Clear() {
 	defer m.mux.Unlock()
 	m.data = nil
 	m.free = nil
-	m.lastEdit = time.Now()
+	m.editCount.Add(1)
 }
 
 func (m *FlatMemory[T]) ForEach(cb func(i int, v T)) {
@@ -122,7 +121,7 @@ func (m *FlatMemory[T]) Free(i int) {
 	m.free = insert(m.free, sort.Search(len(m.free), func(j int) bool {
 		return m.free[j] <= i
 	}), i)
-	m.lastEdit = time.Now()
+	m.editCount.Add(1)
 }
 
 func (m *FlatMemory[T]) Put(v T) (i int) {
@@ -137,7 +136,7 @@ func (m *FlatMemory[T]) Put(v T) (i int) {
 	}
 	i = len(m.data)
 	m.data = append(m.data, v)
-	m.lastEdit = time.Now()
+	m.editCount.Add(1)
 	return
 }
 

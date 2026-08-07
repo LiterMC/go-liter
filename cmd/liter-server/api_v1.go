@@ -16,6 +16,8 @@ import (
 	"github.com/google/uuid"
 )
 
+var instanceID = uuid.Must(uuid.NewV7())
+
 var (
 	tokenIdSet    = make(map[string]struct{})
 	tokenIdSetMux sync.RWMutex
@@ -515,9 +517,10 @@ func registerPlayerAPI(s *Server, g *gin.RouterGroup) {
 func registerStatus(s *Server, g *gin.RouterGroup) {
 	g.GET("/conns", func(ctx *gin.Context) {
 		ctx.Header("Cache-Control", "no-cache")
-		lm := s.conns.LastModified().Format(time.RFC1123)
-		ctx.Header("Last-Modified", lm)
-		if lm2 := ctx.GetHeader("If-Modified-Since"); len(lm2) != 0 && lm2 == lm {
+		editCount := s.conns.EditCount()
+		etag := fmt.Sprintf("\"%s+%d\"", instanceID, editCount)
+		ctx.Header("ETag", etag)
+		if etag2 := ctx.GetHeader("If-None-Match"); len(etag2) != 0 && etag2 == etag {
 			ctx.Status(http.StatusNotModified)
 			return
 		}
