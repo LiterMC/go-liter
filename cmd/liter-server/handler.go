@@ -300,15 +300,13 @@ func proxyRawConn(ploger logger.Logger, cr, rc net.Conn) bool {
 	return false
 }
 
-func loginDisconnectByErr(c *liter.Conn, e error) (err error) {
-	return c.SendPkt(0x00, &liter.DisconnectPkt{
-		Reason: liter.NewChatFromString(e.Error()),
-	})
+func loginDisconnectByErr(c *liter.Conn, err error) error {
+	return loginDisconnect(c, err.Error())
 }
 
-func loginDisconnect(c *liter.Conn, reason string) (err error) {
+func loginDisconnect(c *liter.Conn, reason string) error {
 	return c.SendPkt(0x00, &liter.DisconnectPkt{
-		Reason: liter.NewChatFromString(reason),
+		Reason: liter.NewChatFromString("liter: " + reason),
 	})
 }
 

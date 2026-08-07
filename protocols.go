@@ -8,7 +8,20 @@ import (
 
 const (
 	V_UNSET   = -1
-	V_HIGHEST = V1_20
+	V_HIGHEST = V26_2
+	V26_2     = 776
+	V26_1     = 775
+	V1_21_11  = 774
+	V1_21_9   = 773
+	V1_21_7   = 772
+	V1_21_6   = 771
+	V1_21_5   = 770
+	V1_21_4   = 769
+	V1_21_2   = 768
+	V1_21     = 767
+	V1_20_5   = 766
+	V1_20_3   = 765
+	V1_20_2   = 764
 	V1_20     = 763 // https://wiki.vg/index.php?title=Protocol&oldid=18256
 	V1_19_4   = 762 // https://wiki.vg/index.php?title=Protocol&oldid=18242
 	V1_19_3   = 761 // https://wiki.vg/index.php?title=Protocol&oldid=18067
@@ -36,6 +49,19 @@ const (
 )
 
 var avaliableProtocols = []int{
+	V26_2,
+	V26_1,
+	V1_21_11,
+	V1_21_9,
+	V1_21_7,
+	V1_21_6,
+	V1_21_5,
+	V1_21_4,
+	V1_21_2,
+	V1_21,
+	V1_20_5,
+	V1_20_3,
+	V1_20_2,
 	V1_20,
 	V1_19_4,
 	V1_19_3,
@@ -65,6 +91,32 @@ func GetProtocolName(p int) string {
 	switch p {
 	case V_UNSET:
 		return "unset"
+	case V26_2:
+		return "26.2"
+	case V26_1:
+		return "26.1"
+	case V1_21_11:
+		return "1.21.11"
+	case V1_21_9:
+		return "1.21.9"
+	case V1_21_7:
+		return "1.21.7"
+	case V1_21_6:
+		return "1.21.6"
+	case V1_21_5:
+		return "1.21.5"
+	case V1_21_4:
+		return "1.21.4"
+	case V1_21_2:
+		return "1.21.2"
+	case V1_21:
+		return "1.21"
+	case V1_20_5:
+		return "1.20.5"
+	case V1_20_3:
+		return "1.20.3"
+	case V1_20_2:
+		return "1.20.2"
 	case V1_20:
 		return "1.20"
 	case V1_19_4:

@@ -333,6 +333,7 @@ type LoginStartPkt struct {
 	Sign      ByteArray
 
 	// if protocol >= 1.19.1
+	// if protocol >= 1.20.2 : not optional
 	Id Optional[UUID]
 }
 
@@ -361,9 +362,13 @@ func (p LoginStartPkt) Encode(b *PacketBuilder) {
 			}
 		}
 		if protocol >= V1_19_2 {
-			b.Bool(p.Id.Ok)
-			if p.Id.Ok {
+			if protocol >= V1_20_2 {
 				b.UUID(p.Id.V)
+			} else {
+				b.Bool(p.Id.Ok)
+				if p.Id.Ok {
+					b.UUID(p.Id.V)
+				}
 			}
 		}
 	}
@@ -402,7 +407,9 @@ func (p *LoginStartPkt) DecodeFrom(r *PacketReader) (err error) {
 			}
 		}
 		if protocol >= V1_19_2 {
-			if p.Id.Ok, ok = r.Bool(); !ok {
+			if protocol >= V1_20_2 {
+				p.Id.Ok = true
+			} else if p.Id.Ok, ok = r.Bool(); !ok {
 				return io.EOF
 			}
 			if p.Id.Ok {

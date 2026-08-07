@@ -118,7 +118,7 @@ func main() {
 	r := new(Runner)
 	r.Run()
 
-	daemon.SdNotify(false, daemon.SdNotifyReady + "\n")
+	daemon.SdNotify(false, daemon.SdNotifyReady+"\n")
 
 	sigs := make(chan os.Signal, 1)
 	signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
@@ -128,12 +128,12 @@ WAIT:
 	case s := <-sigs:
 		loger.Warnf("Got signal %s", s.String())
 		if s == syscall.SIGHUP { // reload
-			daemon.SdNotify(false, daemon.SdNotifyReloading + "\n" + daemon.SdNotifyMonotonicUsec())
+			daemon.SdNotify(false, daemon.SdNotifyReloading+"\n"+daemon.SdNotifyMonotonicUsec())
 			r.Reload()
-			daemon.SdNotify(false, daemon.SdNotifyReady + "\n")
+			daemon.SdNotify(false, daemon.SdNotifyReady+"\n")
 			goto WAIT
 		}
-		daemon.SdNotify(false, daemon.SdNotifyStopping + "\n")
+		daemon.SdNotify(false, daemon.SdNotifyStopping+"\n")
 		r.Stop(sigs)
 	case <-r.exitSvr:
 		os.Exit(1)
