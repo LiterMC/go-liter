@@ -39,6 +39,8 @@ var workingDir string = func() string {
 	return dir
 }()
 
+var errUnknownPlayerInfo = errors.New("Unknown player info")
+
 type ServerIns struct {
 	Id          string   `json:"id" yaml:"id"`
 	Target      string   `json:"target" yaml:"target"`
@@ -187,8 +189,9 @@ func (p *PlayerInfo) update() (err error) {
 		p.Name = profile.Name
 	}
 	if p.Name == "" {
-		return fmt.Errorf("Unknown player info")
-	} else if p.onlineMode {
+		return errUnknownPlayerInfo
+	}
+	if p.onlineMode {
 		var info liter.PlayerInfo
 		info, err = AuthClient.GetPlayerInfo(p.Name)
 		if err != nil {
@@ -199,8 +202,6 @@ func (p *PlayerInfo) update() (err error) {
 	}
 	return
 }
-
-var errUnknownPlayerInfo = errors.New("Unknown player info")
 
 func (p *PlayerInfo) UnmarshalJSON(buf []byte) error {
 	var v any

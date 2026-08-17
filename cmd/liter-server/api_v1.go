@@ -221,13 +221,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup) {
 
 		qhash := strconv.Quote(*s.cfgHash)
 
-		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) == 0 {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
-				"HeaderMissing",
-				`"If-Match" header required`,
-			))
-			return
-		} else if savedHash != qhash {
+		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) != 0 && savedHash != qhash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -300,13 +294,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup) {
 		defer s.configLock.Unlock()
 
 		listHash := strconv.Quote(*s.cfgHash)
-		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) == 0 {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
-				"HeaderMissing",
-				`"If-Match" header required`,
-			))
-			return
-		} else if savedHash != listHash {
+		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) != 0 && savedHash != listHash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
@@ -395,13 +383,7 @@ func registerConfigs(s *Server, g *gin.RouterGroup) {
 		defer s.configLock.Unlock()
 
 		listHash := strconv.Quote(*s.cfgHash)
-		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) == 0 {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, RequestFailedFromString(
-				"HeaderMissing",
-				`"If-Match" header required`,
-			))
-			return
-		} else if savedHash != listHash {
+		if savedHash := ctx.GetHeader("If-Match"); len(savedHash) != 0 && savedHash != listHash {
 			ctx.AbortWithStatusJSON(http.StatusPreconditionFailed, RequestFailedFromString(
 				"ResourceModified", "",
 			))
