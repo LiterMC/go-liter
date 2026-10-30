@@ -229,9 +229,9 @@ func (p *PacketBuilder) Bool(v bool) *PacketBuilder {
 	p.grow(1)
 
 	if v {
-		p.buf[p.len] = 0x00
-	} else {
 		p.buf[p.len] = 0x01
+	} else {
+		p.buf[p.len] = 0x00
 	}
 	p.len++
 	return p
