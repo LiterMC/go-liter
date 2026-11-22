@@ -55,6 +55,7 @@ func (p *HandshakePkt) Decode(r *PacketReader) (err error) {
 		p.Addition = p.Addr[i:]
 		p.Addr = p.Addr[:i]
 	}
+	p.Addr = strings.TrimSuffix(p.Addr, ".") // remove the last dot that may exists when connecting via SRV
 	if p.Port, ok = r.Uint16(); !ok {
 		return io.EOF
 	}
